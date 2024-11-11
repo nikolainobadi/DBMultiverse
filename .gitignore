@@ -1,0 +1,25 @@
+## User settings
+xcuserdata/
+xcshareddata/
+
+## Build generated
+build/
+DerivedData/
+
+# Swift Package Manager
+.build/
+.swiftpm/
+
+# macOS
+.DS_Store
+
+## Firebase
+firestore-debug.log
+
+## CIPipeKit
+CIPipeKit/TestResults
+
+# Directories potentially created on remote AFP share
+node_modules/
+serviceKey/
+otherFiles/

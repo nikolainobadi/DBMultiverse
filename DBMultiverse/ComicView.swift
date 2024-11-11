@@ -1,6 +1,16 @@
 import SwiftUI
 import SwiftSoup
 
+struct ComicFeatureView: View {
+    var body: some View {
+        NavigationStack {
+            ComicView(viewModel: .init())
+                .navigationBarTitleDisplayMode(.inline)
+                .navigationTitle("Dragonball Multiverse")
+        }
+    }
+}
+
 struct ComicView: View {
     @StateObject var viewModel: ComicViewModel
     
@@ -18,6 +28,7 @@ struct ComicView: View {
             
             HStack {
                 HapticButton("Previous", action: viewModel.previousPage)
+                    .tint(.red)
                     .disabled(viewModel.previousButtonDisabled)
                 
                 Spacer()
@@ -48,6 +59,7 @@ struct HapticButton: View {
             generator.impactOccurred()
             action()
         }
+        .buttonStyle(.bordered)
     }
 }
 

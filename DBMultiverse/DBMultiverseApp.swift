@@ -11,7 +11,7 @@ import SwiftUI
 struct DBMultiverseApp: App {
     var body: some Scene {
         WindowGroup {
-            ComicView(viewModel: .init())
+            ComicFeatureView()
                 .preferredColorScheme(.dark)
         }
     }

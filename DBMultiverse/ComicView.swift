@@ -2,22 +2,29 @@ import SwiftUI
 import SwiftSoup
 
 struct ComicFeatureView: View {
+    @AppStorage("lastReadPage") private var lastReadPage: Int = 0
+    
     var body: some View {
         NavigationStack {
-            ComicView(viewModel: .init())
+            ComicView(lastReadPage: $lastReadPage, viewModel: .init(currentPageNumber: lastReadPage))
                 .navigationBarTitleDisplayMode(.inline)
                 .navigationTitle("Dragonball Multiverse")
         }
     }
 }
 
+
+// MARK: - Comic View
 struct ComicView: View {
+    @Binding var lastReadPage: Int
     @StateObject var viewModel: ComicViewModel
     
     var body: some View {
         VStack {
-            if let image = viewModel.currentImage {
-                Image(uiImage: image)
+            if let info = viewModel.currentPage {
+                Text(info.title)
+                    
+                Image(uiImage: info.image)
                     .resizable()
                     .scaledToFit()
                     .padding()
@@ -39,11 +46,16 @@ struct ComicView: View {
             .padding()
         }
         .onAppear {
-            viewModel.fetchPages(startingFrom: 0)
+            viewModel.fetchPages(startingFrom: lastReadPage)
+        }
+        .onChange(of: viewModel.currentPageNumber) { _, newValue in
+            lastReadPage = newValue
         }
     }
 }
 
+
+// MARK: - HapticButton
 struct HapticButton: View {
     let title: String
     let action: () -> Void
@@ -63,27 +75,33 @@ struct HapticButton: View {
     }
 }
 
+
+// MARK: - ViewModel
 final class ComicViewModel: ObservableObject {
-    @Published var currentPage: Int = 0
-    @Published var images: [UIImage] = []
+    @Published var currentPageNumber: Int
+    @Published var pages: [PageInfo] = []
     
-    private let baseURL = "https://www.dragonball-multiverse.com/en/page-"
-    private var currentPageBatch = 0 // Tracks the current batch of pages being fetched
+    private var currentPageBatch = 0
+    
+    init(currentPageNumber: Int) {
+        self.currentPageNumber = currentPageNumber
+        self.currentPageBatch = currentPageNumber
+    }
 }
 
 
 // MARK: - DisplayData
 extension ComicViewModel {
-    var currentImage: UIImage? {
-        return images[safe: currentPage]
+    var currentPage: PageInfo? {
+        return pages[safe: currentPageNumber]
     }
     
     var previousButtonDisabled: Bool {
-        return currentPage <= 0
+        return currentPageNumber <= 0
     }
     
     var nextButtonDisabled: Bool {
-        return currentPage >= images.count - 1
+        return currentPageNumber >= pages.count - 1
     }
 }
 
@@ -91,15 +109,15 @@ extension ComicViewModel {
 // MARK: - Actions
 extension ComicViewModel {
     func previousPage() {
-        if currentPage > 0 {
-            currentPage -= 1
+        if currentPageNumber > 0 {
+            currentPageNumber -= 1
         }
     }
     
     func nextPage() {
-        if currentPage < images.count - 1 {
-            currentPage += 1
-            fetchNextBatchIfNeeded(currentPage: currentPage)
+        if currentPageNumber < pages.count - 1 {
+            currentPageNumber += 1
+            fetchNextBatchIfNeeded(currentPage: currentPageNumber)
         }
     }
     
@@ -110,7 +128,6 @@ extension ComicViewModel {
     }
     
     func fetchNextBatchIfNeeded(currentPage: Int) {
-        // Calculate the last page in the current batch
         let lastPageInBatch = (currentPageBatch + 1) * 4 - 1
         
         // If the user is on the last page in the current batch, fetch the next batch
@@ -125,40 +142,81 @@ extension ComicViewModel {
 // MARK: - Private Methods
 private extension ComicViewModel {
     func fetchImage(forPage pageNumber: Int) {
-        guard let url = URL(string: "\(baseURL)\(pageNumber).html") else { return }
+        let baseURL = "https://www.dragonball-multiverse.com/en/page-"
+        guard let url = URL(string: "\(baseURL)\(pageNumber).html") else {
+            return
+        }
         
-        URLSession.shared.dataTask(with: url) { data, _, error in
+        URLSession.shared.dataTask(with: url) { [weak self] data, _, error in
             guard let data = data, error == nil else { return }
             
-            if let imageURL = self.parseHTMLForImageURL(htmlData: data) {
-                self.downloadImage(from: imageURL)
+            if let pageInfo = self?.parseHTMLForImageURL(htmlData: data) {
+                self?.downloadImage(from: pageInfo)
             }
-        }.resume()
+        }
+        .resume()
     }
     
-    func parseHTMLForImageURL(htmlData: Data) -> URL? {
+    func parseHTMLForImageURL(htmlData: Data) -> URLInfo? {
         do {
             let html = String(data: htmlData, encoding: .utf8) ?? ""
             let document = try SwiftSoup.parse(html)
             
+            var chapter: Int?
+            var page: Int?
+            
+            if let metaTag = try document.select("meta[property=og:title]").first() {
+                let content = try metaTag.attr("content")
+                let chapterRegex = try NSRegularExpression(pattern: #"Chapter (\d+)"#)
+                let pageRegex = try NSRegularExpression(pattern: #"Page (\d+)"#)
+                let chapterMatch = chapterRegex.firstMatch(in: content, range: NSRange(content.startIndex..., in: content))
+                let pageMatch = pageRegex.firstMatch(in: content, range: NSRange(content.startIndex..., in: content))
+                chapter = {
+                    if let match = chapterMatch, let range = Range(match.range(at: 1), in: content) {
+                        return Int(content[range])
+                    }
+                    return nil
+                }()
+                
+                page = {
+                    if let match = pageMatch, let range = Range(match.range(at: 1), in: content) {
+                        return Int(content[range])
+                    }
+                    return nil
+                }()
+            }
+            
+            
             if let imgElement = try document.select("img[id=balloonsimg]").first() {
                 let imgSrc = try imgElement.attr("src")
-                return URL(string: "https://www.dragonball-multiverse.com" + imgSrc)
+                let url = URL(string: "https://www.dragonball-multiverse.com" + imgSrc)
+                
+                guard let chapter, let page else {
+                    return nil
+                }
+                
+                return .init(url: url, chapter: "\(chapter)", pageNumber: "\(page)")
             }
         } catch {
             print("Error parsing HTML: \(error)")
         }
+        
         return nil
     }
     
-    func downloadImage(from url: URL) {
-        URLSession.shared.dataTask(with: url) { data, _, error in
+    func downloadImage(from info: URLInfo) {
+        guard let url = info.url else {
+            return
+        }
+        
+        URLSession.shared.dataTask(with: url) { [weak self] data, _, error in
             guard let data = data, error == nil, let image = UIImage(data: data) else { return }
             
             DispatchQueue.main.async {
-                self.images.append(image)
+                self?.pages.append(.init(image: image, chapter: info.chapter, pageNumber: info.pageNumber))
             }
-        }.resume()
+        }
+        .resume()
     }
 }
 
@@ -167,5 +225,25 @@ private extension ComicViewModel {
 extension Collection {
     subscript(safe index: Index) -> Element? {
         return indices.contains(index) ? self[index] : nil
+    }
+}
+
+struct URLInfo {
+    let url: URL?
+    let chapter: String
+    let pageNumber: String
+}
+
+struct PageInfo {
+    let image: UIImage
+    let chapter: String
+    let pageNumber: String
+    
+    var title: String {
+        if pageNumber == "0" {
+            return ""
+        }
+        
+        return "Chapter \(chapter) page \(pageNumber)"
     }
 }

@@ -2,13 +2,28 @@ import SwiftUI
 import SwiftSoup
 
 struct ComicFeatureView: View {
-    @AppStorage("lastReadPage") private var lastReadPage: Int = 0
+    @Binding var lastReadPage: Int
+    @StateObject var viewModel: ComicViewModel
+    @State private var showingChapterList = false
     
     var body: some View {
         NavigationStack {
-            ComicView(lastReadPage: $lastReadPage, viewModel: .init(currentPageNumber: lastReadPage))
+            ComicView(lastReadPage: $lastReadPage, viewModel: viewModel)
                 .navigationBarTitleDisplayMode(.inline)
                 .navigationTitle("Dragonball Multiverse")
+                .toolbar {
+                    ToolbarItem(placement: .topBarTrailing) {
+                        Button(action: { showingChapterList = true }) {
+                            Image(systemName: "contextualmenu.and.cursorarrow")
+                        }
+                    }
+                }
+                .sheet(isPresented: $showingChapterList) {
+                    ContentView { selectedChapter in
+                        // TODO: - should this be the first page?
+                        // then you just nav to ComicView, which fetches all images for selected chapter?
+                    }
+                }
         }
     }
 }
@@ -17,7 +32,7 @@ struct ComicFeatureView: View {
 // MARK: - Comic View
 struct ComicView: View {
     @Binding var lastReadPage: Int
-    @StateObject var viewModel: ComicViewModel
+    @ObservedObject var viewModel: ComicViewModel
     
     var body: some View {
         VStack {
@@ -119,6 +134,10 @@ extension ComicViewModel {
             currentPageNumber += 1
             fetchNextBatchIfNeeded(currentPage: currentPageNumber)
         }
+    }
+    
+    func fetchNextChapter(startPage: Int) {
+        pages = []
     }
     
     func fetchPages(startingFrom pageNumber: Int) {
@@ -247,3 +266,83 @@ struct PageInfo {
         return "Chapter \(chapter) page \(pageNumber)"
     }
 }
+
+struct Chapter {
+    let name: String
+    let startPage: Int
+    let endPage: Int
+}
+
+
+class ChapterFetcher: ObservableObject {
+    @Published var chapters: [Chapter] = []
+    private let url = URL(string: "https://www.dragonball-multiverse.com/en/chapters.html?comic=page&chaptersmode=1")!
+
+    func loadChapters() {
+        URLSession.shared.dataTask(with: url) { data, _, error in
+            guard let data = data, error == nil else {
+                print("Error fetching data: \(error?.localizedDescription ?? "Unknown error")")
+                return
+            }
+
+            if let html = String(data: data, encoding: .utf8) {
+                self.parseHTML(html)
+            }
+        }
+        .resume()
+    }
+
+    private func parseHTML(_ html: String) {
+        do {
+            let document = try SwiftSoup.parse(html)
+            let chapterElements = try document.select("div.cadrelect.chapter")
+            
+            var loadedChapters: [Chapter] = []
+
+            for chapterElement in chapterElements {
+                // Extract chapter name
+                let chapterTitle = try chapterElement.select("h4").text()
+                
+                // Extract start and end pages
+                let pageLinks = try chapterElement.select("p a")
+                if let startPageText = try? pageLinks.first()?.text(),
+                   let endPageText = try? pageLinks.last()?.text(),
+                   let startPage = Int(startPageText),
+                   let endPage = Int(endPageText) {
+                    
+                    let chapter = Chapter(name: chapterTitle, startPage: startPage, endPage: endPage)
+                    loadedChapters.append(chapter)
+                }
+            }
+
+            DispatchQueue.main.async {
+                self.chapters = loadedChapters
+            }
+        } catch {
+            print("Error parsing HTML: \(error)")
+        }
+    }
+}
+
+struct ContentView: View {
+    @StateObject private var fetcher = ChapterFetcher()
+    
+    let onSelection: (Chapter) -> Void
+
+    var body: some View {
+        List(fetcher.chapters, id: \.startPage) { chapter in
+            VStack(alignment: .leading) {
+                Text(chapter.name).font(.headline)
+                Text("Pages: \(chapter.startPage) - \(chapter.endPage)").font(.subheadline)
+            }
+            .contentShape(Rectangle())
+            .onTapGesture {
+                onSelection(chapter)
+            }
+        }
+        .onAppear {
+            fetcher.loadChapters()
+        }
+    }
+}
+

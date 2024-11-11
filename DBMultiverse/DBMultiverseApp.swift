@@ -9,9 +9,11 @@ import SwiftUI
 
 @main
 struct DBMultiverseApp: App {
+    @AppStorage("lastReadPage") private var lastReadPage: Int = 0
+    
     var body: some Scene {
         WindowGroup {
-            ComicFeatureView()
+            ComicFeatureView(lastReadPage: $lastReadPage, viewModel: .init(currentPageNumber: lastReadPage))
                 .preferredColorScheme(.dark)
         }
     }

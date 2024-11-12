@@ -4,27 +4,16 @@ import SwiftSoup
 struct ComicFeatureView: View {
     @Binding var lastReadPage: Int
     @StateObject var viewModel: ComicViewModel
-    @State private var showingChapterList = false
     
     var body: some View {
-        NavigationStack {
-            ComicView(lastReadPage: $lastReadPage, viewModel: viewModel)
-                .navigationBarTitleDisplayMode(.inline)
-                .navigationTitle("Dragonball Multiverse")
-                .toolbar {
-                    ToolbarItem(placement: .topBarTrailing) {
-                        Button(action: { showingChapterList = true }) {
-                            Image(systemName: "contextualmenu.and.cursorarrow")
-                        }
-                    }
-                }
-                .sheet(isPresented: $showingChapterList) {
-                    ContentView { selectedChapter in
-                        // TODO: - should this be the first page?
-                        // then you just nav to ComicView, which fetches all images for selected chapter?
-                    }
-                }
-        }
+        ComicView(lastReadPage: $lastReadPage, viewModel: viewModel)
+        // TODO: - nav title should be chapter number
+            .onAppear {
+                viewModel.fetchPages(startingFrom: lastReadPage)
+            }
+            .onChange(of: viewModel.currentPageNumber) { _, newValue in
+                lastReadPage = newValue
+            }
     }
 }
 
@@ -59,12 +48,6 @@ struct ComicView: View {
                     .disabled(viewModel.nextButtonDisabled)
             }
             .padding()
-        }
-        .onAppear {
-            viewModel.fetchPages(startingFrom: lastReadPage)
-        }
-        .onChange(of: viewModel.currentPageNumber) { _, newValue in
-            lastReadPage = newValue
         }
     }
 }

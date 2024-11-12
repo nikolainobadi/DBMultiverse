@@ -20,12 +20,21 @@ struct ChapterListFeatureView: View {
             .navigationBarTitleDisplayMode(.inline)
             .navigationTitle("Dragonball Multiverse")
             .navigationDestination(item: $selectedChapter) { chapter in
-                Text("Comic for \(chapter.name)")
+                // TODO: - need to pass actual Chapter to view
+                // this is so Chapter info can be used to perform image fetching
+                ComicFeatureView(
+                    lastReadPage: $lastReadPage,
+                    viewModel: .init(
+                        currentPageNumber: chapter.containsLastReadPage(lastReadPage) ? lastReadPage : chapter.startPage
+                    )
+                )
             }
         }
     }
 }
 
+
+// MARK: - List
 struct ChapterListView: View {
     @StateObject var viewModel: ChapterListViewModel
 
@@ -77,6 +86,7 @@ struct ChapterListView: View {
 }
 
 
+// MARK: - Row
 struct ChapterRow: View {
     let chapter: Chapter
     let isCurrentChapter: Bool
@@ -103,100 +113,3 @@ struct ChapterRow: View {
 //#Preview {
 //    ChapterListView()
 //}
-
-
-// MARK: - ViewModel
-final class ChapterListViewModel: ObservableObject {
-    @Published var chapters: [Chapter] = []
-    
-    private let loader: ChapterLoader
-    
-    init(loader: ChapterLoader = ChapterLoaderAdapter()) {
-        self.loader = loader
-    }
-}
-
-extension ChapterListViewModel {
-    func loadChapters() async throws {
-        let chapters = try await loader.loadChapters()
-        
-        await setChapters(chapters)
-    }
-}
-
-
-// MARK: - MainActor
-@MainActor
-private extension ChapterListViewModel {
-    func setChapters(_ chapters: [Chapter]) {
-        self.chapters = chapters
-    }
-}
-
-
-// MARK: - Dependencies
-protocol ChapterLoader {
-    func loadChapters() async throws -> [Chapter]
-}
-
-struct Chapter: Hashable {
-    let name: String
-    let startPage: Int
-    let endPage: Int
-    
-    func containsLastReadPage(_ page: Int) -> Bool {
-        return page >= startPage && page <= endPage
-    }
-}
-
-
-final class ChapterLoaderAdapter {
-    private let url = URL(string: "https://www.dragonball-multiverse.com/en/chapters.html?comic=page&chaptersmode=1")!
-}
-
-
-// MARK: - Loader
-extension ChapterLoaderAdapter: ChapterLoader {
-    func loadChapters() async throws -> [Chapter] {
-        guard let html = try await loadHTML() else {
-            return []
-        }
-        
-        return try parseHTML(html)
-    }
-}
-
-
-// MARK: - Private Methods
-private extension ChapterLoaderAdapter {
-    func loadHTML() async throws -> String? {
-        let data = try await URLSession.shared.data(from: url).0
-        
-        return .init(data: data, encoding: .utf8)
-    }
-    
-    func parseHTML(_ html: String) throws -> [Chapter] {
-        let document = try SwiftSoup.parse(html)
-        let chapterElements = try document.select("div.cadrelect.chapter")
-        
-        var loadedChapters: [Chapter] = []
-
-        for chapterElement in chapterElements {
-            // Extract chapter name
-            let chapterTitle = try chapterElement.select("h4").text()
-            
-            // Extract start and end pages
-            let pageLinks = try chapterElement.select("p a")
-            if let startPageText = try? pageLinks.first()?.text(),
-               let endPageText = try? pageLinks.last()?.text(),
-               let startPage = Int(startPageText),
-               let endPage = Int(endPageText) {
-                
-                let chapter = Chapter(name: chapterTitle, startPage: startPage, endPage: endPage)
-                loadedChapters.append(chapter)
-            }
-        }
-
-        return loadedChapters
-    }
-}

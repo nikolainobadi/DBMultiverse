@@ -1,80 +1,14 @@
-import SwiftUI
+//
+//  ComicViewModel.swift
+//  DBMultiverse
+//
+//  Created by Nikolai Nobadi on 11/11/24.
+//
+
+import UIKit
 import SwiftSoup
+import Foundation
 
-struct ComicFeatureView: View {
-    @Binding var lastReadPage: Int
-    @StateObject var viewModel: ComicViewModel
-    
-    var body: some View {
-        ComicView(lastReadPage: $lastReadPage, viewModel: viewModel)
-        // TODO: - nav title should be chapter number
-            .onAppear {
-                viewModel.fetchPages(startingFrom: lastReadPage)
-            }
-            .onChange(of: viewModel.currentPageNumber) { _, newValue in
-                lastReadPage = newValue
-            }
-    }
-}
-
-
-// MARK: - Comic View
-struct ComicView: View {
-    @Binding var lastReadPage: Int
-    @ObservedObject var viewModel: ComicViewModel
-    
-    var body: some View {
-        VStack {
-            if let info = viewModel.currentPage {
-                Text(info.title)
-                    
-                Image(uiImage: info.image)
-                    .resizable()
-                    .scaledToFit()
-                    .padding()
-            } else {
-                Text("Loading...")
-                    .padding()
-            }
-            
-            HStack {
-                HapticButton("Previous", action: viewModel.previousPage)
-                    .tint(.red)
-                    .disabled(viewModel.previousButtonDisabled)
-                
-                Spacer()
-                
-                HapticButton("Next", action: viewModel.nextPage)
-                    .disabled(viewModel.nextButtonDisabled)
-            }
-            .padding()
-        }
-    }
-}
-
-
-// MARK: - HapticButton
-struct HapticButton: View {
-    let title: String
-    let action: () -> Void
-    
-    init(_ title: String, action: @escaping () -> Void) {
-        self.title = title
-        self.action = action
-    }
-    
-    var body: some View {
-        Button(title) {
-            let generator = UIImpactFeedbackGenerator(style: .medium)
-            generator.impactOccurred()
-            action()
-        }
-        .buttonStyle(.bordered)
-    }
-}
-
-
-// MARK: - ViewModel
 final class ComicViewModel: ObservableObject {
     @Published var currentPageNumber: Int
     @Published var pages: [PageInfo] = []
@@ -249,79 +183,3 @@ struct PageInfo {
         return "Chapter \(chapter) page \(pageNumber)"
     }
 }
-
-
-
-
-class ChapterFetcher: ObservableObject {
-    @Published var chapters: [Chapter] = []
-    private let url = URL(string: "https://www.dragonball-multiverse.com/en/chapters.html?comic=page&chaptersmode=1")!
-
-    func loadChapters() {
-        URLSession.shared.dataTask(with: url) { data, _, error in
-            guard let data = data, error == nil else {
-                print("Error fetching data: \(error?.localizedDescription ?? "Unknown error")")
-                return
-            }
-
-            if let html = String(data: data, encoding: .utf8) {
-                self.parseHTML(html)
-            }
-        }
-        .resume()
-    }
-
-    private func parseHTML(_ html: String) {
-        do {
-            let document = try SwiftSoup.parse(html)
-            let chapterElements = try document.select("div.cadrelect.chapter")
-            
-            var loadedChapters: [Chapter] = []
-
-            for chapterElement in chapterElements {
-                // Extract chapter name
-                let chapterTitle = try chapterElement.select("h4").text()
-                
-                // Extract start and end pages
-                let pageLinks = try chapterElement.select("p a")
-                if let startPageText = try? pageLinks.first()?.text(),
-                   let endPageText = try? pageLinks.last()?.text(),
-                   let startPage = Int(startPageText),
-                   let endPage = Int(endPageText) {
-                    
-                    let chapter = Chapter(name: chapterTitle, startPage: startPage, endPage: endPage)
-                    loadedChapters.append(chapter)
-                }
-            }
-
-            DispatchQueue.main.async {
-                self.chapters = loadedChapters
-            }
-        } catch {
-            print("Error parsing HTML: \(error)")
-        }
-    }
-}
-
-struct ContentView: View {
-    @StateObject private var fetcher = ChapterFetcher()
-    
-    let onSelection: (Chapter) -> Void
-
-    var body: some View {
-        List(fetcher.chapters, id: \.startPage) { chapter in
-            VStack(alignment: .leading) {
-                Text(chapter.name).font(.headline)
-                Text("Pages: \(chapter.startPage) - \(chapter.endPage)").font(.subheadline)
-            }
-            .contentShape(Rectangle())
-            .onTapGesture {
-                onSelection(chapter)
-            }
-        }
-        .onAppear {
-            fetcher.loadChapters()
-        }
-    }
-}
-

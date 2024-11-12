@@ -267,11 +267,7 @@ struct PageInfo {
     }
 }
 
-struct Chapter {
-    let name: String
-    let startPage: Int
-    let endPage: Int
-}
+
 
 
 class ChapterFetcher: ObservableObject {

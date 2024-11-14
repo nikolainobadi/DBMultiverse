@@ -17,6 +17,8 @@ final class ChapterListViewModel: ObservableObject {
     }
 }
 
+
+// MARK: - Actions
 extension ChapterListViewModel {
     func loadChapters() async throws {
         let chapters = try await loader.loadChapters()

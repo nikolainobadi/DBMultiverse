@@ -6,35 +6,7 @@
 //
 
 import SwiftUI
-import SwiftSoup
 
-struct ChapterListFeatureView: View {
-    @State private var selectedChapter: Chapter?
-    @AppStorage("lastReadPage") private var lastReadPage: Int = 0
-    
-    var body: some View {
-        NavigationStack {
-            ChapterListView(viewModel: .init(), lastReadPage: lastReadPage) { chapter in
-                selectedChapter = chapter
-            }
-            .navigationBarTitleDisplayMode(.inline)
-            .navigationTitle("Dragonball Multiverse")
-            .navigationDestination(item: $selectedChapter) { chapter in
-                // TODO: - need to pass actual Chapter to view
-                // this is so Chapter info can be used to perform image fetching
-                ComicFeatureView(
-                    lastReadPage: $lastReadPage,
-                    viewModel: .init(
-                        currentPageNumber: chapter.containsLastReadPage(lastReadPage) ? lastReadPage : chapter.startPage
-                    )
-                )
-            }
-        }
-    }
-}
-
-
-// MARK: - List
 struct ChapterListView: View {
     @StateObject var viewModel: ChapterListViewModel
 

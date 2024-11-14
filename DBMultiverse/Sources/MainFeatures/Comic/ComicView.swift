@@ -1,34 +1,22 @@
-import SwiftUI
-import SwiftSoup
+//
+//  ComicView.swift
+//  DBMultiverse
+//
+//  Created by Nikolai Nobadi on 11/13/24.
+//
 
-struct ComicFeatureView: View {
+import SwiftUI
+
+struct ComicView: View {
     @Binding var lastReadPage: Int
     @StateObject var viewModel: ComicViewModel
     
     var body: some View {
-        ComicView(lastReadPage: $lastReadPage, viewModel: viewModel)
-        // TODO: - nav title should be chapter number
-            .onAppear {
-                viewModel.fetchPages(startingFrom: lastReadPage)
-            }
-            .onChange(of: viewModel.currentPageNumber) { _, newValue in
-                lastReadPage = newValue
-            }
-    }
-}
-
-
-// MARK: - Comic View
-struct ComicView: View {
-    @Binding var lastReadPage: Int
-    @ObservedObject var viewModel: ComicViewModel
-    
-    var body: some View {
         VStack {
-            if let info = viewModel.currentPage {
+            if let info = viewModel.currentPage, let image = UIImage(data: info.imageData) {
                 Text(info.title)
-                    
-                Image(uiImage: info.image)
+                
+                Image(uiImage: image)
                     .resizable()
                     .scaledToFit()
                     .padding()
@@ -48,6 +36,12 @@ struct ComicView: View {
                     .disabled(viewModel.nextButtonDisabled)
             }
             .padding()
+        }
+        .task {
+            try? await viewModel.loadPages()
+        }
+        .onChange(of: viewModel.currentPageNumber) { _, newValue in
+            lastReadPage = newValue
         }
     }
 }

@@ -10,6 +10,7 @@ struct Chapter: Hashable {
     let number: String
     let startPage: Int
     let endPage: Int
+    var didRead: Bool = false
     
     func containsLastReadPage(_ page: Int) -> Bool {
         return page >= startPage && page <= endPage

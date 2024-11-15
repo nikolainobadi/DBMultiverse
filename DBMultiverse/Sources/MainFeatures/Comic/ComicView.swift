@@ -10,21 +10,31 @@ import SwiftUI
 struct ComicView: View {
     @Binding var lastReadPage: Int
     @StateObject var viewModel: ComicViewModel
-    @Environment(\.dismiss) private var dismiss
     
     var body: some View {
         VStack {
             if let info = viewModel.currentPage, let image = UIImage(data: info.imageData) {
                 Text(info.title)
+                    .padding(5)
+                    .font(.headline)
+                
+                Text(viewModel.currentPagePosition)
+                    .foregroundColor(.secondary)
+                
+                Spacer()
                 
                 Image(uiImage: image)
                     .resizable()
                     .scaledToFit()
                     .padding()
             } else {
-                Text("Loading...")
+                Spacer()
+                Text("Loading pages...")
                     .padding()
+                    .font(.title)
             }
+            
+            Spacer()
             
             HStack {
                 HapticButton("Previous", action: viewModel.previousPage)
@@ -47,9 +57,6 @@ struct ComicView: View {
         }
         .onChange(of: viewModel.currentPageNumber) { _, newValue in
             lastReadPage = newValue
-        }
-        .onChange(of: viewModel.didFinishChapter) {
-            dismiss()
         }
     }
 }

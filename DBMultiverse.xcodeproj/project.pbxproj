@@ -21,6 +21,7 @@
 		E8A095C42CE0941400D28E3F /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E8A095C32CE0941400D28E3F /* Preview Assets.xcassets */; };
 		E8A095CC2CE0944C00D28E3F /* SwiftSoup in Frameworks */ = {isa = PBXBuildFile; productRef = E8A095CB2CE0944C00D28E3F /* SwiftSoup */; };
 		E8D4ED202CE721CA005ED4BC /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8D4ED1F2CE721CA005ED4BC /* String+Extensions.swift */; };
+		E8D4ED222CE72EE2005ED4BC /* SharedDataENV.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8D4ED212CE72EE2005ED4BC /* SharedDataENV.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +39,7 @@
 		E8A095C02CE0941400D28E3F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E8A095C32CE0941400D28E3F /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		E8D4ED1F2CE721CA005ED4BC /* String+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extensions.swift"; sourceTree = "<group>"; };
+		E8D4ED212CE72EE2005ED4BC /* SharedDataENV.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedDataENV.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,6 +114,7 @@
 			children = (
 				E88C4C5E2CE32FB500CF3D0C /* Chapter.swift */,
 				E8D4ED1F2CE721CA005ED4BC /* String+Extensions.swift */,
+				E8D4ED212CE72EE2005ED4BC /* SharedDataENV.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -252,6 +255,7 @@
 				E88C4C562CE3266100CF3D0C /* ChapterListView.swift in Sources */,
 				E8A095BF2CE0941200D28E3F /* OldComicView.swift in Sources */,
 				E85DBC7A2CE5DD2900B97513 /* ComicViewModel.swift in Sources */,
+				E8D4ED222CE72EE2005ED4BC /* SharedDataENV.swift in Sources */,
 				E85DBC782CE5DCB100B97513 /* MainFeaturesView.swift in Sources */,
 				E88C4C652CE3303500CF3D0C /* OldComicViewModel.swift in Sources */,
 				E8A095BD2CE0941200D28E3F /* DBMultiverseApp.swift in Sources */,

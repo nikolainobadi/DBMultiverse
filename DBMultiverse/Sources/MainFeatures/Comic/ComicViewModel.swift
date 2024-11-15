@@ -11,14 +11,15 @@ import Foundation
 final class ComicViewModel: ObservableObject {
     @Published var currentPageNumber: Int
     @Published var pages: [NewPageInfo] = []
-    @Published var didFinishChapter = false
     
     private let chapter: Chapter
     private let baseURL = "https://www.dragonball-multiverse.com/en/page-"
+    private let onChapterFinished: (String) -> Void
     
-    init(chapter: Chapter, currentPageNumber: Int) {
+    init(chapter: Chapter, currentPageNumber: Int, onChapterFinished: @escaping (String) -> Void) {
         self.chapter = chapter
         self.currentPageNumber = currentPageNumber
+        self.onChapterFinished = onChapterFinished
     }
 }
 
@@ -43,6 +44,13 @@ extension ComicViewModel {
     
     var nextButtonDisabled: Bool {
         return currentPageNumber >= chapter.endPage
+    }
+    
+    var currentPagePosition: String {
+        let totalPages = chapter.endPage - chapter.startPage + 1
+        let currentPageIndex = currentPageNumber - chapter.startPage + 1
+        
+        return "\(currentPageIndex)/\(totalPages)"
     }
 }
 
@@ -74,16 +82,7 @@ extension ComicViewModel {
     }
     
     func finishChapter() {
-        let chapterNumber = chapter.number
-        var completedChapterList = (UserDefaults.standard.array(forKey: .completedChapterListKey) as? [String]) ?? []
-        
-        if !completedChapterList.contains(chapterNumber) {
-            completedChapterList.append(chapterNumber)
-            
-            UserDefaults.standard.setValue(completedChapterList, forKey: .completedChapterListKey)
-        }
-        
-        didFinishChapter = true
+        onChapterFinished(chapter.number)
     }
 }
 

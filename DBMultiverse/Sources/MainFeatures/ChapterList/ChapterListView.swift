@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ChapterListView: View {
     @StateObject var viewModel: ChapterListViewModel
-
+    
     let lastReadPage: Int
     let onSelection: (Chapter) -> Void
     
@@ -29,6 +29,7 @@ struct ChapterListView: View {
         Group {
             if viewModel.chapters.isEmpty {
                 Text("Loading Chapters...")
+                    .font(.title)
             } else {
                 List {
                     if let currentChapter {
@@ -60,6 +61,8 @@ struct ChapterListView: View {
 
 // MARK: - Row
 struct ChapterRow: View {
+    @EnvironmentObject var sharedDataENV: SharedDataENV
+    
     let chapter: Chapter
     let isCurrentChapter: Bool
     
@@ -71,6 +74,12 @@ struct ChapterRow: View {
                 
                 Text("Pages: \(chapter.startPage) - \(chapter.endPage)")
                     .font(.subheadline)
+                
+                if sharedDataENV.completedChapterList.contains(chapter.number) {
+                    Text("Finished Chapter")
+                        .font(.caption)
+                        .foregroundStyle(.red)
+                }
             }
             .frame(maxWidth: .infinity, alignment: .leading)
             

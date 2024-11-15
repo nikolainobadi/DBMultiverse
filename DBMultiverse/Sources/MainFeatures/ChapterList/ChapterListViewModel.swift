@@ -21,7 +21,15 @@ final class ChapterListViewModel: ObservableObject {
 // MARK: - Actions
 extension ChapterListViewModel {
     func loadChapters() async throws {
-        let chapters = try await loader.loadChapters()
+        let completedChapterList = (UserDefaults.standard.value(forKey: .completedChapterListKey) as? [String]) ?? []
+        let chapters = try await loader.loadChapters().map { chapter in
+            guard completedChapterList.contains(chapter.number) else {
+                return chapter
+            }
+            var updated = chapter
+            updated.didRead = true
+            return updated
+        }
         
         await setChapters(chapters)
     }

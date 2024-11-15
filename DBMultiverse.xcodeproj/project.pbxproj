@@ -20,6 +20,7 @@
 		E8A095C12CE0941400D28E3F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E8A095C02CE0941400D28E3F /* Assets.xcassets */; };
 		E8A095C42CE0941400D28E3F /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E8A095C32CE0941400D28E3F /* Preview Assets.xcassets */; };
 		E8A095CC2CE0944C00D28E3F /* SwiftSoup in Frameworks */ = {isa = PBXBuildFile; productRef = E8A095CB2CE0944C00D28E3F /* SwiftSoup */; };
+		E8D4ED202CE721CA005ED4BC /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8D4ED1F2CE721CA005ED4BC /* String+Extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +37,7 @@
 		E8A095BE2CE0941200D28E3F /* OldComicView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OldComicView.swift; sourceTree = "<group>"; };
 		E8A095C02CE0941400D28E3F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E8A095C32CE0941400D28E3F /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		E8D4ED1F2CE721CA005ED4BC /* String+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extensions.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,6 +111,7 @@
 			isa = PBXGroup;
 			children = (
 				E88C4C5E2CE32FB500CF3D0C /* Chapter.swift */,
+				E8D4ED1F2CE721CA005ED4BC /* String+Extensions.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -242,6 +245,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E85DBC752CE5D34E00B97513 /* ComicView.swift in Sources */,
+				E8D4ED202CE721CA005ED4BC /* String+Extensions.swift in Sources */,
 				E88C4C5C2CE32F9700CF3D0C /* ChapterListViewModel.swift in Sources */,
 				E88C4C5F2CE32FB500CF3D0C /* Chapter.swift in Sources */,
 				E88C4C612CE32FC600CF3D0C /* ChapterLoaderAdapter.swift in Sources */,

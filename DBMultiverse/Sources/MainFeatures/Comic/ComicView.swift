@@ -10,6 +10,7 @@ import SwiftUI
 struct ComicView: View {
     @Binding var lastReadPage: Int
     @StateObject var viewModel: ComicViewModel
+    @Environment(\.dismiss) private var dismiss
     
     var body: some View {
         VStack {
@@ -32,8 +33,12 @@ struct ComicView: View {
                 
                 Spacer()
                 
-                HapticButton("Next", action: viewModel.nextPage)
-                    .disabled(viewModel.nextButtonDisabled)
+                if viewModel.isLastPage {
+                    HapticButton("Finish Chapter", action: viewModel.finishChapter)
+                } else {
+                    HapticButton("Next", action: viewModel.nextPage)
+                        .disabled(viewModel.nextButtonDisabled)
+                }
             }
             .padding()
         }
@@ -42,6 +47,9 @@ struct ComicView: View {
         }
         .onChange(of: viewModel.currentPageNumber) { _, newValue in
             lastReadPage = newValue
+        }
+        .onChange(of: viewModel.didFinishChapter) {
+            dismiss()
         }
     }
 }

@@ -40,19 +40,23 @@ private extension ChapterLoaderAdapter {
         var loadedChapters: [Chapter] = []
 
         for chapterElement in chapterElements {
-            // Extract chapter name
             let chapterTitle = try chapterElement.select("h4").text()
-            
-            // Extract start and end pages
-            let pageLinks = try chapterElement.select("p a")
-            
-            if let startPageText = try? pageLinks.first()?.text(),
-               let endPageText = try? pageLinks.last()?.text(),
-               let startPage = Int(startPageText),
-               let endPage = Int(endPageText) {
+            if let match = chapterTitle.range(of: #"Chapter (\d+):"#, options: .regularExpression) {
+                let numberString = String(chapterTitle[match])
+                    .replacingOccurrences(of: "Chapter ", with: "")
+                    .replacingOccurrences(of: ":", with: "")
+                    .trimmingCharacters(in: .whitespaces)
                 
-                let chapter = Chapter(name: chapterTitle, startPage: startPage, endPage: endPage)
-                loadedChapters.append(chapter)
+                let pageLinks = try chapterElement.select("p a")
+                
+                if let startPageText = try? pageLinks.first()?.text(),
+                   let endPageText = try? pageLinks.last()?.text(),
+                   let startPage = Int(startPageText),
+                   let endPage = Int(endPageText) {
+                    
+                    let chapter = Chapter(name: chapterTitle, number: numberString, startPage: startPage, endPage: endPage)
+                    loadedChapters.append(chapter)
+                }
             }
         }
 

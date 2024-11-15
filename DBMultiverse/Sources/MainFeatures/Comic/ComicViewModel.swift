@@ -8,10 +8,10 @@
 import SwiftSoup
 import Foundation
 
-
 final class ComicViewModel: ObservableObject {
     @Published var currentPageNumber: Int
     @Published var pages: [NewPageInfo] = []
+    @Published var didFinishChapter = false
     
     private let chapter: Chapter
     private let baseURL = "https://www.dragonball-multiverse.com/en/page-"
@@ -25,6 +25,14 @@ final class ComicViewModel: ObservableObject {
 
 // MARK: - DisplayData
 extension ComicViewModel {
+    var isLastPage: Bool {
+        guard let currentPage, let pageNumber = Int(currentPage.pageNumber) else {
+            return false
+        }
+        
+        return pageNumber == chapter.endPage
+    }
+    
     var currentPage: NewPageInfo? {
         return pages[safe: currentPageNumber]
     }
@@ -63,6 +71,19 @@ extension ComicViewModel {
         if currentPageNumber < pages.count - 1 {
             currentPageNumber += 1
         }
+    }
+    
+    func finishChapter() {
+        let chapterNumber = chapter.number
+        var completedChapterList = (UserDefaults.standard.array(forKey: .completedChapterListKey) as? [String]) ?? []
+        
+        if !completedChapterList.contains(chapterNumber) {
+            completedChapterList.append(chapterNumber)
+            
+            UserDefaults.standard.setValue(completedChapterList, forKey: .completedChapterListKey)
+        }
+        
+        didFinishChapter = true
     }
 }
 

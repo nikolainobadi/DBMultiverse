@@ -7,6 +7,7 @@
 
 struct Chapter: Hashable {
     let name: String
+    let number: String
     let startPage: Int
     let endPage: Int
     

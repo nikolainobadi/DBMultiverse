@@ -11,7 +11,7 @@ import Foundation
 
 final class OldComicViewModel: ObservableObject {
     @Published var currentPageNumber: Int
-    @Published var pages: [PageInfo] = []
+    @Published var pages: [OldPageInfo] = []
     
     private var currentPageBatch = 0
     
@@ -24,7 +24,7 @@ final class OldComicViewModel: ObservableObject {
 
 // MARK: - DisplayData
 extension OldComicViewModel {
-    var currentPage: PageInfo? {
+    var currentPage: OldPageInfo? {
         return pages[safe: currentPageNumber]
     }
     
@@ -165,7 +165,7 @@ struct PageImageURLInfo {
     let pageNumber: String
 }
 
-struct PageInfo {
+struct OldPageInfo {
     let image: UIImage
     let chapter: String
     let pageNumber: String

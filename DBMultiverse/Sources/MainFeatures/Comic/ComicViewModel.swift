@@ -5,19 +5,19 @@
 //  Created by Nikolai Nobadi on 11/13/24.
 //
 
-import SwiftSoup
 import Foundation
 
 final class ComicViewModel: ObservableObject {
     @Published var currentPageNumber: Int
-    @Published var pages: [NewPageInfo] = []
+    @Published var pages: [PageInfo] = []
     
     private let chapter: Chapter
-    private let baseURL = "https://www.dragonball-multiverse.com/en/page-"
+    private let delegate: ComicViewDelegate
     private let onChapterFinished: (String) -> Void
     
-    init(chapter: Chapter, currentPageNumber: Int, onChapterFinished: @escaping (String) -> Void) {
+    init(chapter: Chapter, currentPageNumber: Int, delegate: ComicViewDelegate, onChapterFinished: @escaping (String) -> Void) {
         self.chapter = chapter
+        self.delegate = delegate
         self.currentPageNumber = currentPageNumber
         self.onChapterFinished = onChapterFinished
     }
@@ -34,7 +34,7 @@ extension ComicViewModel {
         return pageNumber == chapter.endPage
     }
     
-    var currentPage: NewPageInfo? {
+    var currentPage: PageInfo? {
         return pages[safe: currentPageNumber]
     }
     
@@ -58,13 +58,8 @@ extension ComicViewModel {
 // MARK: - Actions
 extension ComicViewModel {
     func loadPages() async throws {
-        var pages: [NewPageInfo] = []
-        
-        for page in chapter.startPage...chapter.endPage {
-            if let pageInfo = try await fetchImage(page: page) {
-                pages.append(pageInfo)
-            }
-        }
+        print("preparing to load pages for \(chapter.number)")
+        let pages = try await delegate.loadChapterPages(chapter)
         
         await setPages(pages)
     }
@@ -90,87 +85,25 @@ extension ComicViewModel {
 // MARK: MainActor
 @MainActor
 private extension ComicViewModel {
-    func setPages(_ pages: [NewPageInfo]) {
+    func setPages(_ pages: [PageInfo]) {
+        print("settings pages")
         self.pages = pages
     }
 }
 
 
-// MARK: - Private Methods
-private extension ComicViewModel {
-    func fetchImage(page: Int) async throws -> NewPageInfo? {
-        guard let url = URL(string: "\(baseURL)\(page).html") else {
-            return nil
-        }
-        
-        let data = try await URLSession.shared.data(from: url).0
-        let imageURLInfo = try parseHTMLForImageURL(data: data)
-        
-        return try await downloadImage(from: imageURLInfo)
-    }
-    
-    func parseHTMLForImageURL(data: Data) throws -> PageImageURLInfo? {
-        let html = String(data: data, encoding: .utf8) ?? ""
-        let document = try SwiftSoup.parse(html)
-        
-        var chapter: Int?
-        var page: Int?
-        
-        guard let metaTag = try document.select("meta[property=og:title]").first() else {
-            return nil
-        }
-        
-        let content = try metaTag.attr("content")
-        let chapterRegex = try NSRegularExpression(pattern: #"Chapter (\d+)"#)
-        let pageRegex = try NSRegularExpression(pattern: #"Page (\d+)"#)
-        let chapterMatch = chapterRegex.firstMatch(in: content, range: NSRange(content.startIndex..., in: content))
-        let pageMatch = pageRegex.firstMatch(in: content, range: NSRange(content.startIndex..., in: content))
-        chapter = {
-            if let match = chapterMatch, let range = Range(match.range(at: 1), in: content) {
-                return Int(content[range])
-            }
-            return nil
-        }()
-        
-        page = {
-            if let match = pageMatch, let range = Range(match.range(at: 1), in: content) {
-                return Int(content[range])
-            }
-            return nil
-        }()
-        
-        guard let imgElement = try document.select("img[id=balloonsimg]").first() else {
-            return nil
-        }
-        
-        let imgSrc = try imgElement.attr("src")
-        let url = URL(string: "https://www.dragonball-multiverse.com" + imgSrc)
-        
-        guard let chapter, let page else {
-            return nil
-        }
-        
-        return .init(url: url, chapter: "\(chapter)", pageNumber: "\(page)")
-    }
-    
-    func downloadImage(from info: PageImageURLInfo?) async throws -> NewPageInfo? {
-        guard let info, let url = info.url else {
-            return nil
-        }
-        
-        let data = try await URLSession.shared.data(from: url).0
-        
-        return .init(imageData: data, chapter: info.chapter, pageNumber: info.pageNumber)
-    }
+// MARK: - Dependencies
+protocol ComicViewDelegate {
+    func loadChapterPages(_ chapter: Chapter) async throws -> [PageInfo]
 }
 
-struct NewPageInfo {
+struct PageInfo {
     let imageData: Data
     let chapter: String
     let pageNumber: String
 }
 
-extension NewPageInfo {
+extension PageInfo {
     var title: String {
         if pageNumber == "0" {
             return ""

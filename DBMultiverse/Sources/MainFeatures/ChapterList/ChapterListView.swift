@@ -36,6 +36,7 @@ struct ChapterListView: View {
                         Section("Current Chapter") {
                             ChapterRow(chapter: currentChapter, isCurrentChapter: true)
                                 .onTapGesture {
+                                    print("selected chapter:", currentChapter.number)
                                     onSelection(currentChapter)
                                 }
                         }

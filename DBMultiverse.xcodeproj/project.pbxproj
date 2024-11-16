@@ -10,6 +10,7 @@
 		E85DBC752CE5D34E00B97513 /* ComicView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E85DBC742CE5D34E00B97513 /* ComicView.swift */; };
 		E85DBC782CE5DCB100B97513 /* MainFeaturesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E85DBC772CE5DCB100B97513 /* MainFeaturesView.swift */; };
 		E85DBC7A2CE5DD2900B97513 /* ComicViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E85DBC792CE5DD2900B97513 /* ComicViewModel.swift */; };
+		E8859BE72CE874EB00459829 /* ComicViewDelegateAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8859BE62CE874EB00459829 /* ComicViewDelegateAdapter.swift */; };
 		E88C4C562CE3266100CF3D0C /* ChapterListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E88C4C552CE3266100CF3D0C /* ChapterListView.swift */; };
 		E88C4C5C2CE32F9700CF3D0C /* ChapterListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E88C4C5B2CE32F9700CF3D0C /* ChapterListViewModel.swift */; };
 		E88C4C5F2CE32FB500CF3D0C /* Chapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E88C4C5E2CE32FB500CF3D0C /* Chapter.swift */; };
@@ -28,6 +29,7 @@
 		E85DBC742CE5D34E00B97513 /* ComicView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComicView.swift; sourceTree = "<group>"; };
 		E85DBC772CE5DCB100B97513 /* MainFeaturesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainFeaturesView.swift; sourceTree = "<group>"; };
 		E85DBC792CE5DD2900B97513 /* ComicViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComicViewModel.swift; sourceTree = "<group>"; };
+		E8859BE62CE874EB00459829 /* ComicViewDelegateAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComicViewDelegateAdapter.swift; sourceTree = "<group>"; };
 		E88C4C552CE3266100CF3D0C /* ChapterListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChapterListView.swift; sourceTree = "<group>"; };
 		E88C4C5B2CE32F9700CF3D0C /* ChapterListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChapterListViewModel.swift; sourceTree = "<group>"; };
 		E88C4C5E2CE32FB500CF3D0C /* Chapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chapter.swift; sourceTree = "<group>"; };
@@ -105,6 +107,7 @@
 			children = (
 				E85DBC742CE5D34E00B97513 /* ComicView.swift */,
 				E85DBC792CE5DD2900B97513 /* ComicViewModel.swift */,
+				E8859BE62CE874EB00459829 /* ComicViewDelegateAdapter.swift */,
 			);
 			path = Comic;
 			sourceTree = "<group>";
@@ -247,6 +250,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E8859BE72CE874EB00459829 /* ComicViewDelegateAdapter.swift in Sources */,
 				E85DBC752CE5D34E00B97513 /* ComicView.swift in Sources */,
 				E8D4ED202CE721CA005ED4BC /* String+Extensions.swift in Sources */,
 				E88C4C5C2CE32F9700CF3D0C /* ChapterListViewModel.swift in Sources */,

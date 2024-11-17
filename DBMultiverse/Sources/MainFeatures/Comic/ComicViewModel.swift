@@ -35,7 +35,7 @@ extension ComicViewModel {
     }
     
     var currentPage: PageInfo? {
-        return pages[safe: currentPageNumber]
+        return pages.first(where: { $0.pageNumber == "\(currentPageNumber)" })
     }
     
     var previousButtonDisabled: Bool {
@@ -71,7 +71,7 @@ extension ComicViewModel {
     }
     
     func nextPage() {
-        if currentPageNumber < pages.count - 1 {
+        if currentPageNumber < chapter.endPage {
             currentPageNumber += 1
         }
     }
@@ -86,8 +86,11 @@ extension ComicViewModel {
 @MainActor
 private extension ComicViewModel {
     func setPages(_ pages: [PageInfo]) {
-        print("settings pages")
         self.pages = pages
+        
+        if !pages.compactMap({ Int($0.pageNumber) }).contains(currentPageNumber) {
+            currentPageNumber = chapter.startPage
+        }
     }
 }
 

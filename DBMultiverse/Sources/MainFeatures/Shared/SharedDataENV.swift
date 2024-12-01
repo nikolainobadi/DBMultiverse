@@ -8,6 +8,8 @@
 import Foundation
 
 final class SharedDataENV: ObservableObject {
+    @Published var specials: [Special] = []
+    @Published var storyChapters: [Chapter] = []
     @Published var completedChapterList: [String]
     
     private let defaults: UserDefaults

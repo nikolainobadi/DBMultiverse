@@ -1,5 +1,5 @@
 //
-//  MainFeaturesView.swift
+//  ChapterListFeatureView.swift
 //  DBMultiverse
 //
 //  Created by Nikolai Nobadi on 11/13/24.
@@ -9,15 +9,14 @@ import SwiftUI
 
 struct ChapterListFeatureView: View {
     @State private var selectedChapter: Chapter?
-    @State private var sharedDataENV: SharedDataENV = .init()
+    @EnvironmentObject var sharedDataENV: SharedDataENV
     @AppStorage(.lastReadPageKey) private var lastReadPage: Int = 0
     
     var body: some View {
         NavigationStack {
-            ChapterListView(viewModel: .init(), lastReadPage: lastReadPage) { chapter in
-                selectedChapter = chapter
+            ChapterListView(viewModel: .init(store: sharedDataENV), lastReadPage: lastReadPage) {
+                selectedChapter = $0
             }
-            .environmentObject(sharedDataENV)
             .navigationBarTitleDisplayMode(.inline)
             .navigationTitle("Dragonball Multiverse")
             .navigationDestination(item: $selectedChapter) { chapter in

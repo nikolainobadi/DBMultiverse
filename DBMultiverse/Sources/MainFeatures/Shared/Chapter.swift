@@ -16,3 +16,8 @@ struct Chapter: Hashable {
         return page >= startPage && page <= endPage
     }
 }
+
+struct Special {
+    let title: String
+    let chapters: [Chapter]
+}

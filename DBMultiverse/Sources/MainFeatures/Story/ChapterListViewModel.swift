@@ -10,12 +10,25 @@ import Foundation
 final class ChapterListViewModel: ObservableObject {
     @Published var chapters: [Chapter] = []
     
-    private let loader: ChapterLoader
     private let defaults: UserDefaults
     
-    init(loader: ChapterLoader = ChapterLoaderAdapter(), defaults: UserDefaults = .standard) {
-        self.loader = loader
+    init(store: SharedDataENV, defaults: UserDefaults = .standard) {
         self.defaults = defaults
+        
+        let completedChapterList = (defaults.value(forKey: .completedChapterListKey) as? [String]) ?? []
+        
+        store.$storyChapters
+            .map { list in
+                return list.map { chapter in
+                    guard completedChapterList.contains(chapter.number) else {
+                        return chapter
+                    }
+                    var updated = chapter
+                    updated.didRead = true
+                    return updated
+                }
+            }
+            .assign(to: &$chapters)
     }
 }
 
@@ -35,33 +48,4 @@ extension ChapterListViewModel {
             chapters[index].didRead = false
         }
     }
-    
-    func loadChapters() async throws {
-        let completedChapterList = (defaults.value(forKey: .completedChapterListKey) as? [String]) ?? []
-        let chapters = try await loader.loadChapters().map { chapter in
-            guard completedChapterList.contains(chapter.number) else {
-                return chapter
-            }
-            var updated = chapter
-            updated.didRead = true
-            return updated
-        }
-        
-        await setChapters(chapters)
-    }
-}
-
-
-// MARK: - MainActor
-@MainActor
-private extension ChapterListViewModel {
-    func setChapters(_ chapters: [Chapter]) {
-        self.chapters = chapters
-    }
-}
-
-
-// MARK: - Dependencies
-protocol ChapterLoader {
-    func loadChapters() async throws -> [Chapter]
 }

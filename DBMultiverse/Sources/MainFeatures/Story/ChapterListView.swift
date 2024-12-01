@@ -56,9 +56,6 @@ struct ChapterListView: View {
             Text("Loading Chapters...")
                 .font(.title)
         }
-        .asyncTask {
-            try await viewModel.loadChapters()
-        }
     }
 }
 

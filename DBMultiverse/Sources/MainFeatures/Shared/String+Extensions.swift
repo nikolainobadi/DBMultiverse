@@ -6,5 +6,6 @@
 //
 
 extension String {
+    static let lastReadPageKey = "lastReadPage"
     static let completedChapterListKey = "completedChapterListKey"
 }

@@ -10,12 +10,11 @@ import SwiftUI
 struct ChapterListFeatureView: View {
     @State private var selectedChapter: Chapter?
     @State private var sharedDataENV: SharedDataENV = .init()
-    @AppStorage("lastReadPage") private var lastReadPage: Int = 0
+    @AppStorage(.lastReadPageKey) private var lastReadPage: Int = 0
     
     var body: some View {
         NavigationStack {
             ChapterListView(viewModel: .init(), lastReadPage: lastReadPage) { chapter in
-                print("set selected chapter:", chapter.name)
                 selectedChapter = chapter
             }
             .environmentObject(sharedDataENV)

@@ -1,6 +1,15 @@
 {
   "pins" : [
     {
+      "identity" : "nnswiftuikit",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/nikolainobadi/NnSwiftUIKit",
+      "state" : {
+        "branch" : "remove-nn-prefixes",
+        "revision" : "aa1f03e9aea4dded126235831946fb5075ddead0"
+      }
+    },
+    {
       "identity" : "swiftsoup",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/scinfu/SwiftSoup",

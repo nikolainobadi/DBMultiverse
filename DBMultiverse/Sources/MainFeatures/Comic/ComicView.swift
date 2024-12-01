@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import NnSwiftUIKit
 
 struct ComicView: View {
     @Binding var lastReadPage: Int
@@ -44,20 +45,19 @@ struct ComicView: View {
                 
                 Spacer()
                 
-                if viewModel.isLastPage {
-                    HapticButton("Finish Chapter") {
-                        viewModel.finishChapter()
-                        dismiss()
+                HapticButton("Next", action: viewModel.nextPage)
+                    .disabled(viewModel.nextButtonDisabled)
+                    .showingConditionalView(when: viewModel.isLastPage) {
+                        HapticButton("Finish Chapter") {
+                            viewModel.finishChapter()
+                            dismiss()
+                        }
                     }
-                } else {
-                    HapticButton("Next", action: viewModel.nextPage)
-                        .disabled(viewModel.nextButtonDisabled)
-                }
             }
             .padding()
         }
-        .task {
-            try? await viewModel.loadPages()
+        .asyncTask {
+            try await viewModel.loadPages()
         }
         .onChange(of: viewModel.currentPageNumber) { _, newValue in
             lastReadPage = newValue

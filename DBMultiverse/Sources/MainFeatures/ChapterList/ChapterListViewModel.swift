@@ -20,6 +20,20 @@ final class ChapterListViewModel: ObservableObject {
 
 // MARK: - Actions
 extension ChapterListViewModel {
+    func unreadChapter(_ chapter: Chapter) {
+        var completedChapterList = (UserDefaults.standard.value(forKey: .completedChapterListKey) as? [String]) ?? []
+        
+        if let index = completedChapterList.firstIndex(where: { $0 == chapter.number }) {
+            completedChapterList.remove(at: index)
+            
+            UserDefaults.standard.setValue(completedChapterList, forKey: .completedChapterListKey)
+        }
+        
+        if let index = chapters.firstIndex(where: { $0.number == chapter.number }) {
+            chapters[index].didRead = false
+        }
+    }
+    
     func loadChapters() async throws {
         let completedChapterList = (UserDefaults.standard.value(forKey: .completedChapterListKey) as? [String]) ?? []
         let chapters = try await loader.loadChapters().map { chapter in

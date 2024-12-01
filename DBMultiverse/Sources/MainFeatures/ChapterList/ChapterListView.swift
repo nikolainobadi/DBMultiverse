@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import NnSwiftUIKit
 
 struct ChapterListView: View {
     @StateObject var viewModel: ChapterListViewModel
@@ -26,35 +27,37 @@ struct ChapterListView: View {
     }
     
     var body: some View {
-        Group {
-            if viewModel.chapters.isEmpty {
-                Text("Loading Chapters...")
-                    .font(.title)
-            } else {
-                List {
-                    if let currentChapter {
-                        Section("Current Chapter") {
-                            ChapterRow(chapter: currentChapter, isCurrentChapter: true)
-                                .onTapGesture {
-                                    print("selected chapter:", currentChapter.number)
-                                    onSelection(currentChapter)
-                                }
+        List {
+            if let currentChapter {
+                Section("Current Chapter") {
+                    ChapterRow(chapter: currentChapter, isCurrentChapter: true)
+                        .swipeActions(edge: .leading) {
+                            Button(action: { viewModel.unreadChapter(currentChapter) }) {
+                                Image(systemName: "arrow.trianglehead.2.clockwise.rotate.90")
+                            }
+                            .onlyShow(when: currentChapter.didRead)
                         }
-                    }
-                    
-                    Section("Chapters") {
-                        ForEach(chaptersToDisplay, id: \.startPage) { chapter in
-                            ChapterRow(chapter: chapter, isCurrentChapter: chapter == currentChapter)
-                                .onTapGesture {
-                                    onSelection(chapter)
-                                }
+                        .tappable(withChevron: true) {
+                            onSelection(currentChapter)
                         }
-                    }
+                }
+            }
+            
+            Section("Chapters") {
+                ForEach(chaptersToDisplay, id: \.startPage) { chapter in
+                    ChapterRow(chapter: chapter, isCurrentChapter: chapter == currentChapter)
+                        .tappable(withChevron: true) {
+                            onSelection(chapter)
+                        }
                 }
             }
         }
-        .task {
-            try? await viewModel.loadChapters()
+        .showingConditionalView(when: viewModel.chapters.isEmpty) {
+            Text("Loading Chapters...")
+                .font(.title)
+        }
+        .asyncTask {
+            try await viewModel.loadChapters()
         }
     }
 }
@@ -68,25 +71,19 @@ struct ChapterRow: View {
     let isCurrentChapter: Bool
     
     var body: some View {
-        HStack(spacing: 0) {
-            VStack(alignment: .leading) {
-                Text(chapter.name)
-                    .font(.headline)
-                
-                Text("Pages: \(chapter.startPage) - \(chapter.endPage)")
-                    .font(.subheadline)
-                
-                if sharedDataENV.completedChapterList.contains(chapter.number) {
-                    Text("Finished Chapter")
-                        .font(.caption)
-                        .foregroundStyle(.red)
-                }
-            }
-            .frame(maxWidth: .infinity, alignment: .leading)
+        VStack(alignment: .leading) {
+            Text(chapter.name)
+                .font(.headline)
             
-            Image(systemName: "chevron.right")
+            Text("Pages: \(chapter.startPage) - \(chapter.endPage)")
+                .font(.subheadline)
+            
+            Text("Finished Chapter")
+                .font(.caption)
+                .foregroundStyle(.red)
+                .onlyShow(when: sharedDataENV.completedChapterList.contains(chapter.number))
         }
-        .contentShape(Rectangle())
+        .frame(maxWidth: .infinity, alignment: .leading)
     }
 }
 

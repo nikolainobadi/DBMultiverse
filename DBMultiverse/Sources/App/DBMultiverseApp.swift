@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import NnSwiftUIKit
 
 @main
 struct DBMultiverseApp: App {
@@ -13,6 +14,8 @@ struct DBMultiverseApp: App {
         WindowGroup {
             ChapterListFeatureView()
                 .preferredColorScheme(.dark)
+                .withNnLoadingView()
+                .withNnErrorHandling()
         }
     }
 }

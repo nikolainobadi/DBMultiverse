@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E84A2CE02CFC369C00FAF001 /* NnSwiftUIKit in Frameworks */ = {isa = PBXBuildFile; productRef = E84A2CDF2CFC369C00FAF001 /* NnSwiftUIKit */; };
+		E84A2CE12CFC36D400FAF001 /* NnSwiftUIKit in Embed Frameworks */ = {isa = PBXBuildFile; productRef = E84A2CDF2CFC369C00FAF001 /* NnSwiftUIKit */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		E85DBC752CE5D34E00B97513 /* ComicView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E85DBC742CE5D34E00B97513 /* ComicView.swift */; };
 		E85DBC782CE5DCB100B97513 /* MainFeaturesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E85DBC772CE5DCB100B97513 /* MainFeaturesView.swift */; };
 		E85DBC7A2CE5DD2900B97513 /* ComicViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E85DBC792CE5DD2900B97513 /* ComicViewModel.swift */; };
@@ -24,6 +26,20 @@
 		E8D4ED202CE721CA005ED4BC /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8D4ED1F2CE721CA005ED4BC /* String+Extensions.swift */; };
 		E8D4ED222CE72EE2005ED4BC /* SharedDataENV.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8D4ED212CE72EE2005ED4BC /* SharedDataENV.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		E84A2CE22CFC36D400FAF001 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				E84A2CE12CFC36D400FAF001 /* NnSwiftUIKit in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		E85DBC742CE5D34E00B97513 /* ComicView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComicView.swift; sourceTree = "<group>"; };
@@ -50,6 +66,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E8A095CC2CE0944C00D28E3F /* SwiftSoup in Frameworks */,
+				E84A2CE02CFC369C00FAF001 /* NnSwiftUIKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -184,6 +201,7 @@
 				E8A095B52CE0941200D28E3F /* Sources */,
 				E8A095B62CE0941200D28E3F /* Frameworks */,
 				E8A095B72CE0941200D28E3F /* Resources */,
+				E84A2CE22CFC36D400FAF001 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -192,6 +210,7 @@
 			name = DBMultiverse;
 			packageProductDependencies = (
 				E8A095CB2CE0944C00D28E3F /* SwiftSoup */,
+				E84A2CDF2CFC369C00FAF001 /* NnSwiftUIKit */,
 			);
 			productName = DBMultiverse;
 			productReference = E8A095B92CE0941200D28E3F /* DBMultiverse.app */;
@@ -223,6 +242,7 @@
 			mainGroup = E8A095B02CE0941200D28E3F;
 			packageReferences = (
 				E8A095CA2CE0944C00D28E3F /* XCRemoteSwiftPackageReference "SwiftSoup" */,
+				E84A2CDE2CFC369C00FAF001 /* XCRemoteSwiftPackageReference "NnSwiftUIKit" */,
 			);
 			productRefGroup = E8A095BA2CE0941200D28E3F /* Products */;
 			projectDirPath = "";
@@ -399,18 +419,23 @@
 				DEVELOPMENT_TEAM = R8SJ24LQF3;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = DBMultiverse;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.books";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 0.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.nobadi.DBMultiverse;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -428,18 +453,23 @@
 				DEVELOPMENT_TEAM = R8SJ24LQF3;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = DBMultiverse;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.books";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 0.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.nobadi.DBMultiverse;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -470,6 +500,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		E84A2CDE2CFC369C00FAF001 /* XCRemoteSwiftPackageReference "NnSwiftUIKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/nikolainobadi/NnSwiftUIKit";
+			requirement = {
+				branch = "remove-nn-prefixes";
+				kind = branch;
+			};
+		};
 		E8A095CA2CE0944C00D28E3F /* XCRemoteSwiftPackageReference "SwiftSoup" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/scinfu/SwiftSoup";
@@ -481,6 +519,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		E84A2CDF2CFC369C00FAF001 /* NnSwiftUIKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E84A2CDE2CFC369C00FAF001 /* XCRemoteSwiftPackageReference "NnSwiftUIKit" */;
+			productName = NnSwiftUIKit;
+		};
 		E8A095CB2CE0944C00D28E3F /* SwiftSoup */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = E8A095CA2CE0944C00D28E3F /* XCRemoteSwiftPackageReference "SwiftSoup" */;

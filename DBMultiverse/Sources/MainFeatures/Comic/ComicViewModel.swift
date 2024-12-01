@@ -58,7 +58,6 @@ extension ComicViewModel {
 // MARK: - Actions
 extension ComicViewModel {
     func loadPages() async throws {
-        print("preparing to load pages for \(chapter.number)")
         let pages = try await delegate.loadChapterPages(chapter)
         
         await setPages(pages)

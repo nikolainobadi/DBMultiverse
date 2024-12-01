@@ -54,8 +54,7 @@ private extension ChapterLoaderAdapter {
                    let startPage = Int(startPageText),
                    let endPage = Int(endPageText) {
                     
-                    let chapter = Chapter(name: chapterTitle, number: numberString, startPage: startPage, endPage: endPage)
-                    loadedChapters.append(chapter)
+                    loadedChapters.append(.init(name: chapterTitle, number: numberString, startPage: startPage, endPage: endPage))
                 }
             }
         }

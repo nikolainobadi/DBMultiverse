@@ -11,9 +11,11 @@ final class ChapterListViewModel: ObservableObject {
     @Published var chapters: [Chapter] = []
     
     private let loader: ChapterLoader
+    private let defaults: UserDefaults
     
-    init(loader: ChapterLoader = ChapterLoaderAdapter()) {
+    init(loader: ChapterLoader = ChapterLoaderAdapter(), defaults: UserDefaults = .standard) {
         self.loader = loader
+        self.defaults = defaults
     }
 }
 
@@ -21,12 +23,12 @@ final class ChapterListViewModel: ObservableObject {
 // MARK: - Actions
 extension ChapterListViewModel {
     func unreadChapter(_ chapter: Chapter) {
-        var completedChapterList = (UserDefaults.standard.value(forKey: .completedChapterListKey) as? [String]) ?? []
+        var completedChapterList = (defaults.value(forKey: .completedChapterListKey) as? [String]) ?? []
         
         if let index = completedChapterList.firstIndex(where: { $0 == chapter.number }) {
             completedChapterList.remove(at: index)
             
-            UserDefaults.standard.setValue(completedChapterList, forKey: .completedChapterListKey)
+            defaults.setValue(completedChapterList, forKey: .completedChapterListKey)
         }
         
         if let index = chapters.firstIndex(where: { $0.number == chapter.number }) {
@@ -35,7 +37,7 @@ extension ChapterListViewModel {
     }
     
     func loadChapters() async throws {
-        let completedChapterList = (UserDefaults.standard.value(forKey: .completedChapterListKey) as? [String]) ?? []
+        let completedChapterList = (defaults.value(forKey: .completedChapterListKey) as? [String]) ?? []
         let chapters = try await loader.loadChapters().map { chapter in
             guard completedChapterList.contains(chapter.number) else {
                 return chapter

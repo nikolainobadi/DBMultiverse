@@ -42,7 +42,7 @@ private extension MainFeaturesViewModel {
 }
 
 
-// MARK: - Depdendencies
+// MARK: - Dependencies
 protocol ChapterDataStore {
     func loadChapterLists() async throws -> (mainStory: [Chapter], specials: [Special])
 }

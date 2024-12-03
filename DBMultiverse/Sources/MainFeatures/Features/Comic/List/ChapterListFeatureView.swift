@@ -28,22 +28,3 @@ struct ChapterListFeatureView: View {
         }
     }
 }
-
-
-// MARK: - Extension Dependencies
-extension ComicViewModel {
-    static func customInit(chapter: Chapter, lastReadPage: Int, env: SharedDataENV) -> ComicViewModel {
-        return .init(
-            chapter: chapter,
-            currentPageNumber: chapter.getCurrentPageNumber(lastReadPage: lastReadPage),
-            delegate: env,
-            onChapterFinished: env.finishChapter(number:)
-        )
-    }
-}
-
-extension Chapter {
-    func getCurrentPageNumber(lastReadPage: Int) -> Int {
-        return containsLastReadPage(lastReadPage) ? lastReadPage : startPage
-    }
-}

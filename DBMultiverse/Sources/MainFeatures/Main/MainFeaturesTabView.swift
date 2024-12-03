@@ -13,14 +13,9 @@ struct MainFeaturesTabView: View {
     
     var body: some View {
         TabView {
-            ChapterListFeatureView()
+            ComicFeatureView()
                 .tabItem {
-                    Label("Main Story", systemImage: "book")
-                }
-            
-            SpecialFeatureNavStack()
-                .tabItem {
-                    Label("Specials", systemImage: "star")
+                    Label("Comic", systemImage: "book")
                 }
         }
         .asyncTask {
@@ -33,4 +28,5 @@ struct MainFeaturesTabView: View {
 // MARK: - Preview
 #Preview {
     MainFeaturesTabView(viewModel: .init(env: SharedDataENV()))
+        .environmentObject(SharedDataENV())
 }

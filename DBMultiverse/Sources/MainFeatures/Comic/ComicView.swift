@@ -1,41 +1,42 @@
+//
+//  ComicView.swift
+//  DBMultiverse
+//
+//  Created by Nikolai Nobadi on 11/13/24.
+//
+
 import SwiftUI
-import SwiftSoup
+import NnSwiftUIKit
 
-struct ComicFeatureView: View {
-    @Binding var lastReadPage: Int
-    @StateObject var viewModel: ComicViewModel
-    
-    var body: some View {
-        ComicView(lastReadPage: $lastReadPage, viewModel: viewModel)
-        // TODO: - nav title should be chapter number
-            .onAppear {
-                viewModel.fetchPages(startingFrom: lastReadPage)
-            }
-            .onChange(of: viewModel.currentPageNumber) { _, newValue in
-                lastReadPage = newValue
-            }
-    }
-}
-
-
-// MARK: - Comic View
 struct ComicView: View {
     @Binding var lastReadPage: Int
-    @ObservedObject var viewModel: ComicViewModel
+    @StateObject var viewModel: ComicViewModel
+    @Environment(\.dismiss) private var dismiss
     
     var body: some View {
         VStack {
-            if let info = viewModel.currentPage {
+            if let info = viewModel.currentPage, let image = UIImage(data: info.imageData) {
                 Text(info.title)
-                    
-                Image(uiImage: info.image)
+                    .padding(5)
+                    .font(.headline)
+                
+                Text(viewModel.currentPagePosition)
+                    .foregroundColor(.secondary)
+                
+                Spacer()
+                
+                Image(uiImage: image)
                     .resizable()
                     .scaledToFit()
                     .padding()
             } else {
-                Text("Loading...")
+                Spacer()
+                Text("Loading pages...")
                     .padding()
+                    .font(.title)
             }
+            
+            Spacer()
             
             HStack {
                 HapticButton("Previous", action: viewModel.previousPage)
@@ -46,8 +47,20 @@ struct ComicView: View {
                 
                 HapticButton("Next", action: viewModel.nextPage)
                     .disabled(viewModel.nextButtonDisabled)
+                    .showingConditionalView(when: viewModel.isLastPage) {
+                        HapticButton("Finish Chapter") {
+                            viewModel.finishChapter()
+                            dismiss()
+                        }
+                    }
             }
             .padding()
+        }
+        .asyncTask {
+            try await viewModel.loadPages()
+        }
+        .onChange(of: viewModel.currentPageNumber) { _, newValue in
+            lastReadPage = newValue
         }
     }
 }

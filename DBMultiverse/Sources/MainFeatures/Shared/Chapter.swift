@@ -21,7 +21,7 @@ struct Chapter: Hashable, Identifiable {
     }
 }
 
-struct Special: Identifiable {
+struct Special: Identifiable, Equatable {
     let title: String
     let chapters: [Chapter]
     

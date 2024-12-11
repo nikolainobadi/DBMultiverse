@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D4FF65832D0940A70023988F /* SwiftDataChapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FF65822D0940A70023988F /* SwiftDataChapter.swift */; };
 		E84A2CE02CFC369C00FAF001 /* NnSwiftUIKit in Frameworks */ = {isa = PBXBuildFile; productRef = E84A2CDF2CFC369C00FAF001 /* NnSwiftUIKit */; };
 		E84A2CE12CFC36D400FAF001 /* NnSwiftUIKit in Embed Frameworks */ = {isa = PBXBuildFile; productRef = E84A2CDF2CFC369C00FAF001 /* NnSwiftUIKit */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		E84A2CE42CFC435800FAF001 /* MainFeaturesTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E84A2CE32CFC435800FAF001 /* MainFeaturesTabView.swift */; };
@@ -46,6 +47,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		D4FF65822D0940A70023988F /* SwiftDataChapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftDataChapter.swift; sourceTree = "<group>"; };
 		E84A2CE32CFC435800FAF001 /* MainFeaturesTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainFeaturesTabView.swift; sourceTree = "<group>"; };
 		E84A2CE52CFC463300FAF001 /* CustomError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomError.swift; sourceTree = "<group>"; };
 		E84A2CEA2CFC49D700FAF001 /* MainFeaturesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainFeaturesViewModel.swift; sourceTree = "<group>"; };
@@ -81,6 +83,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		D4FF65812D09408F0023988F /* SwiftData */ = {
+			isa = PBXGroup;
+			children = (
+				D4FF65822D0940A70023988F /* SwiftDataChapter.swift */,
+			);
+			path = SwiftData;
+			sourceTree = "<group>";
+		};
 		E85DBC762CE5DCA400B97513 /* Main */ = {
 			isa = PBXGroup;
 			children = (
@@ -144,6 +154,7 @@
 			children = (
 				E88C4C572CE32F6D00CF3D0C /* App */,
 				E88C4C582CE32F7200CF3D0C /* MainFeatures */,
+				D4FF65812D09408F0023988F /* SwiftData */,
 				E85DBC7B2CE5DD9300B97513 /* Old */,
 			);
 			path = Sources;
@@ -309,6 +320,7 @@
 				E8859BE72CE874EB00459829 /* ComicViewDelegateAdapter.swift in Sources */,
 				E85DBC752CE5D34E00B97513 /* ComicView.swift in Sources */,
 				E8D4ED202CE721CA005ED4BC /* String+Extensions.swift in Sources */,
+				D4FF65832D0940A70023988F /* SwiftDataChapter.swift in Sources */,
 				E88C4C5C2CE32F9700CF3D0C /* ChapterListViewModel.swift in Sources */,
 				E88C4C5F2CE32FB500CF3D0C /* Chapter.swift in Sources */,
 				E84A2CE62CFC463300FAF001 /* CustomError.swift in Sources */,

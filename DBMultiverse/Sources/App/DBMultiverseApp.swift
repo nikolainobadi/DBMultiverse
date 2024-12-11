@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftData
 import NnSwiftUIKit
 
 @main
@@ -19,6 +20,7 @@ struct DBMultiverseApp: App {
                 .withNnLoadingView()
                 .withNnErrorHandling()
                 .environmentObject(sharedDataENV)
+                .modelContainer(for: SwiftDataChapter.self)
         }
     }
 }

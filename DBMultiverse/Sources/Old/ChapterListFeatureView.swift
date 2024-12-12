@@ -20,7 +20,7 @@ struct ChapterListFeatureView: View {
             .navigationBarTitleDisplayMode(.inline)
             .navigationTitle("Dragonball Multiverse")
             .navigationDestination(item: $selectedChapter) { chapter in
-                ComicView(
+                OldComicView(
                     lastReadPage: $lastReadPage,
                     viewModel: .customInit(chapter: chapter, lastReadPage: lastReadPage, env: sharedDataENV)
                 )

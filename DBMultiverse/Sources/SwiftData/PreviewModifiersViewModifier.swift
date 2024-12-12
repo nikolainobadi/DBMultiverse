@@ -34,6 +34,13 @@ actor PreviewSampleData {
         
         return container
     }()
+    
+    @MainActor
+    static var sampleChapter: SwiftDataChapter {
+        let _ = PreviewSampleData.container
+        
+        return SwiftDataChapter.sampleList[0]
+    }
 }
 
 extension SwiftDataChapter {

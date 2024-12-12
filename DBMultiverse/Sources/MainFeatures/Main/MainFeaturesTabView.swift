@@ -15,7 +15,7 @@ struct MainFeaturesTabView: View {
     
     var body: some View {
         TabView {
-           ComicFeatureNavStack(chapters: chapters, lastReadPage: lastReadPage)
+           ComicFeatureNavStack(lastReadPage: $lastReadPage, chapters: chapters)
                 .tabItem {
                     Label("Comic", systemImage: "book")
                 }

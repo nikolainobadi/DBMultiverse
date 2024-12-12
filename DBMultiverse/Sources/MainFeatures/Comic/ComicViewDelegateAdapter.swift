@@ -15,8 +15,8 @@ final class ComicViewDelegateAdapter {
 
 // MARK: - Delegate
 extension ComicViewDelegateAdapter: ComicViewDelegate {
-    func loadChapterPages(_ chapter: Chapter) async throws -> [PageInfo] {
-        var pages: [PageInfo] = []
+    func loadChapterPages(_ chapter: Chapter) async throws -> [OldPageInfo] {
+        var pages: [OldPageInfo] = []
         
         for page in chapter.startPage...chapter.endPage {
             if let pageInfo = try await fetchImage(page: page) {
@@ -31,7 +31,7 @@ extension ComicViewDelegateAdapter: ComicViewDelegate {
 
 // MARK: - Private Methods
 private extension ComicViewDelegateAdapter {
-    func fetchImage(page: Int) async throws -> PageInfo? {
+    func fetchImage(page: Int) async throws -> OldPageInfo? {
         guard let url = URL(string: "\(baseURL)\(page).html") else {
             return nil
         }
@@ -42,7 +42,7 @@ private extension ComicViewDelegateAdapter {
         return try await downloadImage(from: imageURLInfo)
     }
     
-    func parseHTMLForImageURL(data: Data) throws -> PageImageURLInfo? {
+    func parseHTMLForImageURL(data: Data) throws -> OldPageImageURLInfo? {
         let html = String(data: data, encoding: .utf8) ?? ""
         let document = try SwiftSoup.parse(html)
         
@@ -86,7 +86,7 @@ private extension ComicViewDelegateAdapter {
         return .init(url: url, chapter: "\(chapter)", pageNumber: "\(page)")
     }
     
-    func downloadImage(from info: PageImageURLInfo?) async throws -> PageInfo? {
+    func downloadImage(from info: OldPageImageURLInfo?) async throws -> OldPageInfo? {
         guard let info, let url = info.url else {
             return nil
         }

@@ -14,7 +14,7 @@ final class SharedDataENV: ObservableObject {
     
     private let defaults: UserDefaults
     private let delegate: ComicViewDelegate = ComicViewDelegateAdapter()
-    private var pageInfoDict: [Chapter: [PageInfo]] = [:]
+    private var pageInfoDict: [Chapter: [OldPageInfo]] = [:]
     
     init(defaults: UserDefaults = .standard) {
         self.defaults = defaults
@@ -36,7 +36,7 @@ extension SharedDataENV {
 
 // MARK: - ComicViewDelegate
 extension SharedDataENV: ComicViewDelegate {
-    func loadChapterPages(_ chapter: Chapter) async throws -> [PageInfo] {
+    func loadChapterPages(_ chapter: Chapter) async throws -> [OldPageInfo] {
         if let pages = pageInfoDict[chapter] {
             return pages
         }

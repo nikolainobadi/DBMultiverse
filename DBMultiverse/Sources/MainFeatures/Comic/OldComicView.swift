@@ -1,5 +1,5 @@
 //
-//  ComicView.swift
+//  OldComicView.swift
 //  DBMultiverse
 //
 //  Created by Nikolai Nobadi on 11/13/24.
@@ -8,7 +8,7 @@
 import SwiftUI
 import NnSwiftUIKit
 
-struct ComicView: View {
+struct OldComicView: View {
     @Binding var lastReadPage: Int
     @StateObject var viewModel: ComicViewModel
     @Environment(\.dismiss) private var dismiss
@@ -62,26 +62,5 @@ struct ComicView: View {
         .onChange(of: viewModel.currentPageNumber) { _, newValue in
             lastReadPage = newValue
         }
-    }
-}
-
-
-// MARK: - HapticButton
-struct HapticButton: View {
-    let title: String
-    let action: () -> Void
-    
-    init(_ title: String, action: @escaping () -> Void) {
-        self.title = title
-        self.action = action
-    }
-    
-    var body: some View {
-        Button(title) {
-            let generator = UIImpactFeedbackGenerator(style: .medium)
-            generator.impactOccurred()
-            action()
-        }
-        .buttonStyle(.bordered)
     }
 }

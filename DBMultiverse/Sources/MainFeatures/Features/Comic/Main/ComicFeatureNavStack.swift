@@ -9,10 +9,10 @@ import SwiftUI
 import NnSwiftUIKit
 
 struct ComicFeatureNavStack: View {
+    @Binding var lastReadPage: Int
     @State private var selection: ComicType = .story
     
     let chapters: [SwiftDataChapter]
-    let lastReadPage: Int
     
     var body: some View {
         NavStack(title: "DB Multiverse") {
@@ -25,7 +25,9 @@ struct ComicFeatureNavStack: View {
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
             .navigationDestination(for: SwiftDataChapter.self) { chapter in
-                Text(chapter.name)
+                // TODO: - may have to create Bindable
+                ChapterComicView(lastReadPage: $lastReadPage, chapter: chapter, viewModel: .init(currentPageNumber: lastReadPage, loader: ChapterComicLoaderAdapter()))
+                    .navigationTitle("Chapter \(chapter.number)")
             }
         }
     }
@@ -92,7 +94,6 @@ fileprivate struct CurrentChapterSection: View {
         }
     }
 }
-
 
 
 // MARK: - Row

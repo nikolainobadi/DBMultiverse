@@ -9,7 +9,7 @@ import Foundation
 
 final class ComicViewModel: ObservableObject {
     @Published var currentPageNumber: Int
-    @Published var pages: [PageInfo] = []
+    @Published var pages: [OldPageInfo] = []
     
     private let chapter: Chapter
     private let delegate: ComicViewDelegate
@@ -34,7 +34,7 @@ extension ComicViewModel {
         return pageNumber == chapter.endPage
     }
     
-    var currentPage: PageInfo? {
+    var currentPage: OldPageInfo? {
         return pages.first(where: { $0.pageNumber == "\(currentPageNumber)" })
     }
     
@@ -84,7 +84,7 @@ extension ComicViewModel {
 // MARK: MainActor
 @MainActor
 private extension ComicViewModel {
-    func setPages(_ pages: [PageInfo]) {
+    func setPages(_ pages: [OldPageInfo]) {
         self.pages = pages
         
         if !pages.compactMap({ Int($0.pageNumber) }).contains(currentPageNumber) {
@@ -96,16 +96,16 @@ private extension ComicViewModel {
 
 // MARK: - Dependencies
 protocol ComicViewDelegate {
-    func loadChapterPages(_ chapter: Chapter) async throws -> [PageInfo]
+    func loadChapterPages(_ chapter: Chapter) async throws -> [OldPageInfo]
 }
 
-struct PageInfo {
+struct OldPageInfo {
     let imageData: Data
     let chapter: String
     let pageNumber: String
 }
 
-extension PageInfo {
+extension OldPageInfo {
     var title: String {
         if pageNumber == "0" {
             return ""

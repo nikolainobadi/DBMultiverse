@@ -15,7 +15,7 @@ final class ChapterListViewModel: ObservableObject {
     init(store: SharedDataENV, defaults: UserDefaults = .standard) {
         self.defaults = defaults
         
-        let completedChapterList = (defaults.value(forKey: .completedChapterListKey) as? [String]) ?? []
+//        let completedChapterList = (defaults.value(forKey: .completedChapterListKey) as? [String]) ?? []
         
 //        store.$storyChapters
 //            .map { list in

@@ -8,13 +8,7 @@
 import SwiftSoup
 import Foundation
 
-final class ComicViewDelegateAdapter {
-    private let baseURL = "https://www.dragonball-multiverse.com/en/page-"
-}
-
-
-// MARK: - Delegate
-extension ComicViewDelegateAdapter: ComicViewDelegate {
+final class ComicViewDelegateAdapter: ComicViewDelegate {
     func loadChapterPages(_ chapter: Chapter) async throws -> [OldPageInfo] {
         var pages: [OldPageInfo] = []
         
@@ -32,7 +26,7 @@ extension ComicViewDelegateAdapter: ComicViewDelegate {
 // MARK: - Private Methods
 private extension ComicViewDelegateAdapter {
     func fetchImage(page: Int) async throws -> OldPageInfo? {
-        guard let url = URL(string: "\(baseURL)\(page).html") else {
+        guard let url = URL(string: .makeFullURLString(suffix: "\(page).html")) else {
             return nil
         }
         
@@ -77,7 +71,7 @@ private extension ComicViewDelegateAdapter {
         }
         
         let imgSrc = try imgElement.attr("src")
-        let url = URL(string: "https://www.dragonball-multiverse.com" + imgSrc)
+        let url = URL(string: .makeFullURLString(suffix: imgSrc))
         
         guard let chapter, let page else {
             return nil

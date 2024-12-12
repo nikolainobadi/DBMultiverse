@@ -1,91 +1,91 @@
+////
+////  ChapterListView.swift
+////  DBMultiverse
+////
+////  Created by Nikolai Nobadi on 11/11/24.
+////
 //
-//  ChapterListView.swift
-//  DBMultiverse
+//import SwiftUI
+//import NnSwiftUIKit
 //
-//  Created by Nikolai Nobadi on 11/11/24.
-//
-
-import SwiftUI
-import NnSwiftUIKit
-
-struct OldChapterListView: View {
-    @StateObject var viewModel: ChapterListViewModel
-    
-    let lastReadPage: Int
-    let onSelection: (Chapter) -> Void
-    
-    private var currentChapter: Chapter? {
-        return viewModel.chapters.first(where: { $0.containsLastReadPage(lastReadPage) })
-    }
-    
-    private var chaptersToDisplay: [Chapter] {
-        guard let currentChapter else {
-            return viewModel.chapters
-        }
-        
-        return viewModel.chapters.filter({ $0 != currentChapter })
-    }
-    
-    var body: some View {
-        List {
-            if let currentChapter {
-                Section("Current Chapter") {
-                    OldChapterRow(chapter: currentChapter, isCurrentChapter: true)
-                        .swipeActions(edge: .leading) {
-                            Button(action: { viewModel.unreadChapter(currentChapter) }) {
-                                Image(systemName: "arrow.trianglehead.2.clockwise.rotate.90")
-                            }
-                            .onlyShow(when: currentChapter.didRead)
-                        }
-                        .tappable(withChevron: true) {
-                            onSelection(currentChapter)
-                        }
-                }
-            }
-            
-            Section("Chapters") {
-                ForEach(chaptersToDisplay, id: \.startPage) { chapter in
-                    OldChapterRow(chapter: chapter, isCurrentChapter: chapter == currentChapter)
-                        .tappable(withChevron: true) {
-                            onSelection(chapter)
-                        }
-                }
-            }
-        }
-        .showingConditionalView(when: viewModel.chapters.isEmpty) {
-            Text("Loading Chapters...")
-                .font(.title)
-        }
-    }
-}
-
-
-// MARK: - Row
-struct OldChapterRow: View {
-    @EnvironmentObject var sharedDataENV: SharedDataENV
-    
-    let chapter: Chapter
-    let isCurrentChapter: Bool
-    
-    var body: some View {
-        VStack(alignment: .leading) {
-            Text(chapter.name)
-                .font(.headline)
-            
-            Text("Pages: \(chapter.startPage) - \(chapter.endPage)")
-                .font(.subheadline)
-            
-            Text("Finished Chapter")
-                .font(.caption)
-                .foregroundStyle(.red)
-//                .onlyShow(when: sharedDataENV.completedChapterList.contains(chapter.number))
-        }
-        .frame(maxWidth: .infinity, alignment: .leading)
-    }
-}
-
-
-// MARK: - Preview
-//#Preview {
-//    ChapterListView()
+//struct OldChapterListView: View {
+//    @StateObject var viewModel: ChapterListViewModel
+//    
+//    let lastReadPage: Int
+//    let onSelection: (Chapter) -> Void
+//    
+//    private var currentChapter: Chapter? {
+//        return viewModel.chapters.first(where: { $0.containsLastReadPage(lastReadPage) })
+//    }
+//    
+//    private var chaptersToDisplay: [Chapter] {
+//        guard let currentChapter else {
+//            return viewModel.chapters
+//        }
+//        
+//        return viewModel.chapters.filter({ $0 != currentChapter })
+//    }
+//    
+//    var body: some View {
+//        List {
+//            if let currentChapter {
+//                Section("Current Chapter") {
+//                    OldChapterRow(chapter: currentChapter, isCurrentChapter: true)
+//                        .swipeActions(edge: .leading) {
+//                            Button(action: { viewModel.unreadChapter(currentChapter) }) {
+//                                Image(systemName: "arrow.trianglehead.2.clockwise.rotate.90")
+//                            }
+//                            .onlyShow(when: currentChapter.didRead)
+//                        }
+//                        .tappable(withChevron: true) {
+//                            onSelection(currentChapter)
+//                        }
+//                }
+//            }
+//            
+//            Section("Chapters") {
+//                ForEach(chaptersToDisplay, id: \.startPage) { chapter in
+//                    OldChapterRow(chapter: chapter, isCurrentChapter: chapter == currentChapter)
+//                        .tappable(withChevron: true) {
+//                            onSelection(chapter)
+//                        }
+//                }
+//            }
+//        }
+//        .showingConditionalView(when: viewModel.chapters.isEmpty) {
+//            Text("Loading Chapters...")
+//                .font(.title)
+//        }
+//    }
 //}
+//
+//
+//// MARK: - Row
+//struct OldChapterRow: View {
+//    @EnvironmentObject var sharedDataENV: SharedDataENV
+//    
+//    let chapter: Chapter
+//    let isCurrentChapter: Bool
+//    
+//    var body: some View {
+//        VStack(alignment: .leading) {
+//            Text(chapter.name)
+//                .font(.headline)
+//            
+//            Text("Pages: \(chapter.startPage) - \(chapter.endPage)")
+//                .font(.subheadline)
+//            
+//            Text("Finished Chapter")
+//                .font(.caption)
+//                .foregroundStyle(.red)
+////                .onlyShow(when: sharedDataENV.completedChapterList.contains(chapter.number))
+//        }
+//        .frame(maxWidth: .infinity, alignment: .leading)
+//    }
+//}
+//
+//
+//// MARK: - Preview
+////#Preview {
+////    ChapterListView()
+////}

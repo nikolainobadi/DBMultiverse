@@ -10,14 +10,10 @@ struct Chapter: Hashable, Identifiable {
     let number: Int
     let startPage: Int
     let endPage: Int
-    var didRead: Bool = false
+    let coverImageURL: String
     
     var id: String {
         return name
-    }
-    
-    func containsLastReadPage(_ page: Int) -> Bool {
-        return page >= startPage && page <= endPage
     }
 }
 

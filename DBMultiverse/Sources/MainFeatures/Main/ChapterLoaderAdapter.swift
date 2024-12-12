@@ -9,7 +9,7 @@ import SwiftSoup
 import Foundation
 
 final class ChapterLoaderAdapter {
-    private let url = URL(string: "https://www.dragonball-multiverse.com/en/chapters.html?comic=page&chaptersmode=1")!
+    private let url = URL(string: .makeFullURLString(suffix: "/en/chapters.html?comic=page&chaptersmode=1"))!
 }
 
 extension ChapterLoaderAdapter: ChapterDataStore {
@@ -17,6 +17,10 @@ extension ChapterLoaderAdapter: ChapterDataStore {
         guard let html = try await loadHTML() else {
             throw CustomError.loadHTMLError
         }
+        
+        print("---------- Start ----------")
+        print(html)
+        print("---------- END ----------")
         
         return try parseHTMLWithSpecials(html)
     }
@@ -88,7 +92,11 @@ private extension ChapterLoaderAdapter {
                let endPage = Int(endPageText),
                let number = Int(numberString) {
                 
-                return Chapter(name: cleanedTitle, number: number, startPage: startPage, endPage: endPage)
+                // Extract cover image URL
+                let coverImageElement = try element.select("img").first()
+                let coverImageURL = try coverImageElement?.attr("src") ?? ""
+                
+                return Chapter(name: cleanedTitle, number: number, startPage: startPage, endPage: endPage, coverImageURL: coverImageURL)
             }
         }
         

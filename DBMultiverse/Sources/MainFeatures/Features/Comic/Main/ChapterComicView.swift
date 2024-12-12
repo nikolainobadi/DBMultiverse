@@ -266,7 +266,7 @@ final class ChapterComicLoaderAdapter: ChapterComicLoader {
 private extension ChapterComicLoaderAdapter {
     // MARK: Fetch Image from Web
     func fetchImage(page: Int) async throws -> PageInfo? {
-        guard let url = URL(string: "\("https://www.dragonball-multiverse.com/en/page-")\(page).html") else {
+        guard let url = URL(string: .makeFullURLString(suffix: "/en/page-\(page).html")) else {
             return nil
         }
 
@@ -312,7 +312,7 @@ private extension ChapterComicLoaderAdapter {
         }
 
         let imgSrc = try imgElement.attr("src")
-        let url = URL(string: "https://www.dragonball-multiverse.com" + imgSrc)
+        let url = URL(string: .makeFullURLString(suffix: imgSrc))
 
         guard let chapter, let page else {
             return nil

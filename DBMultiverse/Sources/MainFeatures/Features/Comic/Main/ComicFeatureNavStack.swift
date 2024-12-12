@@ -101,8 +101,10 @@ fileprivate struct ChapterRow: View {
     
     var body: some View {
         VStack(alignment: .leading) {
-            Text(chapter.name)
-                .font(.headline)
+            VStack(alignment: .leading, spacing: 0) {
+                Text("\(chapter.number) - \(chapter.name)")
+                    .font(.headline)
+            }
             
             Text(chapter.pageRangeText)
                 .font(.subheadline)

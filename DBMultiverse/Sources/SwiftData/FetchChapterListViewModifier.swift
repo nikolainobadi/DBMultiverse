@@ -11,6 +11,7 @@ import NnSwiftUIKit
 
 struct FetchChapterListViewModifier: ViewModifier {
     @StateObject var repo: ChapterListRepository
+    @Environment(\.isPreview) private var isPreview
     @Environment(\.modelContext) private var modelContext
     
     let existingChapterNumbers: [Int]
@@ -21,26 +22,30 @@ struct FetchChapterListViewModifier: ViewModifier {
     }
     
     func body(content: Content) -> some View {
-        content
-            .asyncTask {
-                try await repo.loadData()
-            }
-            .onChange(of: repo.chapters) { _, newValue in
-                newValue.forEach { chapter in
-                    if shouldAddChapter(chapter) {
-                        repo.addNewStoryChapter(chapter, modelContext: modelContext)
-                    }
+        if isPreview {
+            content
+        } else {
+            content
+                .asyncTask {
+                    try await repo.loadData()
                 }
-            }
-            .onChange(of: repo.specials) { _, newValue in
-                newValue.forEach { special in
-                    special.chapters.forEach { chapter in
+                .onChange(of: repo.chapters) { _, newValue in
+                    newValue.forEach { chapter in
                         if shouldAddChapter(chapter) {
-                            repo.addNewSpecialChapter(chapter, specialTitle: special.title, modelContext: modelContext)
+                            repo.addNewStoryChapter(chapter, modelContext: modelContext)
                         }
                     }
                 }
-            }
+                .onChange(of: repo.specials) { _, newValue in
+                    newValue.forEach { special in
+                        special.chapters.forEach { chapter in
+                            if shouldAddChapter(chapter) {
+                                repo.addNewSpecialChapter(chapter, specialTitle: special.title, modelContext: modelContext)
+                            }
+                        }
+                    }
+                }
+        }
     }
 }
 

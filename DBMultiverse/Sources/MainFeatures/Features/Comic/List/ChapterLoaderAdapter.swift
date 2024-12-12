@@ -78,6 +78,9 @@ private extension ChapterLoaderAdapter {
                 .replacingOccurrences(of: ":", with: "")
                 .trimmingCharacters(in: .whitespaces)
             
+            // Remove "Chapter", the number, and the colon from the title
+            let cleanedTitle = chapterTitle.replacingOccurrences(of: #"Chapter \d+:"#, with: "", options: .regularExpression).trimmingCharacters(in: .whitespaces)
+            
             let pageLinks = try element.select("p a")
             if let startPageText = try? pageLinks.first()?.text(),
                let endPageText = try? pageLinks.last()?.text(),
@@ -85,9 +88,10 @@ private extension ChapterLoaderAdapter {
                let endPage = Int(endPageText),
                let number = Int(numberString) {
                 
-                return Chapter(name: chapterTitle, number: number, startPage: startPage, endPage: endPage)
+                return Chapter(name: cleanedTitle, number: number, startPage: startPage, endPage: endPage)
             }
         }
+        
         return nil
     }
 }

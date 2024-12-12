@@ -67,14 +67,12 @@ extension ChapterListRepository {
     }
     
     func addNewStoryChapter(_ chapter: Chapter, modelContext: ModelContext) {
-        
+        addNewSwiftDataChapter(chapter, universe: nil, modelContext: modelContext)
     }
     
     func addNewSpecialChapter(_ chapter: Chapter, specialTitle: String, modelContext: ModelContext) {
-        
+        addNewSwiftDataChapter(chapter, universe: specialTitle, modelContext: modelContext)
     }
-    
-    
 }
 
 

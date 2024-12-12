@@ -11,15 +11,12 @@ import NnSwiftUIKit
 
 @main
 struct DBMultiverseApp: App {
-    @StateObject private var sharedDataENV: SharedDataENV = .init()
-    
     var body: some Scene {
         WindowGroup {
-            MainFeaturesTabView(viewModel: .init(env: sharedDataENV))
-                .preferredColorScheme(.dark)
+            MainFeaturesTabView()
                 .withNnLoadingView()
                 .withNnErrorHandling()
-                .environmentObject(sharedDataENV)
+                .preferredColorScheme(.dark)
                 .modelContainer(for: SwiftDataChapter.self)
         }
     }

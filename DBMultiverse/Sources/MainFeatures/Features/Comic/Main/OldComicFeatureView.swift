@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ComicFeatureView: View {
+struct OldComicFeatureView: View {
     @State private var selectedChapter: Chapter?
     @State private var selection: ComicType = .story
     @EnvironmentObject var sharedDataENV: SharedDataENV
@@ -50,12 +50,13 @@ struct ComicFeatureView: View {
             .navigationBarTitleDisplayMode(.inline)
             .animation(.easeInOut, value: selection)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .navigationDestination(item: $selectedChapter) { chapter in
-                ComicView(
-                    lastReadPage: $lastReadPage,
-                    viewModel: .customInit(chapter: chapter, lastReadPage: lastReadPage, env: sharedDataENV)
-                )
-            }
+            // TODO: -
+//            .navigationDestination(item: $selectedChapter) { chapter in
+//                ComicView(
+//                    lastReadPage: $lastReadPage,
+//                    viewModel: .customInit(chapter: chapter, lastReadPage: lastReadPage, env: sharedDataENV)
+//                )
+//            }
         }
     }
 }
@@ -63,7 +64,7 @@ struct ComicFeatureView: View {
 
 // MARK: - Preview
 #Preview {
-    ComicFeatureView()
+    OldComicFeatureView()
         .environmentObject(SharedDataENV())
 }
 

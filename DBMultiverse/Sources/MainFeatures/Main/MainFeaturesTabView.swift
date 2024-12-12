@@ -6,20 +6,23 @@
 //
 
 import SwiftUI
+import SwiftData
 import NnSwiftUIKit
 
 struct MainFeaturesTabView: View {
-    @StateObject var viewModel: MainFeaturesViewModel
+    @Query var chapters: [SwiftDataChapter]
     
     var body: some View {
         TabView {
-            ComicFeatureView()
+           ComicFeatureNavStack(chapters: chapters)
                 .tabItem {
                     Label("Comic", systemImage: "book")
                 }
-        }
-        .asyncTask {
-            try await viewModel.loadData()
+            
+            SettingsFeatureNavStack()
+                .tabItem {
+                    Label("Settings", systemImage: "gearshape")
+                }
         }
     }
 }
@@ -27,6 +30,6 @@ struct MainFeaturesTabView: View {
 
 // MARK: - Preview
 #Preview {
-    MainFeaturesTabView(viewModel: .init(env: SharedDataENV()))
-        .environmentObject(SharedDataENV())
+    MainFeaturesTabView()
+        .withPreviewModifiers()
 }

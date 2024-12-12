@@ -58,6 +58,8 @@ struct ChapterComicView: View {
             try await viewModel.loadPages(for: chapter)
         }
         .onChange(of: viewModel.currentPageNumber) { _, newValue in
+            lastReadPage = newValue
+            
             if chapter.containsPage(newValue) {
                 chapter.lastReadPage = newValue
                 
@@ -80,7 +82,7 @@ struct ChapterComicView: View {
 
 
 class PreviewChapterComicLoader: ChapterComicLoader {
-    func loadPages(start: Int, end: Int) async throws -> [PageInfo] {
+    func loadPages(chapter: SwiftDataChapter) async throws -> [PageInfo] {
         return []
     }
 }
@@ -165,6 +167,7 @@ struct ZoomableImageView: View {
 final class ChapterComicViewModel: ObservableObject {
     @Published var pages: [PageInfo] = []
     @Published var currentPageNumber: Int
+    @Published private var didFetchPages = false
     
     private let loader: ChapterComicLoader
     
@@ -193,7 +196,11 @@ extension ChapterComicViewModel {
     }
     
     func loadPages(for chapter: SwiftDataChapter) async throws {
-        let pages = try await loader.loadPages(start: chapter.startPage, end: chapter.endPage)
+        if didFetchPages {
+            return
+        }
+        
+        let pages = try await loader.loadPages(chapter: chapter)
         
         await setPages(pages, firstPage: chapter.startPage)
     }
@@ -217,6 +224,7 @@ extension ChapterComicViewModel {
 private extension ChapterComicViewModel {
     func setPages(_ pages: [PageInfo], firstPage: Int) {
         self.pages = pages
+        self.didFetchPages = true
         
         if !pages.compactMap({ Int($0.pageNumber) }).contains(currentPageNumber) {
             currentPageNumber = firstPage
@@ -227,48 +235,59 @@ private extension ChapterComicViewModel {
 
 // MARK: - Dependencies
 protocol ChapterComicLoader {
-    func loadPages(start: Int, end: Int) async throws -> [PageInfo]
+    func loadPages(chapter: SwiftDataChapter) async throws -> [PageInfo]
 }
 
 import SwiftSoup
 
 final class ChapterComicLoaderAdapter: ChapterComicLoader {
-    func loadPages(start: Int, end: Int) async throws -> [PageInfo] {
+    func loadPages(chapter: SwiftDataChapter) async throws -> [PageInfo] {
         var pages: [PageInfo] = []
-        
-        for page in start...end {
-            if let pageInfo = try await fetchImage(page: page) {
-                pages.append(pageInfo)
+
+        for page in chapter.startPage...chapter.endPage {
+            // Check if the image is cached
+            if let cachedImageData = try? loadCachedImage(for: chapter.number, page: page) {
+                pages.append(PageInfo(chapter: chapter.number, pageNumber: page, imageData: cachedImageData))
+            } else {
+                print("could not find cached image for page \(page), preparing to fetch")
+                if let pageInfo = try await fetchImage(page: page) {
+                    pages.append(pageInfo)
+                    
+                    // Save fetched image to cache
+                    try saveImageToCache(pageInfo: pageInfo)
+                }
             }
         }
-        
+
         return pages
     }
 }
 
 private extension ChapterComicLoaderAdapter {
+    // MARK: Fetch Image from Web
     func fetchImage(page: Int) async throws -> PageInfo? {
         guard let url = URL(string: "\("https://www.dragonball-multiverse.com/en/page-")\(page).html") else {
             return nil
         }
-        
+
         let data = try await URLSession.shared.data(from: url).0
         let imageURLInfo = try parseHTMLForImageURL(data: data)
-        
+
         return try await downloadImage(from: imageURLInfo)
     }
-    
+
+    // MARK: Parse HTML for Image URL
     func parseHTMLForImageURL(data: Data) throws -> PageImageURLInfo? {
         let html = String(data: data, encoding: .utf8) ?? ""
         let document = try SwiftSoup.parse(html)
-        
+
         var chapter: Int?
         var page: Int?
-        
+
         guard let metaTag = try document.select("meta[property=og:title]").first() else {
             return nil
         }
-        
+
         let content = try metaTag.attr("content")
         let chapterRegex = try NSRegularExpression(pattern: #"Chapter (\d+)"#)
         let pageRegex = try NSRegularExpression(pattern: #"Page (\d+)"#)
@@ -280,36 +299,61 @@ private extension ChapterComicLoaderAdapter {
             }
             return nil
         }()
-        
+
         page = {
             if let match = pageMatch, let range = Range(match.range(at: 1), in: content) {
                 return Int(content[range])
             }
             return nil
         }()
-        
+
         guard let imgElement = try document.select("img[id=balloonsimg]").first() else {
             return nil
         }
-        
+
         let imgSrc = try imgElement.attr("src")
         let url = URL(string: "https://www.dragonball-multiverse.com" + imgSrc)
-        
+
         guard let chapter, let page else {
             return nil
         }
-        
+
         return .init(url: url, chapter: chapter, pageNumber: page)
     }
-    
+
+    // MARK: Download Image
     func downloadImage(from info: PageImageURLInfo?) async throws -> PageInfo? {
         guard let info, let url = info.url else {
             return nil
         }
-        
+
         let data = try await URLSession.shared.data(from: url).0
+        return PageInfo(chapter: info.chapter, pageNumber: info.pageNumber, imageData: data)
+    }
+
+    // MARK: Cache Management
+    func getCacheDirectory(for chapter: Int, page: Int) -> URL {
+        let cacheDirectory = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!
+        let filePath = cacheDirectory.appendingPathComponent("Chapters/Chapter_\(chapter)/Page_\(page).jpg")
+        print("Cache Directory: \(filePath.path)") // Debug the path
+        return filePath
+    }
+
+    func loadCachedImage(for chapter: Int, page: Int) throws -> Data? {
+        let filePath = getCacheDirectory(for: chapter, page: page)
+        return FileManager.default.contents(atPath: filePath.path)
+    }
+
+    func saveImageToCache(pageInfo: PageInfo) throws {
+        print("Preparing to save page \(pageInfo.pageNumber) to chapter \(pageInfo.chapter)")
+        let filePath = getCacheDirectory(for: pageInfo.chapter, page: pageInfo.pageNumber)
         
-        return .init(chapter: info.chapter, pageNumber: info.pageNumber, imageData: data)
+        // Create chapter folder if it doesn't exist
+        let chapterFolder = filePath.deletingLastPathComponent()
+        try FileManager.default.createDirectory(at: chapterFolder, withIntermediateDirectories: true)
+        
+        // Save the image data
+        try pageInfo.imageData.write(to: filePath)
     }
 }
 

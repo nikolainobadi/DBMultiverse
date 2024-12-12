@@ -82,9 +82,10 @@ private extension ChapterLoaderAdapter {
             if let startPageText = try? pageLinks.first()?.text(),
                let endPageText = try? pageLinks.last()?.text(),
                let startPage = Int(startPageText),
-               let endPage = Int(endPageText) {
+               let endPage = Int(endPageText),
+               let number = Int(numberString) {
                 
-                return Chapter(name: chapterTitle, number: numberString, startPage: startPage, endPage: endPage)
+                return Chapter(name: chapterTitle, number: number, startPage: startPage, endPage: endPage)
             }
         }
         return nil

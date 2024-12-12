@@ -10,11 +10,12 @@ import SwiftData
 import NnSwiftUIKit
 
 struct MainFeaturesTabView: View {
-    @Query var chapters: [SwiftDataChapter]
+    @AppStorage(.lastReadPageKey) private var lastReadPage: Int = 0
+    @Query(sort: \SwiftDataChapter.number, order: .forward) var chapters: [SwiftDataChapter]
     
     var body: some View {
         TabView {
-           ComicFeatureNavStack(chapters: chapters)
+           ComicFeatureNavStack(chapters: chapters, lastReadPage: lastReadPage)
                 .tabItem {
                     Label("Comic", systemImage: "book")
                 }
@@ -24,6 +25,7 @@ struct MainFeaturesTabView: View {
                     Label("Settings", systemImage: "gearshape")
                 }
         }
+        .fetchingChapters(existingChapterNumbers: chapters.map({ $0.number }))
     }
 }
 

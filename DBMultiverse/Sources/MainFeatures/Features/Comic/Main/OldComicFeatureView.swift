@@ -27,19 +27,19 @@ struct OldComicFeatureView: View {
                 
                 switch selection {
                 case .story:
-                    ChapterListView(viewModel: .init(store: sharedDataENV), lastReadPage: lastReadPage) { chapter in
+                    OldChapterListView(viewModel: .init(store: sharedDataENV), lastReadPage: lastReadPage) { chapter in
                         selectedChapter = chapter
                     }
                 case .specials:
                     List {
                         if let currentChapter = sharedDataENV.specials.flatMap({ $0.chapters }).first(where: { $0.containsLastReadPage(lastReadPage) }) {
-                            ChapterRow(chapter: currentChapter, isCurrentChapter: true)
+                            OldChapterRow(chapter: currentChapter, isCurrentChapter: true)
                         }
                         
                         ForEach(sharedDataENV.specials) { special in
                             Section(special.title) {
                                 ForEach(special.chapters) { chapter in
-                                    ChapterRow(chapter: chapter, isCurrentChapter: false)
+                                    OldChapterRow(chapter: chapter, isCurrentChapter: false)
                                 }
                             }
                         }
@@ -66,25 +66,6 @@ struct OldComicFeatureView: View {
 #Preview {
     OldComicFeatureView()
         .environmentObject(SharedDataENV())
-}
-
-
-// MARK: - Dependencies
-enum ComicType: String, CaseIterable {
-    case story, specials
-    
-    var title: String {
-        return rawValue.capitalized
-    }
-    
-    var navTitle: String {
-        switch self {
-        case .story:
-            return "Main Story"
-        case .specials:
-            return "Univers Specials"
-        }
-    }
 }
 
 

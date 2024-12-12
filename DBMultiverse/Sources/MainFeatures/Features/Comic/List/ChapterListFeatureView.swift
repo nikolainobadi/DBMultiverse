@@ -14,7 +14,7 @@ struct ChapterListFeatureView: View {
     
     var body: some View {
         NavigationStack {
-            ChapterListView(viewModel: .init(store: sharedDataENV), lastReadPage: lastReadPage) {
+            OldChapterListView(viewModel: .init(store: sharedDataENV), lastReadPage: lastReadPage) {
                 selectedChapter = $0
             }
             .navigationBarTitleDisplayMode(.inline)

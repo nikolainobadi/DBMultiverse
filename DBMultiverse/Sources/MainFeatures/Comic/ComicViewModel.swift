@@ -76,7 +76,7 @@ extension ComicViewModel {
     }
     
     func finishChapter() {
-        onChapterFinished(chapter.number)
+//        onChapterFinished(chapter.number)
     }
 }
 

@@ -7,7 +7,7 @@
 
 struct Chapter: Hashable, Identifiable {
     let name: String
-    let number: String
+    let number: Int
     let startPage: Int
     let endPage: Int
     var didRead: Bool = false

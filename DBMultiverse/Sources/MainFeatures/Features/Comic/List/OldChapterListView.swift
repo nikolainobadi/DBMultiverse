@@ -8,7 +8,7 @@
 import SwiftUI
 import NnSwiftUIKit
 
-struct ChapterListView: View {
+struct OldChapterListView: View {
     @StateObject var viewModel: ChapterListViewModel
     
     let lastReadPage: Int
@@ -30,7 +30,7 @@ struct ChapterListView: View {
         List {
             if let currentChapter {
                 Section("Current Chapter") {
-                    ChapterRow(chapter: currentChapter, isCurrentChapter: true)
+                    OldChapterRow(chapter: currentChapter, isCurrentChapter: true)
                         .swipeActions(edge: .leading) {
                             Button(action: { viewModel.unreadChapter(currentChapter) }) {
                                 Image(systemName: "arrow.trianglehead.2.clockwise.rotate.90")
@@ -45,7 +45,7 @@ struct ChapterListView: View {
             
             Section("Chapters") {
                 ForEach(chaptersToDisplay, id: \.startPage) { chapter in
-                    ChapterRow(chapter: chapter, isCurrentChapter: chapter == currentChapter)
+                    OldChapterRow(chapter: chapter, isCurrentChapter: chapter == currentChapter)
                         .tappable(withChevron: true) {
                             onSelection(chapter)
                         }
@@ -61,7 +61,7 @@ struct ChapterListView: View {
 
 
 // MARK: - Row
-struct ChapterRow: View {
+struct OldChapterRow: View {
     @EnvironmentObject var sharedDataENV: SharedDataENV
     
     let chapter: Chapter
@@ -78,7 +78,7 @@ struct ChapterRow: View {
             Text("Finished Chapter")
                 .font(.caption)
                 .foregroundStyle(.red)
-                .onlyShow(when: sharedDataENV.completedChapterList.contains(chapter.number))
+//                .onlyShow(when: sharedDataENV.completedChapterList.contains(chapter.number))
         }
         .frame(maxWidth: .infinity, alignment: .leading)
     }

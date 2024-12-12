@@ -45,7 +45,7 @@ struct ComicFeatureNavStack: View {
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
             .navigationDestination(for: SwiftDataChapter.self) { chapter in
-                ChapterComicView(chapter: chapter, viewModel: .init(currentPageNumber: lastReadPage, loader: ChapterComicLoaderAdapter())) { currentPage in
+                ChapterComicView(chapter: chapter, viewModel: .init(currentPageNumber: chapter.lastReadPage ?? lastReadPage, loader: ChapterComicLoaderAdapter())) { currentPage in
                     updateLastReadPage(currentPage)
                 }
                 .navigationTitle("Chapter \(chapter.number)")

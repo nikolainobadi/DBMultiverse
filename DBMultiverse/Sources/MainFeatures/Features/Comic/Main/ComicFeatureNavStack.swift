@@ -9,13 +9,27 @@ import SwiftUI
 import NnSwiftUIKit
 
 struct ComicFeatureNavStack: View {
-    @Binding var lastReadPage: Int
     @State private var selection: ComicType = .story
+    @AppStorage(.lastReadSpecialPage) private var lastReadSpecialPage: Int = 168
+    @AppStorage(.lastReadMainStoryPage) private var lastReadMainStoryPage: Int = 0
     
     let chapters: [SwiftDataChapter]
     
+    private var lastReadPage: Int {
+        return selection == .story ? lastReadMainStoryPage : lastReadSpecialPage
+    }
+    
     private var currentChapter: SwiftDataChapter? {
         return chapters.first(where: { $0.isCurrentChapter(lastReadPage: lastReadPage) })
+    }
+    
+    private func updateLastReadPage(_ page: Int) {
+        switch selection {
+        case .story:
+            lastReadMainStoryPage = page
+        case .specials:
+            lastReadSpecialPage = page
+        }
     }
     
     var body: some View {
@@ -31,8 +45,10 @@ struct ComicFeatureNavStack: View {
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
             .navigationDestination(for: SwiftDataChapter.self) { chapter in
-                ChapterComicView(lastReadPage: $lastReadPage, chapter: chapter, viewModel: .init(currentPageNumber: lastReadPage, loader: ChapterComicLoaderAdapter()))
-                    .navigationTitle("Chapter \(chapter.number)")
+                ChapterComicView(chapter: chapter, viewModel: .init(currentPageNumber: lastReadPage, loader: ChapterComicLoaderAdapter())) { currentPage in
+                    updateLastReadPage(currentPage)
+                }
+                .navigationTitle("Chapter \(chapter.number)")
             }
         }
     }

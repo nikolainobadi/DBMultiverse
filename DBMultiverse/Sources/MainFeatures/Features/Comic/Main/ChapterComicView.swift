@@ -9,10 +9,11 @@ import SwiftUI
 import NnSwiftUIKit
 
 struct ChapterComicView: View {
-    @Binding var lastReadPage: Int
     @Bindable var chapter: SwiftDataChapter
     @StateObject var viewModel: ChapterComicViewModel
     @Environment(\.dismiss) private var dismiss
+    
+    let updateLastReadPage: (Int) -> Void
     
     private var isLastPage: Bool {
         return viewModel.currentPageNumber == chapter.endPage
@@ -58,8 +59,8 @@ struct ChapterComicView: View {
             try await viewModel.loadPages(for: chapter)
         }
         .onChange(of: viewModel.currentPageNumber) { _, newValue in
-            lastReadPage = newValue
-            
+            updateLastReadPage(newValue)
+
             if chapter.containsPage(newValue) {
                 chapter.lastReadPage = newValue
                 
@@ -75,7 +76,7 @@ struct ChapterComicView: View {
 // MARK: - Preview
 #Preview {
     NavStack(title: "Chapter 1") {
-        ChapterComicView(lastReadPage: .constant(0), chapter: PreviewSampleData.sampleChapter, viewModel: .init(currentPageNumber: 0, loader: PreviewChapterComicLoader()))
+        ChapterComicView(chapter: PreviewSampleData.sampleChapter, viewModel: .init(currentPageNumber: 0, loader: PreviewChapterComicLoader()), updateLastReadPage: { _ in })
             .withPreviewModifiers()
     }
 }

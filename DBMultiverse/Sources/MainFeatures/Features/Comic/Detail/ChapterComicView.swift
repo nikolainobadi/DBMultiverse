@@ -28,6 +28,8 @@ struct ChapterComicView: View {
                 Spacer()
                 
                 ZoomableImageView(image: image)
+            } else {
+                Text("Loading page...")
             }
             
             ButtonsView(viewModel: viewModel, chapter: chapter) {

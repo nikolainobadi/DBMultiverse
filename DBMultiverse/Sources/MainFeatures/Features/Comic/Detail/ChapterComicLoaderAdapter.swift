@@ -19,6 +19,41 @@ final class ChapterComicLoaderAdapter {
 
 // MARK: - Loader
 extension ChapterComicLoaderAdapter: ChapterComicLoader {
+    func loadPages(chapterNumber: Int, pages: [Int]) async throws -> [PageInfo] {
+        var pageInfos: [PageInfo] = []
+
+        for page in pages {
+            if let cachedImageData = try? loadCachedImage(for: chapterNumber, page: page) {
+                pageInfos.append(PageInfo(chapter: chapterNumber, pageNumber: page, imageData: cachedImageData))
+            } else {
+                if let pageInfo = try await fetchImage(page: page) {
+                    pageInfos.append(pageInfo)
+                    try saveImageToCache(pageInfo: pageInfo)
+                }
+            }
+        }
+
+        return pageInfos
+    }
+    
+    func loadPages(chapterNumber: Int, start: Int, end: Int) async throws -> [PageInfo] {
+        var pages: [PageInfo] = []
+
+        for page in start...end {
+            if let cachedImageData = try? loadCachedImage(for: chapterNumber, page: page) {
+                pages.append(PageInfo(chapter: chapterNumber, pageNumber: page, imageData: cachedImageData))
+            } else {
+                if let pageInfo = try await fetchImage(page: page) {
+                    pages.append(pageInfo)
+                    
+                    try saveImageToCache(pageInfo: pageInfo)
+                }
+            }
+        }
+
+        return pages
+    }
+    
     func loadPages(chapter: SwiftDataChapter) async throws -> [PageInfo] {
         var pages: [PageInfo] = []
 

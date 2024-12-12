@@ -17,7 +17,7 @@ struct ChapterComicView: View {
     
     var body: some View {
         VStack {
-            if let info = viewModel.currentPage, let image = UIImage(data: info.imageData) {
+            if let info = viewModel.currentPageInfo, let image = UIImage(data: info.imageData) {
                 Text(info.title)
                     .padding(5)
                     .font(.headline)
@@ -36,7 +36,10 @@ struct ChapterComicView: View {
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .asyncTask {
-            try await viewModel.loadPages(for: chapter)
+            try await viewModel.loadInitialPages(for: chapter)
+        }
+        .onChange(of: viewModel.didFetchPages) {
+            viewModel.loadRemainingPages(for: chapter)
         }
         .onChange(of: viewModel.currentPageNumber) { _, newValue in
             updateLastReadPage(newValue)
@@ -91,7 +94,9 @@ fileprivate struct ButtonsView: View {
 // MARK: - Preview
 #Preview {
     class PreviewLoader: ChapterComicLoader {
-        func loadPages(chapter: SwiftDataChapter) async throws -> [PageInfo] { return [] }
+        func loadPages(chapter: SwiftDataChapter) async throws -> [PageInfo] {  [] }
+        func loadPages(chapterNumber: Int, pages: [Int]) async throws -> [PageInfo] { []}
+        func loadPages(chapterNumber: Int, start: Int, end: Int) async throws -> [PageInfo] { [] }
     }
     
     return NavStack(title: "Chapter 1") {

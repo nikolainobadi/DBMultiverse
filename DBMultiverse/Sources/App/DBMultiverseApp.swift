@@ -6,19 +6,22 @@
 //
 
 import SwiftUI
+import SwiftData
 import NnSwiftUIKit
 
 @main
 struct DBMultiverseApp: App {
-    @StateObject private var sharedDataENV: SharedDataENV = .init()
+    init() {
+        print(URL.applicationSupportDirectory.path(percentEncoded: false))
+    }
     
     var body: some Scene {
         WindowGroup {
-            MainFeaturesTabView(viewModel: .init(env: sharedDataENV))
-                .preferredColorScheme(.dark)
+            MainFeaturesTabView()
                 .withNnLoadingView()
                 .withNnErrorHandling()
-                .environmentObject(sharedDataENV)
+                .preferredColorScheme(.dark)
+                .modelContainer(for: SwiftDataChapter.self)
         }
     }
 }

@@ -7,25 +7,17 @@
 
 struct Chapter: Hashable, Identifiable {
     let name: String
-    let number: String
+    let number: Int
     let startPage: Int
     let endPage: Int
-    var didRead: Bool = false
+    let coverImageURL: String
     
     var id: String {
         return name
     }
-    
-    func containsLastReadPage(_ page: Int) -> Bool {
-        return page >= startPage && page <= endPage
-    }
 }
 
-struct Special: Identifiable {
-    let title: String
+struct Special: Equatable {
+    let universe: Int
     let chapters: [Chapter]
-    
-    var id: String {
-        return title
-    }
 }

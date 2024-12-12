@@ -9,7 +9,7 @@ import SwiftSoup
 import Foundation
 
 final class ChapterLoaderAdapter {
-    private let url = URL(string: "https://www.dragonball-multiverse.com/en/chapters.html?comic=page&chaptersmode=1")!
+    private let url = URL(string: .makeFullURLString(suffix: "/en/chapters.html?comic=page&chaptersmode=1"))!
 }
 
 extension ChapterLoaderAdapter: ChapterDataStore {
@@ -17,6 +17,11 @@ extension ChapterLoaderAdapter: ChapterDataStore {
         guard let html = try await loadHTML() else {
             throw CustomError.loadHTMLError
         }
+        
+        // TODO: - remove ASAP
+        print("---------- Start ----------")
+        print(html)
+        print("---------- END ----------")
         
         return try parseHTMLWithSpecials(html)
     }
@@ -58,8 +63,8 @@ private extension ChapterLoaderAdapter {
                 // Classify the section
                 if sectionTitle.lowercased().contains("tournament") {
                     mainStory.append(contentsOf: currentChapters)
-                } else if sectionTitle.lowercased().contains("special") {
-                    specials.append(Special(title: sectionTitle, chapters: currentChapters))
+                } else if sectionTitle.lowercased().contains("special"), let universeNumber = extractUniverseNumber(sectionTitle) {
+                    specials.append(.init(universe: universeNumber, chapters: currentChapters))
                 }
             }
             
@@ -78,15 +83,39 @@ private extension ChapterLoaderAdapter {
                 .replacingOccurrences(of: ":", with: "")
                 .trimmingCharacters(in: .whitespaces)
             
+            // Remove "Chapter", the number, and the colon from the title
+            let cleanedTitle = chapterTitle.replacingOccurrences(of: #"Chapter \d+:"#, with: "", options: .regularExpression).trimmingCharacters(in: .whitespaces)
+            
             let pageLinks = try element.select("p a")
             if let startPageText = try? pageLinks.first()?.text(),
                let endPageText = try? pageLinks.last()?.text(),
                let startPage = Int(startPageText),
-               let endPage = Int(endPageText) {
+               let endPage = Int(endPageText),
+               let number = Int(numberString) {
                 
-                return Chapter(name: chapterTitle, number: numberString, startPage: startPage, endPage: endPage)
+                // Extract cover image URL
+                let coverImageElement = try element.select("img").first()
+                let coverImageURL = try coverImageElement?.attr("src") ?? ""
+                
+                return Chapter(name: cleanedTitle, number: number, startPage: startPage, endPage: endPage, coverImageURL: coverImageURL)
             }
         }
+        
         return nil
     }
+    
+    func extractUniverseNumber(_ title: String) -> Int? {
+        let pattern = #"Special Universe (\d+)"#
+        let regex = try? NSRegularExpression(pattern: pattern, options: [])
+        if let match = regex?.firstMatch(in: title, options: [], range: NSRange(title.startIndex..., in: title)),
+           let range = Range(match.range(at: 1), in: title) {
+            return Int(title[range]) ?? Int.max
+        }
+        
+        return nil
+    }
+}
+
+protocol ChapterDataStore {
+    func loadChapterLists() async throws -> (mainStory: [Chapter], specials: [Special])
 }

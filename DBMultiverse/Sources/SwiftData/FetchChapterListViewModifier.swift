@@ -40,7 +40,7 @@ struct FetchChapterListViewModifier: ViewModifier {
                     newValue.forEach { special in
                         special.chapters.forEach { chapter in
                             if shouldAddChapter(chapter) {
-                                repo.addNewSpecialChapter(chapter, specialTitle: special.title, modelContext: modelContext)
+                                repo.addNewSpecialChapter(chapter, universe: special.universe, modelContext: modelContext)
                             }
                         }
                     }
@@ -80,8 +80,8 @@ extension ChapterListRepository {
         addNewSwiftDataChapter(chapter, universe: nil, modelContext: modelContext)
     }
     
-    func addNewSpecialChapter(_ chapter: Chapter, specialTitle: String, modelContext: ModelContext) {
-        addNewSwiftDataChapter(chapter, universe: specialTitle, modelContext: modelContext)
+    func addNewSpecialChapter(_ chapter: Chapter, universe: Int, modelContext: ModelContext) {
+        addNewSwiftDataChapter(chapter, universe: universe, modelContext: modelContext)
     }
 }
 
@@ -101,8 +101,7 @@ private extension ChapterListRepository {
 
 // MARK: - Private Methods
 private extension ChapterListRepository {
-    func addNewSwiftDataChapter(_ chapter: Chapter, universe: String?, modelContext: ModelContext) {
-        print("inserting new chapter")
+    func addNewSwiftDataChapter(_ chapter: Chapter, universe: Int?, modelContext: ModelContext) {
         modelContext.insert(SwiftDataChapter(chapter: chapter, universe: universe))
     }
 }
@@ -110,7 +109,7 @@ private extension ChapterListRepository {
 
 // MARK: - Extension Dependencies
 fileprivate extension SwiftDataChapter {
-    convenience init(chapter: Chapter, universe: String?) {
+    convenience init(chapter: Chapter, universe: Int?) {
         self.init(
             name: chapter.name,
             number: chapter.number,

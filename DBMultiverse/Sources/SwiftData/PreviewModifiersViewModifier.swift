@@ -48,8 +48,8 @@ extension SwiftDataChapter {
         return [
             .init(name: "A really strange tournament!", number: 1, startPage: 0, endPage: 23, universe: nil, lastReadPage: 17, coverImageURL: ""),
             .init(name: "Lots of old foes here!", number: 2, startPage: 24, endPage: 47, universe: nil, lastReadPage: nil, coverImageURL: ""),
-            .init(name: "Universe 3: visions of the future", number: 20, startPage: 425, endPage: 449, universe: "Special Universe 3", lastReadPage: nil, coverImageURL: ""),
-            .init(name: "Deus Ex Machina", number: 25, startPage: 547, endPage: 555, universe: "Special Universe 1", lastReadPage: 549, coverImageURL: "")
+            .init(name: "Universe 3: visions of the future", number: 20, startPage: 425, endPage: 449, universe: 3, lastReadPage: nil, coverImageURL: ""),
+            .init(name: "Deus Ex Machina", number: 25, startPage: 547, endPage: 555, universe: 1, lastReadPage: 549, coverImageURL: "")
         ]
     }
 }

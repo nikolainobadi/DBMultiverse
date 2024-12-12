@@ -14,22 +14,20 @@ struct ComicFeatureNavStack: View {
     
     let chapters: [SwiftDataChapter]
     
-    private var mainStoryChapters: [SwiftDataChapter] {
-        return chapters.filter({ $0.universe == nil })
-    }
-    
-    private var specialChapters: [SwiftDataChapter] {
-        return chapters.filter({ $0.universe != nil })
+    private var currentChapter: SwiftDataChapter? {
+        return chapters.first(where: { $0.isCurrentChapter(lastReadPage: lastReadPage) })
     }
     
     var body: some View {
         NavStack(title: "DB Multiverse") {
             VStack {
                 ComicTypePicker(selection: $selection)
-                ChapterListView(chapters: mainStoryChapters, lastReadPage: lastReadPage)
-                    .showingConditionalView(when: selection == .specials) {
-                       SpecialChapterListView(chapters: specialChapters, lastReadPage: lastReadPage)
-                    }
+                
+                NewChapterListView(
+                    lastReadPage: lastReadPage,
+                    sections: selection.chapterSections(chapters: chapters.filter({ $0 != currentChapter })),
+                    currentChapter: currentChapter
+                )
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
             .navigationDestination(for: SwiftDataChapter.self) { chapter in
@@ -55,6 +53,32 @@ struct ComicTypePicker: View {
         .padding()
         .pickerStyle(.segmented)
     }
+}
+
+struct NewChapterListView: View {
+    let lastReadPage: Int
+    let sections: [ChapterSection]
+    let currentChapter: SwiftDataChapter?
+    
+    var body: some View {
+        List {
+            CurrentChapterSection(chapter: currentChapter)
+            
+            ForEach(sections, id: \.title) { section in
+                Section(section.title) {
+                    ForEach(section.chapters) { chapter in
+                        ChapterRow(chapter: chapter)
+                    }
+                }
+            }
+        }
+        .listStyle(.plain)
+    }
+}
+
+struct ChapterSection {
+    let title: String
+    let chapters: [SwiftDataChapter]
 }
 
 
@@ -94,41 +118,41 @@ struct SpecialChapterListView: View {
     let chapters: [SwiftDataChapter]
     let lastReadPage: Int
     
-    private var currentChapter: SwiftDataChapter? {
-        return chapters.first(where: { $0.isCurrentChapter(lastReadPage: lastReadPage) })
-    }
-    
-    private var sections: [(key: String, chapters: [SwiftDataChapter])] {
-        let grouped = Dictionary(grouping: chapters.filter { $0.universe != nil }, by: { $0.universe ?? "Unknown" })
-
-        return grouped
-            .sorted { lhs, rhs in
-                extractUniverseNumber(lhs.key) < extractUniverseNumber(rhs.key)
-            }
-            .map { (key: $0.key, chapters: $0.value) }
-    }
-
-    private func extractUniverseNumber(_ title: String) -> Int {
-        let pattern = #"Special Universe (\d+)"#
-        let regex = try? NSRegularExpression(pattern: pattern, options: [])
-        if let match = regex?.firstMatch(in: title, options: [], range: NSRange(title.startIndex..., in: title)),
-           let range = Range(match.range(at: 1), in: title) {
-            return Int(title[range]) ?? Int.max
-        }
-        return Int.max // Default to a high number if no match
-    }
+//    private var currentChapter: SwiftDataChapter? {
+//        return chapters.first(where: { $0.isCurrentChapter(lastReadPage: lastReadPage) })
+//    }
+//    
+//    private var sections: [(key: String, chapters: [SwiftDataChapter])] {
+//        let grouped = Dictionary(grouping: chapters.filter { $0.universe != nil }, by: { $0.universe ?? "Unknown" })
+//
+//        return grouped
+//            .sorted { lhs, rhs in
+//                extractUniverseNumber(lhs.key) < extractUniverseNumber(rhs.key)
+//            }
+//            .map { (key: $0.key, chapters: $0.value) }
+//    }
+//
+//    private func extractUniverseNumber(_ title: String) -> Int {
+//        let pattern = #"Special Universe (\d+)"#
+//        let regex = try? NSRegularExpression(pattern: pattern, options: [])
+//        if let match = regex?.firstMatch(in: title, options: [], range: NSRange(title.startIndex..., in: title)),
+//           let range = Range(match.range(at: 1), in: title) {
+//            return Int(title[range]) ?? Int.max
+//        }
+//        return Int.max // Default to a high number if no match
+//    }
     
     var body: some View {
         List {
-            CurrentChapterSection(chapter: currentChapter)
-            
-            ForEach(sections, id: \.key) { section in
-                Section(section.key) {
-                    ForEach(section.chapters) { chapter in
-                        ChapterRow(chapter: chapter)
-                    }
-                }
-            }
+//            CurrentChapterSection(chapter: currentChapter)
+//            
+//            ForEach(sections, id: \.key) { section in
+//                Section(section.key) {
+//                    ForEach(section.chapters) { chapter in
+//                        ChapterRow(chapter: chapter)
+//                    }
+//                }
+//            }
         }
     }
 }
@@ -197,6 +221,17 @@ enum ComicType: String, CaseIterable {
             return "Main Story"
         case .specials:
             return "Univers Specials"
+        }
+    }
+    
+    func chapterSections(chapters: [SwiftDataChapter]) -> [ChapterSection] {
+        switch self {
+        case .story:
+            return [.init(title: "Main Story Chapters", chapters: chapters.filter({ $0.universe == nil }))]
+        case .specials:
+            return Dictionary(grouping: chapters.filter({ $0.universe != nil }), by: { $0.universe! })
+                .sorted(by: { $0.key < $1.key })
+                .map({ .init(title: "Universe \($0.key)", chapters: $0.value) })
         }
     }
 }

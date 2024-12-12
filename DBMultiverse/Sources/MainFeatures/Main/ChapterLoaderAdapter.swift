@@ -63,8 +63,8 @@ private extension ChapterLoaderAdapter {
                 // Classify the section
                 if sectionTitle.lowercased().contains("tournament") {
                     mainStory.append(contentsOf: currentChapters)
-                } else if sectionTitle.lowercased().contains("special") {
-                    specials.append(Special(title: sectionTitle, chapters: currentChapters))
+                } else if sectionTitle.lowercased().contains("special"), let universeNumber = extractUniverseNumber(sectionTitle) {
+                    specials.append(.init(universe: universeNumber, chapters: currentChapters))
                 }
             }
             
@@ -99,6 +99,17 @@ private extension ChapterLoaderAdapter {
                 
                 return Chapter(name: cleanedTitle, number: number, startPage: startPage, endPage: endPage, coverImageURL: coverImageURL)
             }
+        }
+        
+        return nil
+    }
+    
+    func extractUniverseNumber(_ title: String) -> Int? {
+        let pattern = #"Special Universe (\d+)"#
+        let regex = try? NSRegularExpression(pattern: pattern, options: [])
+        if let match = regex?.firstMatch(in: title, options: [], range: NSRange(title.startIndex..., in: title)),
+           let range = Range(match.range(at: 1), in: title) {
+            return Int(title[range]) ?? Int.max
         }
         
         return nil

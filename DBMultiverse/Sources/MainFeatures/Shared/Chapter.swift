@@ -17,11 +17,7 @@ struct Chapter: Hashable, Identifiable {
     }
 }
 
-struct Special: Identifiable, Equatable {
-    let title: String
+struct Special: Equatable {
+    let universe: Int
     let chapters: [Chapter]
-    
-    var id: String {
-        return title
-    }
 }

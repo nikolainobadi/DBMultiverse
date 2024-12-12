@@ -16,14 +16,16 @@ final class SwiftDataChapter {
     var endPage: Int
     var universe: String?
     var lastReadPage: Int?
+    var coverImageURL: String
     var didFinishReading: Bool = false
     
-    init(name: String, number: Int, startPage: Int, endPage: Int, universe: String?, lastReadPage: Int?) {
+    init(name: String, number: Int, startPage: Int, endPage: Int, universe: String?, lastReadPage: Int?, coverImageURL: String) {
         self.name = name
         self.number = number
         self.startPage = startPage
         self.endPage = endPage
         self.universe = universe
         self.lastReadPage = lastReadPage
+        self.coverImageURL = coverImageURL
     }
 }

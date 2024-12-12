@@ -117,7 +117,8 @@ fileprivate extension SwiftDataChapter {
             startPage: chapter.startPage,
             endPage: chapter.endPage,
             universe: universe,
-            lastReadPage: nil
+            lastReadPage: nil,
+            coverImageURL: chapter.coverImageURL
         )
     }
 }

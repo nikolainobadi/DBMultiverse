@@ -103,3 +103,7 @@ private extension ChapterLoaderAdapter {
         return nil
     }
 }
+
+protocol ChapterDataStore {
+    func loadChapterLists() async throws -> (mainStory: [Chapter], specials: [Special])
+}

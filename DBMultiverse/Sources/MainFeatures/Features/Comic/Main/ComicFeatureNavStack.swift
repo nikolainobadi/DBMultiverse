@@ -14,13 +14,21 @@ struct ComicFeatureNavStack: View {
     
     let chapters: [SwiftDataChapter]
     
+    private var mainStoryChapters: [SwiftDataChapter] {
+        return chapters.filter({ $0.universe == nil })
+    }
+    
+    private var specialChapters: [SwiftDataChapter] {
+        return chapters.filter({ $0.universe != nil })
+    }
+    
     var body: some View {
         NavStack(title: "DB Multiverse") {
             VStack {
                 ComicTypePicker(selection: $selection)
-                ChapterListView(chapters: chapters, lastReadPage: lastReadPage)
+                ChapterListView(chapters: mainStoryChapters, lastReadPage: lastReadPage)
                     .showingConditionalView(when: selection == .specials) {
-                        Text("Specials coming soon...")
+                       SpecialChapterListView(chapters: specialChapters, lastReadPage: lastReadPage)
                     }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
@@ -75,6 +83,50 @@ struct ChapterListView: View {
             Section("Chapters") {
                 ForEach(otherChapters) { chapter in
                     ChapterRow(chapter: chapter)
+                }
+            }
+        }
+    }
+}
+
+
+struct SpecialChapterListView: View {
+    let chapters: [SwiftDataChapter]
+    let lastReadPage: Int
+    
+    private var currentChapter: SwiftDataChapter? {
+        return chapters.first(where: { $0.isCurrentChapter(lastReadPage: lastReadPage) })
+    }
+    
+    private var sections: [(key: String, chapters: [SwiftDataChapter])] {
+        let grouped = Dictionary(grouping: chapters.filter { $0.universe != nil }, by: { $0.universe ?? "Unknown" })
+
+        return grouped
+            .sorted { lhs, rhs in
+                extractUniverseNumber(lhs.key) < extractUniverseNumber(rhs.key)
+            }
+            .map { (key: $0.key, chapters: $0.value) }
+    }
+
+    private func extractUniverseNumber(_ title: String) -> Int {
+        let pattern = #"Special Universe (\d+)"#
+        let regex = try? NSRegularExpression(pattern: pattern, options: [])
+        if let match = regex?.firstMatch(in: title, options: [], range: NSRange(title.startIndex..., in: title)),
+           let range = Range(match.range(at: 1), in: title) {
+            return Int(title[range]) ?? Int.max
+        }
+        return Int.max // Default to a high number if no match
+    }
+    
+    var body: some View {
+        List {
+            CurrentChapterSection(chapter: currentChapter)
+            
+            ForEach(sections, id: \.key) { section in
+                Section(section.key) {
+                    ForEach(section.chapters) { chapter in
+                        ChapterRow(chapter: chapter)
+                    }
                 }
             }
         }

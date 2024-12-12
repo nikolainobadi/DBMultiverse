@@ -33,7 +33,6 @@ struct ComicFeatureNavStack: View {
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
             .navigationDestination(for: SwiftDataChapter.self) { chapter in
-                // TODO: - may have to create Bindable
                 ChapterComicView(lastReadPage: $lastReadPage, chapter: chapter, viewModel: .init(currentPageNumber: lastReadPage, loader: ChapterComicLoaderAdapter()))
                     .navigationTitle("Chapter \(chapter.number)")
             }
@@ -86,6 +85,7 @@ struct ChapterListView: View {
                 }
             }
         }
+        .listStyle(.plain)
     }
 }
 
@@ -151,22 +151,26 @@ fileprivate struct CurrentChapterSection: View {
 // MARK: - Row
 fileprivate struct ChapterRow: View {
     let chapter: SwiftDataChapter
-    
+
     var body: some View {
-        VStack(alignment: .leading) {
+        HStack {
+            CustomAsyncImage(url: URL(string: .makeFullURLString(suffix: chapter.coverImageURL)))
+            
             VStack(alignment: .leading, spacing: 0) {
                 Text("\(chapter.number) - \(chapter.name)")
                     .font(.headline)
+                
+                Text(chapter.pageRangeText)
+                    .font(.subheadline)
+                
+                if chapter.didFinishReading {
+                    Text("Finished")
+                        .font(.caption)
+                        .foregroundStyle(.red)
+                }
             }
-            
-            Text(chapter.pageRangeText)
-                .font(.subheadline)
-            
-            Text("Finished")
-                .font(.caption)
-                .foregroundStyle(.red)
-                .onlyShow(when: chapter.didFinishReading)
         }
+        .frame(maxWidth: .infinity, alignment: .leading)
         .asNavLink(chapter)
     }
 }
@@ -207,5 +211,56 @@ extension SwiftDataChapter {
     
     func isCurrentChapter(lastReadPage page: Int) -> Bool {
         return page >= startPage && page <= endPage
+    }
+}
+
+import SwiftUI
+
+struct CustomAsyncImage: View {
+    let url: URL?
+    let width: CGFloat
+    let height: CGFloat
+    
+    init(url: URL?, width: CGFloat = 50, height: CGFloat = 70) {
+        self.url = url
+        self.width = width
+        self.height = height
+    }
+    
+    var body: some View {
+        AsyncImage(url: url) { phase in
+            switch phase {
+            case .empty:
+                // Placeholder while loading
+                placeholder
+            case .success(let image):
+                // Display the image
+                image
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: width, height: height)
+                    .cornerRadius(8)
+                    .clipped()
+            case .failure:
+                // Fallback for a failed load
+                failurePlaceholder
+            @unknown default:
+                EmptyView()
+            }
+        }
+    }
+    
+    private var placeholder: some View {
+        Rectangle()
+            .fill(Color.gray.opacity(0.3))
+            .frame(width: width, height: height)
+            .cornerRadius(8)
+    }
+    
+    private var failurePlaceholder: some View {
+        Rectangle()
+            .fill(Color.red.opacity(0.3))
+            .frame(width: width, height: height)
+            .cornerRadius(8)
     }
 }

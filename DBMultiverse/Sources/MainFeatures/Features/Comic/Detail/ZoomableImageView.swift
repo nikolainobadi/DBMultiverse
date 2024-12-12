@@ -25,10 +25,7 @@ struct ZoomableImageView: View {
                 .gesture(
                     DragGesture()
                         .onChanged { gesture in
-                            offset = CGSize(
-                                width: lastOffset.width + gesture.translation.width,
-                                height: lastOffset.height + gesture.translation.height
-                            )
+                            offset = calculateBoundedOffset(translation: gesture.translation, geometrySize: geometry.size)
                         }
                         .onEnded { _ in
                             lastOffset = offset
@@ -37,8 +34,8 @@ struct ZoomableImageView: View {
                 .gesture(
                     MagnificationGesture()
                         .onChanged { value in
-                            let newScale = lastScale * value
-                            scale = min(max(newScale, 1.0), 5.0)
+                            scale = min(max(lastScale * value, 1.0), 5.0)
+                            offset = calculateBoundedOffset(translation: .zero, geometrySize: geometry.size )
                         }
                         .onEnded { _ in
                             lastScale = scale
@@ -47,17 +44,38 @@ struct ZoomableImageView: View {
                 .gesture(
                     TapGesture(count: 2)
                         .onEnded {
-                            withAnimation {
-                                scale = 1.0
-                                lastScale = 1.0
-                                offset = .zero
-                                lastOffset = .zero
-                            }
+                            resetValues()
                         }
                 )
                 .frame(width: geometry.size.width, height: geometry.size.height)
                 .clipped()
         }
         .edgesIgnoringSafeArea(.all)
+        .onChange(of: image) {
+            resetValues()
+        }
+    }
+}
+
+// MARK: - Helper Functions
+private extension ZoomableImageView {
+    func resetValues() {
+        withAnimation(.smooth) {
+            scale = 1.0
+            lastScale = 1.0
+            offset = .zero
+            lastOffset = .zero
+        }
+    }
+    
+    func calculateBoundedOffset(translation: CGSize, geometrySize: CGSize) -> CGSize {
+        let totalWidth = geometrySize.width * scale
+        let totalHeight = geometrySize.height * scale
+        let maxOffsetX = max((totalWidth - geometrySize.width) / 2, 0)
+        let maxOffsetY = max((totalHeight - geometrySize.height) / 2, 0)
+        let boundedX = min(max(lastOffset.width + translation.width, -maxOffsetX), maxOffsetX)
+        let boundedY = min(max(lastOffset.height + translation.height, -maxOffsetY), maxOffsetY)
+        
+        return .init(width: boundedX, height: boundedY)
     }
 }

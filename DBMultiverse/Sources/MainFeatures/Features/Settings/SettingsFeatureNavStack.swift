@@ -40,14 +40,14 @@ struct SettingsFeatureNavStack: View {
                     Link("Authors", destination: .init(string: .makeFullURLString(suffix: "/en/the-authors.html"))!)
                     Link("Universe Help", destination: .init(string: .makeFullURLString(suffix: "/en/listing.html"))!)
                     Link("Tournament Help", destination: .init(string: .makeFullURLString(suffix: "/en/tournament.html"))!)
-                    
                 }
+            }
+            .overlay(alignment: .bottom) {
+                Text(NnAppVersionCache.getDeviceVersionDetails(mainBundle: .main))
+                    .font(.caption)
             }
             .onAppear {
                 cacheManager.loadCachedChapters()
-            }
-            .onChange(of: cacheManager.cachedChapters) { _, newValue in
-                print("\(newValue.count) cached chapters")
             }
             .animation(.easeInOut, value: cacheManager.cachedChapters)
             .showingAlert("Error", message: "Something went wrong when trying to clear the caches folder", isPresented: $cacheManager.showingErrorAlert)

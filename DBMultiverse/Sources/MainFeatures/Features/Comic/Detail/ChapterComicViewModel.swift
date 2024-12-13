@@ -34,12 +34,16 @@ extension ChapterComicViewModel {
     func previousPage(start: Int) {
         if currentPageNumber > start {
             currentPageNumber -= 1
+            
+            if currentPageInfo == nil {
+                currentPageNumber -= 1
+            }
         }
     }
     
     func nextPage(end: Int) {
-        if currentPageNumber < end {
-            currentPageNumber += 1
+        if let currentPageInfo, currentPageNumber < end  {
+            currentPageNumber = currentPageInfo.nextPage
         }
     }
     
@@ -47,7 +51,11 @@ extension ChapterComicViewModel {
         let totalPages = chapter.endPage - chapter.startPage
         let currentPageIndex = currentPageNumber - chapter.startPage
         
-        return "\(currentPageIndex)/\(totalPages)"
+        if currentPageInfo?.secondPageNumber == nil {
+            return "\(currentPageIndex)/\(totalPages)"
+        }
+        
+        return "\(currentPageIndex)-\(currentPageIndex + 1)/\(totalPages)"
     }
     
     func loadInitialPages(for chapter: SwiftDataChapter) async throws {
@@ -97,13 +105,22 @@ private extension ChapterComicViewModel {
         pages.append(contentsOf: uniquePages)
         pages.sort { $0.pageNumber < $1.pageNumber }
     }
-
 }
 
 
 // MARK: - Dependencies
 protocol ChapterComicLoader {
-    func loadPages(chapter: SwiftDataChapter) async throws -> [PageInfo]
     func loadPages(chapterNumber: Int, pages: [Int]) async throws -> [PageInfo]
-    func loadPages(chapterNumber: Int, start: Int, end: Int) async throws -> [PageInfo]
+}
+
+
+// MARK: - Extension Dependencies
+fileprivate extension PageInfo {
+    var nextPage: Int {
+        guard let secondPageNumber else {
+            return pageNumber + 1
+        }
+        
+        return secondPageNumber + 1
+    }
 }

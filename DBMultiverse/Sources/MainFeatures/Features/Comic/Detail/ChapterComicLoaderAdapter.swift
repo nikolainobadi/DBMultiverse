@@ -20,56 +20,19 @@ final class ChapterComicLoaderAdapter {
 // MARK: - Loader
 extension ChapterComicLoaderAdapter: ChapterComicLoader {
     func loadPages(chapterNumber: Int, pages: [Int]) async throws -> [PageInfo] {
-        var pageInfos: [PageInfo] = []
+        var infoList: [PageInfo] = []
 
         for page in pages {
-            if let cachedImageData = try? loadCachedImage(for: chapterNumber, page: page) {
-                pageInfos.append(PageInfo(chapter: chapterNumber, pageNumber: page, imageData: cachedImageData))
-            } else {
-                if let pageInfo = try await fetchImage(page: page) {
-                    pageInfos.append(pageInfo)
-                    try saveImageToCache(pageInfo: pageInfo)
-                }
+            if let cachedResult = try? loadCachedImage(for: chapterNumber, page: page) {
+                infoList.append(cachedResult)
+            } else if let pageInfo = try await fetchImage(page: page) {
+                infoList.append(pageInfo)
+                
+                try saveImageToCache(pageInfo: pageInfo)
             }
         }
 
-        return pageInfos
-    }
-    
-    func loadPages(chapterNumber: Int, start: Int, end: Int) async throws -> [PageInfo] {
-        var pages: [PageInfo] = []
-
-        for page in start...end {
-            if let cachedImageData = try? loadCachedImage(for: chapterNumber, page: page) {
-                pages.append(PageInfo(chapter: chapterNumber, pageNumber: page, imageData: cachedImageData))
-            } else {
-                if let pageInfo = try await fetchImage(page: page) {
-                    pages.append(pageInfo)
-                    
-                    try saveImageToCache(pageInfo: pageInfo)
-                }
-            }
-        }
-
-        return pages
-    }
-    
-    func loadPages(chapter: SwiftDataChapter) async throws -> [PageInfo] {
-        var pages: [PageInfo] = []
-
-        for page in chapter.startPage...chapter.endPage {
-            if let cachedImageData = try? loadCachedImage(for: chapter.number, page: page) {
-                pages.append(PageInfo(chapter: chapter.number, pageNumber: page, imageData: cachedImageData))
-            } else {
-                if let pageInfo = try await fetchImage(page: page) {
-                    pages.append(pageInfo)
-                    
-                    try saveImageToCache(pageInfo: pageInfo)
-                }
-            }
-        }
-
-        return pages
+        return infoList
     }
 }
 
@@ -91,9 +54,6 @@ private extension ChapterComicLoaderAdapter {
         let html = String(data: data, encoding: .utf8) ?? ""
         let document = try SwiftSoup.parse(html)
 
-        var chapter: Int?
-        var page: Int?
-
         guard let metaTag = try document.select("meta[property=og:title]").first() else {
             return nil
         }
@@ -103,16 +63,22 @@ private extension ChapterComicLoaderAdapter {
         let pageRegex = try NSRegularExpression(pattern: #"Page (\d+)"#)
         let chapterMatch = chapterRegex.firstMatch(in: content, range: NSRange(content.startIndex..., in: content))
         let pageMatch = pageRegex.firstMatch(in: content, range: NSRange(content.startIndex..., in: content))
-        chapter = {
-            if let match = chapterMatch, let range = Range(match.range(at: 1), in: content) {
-                return Int(content[range])
-            }
-            return nil
-        }()
-
-        page = {
-            if let match = pageMatch, let range = Range(match.range(at: 1), in: content) {
-                return Int(content[range])
+        let chapter = chapterMatch.flatMap { match in
+            Range(match.range(at: 1), in: content).flatMap { Int(content[$0]) }
+        }
+        let page = pageMatch.flatMap { match in
+            Range(match.range(at: 1), in: content).flatMap { Int(content[$0]) }
+        }
+        
+        let secondPage: Int? = {
+            if let pageSpan = try? document.select("span.page").first(),
+               let pageText = try? pageSpan.text() {
+                let rangePattern = #"Page \d+-(\d+)"#
+                let rangeRegex = try? NSRegularExpression(pattern: rangePattern)
+                let rangeMatch = rangeRegex?.firstMatch(in: pageText, range: NSRange(pageText.startIndex..., in: pageText))
+                return rangeMatch.flatMap { match in
+                    Range(match.range(at: 1), in: pageText).flatMap { Int(pageText[$0]) }
+                }
             }
             return nil
         }()
@@ -128,7 +94,7 @@ private extension ChapterComicLoaderAdapter {
             return nil
         }
 
-        return .init(url: url, chapter: chapter, pageNumber: page)
+        return .init(url: url, chapter: chapter, pageNumber: page, secondPageNumber: secondPage)
     }
 
     func downloadImage(from info: PageImageURLInfo?) async throws -> PageInfo? {
@@ -137,28 +103,72 @@ private extension ChapterComicLoaderAdapter {
         }
 
         let data = try await URLSession.shared.data(from: url).0
-        return PageInfo(chapter: info.chapter, pageNumber: info.pageNumber, imageData: data)
+        return PageInfo(chapter: info.chapter, pageNumber: info.pageNumber, secondPageNumber: info.secondPageNumber, imageData: data)
     }
 
-    func getCacheDirectory(for chapter: Int, page: Int) -> URL {
+    func getCacheDirectory(for chapter: Int, page: Int, secondPageNumber: Int? = nil) -> URL {
         let cacheDirectory = fileManager.urls(for: .cachesDirectory, in: .userDomainMask).first!
-        let filePath = cacheDirectory.appendingPathComponent("Chapters/Chapter_\(chapter)/Page_\(page).jpg")
+        let fileName = secondPageNumber != nil ? "Page_\(page)-\(secondPageNumber!).jpg" : "Page_\(page).jpg"
         
-        return filePath
+        return cacheDirectory.appendingPathComponent("Chapters/Chapter_\(chapter)/\(fileName)")
     }
+    
+    func loadCachedImage(for chapter: Int, page: Int) throws -> PageInfo? {
+        // Check for single-page file
+        let singlePagePath = getCacheDirectory(for: chapter, page: page)
+        if let data = fileManager.contents(atPath: singlePagePath.path) {
+            return PageInfo(chapter: chapter, pageNumber: page, secondPageNumber: nil, imageData: data)
+        }
 
-    func loadCachedImage(for chapter: Int, page: Int) throws -> Data? {
-        let filePath = getCacheDirectory(for: chapter, page: page)
+        // Check metadata for two-page file
+        let chapterFolder = singlePagePath.deletingLastPathComponent()
+        let metadataFile = chapterFolder.appendingPathComponent("metadata.json")
+        if let metadataData = fileManager.contents(atPath: metadataFile.path),
+           let metadata = try? JSONSerialization.jsonObject(with: metadataData, options: []) as? [String: Any],
+           let pages = metadata["pages"] as? [[String: Any]],
+           let pageEntry = pages.first(where: { $0["pageNumber"] as? Int == page }),
+           let fileName = pageEntry["fileName"] as? String,
+           let secondPageNumber = pageEntry["secondPageNumber"] as? Int {
+            
+            let twoPagePath = chapterFolder.appendingPathComponent(fileName)
+            if let data = fileManager.contents(atPath: twoPagePath.path) {
+                return PageInfo(chapter: chapter, pageNumber: page, secondPageNumber: secondPageNumber, imageData: data)
+            }
+        }
         
-        return fileManager.contents(atPath: filePath.path)
+        return nil
     }
-
+    
     func saveImageToCache(pageInfo: PageInfo) throws {
-        let filePath = getCacheDirectory(for: pageInfo.chapter, page: pageInfo.pageNumber)
+        let filePath = getCacheDirectory(for: pageInfo.chapter, page: pageInfo.pageNumber, secondPageNumber: pageInfo.secondPageNumber)
         let chapterFolder = filePath.deletingLastPathComponent()
         try fileManager.createDirectory(at: chapterFolder, withIntermediateDirectories: true)
         
         try pageInfo.imageData.write(to: filePath)
+        
+        // Save metadata only if the image spans two pages
+        if let secondPageNumber = pageInfo.secondPageNumber {
+            let metadataFile = chapterFolder.appendingPathComponent("metadata.json")
+            var metadata: [String: Any] = [:]
+            
+            if let existingData = fileManager.contents(atPath: metadataFile.path),
+               let existingMetadata = try? JSONSerialization.jsonObject(with: existingData, options: []) as? [String: Any] {
+                metadata = existingMetadata
+            }
+            
+            var pages = metadata["pages"] as? [[String: Any]] ?? []
+            let pageEntry: [String: Any] = [
+                "pageNumber": pageInfo.pageNumber,
+                "secondPageNumber": secondPageNumber,
+                "fileName": "Page_\(pageInfo.pageNumber)-\(secondPageNumber).jpg"
+            ]
+            
+            pages.append(pageEntry)
+            metadata["pages"] = pages
+            
+            let updatedData = try JSONSerialization.data(withJSONObject: metadata, options: [.prettyPrinted])
+            try updatedData.write(to: metadataFile)
+        }
     }
 }
 
@@ -167,6 +177,7 @@ private extension ChapterComicLoaderAdapter {
 struct PageInfo {
     let chapter: Int
     let pageNumber: Int
+    let secondPageNumber: Int?
     let imageData: Data
 }
 
@@ -174,6 +185,7 @@ struct PageImageURLInfo {
     let url: URL?
     let chapter: Int
     let pageNumber: Int
+    let secondPageNumber: Int?
 }
 
 

@@ -27,8 +27,6 @@
 		E84A2CE12CFC36D400FAF001 /* NnSwiftUIKit in Embed Frameworks */ = {isa = PBXBuildFile; productRef = E84A2CDF2CFC369C00FAF001 /* NnSwiftUIKit */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		E84A2CE42CFC435800FAF001 /* MainFeaturesTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E84A2CE32CFC435800FAF001 /* MainFeaturesTabView.swift */; };
 		E84A2CE62CFC463300FAF001 /* CustomError.swift in Sources */ = {isa = PBXBuildFile; fileRef = E84A2CE52CFC463300FAF001 /* CustomError.swift */; };
-		E85DBC7A2CE5DD2900B97513 /* ComicViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E85DBC792CE5DD2900B97513 /* ComicViewModel.swift */; };
-		E8859BE72CE874EB00459829 /* ComicViewDelegateAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8859BE62CE874EB00459829 /* ComicViewDelegateAdapter.swift */; };
 		E88C4C5F2CE32FB500CF3D0C /* Chapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E88C4C5E2CE32FB500CF3D0C /* Chapter.swift */; };
 		E88C4C612CE32FC600CF3D0C /* ChapterLoaderAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E88C4C602CE32FC600CF3D0C /* ChapterLoaderAdapter.swift */; };
 		E8A095BD2CE0941200D28E3F /* DBMultiverseApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8A095BC2CE0941200D28E3F /* DBMultiverseApp.swift */; };
@@ -71,8 +69,6 @@
 		D4FF65822D0940A70023988F /* SwiftDataChapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftDataChapter.swift; sourceTree = "<group>"; };
 		E84A2CE32CFC435800FAF001 /* MainFeaturesTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainFeaturesTabView.swift; sourceTree = "<group>"; };
 		E84A2CE52CFC463300FAF001 /* CustomError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomError.swift; sourceTree = "<group>"; };
-		E85DBC792CE5DD2900B97513 /* ComicViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComicViewModel.swift; sourceTree = "<group>"; };
-		E8859BE62CE874EB00459829 /* ComicViewDelegateAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComicViewDelegateAdapter.swift; sourceTree = "<group>"; };
 		E88C4C5E2CE32FB500CF3D0C /* Chapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chapter.swift; sourceTree = "<group>"; };
 		E88C4C602CE32FC600CF3D0C /* ChapterLoaderAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChapterLoaderAdapter.swift; sourceTree = "<group>"; };
 		E8A095B92CE0941200D28E3F /* DBMultiverse.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DBMultiverse.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -158,19 +154,9 @@
 			children = (
 				E85DBC762CE5DCA400B97513 /* Main */,
 				E8B1AFAE2CFEDCCB00BB9F9C /* Features */,
-				E88C4C5A2CE32F8100CF3D0C /* Comic */,
 				E88C4C5D2CE32FB000CF3D0C /* Shared */,
 			);
 			path = MainFeatures;
-			sourceTree = "<group>";
-		};
-		E88C4C5A2CE32F8100CF3D0C /* Comic */ = {
-			isa = PBXGroup;
-			children = (
-				E85DBC792CE5DD2900B97513 /* ComicViewModel.swift */,
-				E8859BE62CE874EB00459829 /* ComicViewDelegateAdapter.swift */,
-			);
-			path = Comic;
 			sourceTree = "<group>";
 		};
 		E88C4C5D2CE32FB000CF3D0C /* Shared */ = {
@@ -344,7 +330,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				D49598132D0B765600B4493F /* ChapterComicViewModel.swift in Sources */,
-				E8859BE72CE874EB00459829 /* ComicViewDelegateAdapter.swift in Sources */,
 				D49598082D0B754600B4493F /* ChapterSection.swift in Sources */,
 				E8D4ED202CE721CA005ED4BC /* String+Extensions.swift in Sources */,
 				D4FF65832D0940A70023988F /* SwiftDataChapter.swift in Sources */,
@@ -362,7 +347,6 @@
 				D495981A2D0B82EE00B4493F /* CachedChaptersView.swift in Sources */,
 				D4DD9B772D0A722900A16227 /* SettingsFeatureNavStack.swift in Sources */,
 				D4AD507A2D0A81CA00F4D874 /* ChapterComicView.swift in Sources */,
-				E85DBC7A2CE5DD2900B97513 /* ComicViewModel.swift in Sources */,
 				D49598062D0B750A00B4493F /* ChapterListView.swift in Sources */,
 				D49598152D0B766E00B4493F /* ChapterComicLoaderAdapter.swift in Sources */,
 				E8A095BD2CE0941200D28E3F /* DBMultiverseApp.swift in Sources */,

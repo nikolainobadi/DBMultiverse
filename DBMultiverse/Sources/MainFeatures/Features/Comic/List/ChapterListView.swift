@@ -36,8 +36,8 @@ struct ChapterListView: View {
 
 // MARK: - Row
 fileprivate struct ChapterRow: View {
-    let chapter: SwiftDataChapter
-
+    @Bindable var chapter: SwiftDataChapter
+    
     var body: some View {
         HStack {
             CustomAsyncImage(url: URL(string: .makeFullURLString(suffix: chapter.coverImageURL)))
@@ -58,6 +58,14 @@ fileprivate struct ChapterRow: View {
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .asNavLink(chapter)
+        .withSwipeAction(
+            info: .init(prompt: "Unread"),
+            systemImage: "eraser.fill",
+            tint: .gray,
+            edge: .leading,
+            isActive: chapter.didFinishReading,
+            action: chapter.markAsUnread
+        )
     }
 }
 
@@ -66,4 +74,13 @@ fileprivate struct ChapterRow: View {
 #Preview {
     MainFeaturesTabView()
         .withPreviewModifiers()
+}
+
+
+// MARK: - Extension Dependencies
+fileprivate extension SwiftDataChapter {
+    func markAsUnread() {
+        didFinishReading = false
+        lastReadPage = startPage
+    }
 }

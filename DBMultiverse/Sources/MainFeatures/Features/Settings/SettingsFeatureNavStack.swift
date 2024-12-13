@@ -23,7 +23,10 @@ struct SettingsFeatureNavStack: View {
                                 showingCacheList = true
                             }
                         
+                        Divider()
+                        
                         HapticButton("Clear All Cached Data", action: cacheManager.clearCache)
+                            .padding()
                             .tint(.red)
                             .buttonStyle(.bordered)
                             .frame(maxWidth: .infinity)
@@ -43,10 +46,14 @@ struct SettingsFeatureNavStack: View {
             .onAppear {
                 cacheManager.loadCachedChapters()
             }
+            .onChange(of: cacheManager.cachedChapters) { _, newValue in
+                print("\(newValue.count) cached chapters")
+            }
+            .animation(.easeInOut, value: cacheManager.cachedChapters)
             .showingAlert("Error", message: "Something went wrong when trying to clear the caches folder", isPresented: $cacheManager.showingErrorAlert)
             .showingAlert("Cached Cleared!", message: "All images have been removed from the caches folder", isPresented: $cacheManager.showingClearedCacheAlert)
             .navigationDestination(isPresented: $showingCacheList) {
-                List(cacheManager.cachedChapters) { chapter in
+                List(cacheManager.cachedChapters, id: \.number) { chapter in
                     HStack {
                         Text("Chapter \(chapter.number)")
                         Spacer()

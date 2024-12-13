@@ -51,19 +51,19 @@ extension CacheManager {
                 let images = try fileManager.contentsOfDirectory(at: folder, includingPropertiesForKeys: nil)
                 let imageCount = images.filter { $0.pathExtension.lowercased() == "jpg" }.count
 
-                chapters.append(CachedChapter(number: chapterNumber, imageCount: imageCount))
+                chapters.append(.init(number: chapterNumber, imageCount: imageCount))
             }
         } catch {
             print("Failed to load cached chapters: \(error.localizedDescription)")
         }
+        
         cachedChapters = chapters
     }
 }
 
 
 // MARK: - Dependencies
-struct CachedChapter: Identifiable {
-    let id = UUID()
+struct CachedChapter: Hashable {
     let number: String
     let imageCount: Int
 }

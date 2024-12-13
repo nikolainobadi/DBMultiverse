@@ -168,14 +168,6 @@ struct PageInfo {
     let chapter: Int
     let pageNumber: Int
     let imageData: Data
-    
-    var title: String {
-        if pageNumber == 0 {
-            return ""
-        }
-        
-        return "Chapter \(chapter) page \(pageNumber)"
-    }
 }
 
 struct PageImageURLInfo {

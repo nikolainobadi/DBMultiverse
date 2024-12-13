@@ -17,20 +17,17 @@ struct ChapterComicView: View {
     
     var body: some View {
         VStack {
-            if let info = viewModel.currentPageInfo, let image = UIImage(data: info.imageData) {
-                Text(info.title)
-                    .padding(5)
-                    .font(.headline)
-                
-                Text(viewModel.getCurrentPagePosition(chapter: chapter))
-                    .foregroundColor(.secondary)
-                
-                Spacer()
-                
-                ZoomableImageView(image: image)
-            } else {
-                Text("Loading page...")
-            }
+            Text("Loading page...")
+                .showingViewWithOptional(viewModel.currentPageInfo?.image) { image in
+                    Text(chapter.name)
+                    Text(viewModel.getCurrentPagePosition(chapter: chapter))
+                        .foregroundColor(.secondary)
+                    
+                    Spacer()
+                    
+                    ZoomableImageView(image: image)
+                        .padding()
+                }
             
             ButtonsView(viewModel: viewModel, chapter: chapter) {
                 dismiss()
@@ -104,5 +101,12 @@ fileprivate struct ButtonsView: View {
     return NavStack(title: "Chapter 1") {
         ChapterComicView(chapter: PreviewSampleData.sampleChapter, viewModel: .init(currentPageNumber: 0, loader: PreviewLoader()), updateLastReadPage: { _ in })
             .withPreviewModifiers()
+    }
+}
+
+
+fileprivate extension PageInfo {
+    var image: UIImage? {
+        return .init(data: imageData)
     }
 }

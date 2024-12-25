@@ -15,6 +15,8 @@ final class ChapterComicViewModelTests: XCTestCase {
         
         XCTAssert(sut.pages.isEmpty)
         XCTAssertFalse(sut.didFetchPages)
+        XCTAssert(loader.pages.isEmpty)
+        XCTAssertNil(loader.chapterNumber)
     }
 }
 

@@ -9,7 +9,6 @@ import SwiftUI
 import SwiftData
 import NnSwiftUIKit
 
-@main
 struct DBMultiverseApp: App {
     init() {
         print(URL.applicationSupportDirectory.path(percentEncoded: false))

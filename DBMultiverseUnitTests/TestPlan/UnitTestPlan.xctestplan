@@ -1,0 +1,34 @@
+{
+  "configurations" : [
+    {
+      "id" : "1B49BBB1-2133-47FC-B4CF-59B0BDE590FC",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "codeCoverage" : {
+      "targets" : [
+        {
+          "containerPath" : "container:DBMultiverse.xcodeproj",
+          "identifier" : "E8A095B82CE0941200D28E3F",
+          "name" : "DBMultiverse"
+        }
+      ]
+    },
+    "testExecutionOrdering" : "random",
+    "testTimeoutsEnabled" : true
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:DBMultiverse.xcodeproj",
+        "identifier" : "D46C706D2D1BB4C000C217D6",
+        "name" : "DBMultiverseUnitTests"
+      }
+    }
+  ],
+  "version" : 1
+}

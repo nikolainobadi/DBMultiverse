@@ -10,7 +10,7 @@ import NnSwiftUIKit
 
 struct SettingsFeatureNavStack: View {
     @State private var showingCacheList = false
-    @StateObject private var cacheManager = CacheManager()
+    @StateObject private var cacheManager = SettingsViewModel()
     
     var body: some View {
         NavStack(title: "Settings") {

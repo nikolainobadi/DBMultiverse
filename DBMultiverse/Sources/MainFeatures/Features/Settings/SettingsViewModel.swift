@@ -1,5 +1,5 @@
 //
-//  CacheManager.swift
+//  SettingsViewModel.swift
 //  DBMultiverse
 //
 //  Created by Nikolai Nobadi on 12/12/24.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class CacheManager: ObservableObject {
+final class SettingsViewModel: ObservableObject {
     @Published var showingErrorAlert = false
     @Published var showingClearedCacheAlert = false
     @Published var cachedChapters: [CachedChapter] = []
@@ -21,7 +21,7 @@ final class CacheManager: ObservableObject {
 
 
 // MARK: - Actions
-extension CacheManager {
+extension SettingsViewModel {
     func clearCache() {
         let cacheDirectory = fileManager.urls(for: .cachesDirectory, in: .userDomainMask).first!
 
@@ -67,3 +67,4 @@ struct CachedChapter: Hashable {
     let number: String
     let imageCount: Int
 }
+

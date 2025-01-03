@@ -43,6 +43,7 @@ struct ComicFeatureNavStack: View {
                     currentChapter: currentChapter
                 )
             }
+            .animation(.smooth, value: selection)
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
             .navigationDestination(for: SwiftDataChapter.self) { chapter in
                 ChapterComicView(chapter: chapter, viewModel: .init(currentPageNumber: chapter.lastReadPage ?? chapter.startPage, loader: ChapterComicLoaderAdapter())) { currentPage in
@@ -60,24 +61,28 @@ struct ComicTypePicker: View {
     @Binding var selection: ComicType
     
     var body: some View {
-        Picker("", selection: $selection) {
+        HStack(spacing: 10) {
             ForEach(ComicType.allCases, id: \.self) { type in
                 Text(type.title)
-                    .tag(type)
+                    .withFont(textColor: selection == type ? Color.white : Color.blue)
+                    .padding(.vertical, 8)
+                    .padding(.horizontal, 16)
+                    .background(selection == type ? Color.blue : Color.clear)
+                    .cornerRadius(8)
+                    .onTapGesture {
+                        selection = type
+                    }
             }
         }
         .padding()
-        .pickerStyle(.segmented)
     }
 }
-
 
 // MARK: - Preview
 #Preview {
     MainFeaturesTabView()
         .withPreviewModifiers()
 }
-
 
 
 // MARK: - Extension Dependencies

@@ -16,13 +16,13 @@ struct ChapterListView: View {
     var body: some View {
         List {
             if let currentChapter {
-                Section("Current Chapter") {
+                DynamicSection("Current Chapter") {
                     ChapterRow(chapter: currentChapter)
                 }
             }
             
             ForEach(sections, id: \.title) { section in
-                Section(section.title) {
+                DynamicSection(section.title) {
                     ForEach(section.chapters) { chapter in
                         ChapterRow(chapter: chapter)
                     }
@@ -30,6 +30,27 @@ struct ChapterListView: View {
             }
         }
         .listStyle(.plain)
+    }
+}
+
+
+// MARK: - Section
+fileprivate struct DynamicSection<Content: View>: View {
+    let title: String
+    let content: () -> Content
+    
+    init(_ title: String, @ViewBuilder content: @escaping () -> Content) {
+        self.title = title
+        self.content = content
+    }
+    
+    var body: some View {
+        Section {
+            content()
+        } header: {
+            Text(title)
+                .withFont()
+        }
     }
 }
 

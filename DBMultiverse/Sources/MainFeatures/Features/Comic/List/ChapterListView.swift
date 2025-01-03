@@ -38,21 +38,30 @@ struct ChapterListView: View {
 fileprivate struct ChapterRow: View {
     @Bindable var chapter: SwiftDataChapter
     
+    private var url: URL? {
+        return URL(string: .makeFullURLString(suffix: chapter.coverImageURL))
+    }
+    
     var body: some View {
         HStack {
-            CustomAsyncImage(url: URL(string: .makeFullURLString(suffix: chapter.coverImageURL)))
+            CustomAsyncImage(
+                url: url,
+                width: getWidthPercent(15),
+                height: getHeightPercent(isPad ? 15 : 10)
+            )
             
             VStack(alignment: .leading, spacing: 0) {
                 Text("\(chapter.number) - \(chapter.name)")
-                    .font(.headline)
+                    .withFont(.headline, autoSizeLineLimit: 1)
                 
                 Text(chapter.pageRangeText)
-                    .font(.subheadline)
+                    .withFont(textColor: .secondary)
                 
                 if chapter.didFinishReading {
                     Text("Finished")
-                        .font(.caption)
-                        .foregroundStyle(.red)
+                        .padding(.horizontal)
+                        .withFont(.caption, textColor: .red)
+                        .frame(maxWidth: .infinity, alignment: .trailing)
                 }
             }
         }

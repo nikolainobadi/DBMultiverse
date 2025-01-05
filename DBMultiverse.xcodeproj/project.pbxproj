@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D42AF28E2D2A1F1A00AB36EC /* CustomButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42AF28D2D2A1F1A00AB36EC /* CustomButtonStyle.swift */; };
 		D46C70792D1BB4E200C217D6 /* NnTestHelpers in Frameworks */ = {isa = PBXBuildFile; productRef = D46C70782D1BB4E200C217D6 /* NnTestHelpers */; };
 		D46C707B2D1BB4F000C217D6 /* NnTestVariables in Frameworks */ = {isa = PBXBuildFile; productRef = D46C707A2D1BB4F000C217D6 /* NnTestVariables */; };
 		D46C707D2D1BB50600C217D6 /* AppLauncher.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46C707C2D1BB50600C217D6 /* AppLauncher.swift */; };
@@ -24,7 +25,7 @@
 		D49598152D0B766E00B4493F /* ChapterComicLoaderAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49598142D0B766E00B4493F /* ChapterComicLoaderAdapter.swift */; };
 		D49598182D0B82D700B4493F /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49598172D0B82D700B4493F /* SettingsViewModel.swift */; };
 		D495981A2D0B82EE00B4493F /* CachedChaptersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49598192D0B82EE00B4493F /* CachedChaptersView.swift */; };
-		D4AD507A2D0A81CA00F4D874 /* ChapterComicView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4AD50792D0A81CA00F4D874 /* ChapterComicView.swift */; };
+		D4AD507A2D0A81CA00F4D874 /* ComicDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4AD50792D0A81CA00F4D874 /* ComicDetailView.swift */; };
 		D4DD9B6E2D0A44A400A16227 /* FetchChapterListViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4DD9B6D2D0A44A400A16227 /* FetchChapterListViewModifier.swift */; };
 		D4DD9B722D0A6EFD00A16227 /* ComicFeatureChildStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4DD9B712D0A6EFD00A16227 /* ComicFeatureChildStack.swift */; };
 		D4DD9B742D0A6F5000A16227 /* PreviewModifiersViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4DD9B732D0A6F5000A16227 /* PreviewModifiersViewModifier.swift */; };
@@ -69,6 +70,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		D42AF28D2D2A1F1A00AB36EC /* CustomButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButtonStyle.swift; sourceTree = "<group>"; };
 		D46C706E2D1BB4C000C217D6 /* DBMultiverseUnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DBMultiverseUnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D46C707C2D1BB50600C217D6 /* AppLauncher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLauncher.swift; sourceTree = "<group>"; };
 		D46C707E2D1BB55500C217D6 /* TestApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestApp.swift; sourceTree = "<group>"; };
@@ -86,7 +88,7 @@
 		D49598142D0B766E00B4493F /* ChapterComicLoaderAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChapterComicLoaderAdapter.swift; sourceTree = "<group>"; };
 		D49598172D0B82D700B4493F /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
 		D49598192D0B82EE00B4493F /* CachedChaptersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CachedChaptersView.swift; sourceTree = "<group>"; };
-		D4AD50792D0A81CA00F4D874 /* ChapterComicView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChapterComicView.swift; sourceTree = "<group>"; };
+		D4AD50792D0A81CA00F4D874 /* ComicDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComicDetailView.swift; sourceTree = "<group>"; };
 		D4DD9B6D2D0A44A400A16227 /* FetchChapterListViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchChapterListViewModifier.swift; sourceTree = "<group>"; };
 		D4DD9B712D0A6EFD00A16227 /* ComicFeatureChildStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComicFeatureChildStack.swift; sourceTree = "<group>"; };
 		D4DD9B732D0A6F5000A16227 /* PreviewModifiersViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewModifiersViewModifier.swift; sourceTree = "<group>"; };
@@ -172,10 +174,11 @@
 		D495980D2D0B761600B4493F /* Detail */ = {
 			isa = PBXGroup;
 			children = (
-				D4AD50792D0A81CA00F4D874 /* ChapterComicView.swift */,
+				D4AD50792D0A81CA00F4D874 /* ComicDetailView.swift */,
 				D49598102D0B764000B4493F /* ZoomableImageView.swift */,
 				D49598122D0B765600B4493F /* ChapterComicViewModel.swift */,
 				D49598142D0B766E00B4493F /* ChapterComicLoaderAdapter.swift */,
+				D42AF28D2D2A1F1A00AB36EC /* CustomButtonStyle.swift */,
 			);
 			path = Detail;
 			sourceTree = "<group>";
@@ -448,6 +451,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D42AF28E2D2A1F1A00AB36EC /* CustomButtonStyle.swift in Sources */,
 				D49598132D0B765600B4493F /* ChapterComicViewModel.swift in Sources */,
 				D49598082D0B754600B4493F /* ChapterSection.swift in Sources */,
 				E8D4ED202CE721CA005ED4BC /* String+Extensions.swift in Sources */,
@@ -467,7 +471,7 @@
 				D495981A2D0B82EE00B4493F /* CachedChaptersView.swift in Sources */,
 				D46C707F2D1BB55500C217D6 /* TestApp.swift in Sources */,
 				D4DD9B772D0A722900A16227 /* SettingsFeatureNavStack.swift in Sources */,
-				D4AD507A2D0A81CA00F4D874 /* ChapterComicView.swift in Sources */,
+				D4AD507A2D0A81CA00F4D874 /* ComicDetailView.swift in Sources */,
 				D49598062D0B750A00B4493F /* ChapterListView.swift in Sources */,
 				D49598152D0B766E00B4493F /* ChapterComicLoaderAdapter.swift in Sources */,
 				D4E94C482D27910200251776 /* View+Extensions.swift in Sources */,

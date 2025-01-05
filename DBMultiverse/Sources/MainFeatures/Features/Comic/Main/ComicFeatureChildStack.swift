@@ -45,7 +45,7 @@ struct ComicFeatureChildStack: View {
         .animation(.smooth, value: selection)
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
         .navigationDestination(for: SwiftDataChapter.self) { chapter in
-            ChapterComicView(chapter: chapter, viewModel: .init(currentPageNumber: chapter.lastReadPage ?? chapter.startPage, loader: ChapterComicLoaderAdapter())) { currentPage in
+            ComicDetailView(chapter: chapter, viewModel: .init(currentPageNumber: chapter.lastReadPage ?? chapter.startPage, loader: ChapterComicLoaderAdapter())) { currentPage in
                 updateLastReadPage(currentPage)
             }
             .navigationTitle("Chapter \(chapter.number)")

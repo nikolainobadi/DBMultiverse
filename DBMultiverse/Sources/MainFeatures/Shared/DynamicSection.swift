@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import NnSwiftUIKit
 
 struct DynamicSection<Content: View>: View {
     let title: String
@@ -21,7 +22,7 @@ struct DynamicSection<Content: View>: View {
             content()
         } header: {
             Text(title)
-                .withFont()
+                .withFont(isPad ? .body : .caption, autoSizeLineLimit: 1)
         }
     }
 }

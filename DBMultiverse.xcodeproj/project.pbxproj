@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		D42AF28E2D2A1F1A00AB36EC /* CustomButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42AF28D2D2A1F1A00AB36EC /* CustomButtonStyle.swift */; };
+		D42AF2942D2A21C800AB36EC /* DynamicSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42AF2932D2A21C800AB36EC /* DynamicSection.swift */; };
+		D42AF2962D2A23D000AB36EC /* SettingsLinkItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42AF2952D2A23D000AB36EC /* SettingsLinkItem.swift */; };
 		D46C70792D1BB4E200C217D6 /* NnTestHelpers in Frameworks */ = {isa = PBXBuildFile; productRef = D46C70782D1BB4E200C217D6 /* NnTestHelpers */; };
 		D46C707B2D1BB4F000C217D6 /* NnTestVariables in Frameworks */ = {isa = PBXBuildFile; productRef = D46C707A2D1BB4F000C217D6 /* NnTestVariables */; };
 		D46C707D2D1BB50600C217D6 /* AppLauncher.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46C707C2D1BB50600C217D6 /* AppLauncher.swift */; };
@@ -71,6 +73,8 @@
 
 /* Begin PBXFileReference section */
 		D42AF28D2D2A1F1A00AB36EC /* CustomButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButtonStyle.swift; sourceTree = "<group>"; };
+		D42AF2932D2A21C800AB36EC /* DynamicSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DynamicSection.swift; sourceTree = "<group>"; };
+		D42AF2952D2A23D000AB36EC /* SettingsLinkItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsLinkItem.swift; sourceTree = "<group>"; };
 		D46C706E2D1BB4C000C217D6 /* DBMultiverseUnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DBMultiverseUnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D46C707C2D1BB50600C217D6 /* AppLauncher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLauncher.swift; sourceTree = "<group>"; };
 		D46C707E2D1BB55500C217D6 /* TestApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestApp.swift; sourceTree = "<group>"; };
@@ -189,6 +193,7 @@
 				D4DD9B762D0A722900A16227 /* SettingsFeatureNavStack.swift */,
 				D49598172D0B82D700B4493F /* SettingsViewModel.swift */,
 				D49598192D0B82EE00B4493F /* CachedChaptersView.swift */,
+				D42AF2952D2A23D000AB36EC /* SettingsLinkItem.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -241,6 +246,7 @@
 				E8D4ED1F2CE721CA005ED4BC /* String+Extensions.swift */,
 				E84A2CE52CFC463300FAF001 /* CustomError.swift */,
 				D4E94C472D27910200251776 /* View+Extensions.swift */,
+				D42AF2932D2A21C800AB36EC /* DynamicSection.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -464,9 +470,11 @@
 				E84A2CE62CFC463300FAF001 /* CustomError.swift in Sources */,
 				D46C707D2D1BB50600C217D6 /* AppLauncher.swift in Sources */,
 				D4DD9B6E2D0A44A400A16227 /* FetchChapterListViewModifier.swift in Sources */,
+				D42AF2942D2A21C800AB36EC /* DynamicSection.swift in Sources */,
 				D495980C2D0B75E500B4493F /* CustomAsyncImage.swift in Sources */,
 				D49598112D0B764000B4493F /* ZoomableImageView.swift in Sources */,
 				E88C4C612CE32FC600CF3D0C /* ChapterLoaderAdapter.swift in Sources */,
+				D42AF2962D2A23D000AB36EC /* SettingsLinkItem.swift in Sources */,
 				E84A2CE42CFC435800FAF001 /* MainFeaturesView.swift in Sources */,
 				D495981A2D0B82EE00B4493F /* CachedChaptersView.swift in Sources */,
 				D46C707F2D1BB55500C217D6 /* TestApp.swift in Sources */,

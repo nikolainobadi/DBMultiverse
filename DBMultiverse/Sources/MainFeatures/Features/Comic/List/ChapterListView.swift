@@ -102,7 +102,7 @@ fileprivate struct ChapterRow: View {
 
 // MARK: - Preview
 #Preview {
-    MainFeaturesTabView()
+    MainFeaturesView()
         .withPreviewModifiers()
 }
 

@@ -16,7 +16,7 @@ struct DBMultiverseApp: App {
     
     var body: some Scene {
         WindowGroup {
-            MainFeaturesTabView()
+            MainFeaturesView()
                 .withNnLoadingView()
                 .withNnErrorHandling()
                 .preferredColorScheme(.dark)

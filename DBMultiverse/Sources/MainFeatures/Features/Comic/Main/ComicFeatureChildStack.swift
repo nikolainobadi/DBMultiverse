@@ -1,5 +1,5 @@
 //
-//  ComicFeatureNavStack.swift
+//  ComicFeatureChildStack.swift
 //  DBMultiverse
 //
 //  Created by Nikolai Nobadi on 12/11/24.
@@ -8,7 +8,7 @@
 import SwiftUI
 import NnSwiftUIKit
 
-struct ComicFeatureNavStack: View {
+struct ComicFeatureChildStack: View {
     @State private var selection: ComicType = .story
     @AppStorage(.lastReadSpecialPage) private var lastReadSpecialPage: Int = 168
     @AppStorage(.lastReadMainStoryPage) private var lastReadMainStoryPage: Int = 0
@@ -33,24 +33,22 @@ struct ComicFeatureNavStack: View {
     }
     
     var body: some View {
-        NavStack(title: "DB Multiverse") {
-            VStack {
-                ComicTypePicker(selection: $selection)
-                
-                ChapterListView(
-                    lastReadPage: lastReadPage,
-                    sections: selection.chapterSections(chapters: chapters.filter({ $0 != currentChapter })),
-                    currentChapter: currentChapter
-                )
+        VStack {
+            ComicTypePicker(selection: $selection)
+            
+            ChapterListView(
+                lastReadPage: lastReadPage,
+                sections: selection.chapterSections(chapters: chapters.filter({ $0 != currentChapter })),
+                currentChapter: currentChapter
+            )
+        }
+        .animation(.smooth, value: selection)
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+        .navigationDestination(for: SwiftDataChapter.self) { chapter in
+            ChapterComicView(chapter: chapter, viewModel: .init(currentPageNumber: chapter.lastReadPage ?? chapter.startPage, loader: ChapterComicLoaderAdapter())) { currentPage in
+                updateLastReadPage(currentPage)
             }
-            .animation(.smooth, value: selection)
-            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
-            .navigationDestination(for: SwiftDataChapter.self) { chapter in
-                ChapterComicView(chapter: chapter, viewModel: .init(currentPageNumber: chapter.lastReadPage ?? chapter.startPage, loader: ChapterComicLoaderAdapter())) { currentPage in
-                    updateLastReadPage(currentPage)
-                }
-                .navigationTitle("Chapter \(chapter.number)")
-            }
+            .navigationTitle("Chapter \(chapter.number)")
         }
     }
 }
@@ -80,7 +78,7 @@ struct ComicTypePicker: View {
 
 // MARK: - Preview
 #Preview {
-    MainFeaturesTabView()
+    MainFeaturesView()
         .withPreviewModifiers()
 }
 

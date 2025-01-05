@@ -5,15 +5,33 @@
 //  Created by Nikolai Nobadi on 12/12/24.
 //
 
-enum ComicType: String, CaseIterable {
+enum ComicType: Int, CaseIterable {
     case story, specials
 }
 
 
 // MARK: - Display Data
-extension ComicType {
+extension ComicType: Identifiable {
+    var id: Int {
+        return rawValue
+    }
+    
     var title: String {
-        return rawValue.capitalized
+        switch self {
+        case .story:
+            return "Story"
+        case .specials:
+            return "Specials"
+        }
+    }
+    
+    var icon: String {
+        switch self {
+        case .story:
+            return "book"
+        case .specials:
+            return "star"
+        }
     }
     
     var navTitle: String {

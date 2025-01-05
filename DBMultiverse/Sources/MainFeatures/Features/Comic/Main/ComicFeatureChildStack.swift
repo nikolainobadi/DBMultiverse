@@ -35,6 +35,9 @@ struct ComicFeatureChildStack: View {
     var body: some View {
         VStack {
             ComicTypePicker(selection: $selection)
+                .showingConditionalView(when: isPad) {
+                    FancyPicker(selection: $selection)
+                }
             
             ChapterListView(
                 lastReadPage: lastReadPage,

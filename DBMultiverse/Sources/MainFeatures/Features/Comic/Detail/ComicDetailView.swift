@@ -22,10 +22,10 @@ struct ComicDetailView: View {
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .asyncTask {
-                try await viewModel.loadInitialPages(for: chapter)
+                try await viewModel.loadInitialPages(for: chapter.info)
             }
             .onChange(of: viewModel.didFetchPages) {
-                viewModel.loadRemainingPages(for: chapter)
+                viewModel.loadRemainingPages(for: chapter.info)
             }
             .onChange(of: viewModel.currentPageNumber) { _, newValue in
                 updateLastReadPage(newValue)
@@ -52,7 +52,7 @@ struct ComicImageContentView: View {
             Text("Loading page...")
                 .showingViewWithOptional(viewModel.currentPageInfo?.image) { image in
                     Text(chapter.name)
-                    Text(viewModel.getCurrentPagePosition(chapter: chapter))
+                    Text(viewModel.getCurrentPagePosition(chapterInfo: chapter.info))
                         .foregroundColor(.secondary)
                     
                     Spacer()
@@ -172,5 +172,11 @@ fileprivate struct iPadComicView: View {
 fileprivate extension PageInfo {
     var image: UIImage? {
         return .init(data: imageData)
+    }
+}
+
+extension SwiftDataChapter {
+    var info: ChapterInfo {
+        return .init(number: number, startPage: startPage, endPage: endPage, lastReadPage: lastReadPage)
     }
 }

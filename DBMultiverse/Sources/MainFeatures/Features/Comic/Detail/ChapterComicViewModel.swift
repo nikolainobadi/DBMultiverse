@@ -8,15 +8,16 @@
 import Foundation
 
 final class ChapterComicViewModel: ObservableObject {
-    @Published var pages: [PageInfo] = []
+    @Published var pages: [PageInfo]
     @Published var currentPageNumber: Int
     @Published var didFetchPages = false
     
     private let loader: ChapterComicLoader
     
-    init(currentPageNumber: Int, loader: ChapterComicLoader) {
+    init(currentPageNumber: Int, loader: ChapterComicLoader, pages: [PageInfo] = []) {
         self.currentPageNumber = currentPageNumber
         self.loader = loader
+        self.pages = pages
     }
 }
 
@@ -47,9 +48,9 @@ extension ChapterComicViewModel {
         }
     }
     
-    func getCurrentPagePosition(chapter: SwiftDataChapter) -> String {
-        let totalPages = chapter.endPage - chapter.startPage
-        let currentPageIndex = currentPageNumber - chapter.startPage
+    func getCurrentPagePosition(chapterInfo info: ChapterInfo) -> String {
+        let totalPages = info.endPage - info.startPage
+        let currentPageIndex = currentPageNumber - info.startPage
         
         if currentPageInfo?.secondPageNumber == nil {
             return "\(currentPageIndex)/\(totalPages)"
@@ -58,26 +59,26 @@ extension ChapterComicViewModel {
         return "\(currentPageIndex)-\(currentPageIndex + 1)/\(totalPages)"
     }
     
-    func loadInitialPages(for chapter: SwiftDataChapter) async throws {
+    func loadInitialPages(for info: ChapterInfo) async throws {
         if didFetchPages {
             return
         }
 
-        let startPage = chapter.lastReadPage ?? chapter.startPage
-        let initialPages = Array(startPage...(min(startPage + 4, chapter.endPage)))
-        let pages = try await loader.loadPages(chapterNumber: chapter.number, pages: initialPages)
+        let startPage = info.lastReadPage ?? info.startPage
+        let initialPages = Array(startPage...(min(startPage + 4, info.endPage)))
+        let pages = try await loader.loadPages(chapterNumber: info.number, pages: initialPages)
         
         await setPages(pages)
     }
     
-    func loadRemainingPages(for chapter: SwiftDataChapter) {
+    func loadRemainingPages(for info: ChapterInfo) {
         Task {
-            let allPages = Array(chapter.startPage...chapter.endPage)
+            let allPages = Array(info.startPage...info.endPage)
             let fetchedPages = pages.map({ $0.pageNumber })
             let remainingPages = allPages.filter({ !fetchedPages.contains($0) })
             
             do {
-                let remainingPageInfos = try await loader.loadPages(chapterNumber: chapter.number, pages: remainingPages)
+                let remainingPageInfos = try await loader.loadPages(chapterNumber: info.number, pages: remainingPages)
                 
                 await addRemainingPages(remainingPageInfos)
             } catch {

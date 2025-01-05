@@ -86,16 +86,3 @@ fileprivate struct ComitTypeButton: View {
     }
 }
 
-
-// MARK: - Extension Dependencies
-fileprivate extension ComicType {
-    var color: Color {
-        switch self {
-        case .story:
-            return .blue
-        case .specials:
-            return .red
-        }
-    }
-}
-

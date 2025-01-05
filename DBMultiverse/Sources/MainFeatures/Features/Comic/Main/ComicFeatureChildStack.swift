@@ -65,10 +65,10 @@ struct ComicTypePicker: View {
         HStack(spacing: 10) {
             ForEach(ComicType.allCases, id: \.self) { type in
                 Text(type.title)
-                    .withFont(textColor: selection == type ? Color.white : Color.blue)
+                    .withFont(textColor: selection == type ? Color.white : type.color)
                     .padding(.vertical, 8)
                     .padding(.horizontal, 16)
-                    .background(selection == type ? Color.blue : Color.clear)
+                    .background(selection == type ? type.color : Color.clear)
                     .cornerRadius(8)
                     .onTapGesture {
                         selection = type

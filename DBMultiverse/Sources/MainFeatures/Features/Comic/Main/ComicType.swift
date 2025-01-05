@@ -5,6 +5,8 @@
 //  Created by Nikolai Nobadi on 12/12/24.
 //
 
+import SwiftUI
+
 enum ComicType: Int, CaseIterable {
     case story, specials
 }
@@ -40,6 +42,15 @@ extension ComicType: Identifiable {
             return "Main Story"
         case .specials:
             return "Universe Specials"
+        }
+    }
+    
+    var color: Color {
+        switch self {
+        case .story:
+            return .blue
+        case .specials:
+            return .red
         }
     }
 }

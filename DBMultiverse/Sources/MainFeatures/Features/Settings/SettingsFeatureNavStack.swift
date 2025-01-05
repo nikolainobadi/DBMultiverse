@@ -15,10 +15,11 @@ struct SettingsFeatureNavStack: View {
     var body: some View {
         NavStack(title: "Settings") {
             Form {
-                Section("Cached Data") {
+                DynamicSection("Cached Data") {
                     VStack {
                         Text("View Cached Chapters")
                             .foregroundColor(.blue)
+                            .withFont()
                             .tappable(withChevron: true) {
                                 showingCacheList = true
                             }
@@ -29,6 +30,7 @@ struct SettingsFeatureNavStack: View {
                             .padding()
                             .tint(.red)
                             .buttonStyle(.bordered)
+                            .withFont(textColor: .red)
                             .frame(maxWidth: .infinity)
                     }
                     .showingConditionalView(when: cacheManager.cachedChapters.isEmpty) {
@@ -36,10 +38,13 @@ struct SettingsFeatureNavStack: View {
                     }
                 }
                 
-                Section("DBMultiverse Web Comic Links") {
-                    Link("Authors", destination: .init(string: .makeFullURLString(suffix: "/en/the-authors.html"))!)
-                    Link("Universe Help", destination: .init(string: .makeFullURLString(suffix: "/en/listing.html"))!)
-                    Link("Tournament Help", destination: .init(string: .makeFullURLString(suffix: "/en/tournament.html"))!)
+                DynamicSection("DBMultiverse Web Comic Links") {
+                    ForEach(SettingsLinkItem.allCases, id: \.name) { link in
+                        Link(link.name, destination: .init(string: .makeFullURLString(suffix: link.linkSuffix))!)
+                            .padding(.vertical, 10)
+                            .withFont(textColor: .blue)
+                            .asRowItem(withChevron: true)
+                    }
                 }
             }
             .overlay(alignment: .bottom) {
@@ -66,6 +71,7 @@ struct SettingsFeatureNavStack: View {
         }
     }
 }
+
 
 // MARK: - Preview
 #Preview {

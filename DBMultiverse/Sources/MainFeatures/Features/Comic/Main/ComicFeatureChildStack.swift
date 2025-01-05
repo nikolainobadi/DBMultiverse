@@ -1,5 +1,5 @@
 //
-//  ComicFeatureNavStack.swift
+//  ComicFeatureChildStack.swift
 //  DBMultiverse
 //
 //  Created by Nikolai Nobadi on 12/11/24.
@@ -8,7 +8,7 @@
 import SwiftUI
 import NnSwiftUIKit
 
-struct ComicFeatureNavStack: View {
+struct ComicFeatureChildStack: View {
     @State private var selection: ComicType = .story
     @AppStorage(.lastReadSpecialPage) private var lastReadSpecialPage: Int = 168
     @AppStorage(.lastReadMainStoryPage) private var lastReadMainStoryPage: Int = 0
@@ -33,23 +33,22 @@ struct ComicFeatureNavStack: View {
     }
     
     var body: some View {
-        NavStack(title: "DB Multiverse") {
-            VStack {
-                ComicTypePicker(selection: $selection)
-                
-                ChapterListView(
-                    lastReadPage: lastReadPage,
-                    sections: selection.chapterSections(chapters: chapters.filter({ $0 != currentChapter })),
-                    currentChapter: currentChapter
-                )
+        VStack {
+            ComicTypePicker(selection: $selection)
+            
+            ChapterListView(
+                lastReadPage: lastReadPage,
+                sections: selection.chapterSections(chapters: chapters.filter({ $0 != currentChapter })),
+                currentChapter: currentChapter
+            )
+        }
+        .animation(.smooth, value: selection)
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+        .navigationDestination(for: SwiftDataChapter.self) { chapter in
+            ComicDetailView(chapter: chapter, viewModel: .init(currentPageNumber: chapter.lastReadPage ?? chapter.startPage, loader: ChapterComicLoaderAdapter())) { currentPage in
+                updateLastReadPage(currentPage)
             }
-            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
-            .navigationDestination(for: SwiftDataChapter.self) { chapter in
-                ChapterComicView(chapter: chapter, viewModel: .init(currentPageNumber: chapter.lastReadPage ?? chapter.startPage, loader: ChapterComicLoaderAdapter())) { currentPage in
-                    updateLastReadPage(currentPage)
-                }
-                .navigationTitle("Chapter \(chapter.number)")
-            }
+            .navigationTitle("Chapter \(chapter.number)")
         }
     }
 }
@@ -60,24 +59,28 @@ struct ComicTypePicker: View {
     @Binding var selection: ComicType
     
     var body: some View {
-        Picker("", selection: $selection) {
+        HStack(spacing: 10) {
             ForEach(ComicType.allCases, id: \.self) { type in
                 Text(type.title)
-                    .tag(type)
+                    .withFont(textColor: selection == type ? Color.white : Color.blue)
+                    .padding(.vertical, 8)
+                    .padding(.horizontal, 16)
+                    .background(selection == type ? Color.blue : Color.clear)
+                    .cornerRadius(8)
+                    .onTapGesture {
+                        selection = type
+                    }
             }
         }
         .padding()
-        .pickerStyle(.segmented)
     }
 }
 
-
 // MARK: - Preview
 #Preview {
-    MainFeaturesTabView()
+    MainFeaturesView()
         .withPreviewModifiers()
 }
-
 
 
 // MARK: - Extension Dependencies

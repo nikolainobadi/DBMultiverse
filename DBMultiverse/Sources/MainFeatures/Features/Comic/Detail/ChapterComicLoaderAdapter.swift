@@ -114,15 +114,15 @@ private extension ChapterComicLoaderAdapter {
     }
     
     func loadCachedImage(for chapter: Int, page: Int) throws -> PageInfo? {
-        // Check for single-page file
         let singlePagePath = getCacheDirectory(for: chapter, page: page)
+        
         if let data = fileManager.contents(atPath: singlePagePath.path) {
             return PageInfo(chapter: chapter, pageNumber: page, secondPageNumber: nil, imageData: data)
         }
 
-        // Check metadata for two-page file
         let chapterFolder = singlePagePath.deletingLastPathComponent()
         let metadataFile = chapterFolder.appendingPathComponent("metadata.json")
+        
         if let metadataData = fileManager.contents(atPath: metadataFile.path),
            let metadata = try? JSONSerialization.jsonObject(with: metadataData, options: []) as? [String: Any],
            let pages = metadata["pages"] as? [[String: Any]],
@@ -146,7 +146,6 @@ private extension ChapterComicLoaderAdapter {
         
         try pageInfo.imageData.write(to: filePath)
         
-        // Save metadata only if the image spans two pages
         if let secondPageNumber = pageInfo.secondPageNumber {
             let metadataFile = chapterFolder.appendingPathComponent("metadata.json")
             var metadata: [String: Any] = [:]

@@ -12,16 +12,13 @@ final class ChapterLoaderAdapter {
     private let url = URL(string: .makeFullURLString(suffix: "/en/chapters.html?comic=page&chaptersmode=1"))!
 }
 
+
+// MARK: - DataStore
 extension ChapterLoaderAdapter: ChapterDataStore {
     func loadChapterLists() async throws -> (mainStory: [Chapter], specials: [Special]) {
         guard let html = try await loadHTML() else {
             throw CustomError.loadHTMLError
         }
-        
-        // TODO: - remove ASAP
-        print("---------- Start ----------")
-        print(html)
-        print("---------- END ----------")
         
         return try parseHTMLWithSpecials(html)
     }
@@ -44,13 +41,12 @@ private extension ChapterLoaderAdapter {
             var mainStory: [Chapter] = []
             var specials: [Special] = []
             
-            // Iterate over each section
             for section in sections {
                 let sectionTitle = try section.text()
-                var currentElement = try section.nextElementSibling()
                 
-                // Iterate through all sibling elements until the next <h1> or end of document
+                var currentElement = try section.nextElementSibling()
                 var currentChapters: [Chapter] = []
+                
                 while let element = currentElement, element.tagName() != "h1" {
                     if element.hasClass("cadrelect") {
                         if let chapter = try parseChapter(element) {
@@ -60,7 +56,6 @@ private extension ChapterLoaderAdapter {
                     currentElement = try element.nextElementSibling()
                 }
                 
-                // Classify the section
                 if sectionTitle.lowercased().contains("tournament") {
                     mainStory.append(contentsOf: currentChapters)
                 } else if sectionTitle.lowercased().contains("special"), let universeNumber = extractUniverseNumber(sectionTitle) {
@@ -83,17 +78,16 @@ private extension ChapterLoaderAdapter {
                 .replacingOccurrences(of: ":", with: "")
                 .trimmingCharacters(in: .whitespaces)
             
-            // Remove "Chapter", the number, and the colon from the title
-            let cleanedTitle = chapterTitle.replacingOccurrences(of: #"Chapter \d+:"#, with: "", options: .regularExpression).trimmingCharacters(in: .whitespaces)
             
+            let cleanedTitle = chapterTitle.replacingOccurrences(of: #"Chapter \d+:"#, with: "", options: .regularExpression).trimmingCharacters(in: .whitespaces)
             let pageLinks = try element.select("p a")
+            
             if let startPageText = try? pageLinks.first()?.text(),
                let endPageText = try? pageLinks.last()?.text(),
                let startPage = Int(startPageText),
                let endPage = Int(endPageText),
                let number = Int(numberString) {
                 
-                // Extract cover image URL
                 let coverImageElement = try element.select("img").first()
                 let coverImageURL = try coverImageElement?.attr("src") ?? ""
                 
@@ -114,8 +108,4 @@ private extension ChapterLoaderAdapter {
         
         return nil
     }
-}
-
-protocol ChapterDataStore {
-    func loadChapterLists() async throws -> (mainStory: [Chapter], specials: [Special])
 }

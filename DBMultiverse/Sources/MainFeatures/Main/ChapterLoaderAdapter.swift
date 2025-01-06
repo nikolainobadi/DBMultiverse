@@ -8,13 +8,17 @@
 import SwiftSoup
 import Foundation
 
+/// Adapter responsible for loading chapter lists from a remote source and parsing the data.
 final class ChapterLoaderAdapter {
+    /// The URL used to fetch the chapter list HTML.
     private let url = URL(string: .makeFullURLString(suffix: "/en/chapters.html?comic=page&chaptersmode=1"))!
 }
 
-
 // MARK: - DataStore
 extension ChapterLoaderAdapter: ChapterDataStore {
+    /// Loads and parses the list of chapters, splitting them into main story and specials.
+    /// - Returns: A tuple containing arrays of main story chapters and specials.
+    /// - Throws: `CustomError.loadHTMLError` or `CustomError.parseHTMLError` if loading or parsing fails.
     func loadChapterLists() async throws -> (mainStory: [Chapter], specials: [Special]) {
         guard let html = try await loadHTML() else {
             throw CustomError.loadHTMLError
@@ -24,15 +28,20 @@ extension ChapterLoaderAdapter: ChapterDataStore {
     }
 }
 
-
 // MARK: - Private Methods
 private extension ChapterLoaderAdapter {
+    /// Fetches the HTML content of the chapter list from the remote URL.
+    /// - Returns: The HTML content as a string, or `nil` if it cannot be decoded.
+    /// - Throws: An error if the network request fails.
     func loadHTML() async throws -> String? {
         let data = try await URLSession.shared.data(from: url).0
-        
         return .init(data: data, encoding: .utf8)
     }
     
+    /// Parses the provided HTML to extract main story and special chapters.
+    /// - Parameter html: The HTML content to parse.
+    /// - Returns: A tuple containing arrays of main story chapters and specials.
+    /// - Throws: `CustomError.parseHTMLError` if parsing fails.
     func parseHTMLWithSpecials(_ html: String) throws -> ([Chapter], [Special]) {
         do {
             let document = try SwiftSoup.parse(html)
@@ -47,6 +56,7 @@ private extension ChapterLoaderAdapter {
                 var currentElement = try section.nextElementSibling()
                 var currentChapters: [Chapter] = []
                 
+                // Iterate over elements until the next section header.
                 while let element = currentElement, element.tagName() != "h1" {
                     if element.hasClass("cadrelect") {
                         if let chapter = try parseChapter(element) {
@@ -56,9 +66,11 @@ private extension ChapterLoaderAdapter {
                     currentElement = try element.nextElementSibling()
                 }
                 
+                // Categorize sections based on their titles.
                 if sectionTitle.lowercased().contains("tournament") {
                     mainStory.append(contentsOf: currentChapters)
-                } else if sectionTitle.lowercased().contains("special"), let universeNumber = extractUniverseNumber(sectionTitle) {
+                } else if sectionTitle.lowercased().contains("special"),
+                          let universeNumber = extractUniverseNumber(sectionTitle) {
                     specials.append(.init(universe: universeNumber, chapters: currentChapters))
                 }
             }
@@ -69,6 +81,9 @@ private extension ChapterLoaderAdapter {
         }
     }
 
+    /// Parses a chapter element from the HTML to create a `Chapter` object.
+    /// - Parameter element: The HTML element representing a chapter.
+    /// - Returns: A `Chapter` object, or `nil` if parsing fails.
     func parseChapter(_ element: Element) throws -> Chapter? {
         let chapterTitle = try element.select("h4").text()
         
@@ -78,8 +93,8 @@ private extension ChapterLoaderAdapter {
                 .replacingOccurrences(of: ":", with: "")
                 .trimmingCharacters(in: .whitespaces)
             
-            
-            let cleanedTitle = chapterTitle.replacingOccurrences(of: #"Chapter \d+:"#, with: "", options: .regularExpression).trimmingCharacters(in: .whitespaces)
+            let cleanedTitle = chapterTitle.replacingOccurrences(of: #"Chapter \d+:"#, with: "", options: .regularExpression)
+                .trimmingCharacters(in: .whitespaces)
             let pageLinks = try element.select("p a")
             
             if let startPageText = try? pageLinks.first()?.text(),
@@ -98,6 +113,9 @@ private extension ChapterLoaderAdapter {
         return nil
     }
     
+    /// Extracts the universe number from a section title.
+    /// - Parameter title: The section title.
+    /// - Returns: The universe number, or `nil` if it cannot be extracted.
     func extractUniverseNumber(_ title: String) -> Int? {
         let pattern = #"Special Universe (\d+)"#
         let regex = try? NSRegularExpression(pattern: pattern, options: [])

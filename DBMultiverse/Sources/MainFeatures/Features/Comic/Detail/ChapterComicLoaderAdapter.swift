@@ -8,17 +8,25 @@
 import SwiftSoup
 import Foundation
 
+/// Adapter responsible for loading comic pages from the network or cache.
 final class ChapterComicLoaderAdapter {
+    /// The file manager used for handling file-related operations.
     private let fileManager: FileManager
     
+    /// Initializes the loader adapter.
+    /// - Parameter fileManager: The file manager instance to use (default is `.default`).
     init(fileManager: FileManager = .default) {
         self.fileManager = fileManager
     }
 }
 
-
 // MARK: - Loader
 extension ChapterComicLoaderAdapter: ChapterComicLoader {
+    /// Loads pages for a given chapter and list of page numbers.
+    /// - Parameters:
+    ///   - chapterNumber: The chapter number to load.
+    ///   - pages: The page numbers to load.
+    /// - Returns: An array of `PageInfo` objects for the requested pages.
     func loadPages(chapterNumber: Int, pages: [Int]) async throws -> [PageInfo] {
         var infoList: [PageInfo] = []
 
@@ -27,7 +35,6 @@ extension ChapterComicLoaderAdapter: ChapterComicLoader {
                 infoList.append(cachedResult)
             } else if let pageInfo = try await fetchImage(page: page) {
                 infoList.append(pageInfo)
-                
                 try saveImageToCache(pageInfo: pageInfo)
             }
         }
@@ -36,9 +43,11 @@ extension ChapterComicLoaderAdapter: ChapterComicLoader {
     }
 }
 
-
 // MARK: - Private Methods
 private extension ChapterComicLoaderAdapter {
+    /// Fetches an image for a specific page from the network.
+    /// - Parameter page: The page number to fetch.
+    /// - Returns: A `PageInfo` object if the image is successfully fetched.
     func fetchImage(page: Int) async throws -> PageInfo? {
         guard let url = URL(string: .makeFullURLString(suffix: "/en/page-\(page).html")) else {
             return nil
@@ -50,6 +59,9 @@ private extension ChapterComicLoaderAdapter {
         return try await downloadImage(from: imageURLInfo)
     }
 
+    /// Parses HTML to extract the URL for an image.
+    /// - Parameter data: The HTML data to parse.
+    /// - Returns: A `PageImageURLInfo` object containing the image URL and metadata.
     func parseHTMLForImageURL(data: Data) throws -> PageImageURLInfo? {
         let html = String(data: data, encoding: .utf8) ?? ""
         let document = try SwiftSoup.parse(html)
@@ -69,7 +81,7 @@ private extension ChapterComicLoaderAdapter {
         let page = pageMatch.flatMap { match in
             Range(match.range(at: 1), in: content).flatMap { Int(content[$0]) }
         }
-        
+
         let secondPage: Int? = {
             if let pageSpan = try? document.select("span.page").first(),
                let pageText = try? pageSpan.text() {
@@ -97,6 +109,9 @@ private extension ChapterComicLoaderAdapter {
         return .init(url: url, chapter: chapter, pageNumber: page, secondPageNumber: secondPage)
     }
 
+    /// Downloads an image from a given URL.
+    /// - Parameter info: The image URL and metadata.
+    /// - Returns: A `PageInfo` object if the download is successful.
     func downloadImage(from info: PageImageURLInfo?) async throws -> PageInfo? {
         guard let info, let url = info.url else {
             return nil
@@ -106,13 +121,23 @@ private extension ChapterComicLoaderAdapter {
         return PageInfo(chapter: info.chapter, pageNumber: info.pageNumber, secondPageNumber: info.secondPageNumber, imageData: data)
     }
 
+    /// Retrieves the cache directory for a specific chapter and page.
+    /// - Parameters:
+    ///   - chapter: The chapter number.
+    ///   - page: The page number.
+    ///   - secondPageNumber: The optional second page number for double-page spreads.
+    /// - Returns: The file URL of the cached image.
     func getCacheDirectory(for chapter: Int, page: Int, secondPageNumber: Int? = nil) -> URL {
         let cacheDirectory = fileManager.urls(for: .cachesDirectory, in: .userDomainMask).first!
         let fileName = secondPageNumber != nil ? "Page_\(page)-\(secondPageNumber!).jpg" : "Page_\(page).jpg"
-        
         return cacheDirectory.appendingPathComponent("Chapters/Chapter_\(chapter)/\(fileName)")
     }
-    
+
+    /// Loads a cached image for a specific chapter and page.
+    /// - Parameters:
+    ///   - chapter: The chapter number.
+    ///   - page: The page number.
+    /// - Returns: A `PageInfo` object if the image is found in the cache.
     func loadCachedImage(for chapter: Int, page: Int) throws -> PageInfo? {
         let singlePagePath = getCacheDirectory(for: chapter, page: page)
         
@@ -138,7 +163,9 @@ private extension ChapterComicLoaderAdapter {
         
         return nil
     }
-    
+
+    /// Saves a downloaded image to the cache.
+    /// - Parameter pageInfo: The `PageInfo` object containing the image data.
     func saveImageToCache(pageInfo: PageInfo) throws {
         let filePath = getCacheDirectory(for: pageInfo.chapter, page: pageInfo.pageNumber, secondPageNumber: pageInfo.secondPageNumber)
         let chapterFolder = filePath.deletingLastPathComponent()
@@ -171,8 +198,8 @@ private extension ChapterComicLoaderAdapter {
     }
 }
 
-
 // MARK: - Dependencies
+/// Represents metadata and data for a single page.
 struct PageInfo {
     let chapter: Int
     let pageNumber: Int
@@ -180,6 +207,7 @@ struct PageInfo {
     let imageData: Data
 }
 
+/// Represents metadata for an image URL.
 struct PageImageURLInfo {
     let url: URL?
     let chapter: Int
@@ -187,9 +215,11 @@ struct PageImageURLInfo {
     let secondPageNumber: Int?
 }
 
-
 // MARK: - Extension Dependencies
 extension SwiftDataChapter {
+    /// Checks if the given page number is within the chapter's range.
+    /// - Parameter page: The page number to check.
+    /// - Returns: `true` if the page is within range, otherwise `false`.
     func containsPage(_ page: Int) -> Bool {
         return page >= startPage && page <= endPage
     }

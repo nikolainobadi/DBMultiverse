@@ -22,25 +22,43 @@ struct PreviewModifiersViewModifier: ViewModifier {
 }
 
 extension View {
+    /// Applies a set of modifiers to configure a view for use in previews.
+    ///
+    /// This method uses `PreviewModifiersViewModifier` to add common modifiers for previewing
+    /// SwiftUI views, such as a loading view, error handling, and preview-specific environment settings.
+    /// It also injects a model container with in-memory storage for preview data.
+    ///
+    /// - Returns: A modified view configured with preview-specific settings.
     func withPreviewModifiers() -> some View {
         modifier(PreviewModifiersViewModifier())
     }
 }
 
+/// Provides sample data and a model container for use in SwiftUI previews.
 actor PreviewSampleData {
+    /// A `ModelContainer` configured with in-memory storage and populated with sample data.
+    /// This container is used to supply data for previews without affecting persistent storage.
     @MainActor
     static var container: ModelContainer = {
-        let container = try! ModelContainer(for: SwiftDataChapter.self, configurations: .init(isStoredInMemoryOnly: true))
+        // Create an in-memory model container for the `SwiftDataChapter` type.
+        let container = try! ModelContainer(
+            for: SwiftDataChapter.self,
+            configurations: .init(isStoredInMemoryOnly: true)
+        )
         
-        SwiftDataChapter.sampleList.forEach({ container.mainContext.insert($0) })
+        // Populate the container's main context with sample data.
+        SwiftDataChapter.sampleList.forEach { container.mainContext.insert($0) }
         
         return container
     }()
     
+    /// A sample chapter from the preloaded `sampleList` for use in previews.
     @MainActor
     static var sampleChapter: SwiftDataChapter {
+        // Ensure the container is initialized.
         let _ = PreviewSampleData.container
         
+        // Return the first sample chapter.
         return SwiftDataChapter.sampleList[0]
     }
 }

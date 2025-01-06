@@ -25,7 +25,7 @@
 		D495980C2D0B75E500B4493F /* CustomAsyncImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D495980B2D0B75E500B4493F /* CustomAsyncImage.swift */; };
 		D495980F2D0B762E00B4493F /* HapticButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = D495980E2D0B762E00B4493F /* HapticButton.swift */; };
 		D49598112D0B764000B4493F /* ZoomableImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49598102D0B764000B4493F /* ZoomableImageView.swift */; };
-		D49598132D0B765600B4493F /* ChapterComicViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49598122D0B765600B4493F /* ChapterComicViewModel.swift */; };
+		D49598132D0B765600B4493F /* ComicDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49598122D0B765600B4493F /* ComicDetailViewModel.swift */; };
 		D49598152D0B766E00B4493F /* ChapterComicLoaderAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49598142D0B766E00B4493F /* ChapterComicLoaderAdapter.swift */; };
 		D49598182D0B82D700B4493F /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49598172D0B82D700B4493F /* SettingsViewModel.swift */; };
 		D4AD507A2D0A81CA00F4D874 /* ComicDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4AD50792D0A81CA00F4D874 /* ComicDetailView.swift */; };
@@ -34,6 +34,7 @@
 		D4DD9B742D0A6F5000A16227 /* PreviewModifiersViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4DD9B732D0A6F5000A16227 /* PreviewModifiersViewModifier.swift */; };
 		D4DD9B772D0A722900A16227 /* SettingsFeatureNavStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4DD9B762D0A722900A16227 /* SettingsFeatureNavStack.swift */; };
 		D4E94C482D27910200251776 /* View+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E94C472D27910200251776 /* View+Extensions.swift */; };
+		D4FA44A82D2B5595004B8D12 /* CachedChapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FA44A72D2B5595004B8D12 /* CachedChapter.swift */; };
 		D4FF65832D0940A70023988F /* SwiftDataChapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FF65822D0940A70023988F /* SwiftDataChapter.swift */; };
 		E84A2CE02CFC369C00FAF001 /* NnSwiftUIKit in Frameworks */ = {isa = PBXBuildFile; productRef = E84A2CDF2CFC369C00FAF001 /* NnSwiftUIKit */; };
 		E84A2CE12CFC36D400FAF001 /* NnSwiftUIKit in Embed Frameworks */ = {isa = PBXBuildFile; productRef = E84A2CDF2CFC369C00FAF001 /* NnSwiftUIKit */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
@@ -91,7 +92,7 @@
 		D495980B2D0B75E500B4493F /* CustomAsyncImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAsyncImage.swift; sourceTree = "<group>"; };
 		D495980E2D0B762E00B4493F /* HapticButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticButton.swift; sourceTree = "<group>"; };
 		D49598102D0B764000B4493F /* ZoomableImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomableImageView.swift; sourceTree = "<group>"; };
-		D49598122D0B765600B4493F /* ChapterComicViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChapterComicViewModel.swift; sourceTree = "<group>"; };
+		D49598122D0B765600B4493F /* ComicDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComicDetailViewModel.swift; sourceTree = "<group>"; };
 		D49598142D0B766E00B4493F /* ChapterComicLoaderAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChapterComicLoaderAdapter.swift; sourceTree = "<group>"; };
 		D49598172D0B82D700B4493F /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
 		D4AD50792D0A81CA00F4D874 /* ComicDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComicDetailView.swift; sourceTree = "<group>"; };
@@ -100,6 +101,7 @@
 		D4DD9B732D0A6F5000A16227 /* PreviewModifiersViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewModifiersViewModifier.swift; sourceTree = "<group>"; };
 		D4DD9B762D0A722900A16227 /* SettingsFeatureNavStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsFeatureNavStack.swift; sourceTree = "<group>"; };
 		D4E94C472D27910200251776 /* View+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extensions.swift"; sourceTree = "<group>"; };
+		D4FA44A72D2B5595004B8D12 /* CachedChapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CachedChapter.swift; sourceTree = "<group>"; };
 		D4FF65822D0940A70023988F /* SwiftDataChapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftDataChapter.swift; sourceTree = "<group>"; };
 		E84A2CE32CFC435800FAF001 /* MainFeaturesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainFeaturesView.swift; sourceTree = "<group>"; };
 		E84A2CE52CFC463300FAF001 /* CustomError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomError.swift; sourceTree = "<group>"; };
@@ -182,7 +184,7 @@
 			children = (
 				D4AD50792D0A81CA00F4D874 /* ComicDetailView.swift */,
 				D49598102D0B764000B4493F /* ZoomableImageView.swift */,
-				D49598122D0B765600B4493F /* ChapterComicViewModel.swift */,
+				D49598122D0B765600B4493F /* ComicDetailViewModel.swift */,
 				D49598142D0B766E00B4493F /* ChapterComicLoaderAdapter.swift */,
 				D42AF28D2D2A1F1A00AB36EC /* CustomButtonStyle.swift */,
 				D45F90A62D2A487C0040C04C /* ChapterInfo.swift */,
@@ -196,6 +198,7 @@
 				D4DD9B762D0A722900A16227 /* SettingsFeatureNavStack.swift */,
 				D49598172D0B82D700B4493F /* SettingsViewModel.swift */,
 				D42AF2952D2A23D000AB36EC /* SettingsLinkItem.swift */,
+				D4FA44A72D2B5595004B8D12 /* CachedChapter.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -461,7 +464,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D42AF28E2D2A1F1A00AB36EC /* CustomButtonStyle.swift in Sources */,
-				D49598132D0B765600B4493F /* ChapterComicViewModel.swift in Sources */,
+				D49598132D0B765600B4493F /* ComicDetailViewModel.swift in Sources */,
 				D49598082D0B754600B4493F /* ChapterSection.swift in Sources */,
 				E8D4ED202CE721CA005ED4BC /* String+Extensions.swift in Sources */,
 				D4FF65832D0940A70023988F /* SwiftDataChapter.swift in Sources */,
@@ -481,6 +484,7 @@
 				E84A2CE42CFC435800FAF001 /* MainFeaturesView.swift in Sources */,
 				D46C707F2D1BB55500C217D6 /* TestApp.swift in Sources */,
 				D4DD9B772D0A722900A16227 /* SettingsFeatureNavStack.swift in Sources */,
+				D4FA44A82D2B5595004B8D12 /* CachedChapter.swift in Sources */,
 				D45F90A72D2A487C0040C04C /* ChapterInfo.swift in Sources */,
 				D4AD507A2D0A81CA00F4D874 /* ComicDetailView.swift in Sources */,
 				D49598062D0B750A00B4493F /* ChapterListView.swift in Sources */,

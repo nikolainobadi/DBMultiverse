@@ -50,8 +50,17 @@ struct FetchChapterListViewModifier: ViewModifier {
 }
 
 extension View {
+    /// Applies a modifier to handle the fetching and persistence of chapters.
+    ///
+    /// This method uses `FetchChapterListViewModifier` to automatically fetch chapter data and add
+    /// it to the database, updating the UI when the data changes. It is particularly useful for
+    /// integrating asynchronous chapter loading into a SwiftUI view.
+    ///
+    /// - Parameters:
+    ///   - existingChapterNumbers: An array of chapter numbers that already exist in the database.
+    ///   - loader: A `ChapterDataStore` instance responsible for fetching the chapter data. The default value is `ChapterLoaderAdapter()`.
+    /// - Returns: A modified view that includes chapter fetching logic.
     func fetchingChapters(existingChapterNumbers: [Int], loader: ChapterDataStore = ChapterLoaderAdapter()) -> some View {
         modifier(FetchChapterListViewModifier(repo: .init(loader: loader), existingChapterNumbers: existingChapterNumbers))
     }
 }
-

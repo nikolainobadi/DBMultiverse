@@ -152,9 +152,9 @@ extension ChapterComicViewModelTests {
 
 // MARK: - SUT
 extension ChapterComicViewModelTests {
-    func makeSUT(currentPageNumber: Int = 0, pages: [PageInfo] = [], pagesToLoad: [PageInfo] = [], throwError: Bool = false, file: StaticString = #filePath, line: UInt = #line) -> (sut: ChapterComicViewModel, loader: MockLoader) {
+    func makeSUT(currentPageNumber: Int = 0, pages: [PageInfo] = [], pagesToLoad: [PageInfo] = [], throwError: Bool = false, file: StaticString = #filePath, line: UInt = #line) -> (sut: ComicDetailViewModel, loader: MockLoader) {
         let loader = MockLoader(throwError: throwError, pagesToLoad: pagesToLoad)
-        let sut = ChapterComicViewModel(currentPageNumber: currentPageNumber, loader: loader, pages: pages)
+        let sut = ComicDetailViewModel(currentPageNumber: currentPageNumber, loader: loader, pages: pages)
         
         trackForMemoryLeaks(sut, file: file, line: line)
         trackForMemoryLeaks(loader, file: file, line: line)

@@ -7,10 +7,12 @@
 
 import SwiftUI
 
-public struct CustomButtonStyle: ButtonStyle {
+/// Custom button style with adjustable text color.
+struct CustomButtonStyle: ButtonStyle {
+    /// The color of the button text.
     let textColor: Color
-    
-    public func makeBody(configuration: Configuration) -> some View {
+
+    func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .bold()
             .padding()
@@ -23,7 +25,9 @@ public struct CustomButtonStyle: ButtonStyle {
     }
 }
 
-public extension ButtonStyle where Self == CustomButtonStyle {
+extension ButtonStyle where Self == CustomButtonStyle {
+    /// Creates a custom button style with a specified text color.
+    /// - Parameter textColor: The color of the button text.
     static func customButtonStyle(textColor: Color) -> CustomButtonStyle {
         return .init(textColor: textColor)
     }

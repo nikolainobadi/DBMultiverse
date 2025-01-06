@@ -10,7 +10,7 @@ import NnSwiftUIKit
 
 struct ComicDetailView: View {
     @Bindable var chapter: SwiftDataChapter
-    @StateObject var viewModel: ChapterComicViewModel
+    @StateObject var viewModel: ComicDetailViewModel
     @Environment(\.dismiss) private var dismiss
     
     let updateLastReadPage: (Int) -> Void
@@ -45,7 +45,7 @@ struct ComicDetailView: View {
 // MARK: - ImageContentView
 struct ComicImageContentView: View {
     @Bindable var chapter: SwiftDataChapter
-    @ObservedObject var viewModel: ChapterComicViewModel
+    @ObservedObject var viewModel: ComicDetailViewModel
     
     var body: some View {
         VStack {
@@ -68,7 +68,7 @@ struct ComicImageContentView: View {
 // MARK: - iPhone
 fileprivate struct iPhoneComicView: View {
     @Bindable var chapter: SwiftDataChapter
-    @ObservedObject var viewModel: ChapterComicViewModel
+    @ObservedObject var viewModel: ComicDetailViewModel
     
     let dismiss: () -> Void
     
@@ -107,7 +107,7 @@ fileprivate struct iPhoneComicView: View {
 // MARK: - iPad
 fileprivate struct iPadComicView: View {
     @Bindable var chapter: SwiftDataChapter
-    @ObservedObject var viewModel: ChapterComicViewModel
+    @ObservedObject var viewModel: ComicDetailViewModel
     
     let dismiss: () -> Void
     

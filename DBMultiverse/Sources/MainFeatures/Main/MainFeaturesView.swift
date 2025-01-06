@@ -27,7 +27,28 @@ fileprivate struct ComicNavStack<Content: View>: View {
     @ViewBuilder var content: () -> Content
     
     var body: some View {
-        NavStack(title: "DBMultiverse", content: content)
+        NavigationStack {
+            VStack {
+                VStack(spacing: 0) {
+                    HStack {
+                        Text("DB")
+                            .textLinearGradient(.yellowText)
+            
+                        Text("Multiverse")
+                            .textLinearGradient(.redText)
+                    }
+                    .bold()
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    
+                    .withFont(.title3, autoSizeLineLimit: 1)
+                    
+                    Divider()
+                }
+                .padding()
+                
+                content()
+            }
+        }
     }
 }
 

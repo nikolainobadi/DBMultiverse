@@ -66,7 +66,7 @@ The **DBMultiverse** app is a Swift-based iOS and iPadOS application designed to
 This app can be installed using either of the following methods:
 
 1. **[Install with Xcode](docs/XcodeInstallation.md)**: Follow this guide to build and install the app directly from Xcode.
-2. **[Install with AltStore](docs/AltStoreInstallationCorrected.md)**: Use AltStore to install the app without needing Xcode.
+2. **[Install with AltStore](docs/AltStoreInstallation.md)**: Use AltStore to install the app without needing Xcode.
 
 ---
 

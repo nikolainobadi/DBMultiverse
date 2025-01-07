@@ -49,14 +49,17 @@ struct WelcomeView: View {
             .padding()
             .background(.thinMaterial)
             .clipShape(.rect(cornerRadius: 10))
+            .withFont(.caption)
+            .padding()
             
             Spacer()
             
             Toggle("I understand", isOn: $didAgree)
                 .toggleStyle(CheckboxToggleStyle())
                
-            Button("Get Started", action: { })
+            Button("Get Started", action: getStarted)
                 .padding()
+                .withFont()
                 .buttonStyle(.borderedProminent)
                 .onlyShow(when: didAgree)
         }
@@ -79,8 +82,12 @@ struct CheckboxToggleStyle: ToggleStyle {
         }, label: {
             HStack {
                 Image(systemName: configuration.isOn ? "checkmark.square" : "square")
+                    
                 configuration.label
             }
+            .bold()
+            .textLinearGradient(.yellowText)
+            .withFont()
         })
     }
 }

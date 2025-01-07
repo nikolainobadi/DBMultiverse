@@ -48,7 +48,7 @@ struct SettingsFeatureNavStack: View {
                         }
                     }
                 }
-                .frame(maxHeight: getHeightPercent(50))
+                .frame(maxHeight: getHeightPercent(45))
                 .scrollContentBackground(.hidden)
                 
                 VStack(alignment: .center) {
@@ -57,7 +57,8 @@ struct SettingsFeatureNavStack: View {
                     Text(FEEDBACK_EMAIL)
                         .foregroundStyle(.blue)
                 }
-                .padding()
+                .multilineTextAlignment(.center)
+                .padding([.bottom, .horizontal])
                 .withFont()
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)

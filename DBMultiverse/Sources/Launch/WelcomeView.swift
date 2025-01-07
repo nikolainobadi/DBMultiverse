@@ -41,7 +41,7 @@ struct WelcomeView: View {
                 
                 Text("As such, please direct any questions and/or concerns to:\n")
                 
-                Text("iosdbmultiverse@gmail.com")
+                Text(FEEDBACK_EMAIL)
                     .bold()
                     .frame(maxWidth: .infinity)
                     

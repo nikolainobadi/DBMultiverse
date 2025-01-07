@@ -1,10 +1,19 @@
 
 # DBMultiverse
 
-A fan-made companion app for the [DragonBall Multiverse](https://www.dragonball-multiverse.com) website. This project was created with permission from the creators of DragonBall Multiverse and serves as a way to enhance your experience with the webcomic.
+<div align="center">
+  <img src="media/appIcon.jpeg" alt="App Icon" height="200" width="300"/>
+</div>
+
+A fan-made companion app for the [DragonBall Multiverse](https://www.dragonball-multiverse.com) website. 
+
+I created this app independently, with permission from the creators of DragonBall Multiverse, to enhance your experience with the webcomic. The app is not affiliated with or developed by the official DragonBall Multiverse team.
 
 ## Table of Contents
 - [Overview](#overview)
+- [Screenshots](#screenshots)
+  - [iPhone Screenshots](#iphone-screenshots)
+  - [iPad Screenshots](#ipad-screenshots)
 - [Installation](#installation)
   - [Install with Xcode](docs/XcodeInstallation.md)
   - [Install with AltStore](docs/AltStoreInstallationCorrected.md)
@@ -19,6 +28,36 @@ A fan-made companion app for the [DragonBall Multiverse](https://www.dragonball-
 ## Overview
 
 The **DBMultiverse** app is a Swift-based iOS and iPadOS application designed to provide quick access to the DragonBall Multiverse webcomic, cached chapters, and additional functionality like clearing cache and exploring special universe sections. Whether you're a fan looking for an easier way to interact with the comic or a developer interested in the project’s architecture, this app is for you.
+
+---
+
+## Screenshots
+
+### iPhone Screenshots
+
+<table>
+  <tr>
+    <td align="center"><strong>Chapter List</strong></td>
+    <td align="center"><strong>Comic View</strong></td>
+  </tr>
+  <tr>
+    <td><img src="media/iphone_chapterList.png" alt="iPhone Chapter List" width="200"/></td>
+    <td><img src="media/iphone_comicView.png" alt="iPhone Comic View" width="200"/></td>
+  </tr>
+</table>
+
+### iPad Screenshots
+
+<table>
+  <tr>
+    <td align="center"><strong>Chapter List</strong></td>
+    <td align="center"><strong>Comic View</strong></td>
+  </tr>
+  <tr>
+    <td><img src="media/ipad_chapterList.png" alt="iPad Chapter List" width="300"/></td>
+    <td><img src="media/ipad_comicView.png" alt="iPad Comic View" width="300"/></td>
+  </tr>
+</table>
 
 ---
 

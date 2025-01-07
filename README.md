@@ -16,7 +16,7 @@ I created this app independently, with permission from the creators of DragonBal
   - [iPad Screenshots](#ipad-screenshots)
 - [Installation](#installation)
   - [Install with Xcode](docs/XcodeInstallation.md)
-  - [Install with AltStore](docs/AltStoreInstallationCorrected.md)
+  - [Install with AltStore](docs/AltStoreInstallation.md)
 - [Developer Overview](#developer-overview)
   - [Features](#features)
   - [Architecture](#architecture)

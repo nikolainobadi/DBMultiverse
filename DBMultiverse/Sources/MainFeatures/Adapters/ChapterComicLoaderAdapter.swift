@@ -22,7 +22,7 @@ final class ChapterComicLoaderAdapter {
 }
 
 // MARK: - Loader
-extension ChapterComicLoaderAdapter: ChapterComicLoader {
+extension ChapterComicLoaderAdapter {
     /// Loads pages for a given chapter and list of page numbers.
     /// - Parameters:
     ///   - chapterNumber: The chapter number to load.

@@ -22,7 +22,11 @@ struct MainFeaturesView: View {
         } settingsContent: {
             SettingsFeatureNavStack()
         }
-        .fetchingChapters(existingChapterNumbers: chapterList.map({ $0.number }))
+        .asyncTask {
+            try await viewModel.loadData()
+        }
+        .syncChaptersWithSwiftData(chapters: viewModel.chapters)
+//        .fetchingChapters(existingChapterNumbers: chapterList.map({ $0.number }))
     }
 }
 
@@ -42,10 +46,10 @@ fileprivate struct MainNavStack<ComicContent: View, SettingsContent: View>: View
 
 
 // MARK: - Preview
-#Preview {
-    return MainFeaturesView(viewModel: .init())
-        .withPreviewModifiers()
-}
+//#Preview {
+//    return MainFeaturesView(viewModel: .init())
+//        .withPreviewModifiers()
+//}
 
 
 // MARK: - Extension Dependencies

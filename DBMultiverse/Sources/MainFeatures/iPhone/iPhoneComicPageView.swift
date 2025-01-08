@@ -24,6 +24,8 @@ struct iPhoneComicPageView: View {
                 .tint(.red)
                 .disabled(page.isFirstPage)
                 
+                Spacer()
+                
                 HapticButton("Next", action: nextPage)
                     .tint(.blue)
                     .showingConditionalView(when: page.isLastPage) {
@@ -31,6 +33,7 @@ struct iPhoneComicPageView: View {
                             .tint(.red)
                     }
             }
+            .padding()
         }
     }
 }

@@ -155,6 +155,14 @@
 			path = iPhone;
 			sourceTree = "<group>";
 		};
+		D45F175A2D2E07AB006362E8 /* iPad */ = {
+			isa = PBXGroup;
+			children = (
+				D4771DBE2D2A2C4200F2AC58 /* FancyPicker.swift */,
+			);
+			path = iPad;
+			sourceTree = "<group>";
+		};
 		D46C706F2D1BB4C000C217D6 /* DBMultiverseUnitTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -288,7 +296,6 @@
 				E84A2CE52CFC463300FAF001 /* CustomError.swift */,
 				D4E94C472D27910200251776 /* View+Extensions.swift */,
 				D42AF2932D2A21C800AB36EC /* DynamicSection.swift */,
-				D4771DBE2D2A2C4200F2AC58 /* FancyPicker.swift */,
 				D4F498232D2C572E00EC13CA /* LinearGradient+Extensions.swift */,
 			);
 			path = Shared;
@@ -297,6 +304,7 @@
 		E88C4C622CE3300A00CF3D0C /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				D45F175A2D2E07AB006362E8 /* iPad */,
 				D45F17572D2E052E006362E8 /* iPhone */,
 				E88C4C572CE32F6D00CF3D0C /* App */,
 				D4D32FAE2D2CD2550059DA27 /* Launch */,

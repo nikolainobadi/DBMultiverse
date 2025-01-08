@@ -19,6 +19,17 @@ public struct ComicPage {
     }
 }
 
+// MARK: - Display Helpers
+public extension ComicPage {
+    var isFirstPage: Bool {
+        return pagePosition.page == 0
+    }
+    
+    var isLastPage: Bool {
+        return pagePosition.page == pagePosition.totalPages
+    }
+}
+
 
 // MARK: - Dependencies
 public struct PagePosition {

@@ -8,21 +8,18 @@
 import SwiftUI
 
 /// Represents the type of comic, such as main story or specials.
-enum ComicType: Int, CaseIterable {
-    /// Main story type of comic.
+public enum ComicType: Int, Identifiable, CaseIterable {
     case story
-    
-    /// Specials type of comic.
     case specials
-}
-
-// MARK: - Display Data
-extension ComicType: Identifiable {
-    /// Unique identifier for each comic type, based on its raw value.
-    var id: Int {
+    
+    public var id: Int {
         return rawValue
     }
-    
+}
+
+
+// MARK: - Display Data
+public extension ComicType {
     /// The display title for the comic type.
     var title: String {
         switch self {
@@ -53,7 +50,7 @@ extension ComicType: Identifiable {
         }
     }
     
-    /// The color associated with the comic type.
+//    /// The color associated with the comic type.
     var color: Color {
         switch self {
         case .story:

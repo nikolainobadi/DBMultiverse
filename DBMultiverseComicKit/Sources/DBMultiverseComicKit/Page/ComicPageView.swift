@@ -8,12 +8,17 @@
 import SwiftUI
 import NnSwiftUIKit
 
-struct ComicPageView<DetailView: View>: View {
+public struct ComicPageView<DetailView: View>: View {
     @StateObject var viewModel: ComicPageViewModel
     
     let detailView: (ComicPage) -> DetailView
     
-    var body: some View {
+    public init(loader: ComicPageLoader, @ViewBuilder detailView: @escaping (ComicPage) -> DetailView) {
+        self._viewModel = .init(wrappedValue: .init(loader: loader))
+        self.detailView = detailView
+    }
+    
+    public var body: some View {
         Text("Loading page...")
             .withFont()
             .showingViewWithOptional(viewModel.currentPage) { page in
@@ -38,19 +43,7 @@ struct ComicPageView<DetailView: View>: View {
         }
     }
     
-    return ComicPageView(viewModel: .init(loader: PreviewLoader())) { _ in
-        Text("image view")
-    }
-}
-
-
-// MARK: - Extension Dependencies
-fileprivate extension ComicPage {
-    var isFirstPage: Bool {
-        return pagePosition.page == 0
-    }
-    
-    var isLastPage: Bool {
-        return pagePosition.page == pagePosition.totalPages
+    return ComicPageView(loader: PreviewLoader()) { _ in
+        Text("detail view")
     }
 }

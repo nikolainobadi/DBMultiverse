@@ -8,6 +8,7 @@
 import SwiftUI
 import SwiftData
 import NnSwiftUIKit
+import DBMultiverseComicKit
 
 struct MainFeaturesView: View {
     @Query(sort: \SwiftDataChapter.number, order: .forward) var chapters: [SwiftDataChapter]
@@ -30,10 +31,16 @@ fileprivate struct ContentView<SettingsTab: View>: View {
     }
     
     var body: some View {
-        iPhoneMainTabView(settingsTab: settingsTab)
+        iPhoneMainTabView(loader: MockLoader(), settingsTab: settingsTab)
             .showingConditionalView(when: isPad) {
                 Text("iPadView")
             }
+    }
+}
+
+final class MockLoader: ComicPageLoader {
+    func loadPages(chapterNumber: Int, pages: [Int]) async throws -> [ComicPage] {
+        return []
     }
 }
 

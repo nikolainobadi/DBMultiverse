@@ -12,10 +12,10 @@ struct CustomAsyncImage: View {
     let width: CGFloat
     let height: CGFloat
     
-    init(url: URL?, size: CGSize = .init(width: 50, height: 70)) {
+    init(url: URL?, size: CGSize?) {
         self.url = url
-        self.width = size.width
-        self.height = size.height
+        self.width = size?.width ?? 50
+        self.height = size?.height ?? 70
     }
     
     var body: some View {

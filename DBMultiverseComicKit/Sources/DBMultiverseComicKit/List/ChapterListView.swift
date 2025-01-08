@@ -8,13 +8,20 @@
 import SwiftUI
 import NnSwiftUIKit
 
-struct ChapterListView: View {
-    let imageSize: CGSize
+public struct ChapterListView: View {
+    let imageSize: CGSize?
     let sections: [ChapterSection]
     let makeImageURL: (Chapter) -> URL?
     let unreadChapter: (Chapter) -> Void
     
-    var body: some View {
+    public init(imageSize: CGSize? = nil, sections: [ChapterSection], makeImageURL: @escaping (Chapter) -> URL?, unreadChapter: @escaping (Chapter) -> Void) {
+        self.imageSize = imageSize
+        self.sections = sections
+        self.makeImageURL = makeImageURL
+        self.unreadChapter = unreadChapter
+    }
+    
+    public var body: some View {
         List(sections, id: \.title) { section in
             DynamicSection(section.title) {
                 ForEach(section.chapters, id: \.name) { chapter in
@@ -34,9 +41,9 @@ struct ChapterListView: View {
 fileprivate struct ChapterRow: View {
     let url: URL?
     let chapter: Chapter
-    let imageSize: CGSize
+    let imageSize: CGSize?
     
-    init(_ chapter: Chapter, url: URL?, imageSize: CGSize) {
+    init(_ chapter: Chapter, url: URL?, imageSize: CGSize?) {
         self.url = url
         self.chapter = chapter
         self.imageSize = imageSize
@@ -65,10 +72,17 @@ fileprivate struct ChapterRow: View {
     }
 }
 
-struct ChapterSection {
-    let type: ChapterSectionType
-    let chapters: [Chapter]
+public struct ChapterSection {
+    public let type: ChapterSectionType
+    public let chapters: [Chapter]
     
+    public init(type: ChapterSectionType, chapters: [Chapter]) {
+        self.type = type
+        self.chapters = chapters
+    }
+}
+
+extension ChapterSection {
     var isCurrentChapterSection: Bool {
         return type == .currentChapter
     }
@@ -83,7 +97,7 @@ struct ChapterSection {
     }
 }
 
-enum ChapterSectionType: Equatable {
+public enum ChapterSectionType: Equatable {
     case currentChapter
     case chapterList(title: String)
 }

@@ -10,6 +10,7 @@
 		D42AF28E2D2A1F1A00AB36EC /* CustomButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42AF28D2D2A1F1A00AB36EC /* CustomButtonStyle.swift */; };
 		D42AF2942D2A21C800AB36EC /* DynamicSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42AF2932D2A21C800AB36EC /* DynamicSection.swift */; };
 		D42AF2962D2A23D000AB36EC /* SettingsLinkItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42AF2952D2A23D000AB36EC /* SettingsLinkItem.swift */; };
+		D45F17542D2DF8C5006362E8 /* NnSwiftUIKit in Frameworks */ = {isa = PBXBuildFile; productRef = D45F17532D2DF8C5006362E8 /* NnSwiftUIKit */; };
 		D45F90A72D2A487C0040C04C /* ChapterInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45F90A62D2A487C0040C04C /* ChapterInfo.swift */; };
 		D46C70792D1BB4E200C217D6 /* NnTestHelpers in Frameworks */ = {isa = PBXBuildFile; productRef = D46C70782D1BB4E200C217D6 /* NnTestHelpers */; };
 		D46C707B2D1BB4F000C217D6 /* NnTestVariables in Frameworks */ = {isa = PBXBuildFile; productRef = D46C707A2D1BB4F000C217D6 /* NnTestVariables */; };
@@ -40,8 +41,6 @@
 		D4F498242D2C572E00EC13CA /* LinearGradient+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F498232D2C572E00EC13CA /* LinearGradient+Extensions.swift */; };
 		D4FA44A82D2B5595004B8D12 /* CachedChapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FA44A72D2B5595004B8D12 /* CachedChapter.swift */; };
 		D4FF65832D0940A70023988F /* SwiftDataChapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FF65822D0940A70023988F /* SwiftDataChapter.swift */; };
-		E84A2CE02CFC369C00FAF001 /* NnSwiftUIKit in Frameworks */ = {isa = PBXBuildFile; productRef = E84A2CDF2CFC369C00FAF001 /* NnSwiftUIKit */; };
-		E84A2CE12CFC36D400FAF001 /* NnSwiftUIKit in Embed Frameworks */ = {isa = PBXBuildFile; productRef = E84A2CDF2CFC369C00FAF001 /* NnSwiftUIKit */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		E84A2CE42CFC435800FAF001 /* MainFeaturesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E84A2CE32CFC435800FAF001 /* MainFeaturesView.swift */; };
 		E84A2CE62CFC463300FAF001 /* CustomError.swift in Sources */ = {isa = PBXBuildFile; fileRef = E84A2CE52CFC463300FAF001 /* CustomError.swift */; };
 		E88C4C5F2CE32FB500CF3D0C /* Chapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E88C4C5E2CE32FB500CF3D0C /* Chapter.swift */; };
@@ -70,7 +69,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				E84A2CE12CFC36D400FAF001 /* NnSwiftUIKit in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -109,6 +107,7 @@
 		D4DD9B762D0A722900A16227 /* SettingsFeatureNavStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsFeatureNavStack.swift; sourceTree = "<group>"; };
 		D4E94C472D27910200251776 /* View+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extensions.swift"; sourceTree = "<group>"; };
 		D4F498232D2C572E00EC13CA /* LinearGradient+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LinearGradient+Extensions.swift"; sourceTree = "<group>"; };
+		D4F6F48B2D2DF73C00A27411 /* DBMultiverseComicKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = DBMultiverseComicKit; sourceTree = "<group>"; };
 		D4FA44A72D2B5595004B8D12 /* CachedChapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CachedChapter.swift; sourceTree = "<group>"; };
 		D4FF65822D0940A70023988F /* SwiftDataChapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftDataChapter.swift; sourceTree = "<group>"; };
 		E84A2CE32CFC435800FAF001 /* MainFeaturesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainFeaturesView.swift; sourceTree = "<group>"; };
@@ -137,7 +136,7 @@
 			files = (
 				E8A095CC2CE0944C00D28E3F /* SwiftSoup in Frameworks */,
 				D46C707B2D1BB4F000C217D6 /* NnTestVariables in Frameworks */,
-				E84A2CE02CFC369C00FAF001 /* NnSwiftUIKit in Frameworks */,
+				D45F17542D2DF8C5006362E8 /* NnSwiftUIKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -308,6 +307,7 @@
 			children = (
 				E8A095BB2CE0941200D28E3F /* DBMultiverse */,
 				D46C706F2D1BB4C000C217D6 /* DBMultiverseUnitTests */,
+				D4F6F48B2D2DF73C00A27411 /* DBMultiverseComicKit */,
 				E8A095BA2CE0941200D28E3F /* Products */,
 				D46C70772D1BB4E200C217D6 /* Frameworks */,
 			);
@@ -408,8 +408,8 @@
 			name = DBMultiverse;
 			packageProductDependencies = (
 				E8A095CB2CE0944C00D28E3F /* SwiftSoup */,
-				E84A2CDF2CFC369C00FAF001 /* NnSwiftUIKit */,
 				D46C707A2D1BB4F000C217D6 /* NnTestVariables */,
+				D45F17532D2DF8C5006362E8 /* NnSwiftUIKit */,
 			);
 			productName = DBMultiverse;
 			productReference = E8A095B92CE0941200D28E3F /* DBMultiverse.app */;
@@ -445,8 +445,8 @@
 			mainGroup = E8A095B02CE0941200D28E3F;
 			packageReferences = (
 				E8A095CA2CE0944C00D28E3F /* XCRemoteSwiftPackageReference "SwiftSoup" */,
-				E84A2CDE2CFC369C00FAF001 /* XCRemoteSwiftPackageReference "NnSwiftUIKit" */,
 				D46C70692D1BB4A700C217D6 /* XCRemoteSwiftPackageReference "NnTestKit" */,
+				D45F17522D2DF8C5006362E8 /* XCRemoteSwiftPackageReference "NnSwiftUIKit" */,
 			);
 			productRefGroup = E8A095BA2CE0941200D28E3F /* Products */;
 			projectDirPath = "";
@@ -806,20 +806,20 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		D45F17522D2DF8C5006362E8 /* XCRemoteSwiftPackageReference "NnSwiftUIKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/nikolainobadi/NnSwiftUIKit";
+			requirement = {
+				branch = "remove-nn-prefixes";
+				kind = branch;
+			};
+		};
 		D46C70692D1BB4A700C217D6 /* XCRemoteSwiftPackageReference "NnTestKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/nikolainobadi/NnTestKit";
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 1.0.0;
-			};
-		};
-		E84A2CDE2CFC369C00FAF001 /* XCRemoteSwiftPackageReference "NnSwiftUIKit" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/nikolainobadi/NnSwiftUIKit";
-			requirement = {
-				branch = "remove-nn-prefixes";
-				kind = branch;
 			};
 		};
 		E8A095CA2CE0944C00D28E3F /* XCRemoteSwiftPackageReference "SwiftSoup" */ = {
@@ -833,6 +833,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		D45F17532D2DF8C5006362E8 /* NnSwiftUIKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D45F17522D2DF8C5006362E8 /* XCRemoteSwiftPackageReference "NnSwiftUIKit" */;
+			productName = NnSwiftUIKit;
+		};
 		D46C70782D1BB4E200C217D6 /* NnTestHelpers */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = D46C70692D1BB4A700C217D6 /* XCRemoteSwiftPackageReference "NnTestKit" */;
@@ -842,11 +847,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = D46C70692D1BB4A700C217D6 /* XCRemoteSwiftPackageReference "NnTestKit" */;
 			productName = NnTestVariables;
-		};
-		E84A2CDF2CFC369C00FAF001 /* NnSwiftUIKit */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = E84A2CDE2CFC369C00FAF001 /* XCRemoteSwiftPackageReference "NnSwiftUIKit" */;
-			productName = NnSwiftUIKit;
 		};
 		E8A095CB2CE0944C00D28E3F /* SwiftSoup */ = {
 			isa = XCSwiftPackageProductDependency;

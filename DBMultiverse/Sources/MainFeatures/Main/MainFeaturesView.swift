@@ -15,6 +15,11 @@ struct MainFeaturesView: View {
     var body: some View {
         MainNavStack {
             ChapterListFeatureView(eventHandler: .init(chapterList: chapterList))
+                .navigationDestination(for: Chapter.self) { chapter in
+                    // TODO: -
+                    ComicPageFeatureView(viewModel: .customInit(chapter: chapter, currentPage: 1))
+                        .navigationTitle(chapter.name)
+                }
         } settingsContent: {
             SettingsFeatureNavStack()
         }
@@ -41,4 +46,18 @@ fileprivate struct MainNavStack<ComicContent: View, SettingsContent: View>: View
 #Preview {
     MainFeaturesView()
         .withPreviewModifiers()
+}
+
+
+// MARK: - Extension Dependencies
+fileprivate extension ComicPageViewModel {
+    static func customInit(chapter: Chapter, currentPage: Int) -> ComicPageViewModel {
+        return .init(chapter: chapter, currentPageNumber: currentPage, loader: ComicPageLoaderAdapter())
+    }
+}
+
+final class ComicPageLoaderAdapter: ComicPageLoader {
+    func loadPages(chapterNumber: Int, pages: [Int]) async throws -> [DBMultiverseComicKit.PageInfo] {
+        []
+    }
 }

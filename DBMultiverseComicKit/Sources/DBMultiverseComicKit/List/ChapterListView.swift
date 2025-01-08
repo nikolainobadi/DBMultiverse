@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  ChapterListView.swift
 //  
 //
 //  Created by Nikolai Nobadi on 1/7/25.

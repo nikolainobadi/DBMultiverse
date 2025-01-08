@@ -27,10 +27,6 @@
 		D46C70862D1BB7E000C217D6 /* ChapterListRepositoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46C70852D1BB7E000C217D6 /* ChapterListRepositoryTests.swift */; };
 		D46C70882D1BB8BC00C217D6 /* ChapterListRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46C70872D1BB8BC00C217D6 /* ChapterListRepository.swift */; };
 		D4771DBF2D2A2C4200F2AC58 /* iPadComicPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4771DBE2D2A2C4200F2AC58 /* iPadComicPicker.swift */; };
-		D49598062D0B750A00B4493F /* ChapterListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49598052D0B750A00B4493F /* ChapterListView.swift */; };
-		D49598082D0B754600B4493F /* OldChapterSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49598072D0B754600B4493F /* OldChapterSection.swift */; };
-		D495980A2D0B757600B4493F /* ComicType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49598092D0B757600B4493F /* ComicType.swift */; };
-		D495980C2D0B75E500B4493F /* CustomAsyncImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D495980B2D0B75E500B4493F /* CustomAsyncImage.swift */; };
 		D495980F2D0B762E00B4493F /* HapticButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = D495980E2D0B762E00B4493F /* HapticButton.swift */; };
 		D49598112D0B764000B4493F /* ZoomableImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49598102D0B764000B4493F /* ZoomableImageView.swift */; };
 		D49598132D0B765600B4493F /* ComicDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49598122D0B765600B4493F /* ComicDetailViewModel.swift */; };
@@ -99,10 +95,6 @@
 		D46C70852D1BB7E000C217D6 /* ChapterListRepositoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChapterListRepositoryTests.swift; sourceTree = "<group>"; };
 		D46C70872D1BB8BC00C217D6 /* ChapterListRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChapterListRepository.swift; sourceTree = "<group>"; };
 		D4771DBE2D2A2C4200F2AC58 /* iPadComicPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iPadComicPicker.swift; sourceTree = "<group>"; };
-		D49598052D0B750A00B4493F /* ChapterListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChapterListView.swift; sourceTree = "<group>"; };
-		D49598072D0B754600B4493F /* OldChapterSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OldChapterSection.swift; sourceTree = "<group>"; };
-		D49598092D0B757600B4493F /* ComicType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComicType.swift; sourceTree = "<group>"; };
-		D495980B2D0B75E500B4493F /* CustomAsyncImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAsyncImage.swift; sourceTree = "<group>"; };
 		D495980E2D0B762E00B4493F /* HapticButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticButton.swift; sourceTree = "<group>"; };
 		D49598102D0B764000B4493F /* ZoomableImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomableImageView.swift; sourceTree = "<group>"; };
 		D49598122D0B765600B4493F /* ComicDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComicDetailViewModel.swift; sourceTree = "<group>"; };
@@ -205,16 +197,6 @@
 			path = UnitTests;
 			sourceTree = "<group>";
 		};
-		D49598042D0B74E300B4493F /* List */ = {
-			isa = PBXGroup;
-			children = (
-				D49598052D0B750A00B4493F /* ChapterListView.swift */,
-				D49598072D0B754600B4493F /* OldChapterSection.swift */,
-				D495980B2D0B75E500B4493F /* CustomAsyncImage.swift */,
-			);
-			path = List;
-			sourceTree = "<group>";
-		};
 		D495980D2D0B761600B4493F /* Detail */ = {
 			isa = PBXGroup;
 			children = (
@@ -277,7 +259,6 @@
 				E88C4C602CE32FC600CF3D0C /* ChapterLoaderAdapter.swift */,
 				D42036A62D2F068F00F0A1D0 /* SwiftDataChapterListEventHandler.swift */,
 				D42036A82D2F06B400F0A1D0 /* SwiftDataChapterList.swift */,
-				D42036AA2D2F06F800F0A1D0 /* ChapterListFeatureView.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -285,8 +266,8 @@
 		E88C4C572CE32F6D00CF3D0C /* App */ = {
 			isa = PBXGroup;
 			children = (
-				E8A095BC2CE0941200D28E3F /* DBMultiverseApp.swift */,
 				D46C707C2D1BB50600C217D6 /* AppLauncher.swift */,
+				E8A095BC2CE0941200D28E3F /* DBMultiverseApp.swift */,
 				D46C707E2D1BB55500C217D6 /* TestApp.swift */,
 			);
 			path = App;
@@ -307,7 +288,9 @@
 		E88C4C5D2CE32FB000CF3D0C /* Old */ = {
 			isa = PBXGroup;
 			children = (
+				D495980D2D0B761600B4493F /* Detail */,
 				E88C4C5E2CE32FB500CF3D0C /* OldChapter.swift */,
+				D4DD9B712D0A6EFD00A16227 /* ComicFeatureChildStack.swift */,
 			);
 			path = Old;
 			sourceTree = "<group>";
@@ -374,20 +357,9 @@
 		E8B1AFAF2CFEDCD100BB9F9C /* Comic */ = {
 			isa = PBXGroup;
 			children = (
-				E8B1AFB22CFEE12D00BB9F9C /* Main */,
-				D49598042D0B74E300B4493F /* List */,
-				D495980D2D0B761600B4493F /* Detail */,
+				D42036AA2D2F06F800F0A1D0 /* ChapterListFeatureView.swift */,
 			);
 			path = Comic;
-			sourceTree = "<group>";
-		};
-		E8B1AFB22CFEE12D00BB9F9C /* Main */ = {
-			isa = PBXGroup;
-			children = (
-				D4DD9B712D0A6EFD00A16227 /* ComicFeatureChildStack.swift */,
-				D49598092D0B757600B4493F /* ComicType.swift */,
-			);
-			path = Main;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -517,7 +489,6 @@
 				D42AF28E2D2A1F1A00AB36EC /* CustomButtonStyle.swift in Sources */,
 				D42036A52D2F066F00F0A1D0 /* iPadMainNavStack.swift in Sources */,
 				D49598132D0B765600B4493F /* ComicDetailViewModel.swift in Sources */,
-				D49598082D0B754600B4493F /* OldChapterSection.swift in Sources */,
 				E8D4ED202CE721CA005ED4BC /* String+Extensions.swift in Sources */,
 				D42036AB2D2F06F800F0A1D0 /* ChapterListFeatureView.swift in Sources */,
 				D4FF65832D0940A70023988F /* SwiftDataChapter.swift in Sources */,
@@ -534,7 +505,6 @@
 				D42036AD2D2F096D00F0A1D0 /* iPhoneComicPicker.swift in Sources */,
 				D4DD9B6E2D0A44A400A16227 /* FetchChapterListViewModifier.swift in Sources */,
 				D42036A72D2F068F00F0A1D0 /* SwiftDataChapterListEventHandler.swift in Sources */,
-				D495980C2D0B75E500B4493F /* CustomAsyncImage.swift in Sources */,
 				D49598112D0B764000B4493F /* ZoomableImageView.swift in Sources */,
 				E88C4C612CE32FC600CF3D0C /* ChapterLoaderAdapter.swift in Sources */,
 				D42AF2962D2A23D000AB36EC /* SettingsLinkItem.swift in Sources */,
@@ -546,12 +516,10 @@
 				D45F90A72D2A487C0040C04C /* ChapterInfo.swift in Sources */,
 				D4AD507A2D0A81CA00F4D874 /* ComicDetailView.swift in Sources */,
 				D4D32FB32D2CD44E0059DA27 /* Constants.swift in Sources */,
-				D49598062D0B750A00B4493F /* ChapterListView.swift in Sources */,
 				D49598152D0B766E00B4493F /* ChapterComicLoaderAdapter.swift in Sources */,
 				D4D32FAD2D2CCE1D0059DA27 /* WelcomeView.swift in Sources */,
 				E8A095BD2CE0941200D28E3F /* DBMultiverseApp.swift in Sources */,
 				D46C70882D1BB8BC00C217D6 /* ChapterListRepository.swift in Sources */,
-				D495980A2D0B757600B4493F /* ComicType.swift in Sources */,
 				D4771DBF2D2A2C4200F2AC58 /* iPadComicPicker.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

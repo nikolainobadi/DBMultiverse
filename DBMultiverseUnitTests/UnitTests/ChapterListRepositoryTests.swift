@@ -95,7 +95,7 @@ extension ChapterListRepositoryTests {
 
 // MARK: - SUT
 extension ChapterListRepositoryTests {
-    func makeSUT(chaptersToLoad: [Chapter] = [], specialsToLoad: [Special] = [], throwError: Bool = false, file: StaticString = #filePath, line: UInt = #line) -> (sut: ChapterListRepository, store: MockStore) {
+    func makeSUT(chaptersToLoad: [OldChapter] = [], specialsToLoad: [OldSpecial] = [], throwError: Bool = false, file: StaticString = #filePath, line: UInt = #line) -> (sut: ChapterListRepository, store: MockStore) {
         let store = MockStore(throwError: throwError, chaptersToLoad: chaptersToLoad, specialsToLoad: specialsToLoad)
         let sut = ChapterListRepository(loader: store)
         
@@ -104,7 +104,7 @@ extension ChapterListRepositoryTests {
         return (sut, store)
     }
     
-    func makeChapter(name: String = "First Chapter", number: Int = 1, start: Int = 1, end: Int = 5) -> Chapter {
+    func makeChapter(name: String = "First Chapter", number: Int = 1, start: Int = 1, end: Int = 5) -> OldChapter {
         return .init(name: name, number: number, startPage: start, endPage: end, coverImageURL: "")
     }
     
@@ -112,7 +112,7 @@ extension ChapterListRepositoryTests {
         return .init()
     }
     
-    func makeSpecial(universe: Int = 1, chapters: [Chapter] = []) -> Special {
+    func makeSpecial(universe: Int = 1, chapters: [OldChapter] = []) -> OldSpecial {
         return .init(universe: universe, chapters: chapters)
     }
     
@@ -126,16 +126,16 @@ extension ChapterListRepositoryTests {
 extension ChapterListRepositoryTests {
     class MockStore: ChapterDataStore {
         private let throwError: Bool
-        private let chaptersToLoad: [Chapter]
-        private let specialsToLoad: [Special]
+        private let chaptersToLoad: [OldChapter]
+        private let specialsToLoad: [OldSpecial]
         
-        init(throwError: Bool, chaptersToLoad: [Chapter], specialsToLoad: [Special]) {
+        init(throwError: Bool, chaptersToLoad: [OldChapter], specialsToLoad: [OldSpecial]) {
             self.throwError = throwError
             self.chaptersToLoad = chaptersToLoad
             self.specialsToLoad = specialsToLoad
         }
         
-        func loadChapterLists() async throws -> (mainStory: [Chapter], specials: [Special]) {
+        func loadChapterLists() async throws -> (mainStory: [OldChapter], specials: [OldSpecial]) {
             if throwError { throw NSError(domain: "Test", code: 0) }
             
             return (chaptersToLoad, specialsToLoad)

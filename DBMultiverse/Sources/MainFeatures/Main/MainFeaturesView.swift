@@ -7,96 +7,64 @@
 
 import SwiftUI
 import SwiftData
-import NnSwiftUIKit
+import DBMultiverseComicKit
 
 struct MainFeaturesView: View {
-    @Query(sort: \SwiftDataChapter.number, order: .forward) var chapters: [SwiftDataChapter]
+    @StateObject var viewModel: MainFeaturesViewModel
+    @Query(sort: \SwiftDataChapter.number, order: .forward) var chapterList: SwiftDataChapterList
     
     var body: some View {
-        iPhoneTabView(chapters: chapters)
-            .showingConditionalView(when: isPad) {
-                iPadStack(chapters: chapters)
-            }
-            .fetchingChapters(existingChapterNumbers: chapters.map({ $0.number }))
+        MainNavStack {
+            ChapterListFeatureView(eventHandler: .customInit(viewModel: viewModel, chapterList: chapterList))
+                .navigationDestination(for: ChapterRoute.self) { route in
+                    ComicPageFeatureView(viewModel: .customInit(route: route, store: viewModel, chapterList: chapterList))
+                }
+        } settingsContent: {
+            SettingsFeatureNavStack()
+        }
+        .asyncTask {
+            try await viewModel.loadData()
+        }
+        .syncChaptersWithSwiftData(chapters: viewModel.chapters)
+//        .fetchingChapters(existingChapterNumbers: chapterList.map({ $0.number }))
     }
 }
 
 
 // MARK: - NavStack
-fileprivate struct ComicNavStack<Content: View>: View {
-    @ViewBuilder var content: () -> Content
+fileprivate struct MainNavStack<ComicContent: View, SettingsContent: View>: View {
+    @ViewBuilder var comicContent: () -> ComicContent
+    @ViewBuilder var settingsContent: () -> SettingsContent
     
     var body: some View {
-        NavigationStack {
-            VStack {
-                VStack(spacing: 0) {
-                    HStack {
-                        Text("DB")
-                            .textLinearGradient(.yellowText)
-            
-                        Text("Multiverse")
-                            .textLinearGradient(.redText)
-                    }
-                    .bold()
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    
-                    .withFont(.title3, autoSizeLineLimit: 1)
-                    
-                    Divider()
-                }
-                .padding()
-                
-                content()
+        iPhoneMainTabView(comicContent: comicContent, settingsTab: settingsContent)
+            .showingConditionalView(when: isPad) {
+                iPadMainNavStack(comicContent: comicContent, settingsContent: settingsContent)
             }
-        }
-    }
-}
-
-
-// MARK: - TabView
-fileprivate struct iPhoneTabView: View {
-    let chapters: [SwiftDataChapter]
-    
-    var body: some View {
-        TabView {
-            ComicNavStack {
-                ComicFeatureChildStack(chapters: chapters)
-            }
-            .tabItem {
-                Label("Comic", systemImage: "book")
-            }
-               
-            SettingsFeatureNavStack()
-                .tabItem {
-                    Label("Settings", systemImage: "gearshape")
-                }
-        }
-    }
-}
-
-
-// MARK: - PadView
-fileprivate struct iPadStack: View {
-    @State private var showingPadSettings = false
-    
-    let chapters: [SwiftDataChapter]
-    
-    var body: some View {
-        ComicNavStack {
-            ComicFeatureChildStack(chapters: chapters)
-                .withNavBarButton(buttonContent: .image(.system("gearshape"))) {
-                    showingPadSettings = true
-                }
-                .sheetWithErrorHandling(isPresented: $showingPadSettings) {
-                    SettingsFeatureNavStack()
-                }
-        }
     }
 }
 
 
 // MARK: - Preview
-#Preview {
-    MainFeaturesView()
-        .withPreviewModifiers()
+//#Preview {
+//    return MainFeaturesView(viewModel: .init())
+//        .withPreviewModifiers()
+//}
+
+
+// MARK: - Extension Dependencies
+fileprivate extension SwiftDataChapterListEventHandler {
+    static func customInit(viewModel: MainFeaturesViewModel, chapterList: SwiftDataChapterList) -> SwiftDataChapterListEventHandler {
+        return .init(lastReadSpecialPage: viewModel.lastReadSpecialPage, lastReadMainStoryPage: viewModel.lastReadMainStoryPage, chapterList: chapterList)
+    }
+}
+
+fileprivate extension ComicPageViewModel {
+    static func customInit(route: ChapterRoute, store: MainFeaturesViewModel, chapterList: SwiftDataChapterList) -> ComicPageViewModel {
+        let currentPageNumber = store.getCurrentPageNumber(for: route.comicType)
+        let delegate = ComicPageLoaderAdapter(comicType: route.comicType, store: store)
+        let decorator = ComicPageDelegateDecorator(chapter: route.chapter, decoratee: delegate, chapterList: chapterList)
+        
+        return .init(chapter: route.chapter, currentPageNumber: currentPageNumber, delegate: decorator)
+    }
 }

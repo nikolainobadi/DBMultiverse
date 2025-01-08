@@ -21,7 +21,7 @@ extension SwiftDataChapterListEventHandler: ChapterListEventHandler {
         return .init(string: .makeFullURLString(suffix: chapter.coverImageURL))
     }
     
-    func unreadChapter(_ chapter: DBMultiverseComicKit.Chapter) {
+    func toggleReadStatus(for chapter: DBMultiverseComicKit.Chapter) {
         if chapter.didFinishReading {
             chapterList.unread(chapter)
         } else {

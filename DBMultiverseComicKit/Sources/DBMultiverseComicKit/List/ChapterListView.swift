@@ -45,8 +45,8 @@ public struct ChapterListView<ComicPicker: View>: View {
                     ForEach(section.chapters, id: \.name) { chapter in
                         ChapterRow(chapter, url: eventHandler.makeImageURL(for: chapter), imageSize: imageSize)
                             .asNavLink(ChapterRoute(chapter: chapter, comicType: selection))
-                            .withUnreadSwipeAction(isActive: true) {
-                                eventHandler.unreadChapter(chapter)
+                            .withToggleReadSwipeAction(isRead: chapter.didFinishReading) {
+                                eventHandler.toggleReadStatus(for: chapter)
                             }
                     }
                 }
@@ -81,12 +81,17 @@ fileprivate struct ChapterRow: View {
                 Text(chapter.pageRangeText)
                     .withFont(textColor: .secondary)
                 
-                if chapter.didFinishReading {
-                    Text("Finished")
-                        .padding(.horizontal)
-                        .withFont(.caption, textColor: .red)
-                        .frame(maxWidth: .infinity, alignment: .trailing)
+                if let lastReadPage = chapter.lastReadPage {
+                    Text("Last read page: \(lastReadPage)")
+                        .withFont(.caption2, textColor: .secondary)
                 }
+            }
+            
+            if chapter.didFinishReading {
+                Text("Finished")
+                    .padding(.horizontal)
+                    .withFont(.caption, textColor: .red)
+                    .frame(maxWidth: .infinity, alignment: .trailing)
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
@@ -96,7 +101,7 @@ fileprivate struct ChapterRow: View {
 
 // MARK: - Dependencies
 public protocol ChapterListEventHandler {
-    func unreadChapter(_ chapter: Chapter)
+    func toggleReadStatus(for chapter: Chapter)
     func makeImageURL(for chapter: Chapter) -> URL?
     func makeSections(type: ComicType) -> [ChapterSection]
 }
@@ -104,8 +109,8 @@ public protocol ChapterListEventHandler {
 
 // MARK: - Extension Dependencies
 extension View {
-    func withUnreadSwipeAction(isActive: Bool, action: @escaping () -> Void) -> some View {
-        withSwipeAction(info: .init(prompt: "Unread"), systemImage: "eraser.fill", tint: .gray, edge: .leading, isActive: isActive, action: action)
+    func withToggleReadSwipeAction(isRead: Bool, action: @escaping () -> Void) -> some View {
+        withSwipeAction(info: .init(prompt: isRead ? "Unread" : "Complete"), systemImage: isRead ? "eraser.fill" : "book", tint: isRead ? .gray : .blue, edge: .leading, action: action)
     }
 }
 

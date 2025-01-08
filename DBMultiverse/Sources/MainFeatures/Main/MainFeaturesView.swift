@@ -17,7 +17,7 @@ struct MainFeaturesView: View {
         MainNavStack {
             ChapterListFeatureView(eventHandler: .customInit(viewModel: viewModel, chapterList: chapterList))
                 .navigationDestination(for: ChapterRoute.self) { route in
-                    ComicPageFeatureView(viewModel: .customInit(route: route, store: viewModel))
+                    ComicPageFeatureView(viewModel: .customInit(route: route, store: viewModel, chapterList: chapterList))
                 }
         } settingsContent: {
             SettingsFeatureNavStack()
@@ -56,10 +56,11 @@ fileprivate extension SwiftDataChapterListEventHandler {
 }
 
 fileprivate extension ComicPageViewModel {
-    static func customInit(route: ChapterRoute, store: MainFeaturesViewModel) -> ComicPageViewModel {
+    static func customInit(route: ChapterRoute, store: MainFeaturesViewModel, chapterList: SwiftDataChapterList) -> ComicPageViewModel {
         let currentPageNumber = store.getCurrentPageNumber(for: route.comicType)
         let delegate = ComicPageLoaderAdapter(comicType: route.comicType, store: store)
+        let decorator = ComicPageDelegateDecorator(chapter: route.chapter, decoratee: delegate, chapterList: chapterList)
         
-        return .init(chapter: route.chapter, currentPageNumber: currentPageNumber, delegate: delegate)
+        return .init(chapter: route.chapter, currentPageNumber: currentPageNumber, delegate: decorator)
     }
 }

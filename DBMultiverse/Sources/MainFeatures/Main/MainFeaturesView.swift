@@ -26,7 +26,6 @@ struct MainFeaturesView: View {
             try await viewModel.loadData()
         }
         .syncChaptersWithSwiftData(chapters: viewModel.chapters)
-//        .fetchingChapters(existingChapterNumbers: chapterList.map({ $0.number }))
     }
 }
 
@@ -46,10 +45,14 @@ fileprivate struct MainNavStack<ComicContent: View, SettingsContent: View>: View
 
 
 // MARK: - Preview
-//#Preview {
-//    return MainFeaturesView(viewModel: .init())
-//        .withPreviewModifiers()
-//}
+#Preview {
+    class PreviewLoader: ChapterLoader {
+        func loadChapters() async throws -> [Chapter] { [] }
+    }
+    
+    return MainFeaturesView(viewModel: .init(loader: PreviewLoader()))
+        .withPreviewModifiers()
+}
 
 
 // MARK: - Extension Dependencies

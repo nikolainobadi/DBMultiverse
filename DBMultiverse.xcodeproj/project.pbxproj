@@ -298,6 +298,7 @@
 				E8B1AFAF2CFEDCD100BB9F9C /* Comic */,
 				D4DD9B752D0A721E00A16227 /* Settings */,
 				D42036B42D2F156E00F0A1D0 /* Adapters */,
+				D4D32FB12D2CD4480059DA27 /* Shared */,
 			);
 			path = MainFeatures;
 			sourceTree = "<group>";
@@ -309,7 +310,6 @@
 				D4D32FAE2D2CD2550059DA27 /* Launch */,
 				E88C4C582CE32F7200CF3D0C /* MainFeatures */,
 				D4FF65812D09408F0023988F /* SwiftData */,
-				D4D32FB12D2CD4480059DA27 /* Shared */,
 			);
 			path = Sources;
 			sourceTree = "<group>";

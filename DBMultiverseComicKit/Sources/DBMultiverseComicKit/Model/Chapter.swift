@@ -28,3 +28,11 @@ public struct Chapter: Hashable {
         self.didFinishReading = didFinishReading
     }
 }
+
+
+// MARK: - Helpers
+public extension Chapter {
+    func containsPage(_ page: Int) -> Bool {
+        return page >= startPage && page <= endPage
+    }
+}

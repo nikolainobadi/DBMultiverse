@@ -17,7 +17,7 @@ public struct ComicPageImageView: View {
     public var body: some View {
         VStack {
             Text(page.chapterName)
-            Text(page.positionText)
+            Text(page.pagePositionText)
                 .foregroundStyle(.secondary)
             
             Spacer()
@@ -27,13 +27,5 @@ public struct ComicPageImageView: View {
                     .padding()
             }
         }
-    }
-}
-
-
-// MARK: - Extension Dependencies
-fileprivate extension ComicPage {
-    var positionText: String {
-        return "" // TODO: -
     }
 }

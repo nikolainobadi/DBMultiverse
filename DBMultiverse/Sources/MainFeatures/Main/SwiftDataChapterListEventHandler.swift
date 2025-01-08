@@ -75,11 +75,3 @@ private extension SwiftDataChapterListEventHandler {
         }
     }
 }
-
-
-// MARK: - Extension Dependenies
-fileprivate extension Chapter {
-    func containsPage(_ page: Int) -> Bool {
-        return page >= startPage && page <= endPage
-    }
-}

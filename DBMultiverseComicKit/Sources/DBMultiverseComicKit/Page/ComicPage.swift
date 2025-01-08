@@ -28,7 +28,15 @@ public extension ComicPage {
     }
     
     var isLastPage: Bool {
-        return pagePosition.page == pagePosition.totalPages
+        return pagePosition.page == pagePosition.totalPageCount
+    }
+    
+    var pagePositionText: String {
+        guard let secondPage = pagePosition.secondPage else {
+            return "\(pagePosition.page)/\(pagePosition.totalPageCount)"
+        }
+        
+        return "\(pagePosition.page)-\(secondPage)/\(pagePosition.totalPageCount)"
     }
 }
 
@@ -36,10 +44,12 @@ public extension ComicPage {
 // MARK: - Dependencies
 public struct PagePosition: Equatable {
     public let page: Int
-    public let totalPages: Int
+    public let secondPage: Int?
+    public let totalPageCount: Int
     
-    public init(page: Int, totalPages: Int) {
+    public init(page: Int, secondPage: Int?, totalPages: Int) {
         self.page = page
-        self.totalPages = totalPages
+        self.secondPage = secondPage
+        self.totalPageCount = totalPages
     }
 }

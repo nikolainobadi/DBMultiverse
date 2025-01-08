@@ -18,7 +18,6 @@ struct MainFeaturesView: View {
             ChapterListFeatureView(eventHandler: .customInit(viewModel: viewModel, chapterList: chapterList))
                 .navigationDestination(for: ChapterRoute.self) { route in
                     ComicPageFeatureView(viewModel: .customInit(route: route, store: viewModel))
-                        .navigationTitle(route.chapter.name)
                 }
         } settingsContent: {
             SettingsFeatureNavStack()

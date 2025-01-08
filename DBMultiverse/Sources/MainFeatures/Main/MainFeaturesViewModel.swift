@@ -17,11 +17,15 @@ final class MainFeaturesViewModel: ObservableObject {
 // MARK: - Actions
 extension MainFeaturesViewModel {
     func updateCurrentPageNumber(_ pageNumber: Int, comicType: ComicType) {
-        switch comicType {
-        case .story:
-            lastReadMainStoryPage = pageNumber
-        case .specials:
-            lastReadSpecialPage = pageNumber
+        Task { @MainActor [unowned self] in
+            switch comicType {
+            case .story:
+                print("updated last read story page")
+                lastReadMainStoryPage = pageNumber
+            case .specials:
+                print("updating last read special page")
+                lastReadSpecialPage = pageNumber
+            }
         }
     }
     

@@ -22,7 +22,7 @@ public final class ComicPageViewModel: ObservableObject {
         self.pages = pages
         self.delegate = delegate
         self.chapter = chapter
-        self.currentPageNumber = currentPageNumber
+        self.currentPageNumber = chapter.getCurrentPage(currentPage: currentPageNumber)
         
         self.startObservers()
     }
@@ -31,8 +31,12 @@ public final class ComicPageViewModel: ObservableObject {
 
 // MARK: - Display Data
 public extension ComicPageViewModel {
-    var currentPagePosition: PagePosition? {
-        return .init(page: currentPageNumber - chapter.startPage, totalPages: chapter.totalPages)
+    var currentPagePosition: PagePosition {
+        let totalpages = chapter.totalPages
+        let secondPage = currentPageInfo?.secondPageNumber
+        let currentPageIndex = currentPageNumber - chapter.startPage
+        
+        return .init(page: currentPageIndex, secondPage: secondPage, totalPages: totalpages)
     }
     
     var currentPageInfo: PageInfo? {
@@ -40,11 +44,16 @@ public extension ComicPageViewModel {
     }
     
     var currentPage: ComicPage? {
-        guard let currentPagePosition, let currentPageInfo else {
+        guard let currentPageInfo else {
             return nil
         }
         
-        return .init(number: currentPageInfo.pageNumber, chapterName: chapter.name, pagePosition: currentPagePosition, imageData: currentPageInfo.imageData)
+        return .init(
+            number: currentPageInfo.pageNumber,
+            chapterName: chapter.name,
+            pagePosition: currentPagePosition,
+            imageData: currentPageInfo.imageData
+        )
     }
 }
 
@@ -53,22 +62,34 @@ public extension ComicPageViewModel {
 public extension ComicPageViewModel {
     func loadData() async throws {
         if !didFetchInitialPages {
-            let startPage = chapter.lastReadPage ?? chapter.startPage
-            let initialPages = Array(startPage...(min(startPage + 4, chapter.endPage)))
+            let initialPages = Array(currentPageNumber...(min(currentPageNumber + 4, chapter.endPage)))
             let fetchedPages = try await delegate.loadPages(chapterNumber: chapter.number, pages: initialPages)
             
             print("fetched \(fetchedPages.count) pages, currentPageNumber: \(currentPageNumber)")
+            
+            fetchedPages.forEach({ print("page number:", $0.pageNumber) })
             
             await setPages(fetchedPages)
         }
     }
     
     func loadRemainingPages() {
-//        let allPages = Array(chapter.startPage...chapter.endPage)
-//        let fetchedPages = pages.map({ $0.number })
-//        let remainingPages = allPages.filter({ !fetchedPages.contains($0) })
-//        
-//        let infoList = try await
+        print("loading the remaining pages")
+        Task {
+            let allPages = Array(chapter.startPage...chapter.endPage)
+            let fetchedPages = pages.map({ $0.pageNumber })
+            let remainingPagesNumbers = allPages.filter({ !fetchedPages.contains($0) })
+            
+            do {
+                let remainingList = try await delegate.loadPages(chapterNumber: chapter.number, pages: remainingPagesNumbers)
+                
+                await addRemainingPages(remainingList)
+                print("loaded \(remainingList.count) remaining pages")
+            } catch {
+                // TODO: - need to handle this error
+                print("Error loading remaining pages: \(error.localizedDescription)")
+            }
+        }
     }
 }
 
@@ -100,6 +121,15 @@ private extension ComicPageViewModel {
         self.pages = pages
         self.didFetchInitialPages = true
     }
+    
+    func addRemainingPages(_ remaining: [PageInfo]) {
+        let uniquePages = remaining.filter { newPage in
+            !pages.contains { $0.pageNumber == newPage.pageNumber }
+        }
+
+        pages.append(contentsOf: uniquePages)
+        pages.sort { $0.pageNumber < $1.pageNumber }
+    }
 }
 
 
@@ -107,9 +137,15 @@ private extension ComicPageViewModel {
 private extension ComicPageViewModel {
     func startObservers() {
         $currentPageNumber
-            .dropFirst()
             .sink { [unowned self] newPageNumber in
                 delegate.updateCurrentPageNumber(newPageNumber)
+            }
+            .store(in: &cancellables)
+        
+        $didFetchInitialPages
+            .first(where: { $0 })
+            .sink { [unowned self] _ in
+                loadRemainingPages()
             }
             .store(in: &cancellables)
     }
@@ -127,6 +163,10 @@ public protocol ComicPageDelegate {
 fileprivate extension Chapter {
     var totalPages: Int {
         return endPage - startPage
+    }
+    
+    func getCurrentPage(currentPage: Int) -> Int {
+        return lastReadPage ?? (containsPage(currentPage) ? currentPage : startPage)
     }
 }
 

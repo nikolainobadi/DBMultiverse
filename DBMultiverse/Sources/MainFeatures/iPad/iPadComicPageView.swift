@@ -20,7 +20,9 @@ struct iPadComicPageView: View {
                 iPadComicButton(.previous, action: previousPage)
                     .disabled(page.isFirstPage)
                 
+                Spacer()
                 ComicPageImageView(page: page)
+                Spacer()
                 
                 iPadComicButton(.next, action: nextPage)
                     .disabled(page.isLastPage)

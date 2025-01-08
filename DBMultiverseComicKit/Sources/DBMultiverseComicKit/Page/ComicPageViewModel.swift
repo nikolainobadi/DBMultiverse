@@ -65,10 +65,6 @@ public extension ComicPageViewModel {
             let initialPages = Array(currentPageNumber...(min(currentPageNumber + 4, chapter.endPage)))
             let fetchedPages = try await delegate.loadPages(chapterNumber: chapter.number, pages: initialPages)
             
-            print("fetched \(fetchedPages.count) pages, currentPageNumber: \(currentPageNumber)")
-            
-            fetchedPages.forEach({ print("page number:", $0.pageNumber) })
-            
             await setPages(fetchedPages)
         }
     }
@@ -84,7 +80,6 @@ public extension ComicPageViewModel {
                 let remainingList = try await delegate.loadPages(chapterNumber: chapter.number, pages: remainingPagesNumbers)
                 
                 await addRemainingPages(remainingList)
-                print("loaded \(remainingList.count) remaining pages")
             } catch {
                 // TODO: - need to handle this error
                 print("Error loading remaining pages: \(error.localizedDescription)")

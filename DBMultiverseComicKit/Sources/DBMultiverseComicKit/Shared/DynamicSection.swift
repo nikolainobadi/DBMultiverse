@@ -8,16 +8,16 @@
 import SwiftUI
 import NnSwiftUIKit
 
-struct DynamicSection<Content: View>: View {
+public struct DynamicSection<Content: View>: View {
     let title: String
     let content: () -> Content
     
-    init(_ title: String, @ViewBuilder content: @escaping () -> Content) {
+    public init(_ title: String, @ViewBuilder content: @escaping () -> Content) {
         self.title = title
         self.content = content
     }
     
-    var body: some View {
+    public var body: some View {
         Section {
             content()
         } header: {
@@ -27,7 +27,7 @@ struct DynamicSection<Content: View>: View {
     }
 }
 
-extension View {
+public extension View {
     var isPad: Bool {
         return UIDevice.current.userInterfaceIdiom == .pad
     }

@@ -1,5 +1,5 @@
 //
-//  FancyPicker.swift
+//  iPadComicPicker.swift
 //  DBMultiverse
 //
 //  Created by Nikolai Nobadi on 1/4/25.
@@ -9,7 +9,7 @@ import SwiftUI
 import NnSwiftUIKit
 import DBMultiverseComicKit
 
-struct FancyPicker: View {
+struct iPadComicPicker: View {
     @Namespace private var namespace
     @Binding var selection: ComicType
     

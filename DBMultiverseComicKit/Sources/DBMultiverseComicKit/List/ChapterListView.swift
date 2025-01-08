@@ -16,6 +16,7 @@ public struct ChapterListView<ComicPicker: View>: View {
     let comicPicker: (Binding<ComicType>) -> ComicPicker
     
     private var sections: [ChapterSection] {
+        // TODO: - need to account for current chapter
         return eventHandler.makeSections(type: selection)
     }
     
@@ -29,13 +30,15 @@ public struct ChapterListView<ComicPicker: View>: View {
         VStack {
             comicPicker($selection)
             
-            List(eventHandler.makeSections(type: selection), id: \.title) { section in
-                ForEach(section.chapters, id: \.name) { chapter in
-                    ChapterRow(chapter, url: eventHandler.makeImageURL(for: chapter), imageSize: imageSize)
-                        .asNavLink(chapter)
-                        .withUnreadSwipeAction(isActive: true) {
-                            eventHandler.unreadChapter(chapter)
-                        }
+            List(sections, id: \.title) { section in
+                DynamicSection(section.title) {
+                    ForEach(section.chapters, id: \.name) { chapter in
+                        ChapterRow(chapter, url: eventHandler.makeImageURL(for: chapter), imageSize: imageSize)
+                            .asNavLink(chapter)
+                            .withUnreadSwipeAction(isActive: true) {
+                                eventHandler.unreadChapter(chapter)
+                            }
+                    }
                 }
             }
             .listStyle(.plain)

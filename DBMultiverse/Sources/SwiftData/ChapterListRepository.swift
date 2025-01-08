@@ -12,10 +12,10 @@ import Foundation
 /// Provides published properties for observing changes to chapters and specials.
 final class ChapterListRepository: ObservableObject {
     /// A list of main story chapters.
-    @Published var chapters: [Chapter] = []
+    @Published var chapters: [OldChapter] = []
     
     /// A list of special chapters grouped by universe.
-    @Published var specials: [Special] = []
+    @Published var specials: [OldSpecial] = []
     
     /// A data loader responsible for fetching chapter data from a remote source or cache.
     private let loader: ChapterDataStore
@@ -42,7 +42,7 @@ extension ChapterListRepository {
     /// - Parameters:
     ///   - chapter: The chapter to add.
     ///   - modelContext: The `ModelContext` used for persistence.
-    func addNewStoryChapter(_ chapter: Chapter, modelContext: ModelContext) {
+    func addNewStoryChapter(_ chapter: OldChapter, modelContext: ModelContext) {
         addNewSwiftDataChapter(chapter, universe: nil, modelContext: modelContext)
     }
     
@@ -51,7 +51,7 @@ extension ChapterListRepository {
     ///   - chapter: The chapter to add.
     ///   - universe: The universe associated with the special chapter.
     ///   - modelContext: The `ModelContext` used for persistence.
-    func addNewSpecialChapter(_ chapter: Chapter, universe: Int, modelContext: ModelContext) {
+    func addNewSpecialChapter(_ chapter: OldChapter, universe: Int, modelContext: ModelContext) {
         addNewSwiftDataChapter(chapter, universe: universe, modelContext: modelContext)
     }
 }
@@ -61,13 +61,13 @@ extension ChapterListRepository {
 private extension ChapterListRepository {
     /// Updates the repository's `chapters` property with new main story chapters.
     /// - Parameter chapters: The new list of main story chapters.
-    func setStoryChapters(_ chapters: [Chapter]) {
+    func setStoryChapters(_ chapters: [OldChapter]) {
         self.chapters = chapters
     }
     
     /// Updates the repository's `specials` property with new special chapters.
     /// - Parameter specials: The new list of special chapters grouped by universe.
-    func setSpecials(_ specials: [Special]) {
+    func setSpecials(_ specials: [OldSpecial]) {
         self.specials = specials
     }
 }
@@ -79,7 +79,7 @@ private extension ChapterListRepository {
     ///   - chapter: The chapter to add.
     ///   - universe: The universe associated with the chapter, if any.
     ///   - modelContext: The `ModelContext` used for persistence.
-    func addNewSwiftDataChapter(_ chapter: Chapter, universe: Int?, modelContext: ModelContext) {
+    func addNewSwiftDataChapter(_ chapter: OldChapter, universe: Int?, modelContext: ModelContext) {
         modelContext.insert(SwiftDataChapter(chapter: chapter, universe: universe))
     }
 }
@@ -90,7 +90,7 @@ protocol ChapterDataStore {
     /// Loads the main story and special chapters.
     /// - Returns: A tuple containing arrays of main story chapters and specials.
     /// - Throws: An error if loading fails.
-    func loadChapterLists() async throws -> (mainStory: [Chapter], specials: [Special])
+    func loadChapterLists() async throws -> (mainStory: [OldChapter], specials: [OldSpecial])
 }
 
 // MARK: - Extension Dependencies
@@ -99,7 +99,7 @@ fileprivate extension SwiftDataChapter {
     /// - Parameters:
     ///   - chapter: The chapter data to initialize with.
     ///   - universe: The universe associated with the chapter, if any.
-    convenience init(chapter: Chapter, universe: Int?) {
+    convenience init(chapter: OldChapter, universe: Int?) {
         self.init(
             name: chapter.name,
             number: chapter.number,

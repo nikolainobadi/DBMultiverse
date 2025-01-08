@@ -11,6 +11,8 @@
 		D42AF2942D2A21C800AB36EC /* DynamicSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42AF2932D2A21C800AB36EC /* DynamicSection.swift */; };
 		D42AF2962D2A23D000AB36EC /* SettingsLinkItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42AF2952D2A23D000AB36EC /* SettingsLinkItem.swift */; };
 		D45F17542D2DF8C5006362E8 /* NnSwiftUIKit in Frameworks */ = {isa = PBXBuildFile; productRef = D45F17532D2DF8C5006362E8 /* NnSwiftUIKit */; };
+		D45F17562D2E0519006362E8 /* DBMultiverseComicKit in Frameworks */ = {isa = PBXBuildFile; productRef = D45F17552D2E0519006362E8 /* DBMultiverseComicKit */; };
+		D45F17592D2E0540006362E8 /* iPhoneMainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45F17582D2E0540006362E8 /* iPhoneMainTabView.swift */; };
 		D45F90A72D2A487C0040C04C /* ChapterInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45F90A62D2A487C0040C04C /* ChapterInfo.swift */; };
 		D46C70792D1BB4E200C217D6 /* NnTestHelpers in Frameworks */ = {isa = PBXBuildFile; productRef = D46C70782D1BB4E200C217D6 /* NnTestHelpers */; };
 		D46C707B2D1BB4F000C217D6 /* NnTestVariables in Frameworks */ = {isa = PBXBuildFile; productRef = D46C707A2D1BB4F000C217D6 /* NnTestVariables */; };
@@ -43,7 +45,7 @@
 		D4FF65832D0940A70023988F /* SwiftDataChapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FF65822D0940A70023988F /* SwiftDataChapter.swift */; };
 		E84A2CE42CFC435800FAF001 /* MainFeaturesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E84A2CE32CFC435800FAF001 /* MainFeaturesView.swift */; };
 		E84A2CE62CFC463300FAF001 /* CustomError.swift in Sources */ = {isa = PBXBuildFile; fileRef = E84A2CE52CFC463300FAF001 /* CustomError.swift */; };
-		E88C4C5F2CE32FB500CF3D0C /* Chapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E88C4C5E2CE32FB500CF3D0C /* Chapter.swift */; };
+		E88C4C5F2CE32FB500CF3D0C /* OldChapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E88C4C5E2CE32FB500CF3D0C /* OldChapter.swift */; };
 		E88C4C612CE32FC600CF3D0C /* ChapterLoaderAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E88C4C602CE32FC600CF3D0C /* ChapterLoaderAdapter.swift */; };
 		E8A095BD2CE0941200D28E3F /* DBMultiverseApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8A095BC2CE0941200D28E3F /* DBMultiverseApp.swift */; };
 		E8A095C12CE0941400D28E3F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E8A095C02CE0941400D28E3F /* Assets.xcassets */; };
@@ -79,6 +81,7 @@
 		D42AF28D2D2A1F1A00AB36EC /* CustomButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButtonStyle.swift; sourceTree = "<group>"; };
 		D42AF2932D2A21C800AB36EC /* DynamicSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DynamicSection.swift; sourceTree = "<group>"; };
 		D42AF2952D2A23D000AB36EC /* SettingsLinkItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsLinkItem.swift; sourceTree = "<group>"; };
+		D45F17582D2E0540006362E8 /* iPhoneMainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iPhoneMainTabView.swift; sourceTree = "<group>"; };
 		D45F90A62D2A487C0040C04C /* ChapterInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChapterInfo.swift; sourceTree = "<group>"; };
 		D46C706E2D1BB4C000C217D6 /* DBMultiverseUnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DBMultiverseUnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D46C707C2D1BB50600C217D6 /* AppLauncher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLauncher.swift; sourceTree = "<group>"; };
@@ -112,7 +115,7 @@
 		D4FF65822D0940A70023988F /* SwiftDataChapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftDataChapter.swift; sourceTree = "<group>"; };
 		E84A2CE32CFC435800FAF001 /* MainFeaturesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainFeaturesView.swift; sourceTree = "<group>"; };
 		E84A2CE52CFC463300FAF001 /* CustomError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomError.swift; sourceTree = "<group>"; };
-		E88C4C5E2CE32FB500CF3D0C /* Chapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chapter.swift; sourceTree = "<group>"; };
+		E88C4C5E2CE32FB500CF3D0C /* OldChapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OldChapter.swift; sourceTree = "<group>"; };
 		E88C4C602CE32FC600CF3D0C /* ChapterLoaderAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChapterLoaderAdapter.swift; sourceTree = "<group>"; };
 		E8A095B92CE0941200D28E3F /* DBMultiverse.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DBMultiverse.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E8A095BC2CE0941200D28E3F /* DBMultiverseApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBMultiverseApp.swift; sourceTree = "<group>"; };
@@ -135,6 +138,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E8A095CC2CE0944C00D28E3F /* SwiftSoup in Frameworks */,
+				D45F17562D2E0519006362E8 /* DBMultiverseComicKit in Frameworks */,
 				D46C707B2D1BB4F000C217D6 /* NnTestVariables in Frameworks */,
 				D45F17542D2DF8C5006362E8 /* NnSwiftUIKit in Frameworks */,
 			);
@@ -143,6 +147,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		D45F17572D2E052E006362E8 /* iPhone */ = {
+			isa = PBXGroup;
+			children = (
+				D45F17582D2E0540006362E8 /* iPhoneMainTabView.swift */,
+			);
+			path = iPhone;
+			sourceTree = "<group>";
+		};
 		D46C706F2D1BB4C000C217D6 /* DBMultiverseUnitTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -270,7 +282,7 @@
 		E88C4C5D2CE32FB000CF3D0C /* Shared */ = {
 			isa = PBXGroup;
 			children = (
-				E88C4C5E2CE32FB500CF3D0C /* Chapter.swift */,
+				E88C4C5E2CE32FB500CF3D0C /* OldChapter.swift */,
 				D495980E2D0B762E00B4493F /* HapticButton.swift */,
 				E8D4ED1F2CE721CA005ED4BC /* String+Extensions.swift */,
 				E84A2CE52CFC463300FAF001 /* CustomError.swift */,
@@ -285,6 +297,7 @@
 		E88C4C622CE3300A00CF3D0C /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				D45F17572D2E052E006362E8 /* iPhone */,
 				E88C4C572CE32F6D00CF3D0C /* App */,
 				D4D32FAE2D2CD2550059DA27 /* Launch */,
 				E88C4C582CE32F7200CF3D0C /* MainFeatures */,
@@ -410,6 +423,7 @@
 				E8A095CB2CE0944C00D28E3F /* SwiftSoup */,
 				D46C707A2D1BB4F000C217D6 /* NnTestVariables */,
 				D45F17532D2DF8C5006362E8 /* NnSwiftUIKit */,
+				D45F17552D2E0519006362E8 /* DBMultiverseComicKit */,
 			);
 			productName = DBMultiverse;
 			productReference = E8A095B92CE0941200D28E3F /* DBMultiverse.app */;
@@ -499,7 +513,8 @@
 				D4D32FB02D2CD25C0059DA27 /* LaunchView.swift in Sources */,
 				D4DD9B722D0A6EFD00A16227 /* ComicFeatureChildStack.swift in Sources */,
 				D49598182D0B82D700B4493F /* SettingsViewModel.swift in Sources */,
-				E88C4C5F2CE32FB500CF3D0C /* Chapter.swift in Sources */,
+				D45F17592D2E0540006362E8 /* iPhoneMainTabView.swift in Sources */,
+				E88C4C5F2CE32FB500CF3D0C /* OldChapter.swift in Sources */,
 				D495980F2D0B762E00B4493F /* HapticButton.swift in Sources */,
 				D4DD9B742D0A6F5000A16227 /* PreviewModifiersViewModifier.swift in Sources */,
 				E84A2CE62CFC463300FAF001 /* CustomError.swift in Sources */,
@@ -837,6 +852,10 @@
 			isa = XCSwiftPackageProductDependency;
 			package = D45F17522D2DF8C5006362E8 /* XCRemoteSwiftPackageReference "NnSwiftUIKit" */;
 			productName = NnSwiftUIKit;
+		};
+		D45F17552D2E0519006362E8 /* DBMultiverseComicKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = DBMultiverseComicKit;
 		};
 		D46C70782D1BB4E200C217D6 /* NnTestHelpers */ = {
 			isa = XCSwiftPackageProductDependency;

@@ -19,7 +19,7 @@ extension ChapterLoaderAdapter: ChapterDataStore {
     /// Loads and parses the list of chapters, splitting them into main story and specials.
     /// - Returns: A tuple containing arrays of main story chapters and specials.
     /// - Throws: `CustomError.loadHTMLError` or `CustomError.parseHTMLError` if loading or parsing fails.
-    func loadChapterLists() async throws -> (mainStory: [Chapter], specials: [Special]) {
+    func loadChapterLists() async throws -> (mainStory: [OldChapter], specials: [OldSpecial]) {
         guard let html = try await loadHTML() else {
             throw CustomError.loadHTMLError
         }
@@ -42,19 +42,19 @@ private extension ChapterLoaderAdapter {
     /// - Parameter html: The HTML content to parse.
     /// - Returns: A tuple containing arrays of main story chapters and specials.
     /// - Throws: `CustomError.parseHTMLError` if parsing fails.
-    func parseHTMLWithSpecials(_ html: String) throws -> ([Chapter], [Special]) {
+    func parseHTMLWithSpecials(_ html: String) throws -> ([OldChapter], [OldSpecial]) {
         do {
             let document = try SwiftSoup.parse(html)
             let sections = try document.select("h1.horscadrelect")
             
-            var mainStory: [Chapter] = []
-            var specials: [Special] = []
+            var mainStory: [OldChapter] = []
+            var specials: [OldSpecial] = []
             
             for section in sections {
                 let sectionTitle = try section.text()
                 
                 var currentElement = try section.nextElementSibling()
-                var currentChapters: [Chapter] = []
+                var currentChapters: [OldChapter] = []
                 
                 // Iterate over elements until the next section header.
                 while let element = currentElement, element.tagName() != "h1" {
@@ -84,7 +84,7 @@ private extension ChapterLoaderAdapter {
     /// Parses a chapter element from the HTML to create a `Chapter` object.
     /// - Parameter element: The HTML element representing a chapter.
     /// - Returns: A `Chapter` object, or `nil` if parsing fails.
-    func parseChapter(_ element: Element) throws -> Chapter? {
+    func parseChapter(_ element: Element) throws -> OldChapter? {
         let chapterTitle = try element.select("h4").text()
         
         if let match = chapterTitle.range(of: #"Chapter (\d+):"#, options: .regularExpression) {
@@ -106,7 +106,7 @@ private extension ChapterLoaderAdapter {
                 let coverImageElement = try element.select("img").first()
                 let coverImageURL = try coverImageElement?.attr("src") ?? ""
                 
-                return Chapter(name: cleanedTitle, number: number, startPage: startPage, endPage: endPage, coverImageURL: coverImageURL)
+                return OldChapter(name: cleanedTitle, number: number, startPage: startPage, endPage: endPage, coverImageURL: coverImageURL)
             }
         }
         

@@ -8,10 +8,14 @@
 import SwiftUI
 import NnSwiftUIKit
 
-struct ComicNavStack<Content: View>: View {
-    @ViewBuilder var content: Content
+public struct ComicNavStack<Content: View>: View {
+    let content: () -> Content
     
-    var body: some View {
+    public init(@ViewBuilder content: @escaping () -> Content) {
+        self.content = content
+    }
+    
+    public var body: some View {
         NavigationStack {
             VStack {
                 VStack(spacing: 0) {
@@ -30,7 +34,7 @@ struct ComicNavStack<Content: View>: View {
                 }
                 .padding()
                 
-                content
+                content()
             }
         }
     }

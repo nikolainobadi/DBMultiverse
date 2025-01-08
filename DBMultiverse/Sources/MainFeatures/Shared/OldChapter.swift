@@ -1,11 +1,11 @@
 //
-//  Chapter.swift
+//  OldChapter.swift
 //  DBMultiverse
 //
 //  Created by Nikolai Nobadi on 11/11/24.
 //
 
-struct Chapter: Hashable, Identifiable {
+struct OldChapter: Hashable, Identifiable {
     let name: String
     let number: Int
     let startPage: Int
@@ -17,7 +17,7 @@ struct Chapter: Hashable, Identifiable {
     }
 }
 
-struct Special: Equatable {
+struct OldSpecial: Equatable {
     let universe: Int
-    let chapters: [Chapter]
+    let chapters: [OldChapter]
 }

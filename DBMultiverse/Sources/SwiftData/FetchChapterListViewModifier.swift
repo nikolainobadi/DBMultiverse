@@ -17,7 +17,7 @@ struct FetchChapterListViewModifier: ViewModifier {
     let existingChapterNumbers: [Int]
     
     // TODO: - will need to adjust to account for chapters that get new pages
-    private func shouldAddChapter(_ chapter: Chapter) -> Bool {
+    private func shouldAddChapter(_ chapter: OldChapter) -> Bool {
         return !existingChapterNumbers.contains(chapter.number)
     }
     

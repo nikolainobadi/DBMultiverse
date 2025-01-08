@@ -11,19 +11,30 @@ import NnSwiftUIKit
 public struct ComicPageView<DetailView: View>: View {
     @StateObject var viewModel: ComicPageViewModel
     
-    let detailView: (ComicPage) -> DetailView
+    let detailView: (ComicPageViewModel) -> DetailView
     
-    public init(loader: ComicPageLoader, @ViewBuilder detailView: @escaping (ComicPage) -> DetailView) {
-        self._viewModel = .init(wrappedValue: .init(loader: loader))
+    public init(loader: ComicPageLoader, @ViewBuilder detailView: @escaping (ComicPageViewModel) -> DetailView) {
+        // TODO: - 
+        self._viewModel = .init(wrappedValue: .init(currentPageNumber: 0, loader: loader))
         self.detailView = detailView
     }
+    
+//    let detailView: (ComicPage) -> DetailView
+//    
+//    public init(loader: ComicPageLoader, @ViewBuilder detailView: @escaping (ComicPage) -> DetailView) {
+//        self._viewModel = .init(wrappedValue: .init(loader: loader))
+//        self.detailView = detailView
+//    }
     
     public var body: some View {
         Text("Loading page...")
             .withFont()
-            .showingViewWithOptional(viewModel.currentPage) { page in
-                detailView(page)
+            .showingConditionalView(when: viewModel.currentPage != nil) {
+                detailView(viewModel)
             }
+//            .showingViewWithOptional(viewModel.currentPage) { page in
+//                detailView(page)
+//            }
             .asyncTask {
                 try await viewModel.loadData()
             }

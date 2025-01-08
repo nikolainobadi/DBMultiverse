@@ -5,7 +5,7 @@
 //  Created by Nikolai Nobadi on 12/12/24.
 //
 
-struct ChapterSection {
+struct OldChapterSection {
     let title: String
     let chapters: [SwiftDataChapter]
 }

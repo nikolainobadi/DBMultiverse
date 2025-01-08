@@ -23,7 +23,7 @@
 		D46C70882D1BB8BC00C217D6 /* ChapterListRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46C70872D1BB8BC00C217D6 /* ChapterListRepository.swift */; };
 		D4771DBF2D2A2C4200F2AC58 /* FancyPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4771DBE2D2A2C4200F2AC58 /* FancyPicker.swift */; };
 		D49598062D0B750A00B4493F /* ChapterListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49598052D0B750A00B4493F /* ChapterListView.swift */; };
-		D49598082D0B754600B4493F /* ChapterSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49598072D0B754600B4493F /* ChapterSection.swift */; };
+		D49598082D0B754600B4493F /* OldChapterSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49598072D0B754600B4493F /* OldChapterSection.swift */; };
 		D495980A2D0B757600B4493F /* ComicType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49598092D0B757600B4493F /* ComicType.swift */; };
 		D495980C2D0B75E500B4493F /* CustomAsyncImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D495980B2D0B75E500B4493F /* CustomAsyncImage.swift */; };
 		D495980F2D0B762E00B4493F /* HapticButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = D495980E2D0B762E00B4493F /* HapticButton.swift */; };
@@ -92,7 +92,7 @@
 		D46C70872D1BB8BC00C217D6 /* ChapterListRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChapterListRepository.swift; sourceTree = "<group>"; };
 		D4771DBE2D2A2C4200F2AC58 /* FancyPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FancyPicker.swift; sourceTree = "<group>"; };
 		D49598052D0B750A00B4493F /* ChapterListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChapterListView.swift; sourceTree = "<group>"; };
-		D49598072D0B754600B4493F /* ChapterSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChapterSection.swift; sourceTree = "<group>"; };
+		D49598072D0B754600B4493F /* OldChapterSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OldChapterSection.swift; sourceTree = "<group>"; };
 		D49598092D0B757600B4493F /* ComicType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComicType.swift; sourceTree = "<group>"; };
 		D495980B2D0B75E500B4493F /* CustomAsyncImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAsyncImage.swift; sourceTree = "<group>"; };
 		D495980E2D0B762E00B4493F /* HapticButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticButton.swift; sourceTree = "<group>"; };
@@ -200,7 +200,7 @@
 			isa = PBXGroup;
 			children = (
 				D49598052D0B750A00B4493F /* ChapterListView.swift */,
-				D49598072D0B754600B4493F /* ChapterSection.swift */,
+				D49598072D0B754600B4493F /* OldChapterSection.swift */,
 				D495980B2D0B75E500B4493F /* CustomAsyncImage.swift */,
 			);
 			path = List;
@@ -515,7 +515,7 @@
 			files = (
 				D42AF28E2D2A1F1A00AB36EC /* CustomButtonStyle.swift in Sources */,
 				D49598132D0B765600B4493F /* ComicDetailViewModel.swift in Sources */,
-				D49598082D0B754600B4493F /* ChapterSection.swift in Sources */,
+				D49598082D0B754600B4493F /* OldChapterSection.swift in Sources */,
 				E8D4ED202CE721CA005ED4BC /* String+Extensions.swift in Sources */,
 				D4FF65832D0940A70023988F /* SwiftDataChapter.swift in Sources */,
 				D4D32FB02D2CD25C0059DA27 /* LaunchView.swift in Sources */,

@@ -27,12 +27,13 @@ public struct ChapterListView: View {
                 ForEach(section.chapters, id: \.name) { chapter in
                     ChapterRow(chapter, url: makeImageURL(chapter), imageSize: imageSize)
                         .asNavLink(chapter)
-                        .withUnreadSwipeAction(isActive: chapter.didFinishReading) {
+                        .withUnreadSwipeAction(isActive: true) {
                             unreadChapter(chapter)
                         }
                 }
             }
         }
+        .listStyle(.plain)
     }
 }
 

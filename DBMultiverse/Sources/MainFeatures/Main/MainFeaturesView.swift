@@ -11,30 +11,83 @@ import NnSwiftUIKit
 import DBMultiverseComicKit
 
 struct MainFeaturesView: View {
-    @Query(sort: \SwiftDataChapter.number, order: .forward) var chapters: [SwiftDataChapter]
+    @Query(sort: \SwiftDataChapter.number, order: .forward) var chapterList: SwiftDataChapterList
     
     var body: some View {
-        ContentView {
+        ContentView(delegate: .init(chapterList: chapterList)) {
             SettingsFeatureNavStack()
         }
-        .fetchingChapters(existingChapterNumbers: chapters.map({ $0.number }))
+        .fetchingChapters(existingChapterNumbers: chapterList.map({ $0.number }))
+    }
+}
+
+struct ChapterListDelegate {
+    let chapterList: SwiftDataChapterList
+
+    var chapters: [Chapter] {
+        return chapterList.chapters
+    }
+    
+    func toggle(_ chapter: Chapter) {
+        if chapter.didFinishReading {
+            chapterList.unread(chapter)
+        } else {
+            chapterList.read(chapter)
+        }
     }
 }
 
 
 // MARK: - ContentView
 fileprivate struct ContentView<SettingsTab: View>: View {
+    let delegate: ChapterListDelegate
     let settingsTab: () -> SettingsTab
     
-    init(@ViewBuilder settingsTab: @escaping () -> SettingsTab) {
+    init(delegate: ChapterListDelegate, @ViewBuilder settingsTab: @escaping () -> SettingsTab) {
+        self.delegate = delegate
         self.settingsTab = settingsTab
     }
     
     var body: some View {
-        iPhoneMainTabView(loader: MockLoader(), settingsTab: settingsTab)
+        iPhoneMainTabView(loader: MockLoader(), delegate: delegate, settingsTab: settingsTab)
             .showingConditionalView(when: isPad) {
                 Text("iPadView")
             }
+    }
+}
+
+typealias SwiftDataChapterList = [SwiftDataChapter]
+
+extension SwiftDataChapterList {
+    var chapters: [Chapter] {
+        return map {
+            .init(
+                name: $0.name,
+                number: $0.number,
+                startPage: $0.startPage,
+                endPage: $0.endPage,
+                universe: $0.universe,
+                lastReadPage: $0.lastReadPage,
+                coverImageURL: $0.coverImageURL,
+                didFinishReading: $0.didFinishReading
+            )
+        }
+    }
+    
+    func read(_ chapter: Chapter) {
+        getChapter(chapter)?.didFinishReading = true
+    }
+    
+    func unread(_ chapter: Chapter) {
+        getChapter(chapter)?.didFinishReading = false
+    }
+    
+    func updateLastReadPage(page: Int, chapter: Chapter) {
+        getChapter(chapter)?.lastReadPage = page
+    }
+    
+    func getChapter(_ chapter: Chapter) -> SwiftDataChapter? {
+        return first(where: { $0.name == chapter.name })
     }
 }
 

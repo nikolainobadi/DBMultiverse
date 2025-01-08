@@ -11,32 +11,28 @@ import DBMultiverseComicKit
 
 struct iPhoneMainTabView<SettingsTab: View>: View {
     let loader: ComicPageLoader
-    let delegate: ChapterListDelegate
+    let eventHandler: SwiftDataChapterListEventHandler
     let settingsTab: () -> SettingsTab
     
-    init(loader: ComicPageLoader, delegate: ChapterListDelegate, @ViewBuilder settingsTab: @escaping () -> SettingsTab) {
+    init(loader: ComicPageLoader, delegate: SwiftDataChapterListEventHandler, @ViewBuilder settingsTab: @escaping () -> SettingsTab) {
         self.loader = loader
-        self.delegate = delegate
+        self.eventHandler = delegate
         self.settingsTab = settingsTab
     }
     
     var body: some View {
         TabView {
             ComicNavStack {
-                iPhoneChapterListView(delegate: delegate)
-                    .navigationDestination(for: Chapter.self) { chapter in
-                        ComicPageView(loader: loader) { viewModel in
-                            if let page = viewModel.currentPage {
-                                iPhoneComicPageView(
-                                    page: page,
-                                    nextPage: viewModel.nextPage,
-                                    previousPage: viewModel.previousPage,
-                                    // TODO: -
-                                    finishChapter: { }
-                                )
-                            }
+                ChapterListView(imageSize: .iPhoneImageSize, eventHandler: eventHandler) { selection in
+                    ComicTypePicker(selection: selection)
+                }
+                .navigationDestination(for: Chapter.self) { chapter in
+                    ComicPageView(chapter: chapter, loader: loader) { viewModel in
+                        if let currentPage = viewModel.currentPage {
+                            iPhoneComicPageView(page: currentPage, nextPage: viewModel.nextPage, previousPage: viewModel.previousPage, finishChapter: { })
                         }
                     }
+                }
             }
             .tabItem {
                 Label("Comic", systemImage: "book")
@@ -78,7 +74,7 @@ struct iPhoneComicPageView: View {
     }
 }
 
-extension ChapterListDelegate {
+extension SwiftDataChapterListEventHandler {
     func makeImageURL(for chapter: Chapter) -> URL? {
         return .init(string: .makeFullURLString(suffix: chapter.coverImageURL))
     }
@@ -98,13 +94,13 @@ extension ChapterListDelegate {
 struct iPhoneChapterListView: View {
     @State private var selection: ComicType = .story
     
-    let delegate: ChapterListDelegate
+    let delegate: SwiftDataChapterListEventHandler
     
     var body: some View {
         VStack {
             ComicTypePicker(selection: $selection)
             
-            ChapterListView(sections: delegate.makeSections(type: selection), makeImageURL: delegate.makeImageURL(for:), unreadChapter: delegate.toggle(_:))
+//            ChapterListView(sections: delegate.makeSections(type: selection), makeImageURL: delegate.makeImageURL(for:), unreadChapter: delegate.toggle(_:))
         }
         .animation(.smooth, value: selection)
     }
@@ -140,3 +136,9 @@ struct ComicTypePicker: View {
 //        Text("Settings")
 //    }
 //}
+
+extension CGSize {
+    static var iPhoneImageSize: CGSize {
+        return .init(width: 50, height: 70)
+    }
+}

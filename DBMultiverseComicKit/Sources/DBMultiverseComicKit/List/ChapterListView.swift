@@ -1,6 +1,6 @@
 //
-//  ChapterListView.swift
-//
+//  File.swift
+//  
 //
 //  Created by Nikolai Nobadi on 1/7/25.
 //
@@ -8,32 +8,39 @@
 import SwiftUI
 import NnSwiftUIKit
 
-public struct ChapterListView: View {
-    let imageSize: CGSize?
-    let sections: [ChapterSection]
-    let makeImageURL: (Chapter) -> URL?
-    let unreadChapter: (Chapter) -> Void
+public struct ChapterListView<ComicPicker: View>: View {
+    @State private var selection: ComicType = .story
     
-    public init(imageSize: CGSize? = nil, sections: [ChapterSection], makeImageURL: @escaping (Chapter) -> URL?, unreadChapter: @escaping (Chapter) -> Void) {
+    let imageSize: CGSize
+    let eventHandler: ChapterListEventHandler
+    let comicPicker: (Binding<ComicType>) -> ComicPicker
+    
+    private var sections: [ChapterSection] {
+        return eventHandler.makeSections(type: selection)
+    }
+    
+    public init(imageSize: CGSize, eventHandler: ChapterListEventHandler, @ViewBuilder comicPicker: @escaping (Binding<ComicType>) -> ComicPicker) {
         self.imageSize = imageSize
-        self.sections = sections
-        self.makeImageURL = makeImageURL
-        self.unreadChapter = unreadChapter
+        self.eventHandler = eventHandler
+        self.comicPicker = comicPicker
     }
     
     public var body: some View {
-        List(sections, id: \.title) { section in
-            DynamicSection(section.title) {
+        VStack {
+            comicPicker($selection)
+            
+            List(eventHandler.makeSections(type: selection), id: \.title) { section in
                 ForEach(section.chapters, id: \.name) { chapter in
-                    ChapterRow(chapter, url: makeImageURL(chapter), imageSize: imageSize)
+                    ChapterRow(chapter, url: eventHandler.makeImageURL(for: chapter), imageSize: imageSize)
                         .asNavLink(chapter)
                         .withUnreadSwipeAction(isActive: true) {
-                            unreadChapter(chapter)
+                            eventHandler.unreadChapter(chapter)
                         }
                 }
             }
+            .listStyle(.plain)
         }
-        .listStyle(.plain)
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
     }
 }
 
@@ -73,39 +80,19 @@ fileprivate struct ChapterRow: View {
     }
 }
 
-public struct ChapterSection {
-    public let type: ChapterSectionType
-    public let chapters: [Chapter]
-    
-    public init(type: ChapterSectionType, chapters: [Chapter]) {
-        self.type = type
-        self.chapters = chapters
-    }
+
+// MARK: - Dependencies
+public protocol ChapterListEventHandler {
+    func unreadChapter(_ chapter: Chapter)
+    func makeImageURL(for chapter: Chapter) -> URL?
+    func makeSections(type: ComicType) -> [ChapterSection]
 }
 
-extension ChapterSection {
-    var isCurrentChapterSection: Bool {
-        return type == .currentChapter
-    }
-    
-    var title: String {
-        switch type {
-        case .currentChapter:
-            return "Current Chapter"
-        case .chapterList(let title):
-            return title
-        }
-    }
-}
 
-public enum ChapterSectionType: Equatable {
-    case currentChapter
-    case chapterList(title: String)
-}
-
+// MARK: - Extension Dependencies
 extension View {
-    var isPad: Bool {
-        return UIDevice.current.userInterfaceIdiom == .pad
+    func withUnreadSwipeAction(isActive: Bool, action: @escaping () -> Void) -> some View {
+        withSwipeAction(info: .init(prompt: "Unread"), systemImage: "eraser.fill", tint: .gray, edge: .leading, isActive: isActive, action: action)
     }
 }
 
@@ -116,11 +103,5 @@ extension Chapter {
     
     var pageRangeText: String {
         return "Pages: \(startPage) - \(endPage)"
-    }
-}
-
-extension View {
-    func withUnreadSwipeAction(isActive: Bool, action: @escaping () -> Void) -> some View {
-        withSwipeAction(info: .init(prompt: "Unread"), systemImage: "eraser.fill", tint: .gray, edge: .leading, isActive: isActive, action: action)
     }
 }

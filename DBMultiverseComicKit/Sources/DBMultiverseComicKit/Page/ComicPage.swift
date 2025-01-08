@@ -8,11 +8,13 @@
 import SwiftUI
 
 public struct ComicPage {
+    public let number: Int
     public let chapterName: String
     public let pagePosition: PagePosition
     public let image: UIImage
     
-    public init(chapterName: String, pagePosition: PagePosition, image: UIImage) {
+    public init(number: Int, chapterName: String, pagePosition: PagePosition, image: UIImage) {
+        self.number = number
         self.chapterName = chapterName
         self.pagePosition = pagePosition
         self.image = image

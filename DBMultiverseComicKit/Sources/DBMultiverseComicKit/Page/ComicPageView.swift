@@ -13,9 +13,9 @@ public struct ComicPageView<DetailView: View>: View {
     
     let detailView: (ComicPageViewModel) -> DetailView
     
-    public init(loader: ComicPageLoader, @ViewBuilder detailView: @escaping (ComicPageViewModel) -> DetailView) {
-        // TODO: - 
-        self._viewModel = .init(wrappedValue: .init(currentPageNumber: 0, loader: loader))
+    public init(chapter: Chapter, loader: ComicPageLoader, @ViewBuilder detailView: @escaping (ComicPageViewModel) -> DetailView) {
+        // TODO: -
+        self._viewModel = .init(wrappedValue: .init(chapter: chapter, currentPageNumber: 1, loader: loader))
         self.detailView = detailView
     }
     
@@ -47,14 +47,14 @@ public struct ComicPageView<DetailView: View>: View {
 
 
 // MARK: - Preview
-#Preview {
-    class PreviewLoader: ComicPageLoader {
-        func loadPages(chapterNumber: Int, pages: [Int]) async throws -> [ComicPage] {
-            return []
-        }
-    }
-    
-    return ComicPageView(loader: PreviewLoader()) { _ in
-        Text("detail view")
-    }
-}
+//#Preview {
+//    class PreviewLoader: ComicPageLoader {
+//        func loadPages(chapterNumber: Int, pages: [Int]) async throws -> [ComicPage] {
+//            return []
+//        }
+//    }
+//    
+//    return ComicPageView(loader: PreviewLoader()) { _ in
+//        Text("detail view")
+//    }
+//}

@@ -26,3 +26,9 @@ struct DynamicSection<Content: View>: View {
         }
     }
 }
+
+extension View {
+    var isPad: Bool {
+        return UIDevice.current.userInterfaceIdiom == .pad
+    }
+}

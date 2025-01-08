@@ -21,14 +21,16 @@ struct MainFeaturesView: View {
     }
 }
 
-struct ChapterListDelegate {
+struct SwiftDataChapterListEventHandler {
     let chapterList: SwiftDataChapterList
 
     var chapters: [Chapter] {
         return chapterList.chapters
     }
-    
-    func toggle(_ chapter: Chapter) {
+}
+
+extension SwiftDataChapterListEventHandler: ChapterListEventHandler {
+    func unreadChapter(_ chapter: DBMultiverseComicKit.Chapter) {
         if chapter.didFinishReading {
             chapterList.unread(chapter)
         } else {
@@ -40,10 +42,10 @@ struct ChapterListDelegate {
 
 // MARK: - ContentView
 fileprivate struct ContentView<SettingsTab: View>: View {
-    let delegate: ChapterListDelegate
+    let delegate: SwiftDataChapterListEventHandler
     let settingsTab: () -> SettingsTab
     
-    init(delegate: ChapterListDelegate, @ViewBuilder settingsTab: @escaping () -> SettingsTab) {
+    init(delegate: SwiftDataChapterListEventHandler, @ViewBuilder settingsTab: @escaping () -> SettingsTab) {
         self.delegate = delegate
         self.settingsTab = settingsTab
     }
@@ -92,8 +94,10 @@ extension SwiftDataChapterList {
 }
 
 final class MockLoader: ComicPageLoader {
-    func loadPages(chapterNumber: Int, pages: [Int]) async throws -> [ComicPage] {
-        return []
+    func loadPages(chapterNumber: Int, pages: [Int]) async throws -> [DBMultiverseComicKit.PageInfo] {
+        return try await ChapterComicLoaderAdapter().loadPages(chapterNumber: chapterNumber, pages: pages)
+            .map({ .init(chapter: $0.chapter, pageNumber: $0.pageNumber, secondPageNumber: $0.secondPageNumber, imageData: $0.imageData)})
+            
     }
 }
 

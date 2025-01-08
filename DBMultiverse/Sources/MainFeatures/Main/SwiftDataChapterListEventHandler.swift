@@ -9,11 +9,9 @@ import Foundation
 import DBMultiverseComicKit
 
 struct SwiftDataChapterListEventHandler {
+    let lastReadSpecialPage: Int
+    let lastReadMainStoryPage: Int
     let chapterList: SwiftDataChapterList
-
-    var chapters: [Chapter] {
-        return chapterList.chapters
-    }
 }
 
 
@@ -32,11 +30,56 @@ extension SwiftDataChapterListEventHandler: ChapterListEventHandler {
     }
     
     func makeSections(type: ComicType) -> [ChapterSection] {
+        var sections = [ChapterSection]()
+        let currentChapter = getCurrentChapter(type: type)
+        
+        if let currentChapter {
+            sections.append(.init(type: .currentChapter, chapters: [currentChapter]))
+        }
+  
         switch type {
         case .story:
-            return [.init(type: .chapterList(title: "Main Story Chapters"), chapters: chapters)]
+            sections.append(.init(type: .chapterList(title: "Main Story Chapters"), chapters: mainStoryChapters.filter({ $0 != currentChapter })))
         case .specials:
-            return []
+            Dictionary(grouping: univereSpecialChapters.filter({ $0 != currentChapter }), by: { $0.universe! })
+                .sorted(by: { $0.key < $1.key })
+                .map { ChapterSection(type: .chapterList(title: "Universe \($0.key)"), chapters: $0.value) }
+                .forEach { sections.append($0) }
         }
+        
+        return sections
+    }
+}
+
+
+// MARK: - Private Helpers
+private extension SwiftDataChapterListEventHandler {
+    var chapters: [Chapter] {
+        return chapterList.chapters
+    }
+    
+    var mainStoryChapters: [Chapter] {
+        return chapters.filter({ $0.universe == nil })
+    }
+    
+    var univereSpecialChapters: [Chapter] {
+        return chapters.filter({ $0.universe != nil })
+    }
+    
+    func getCurrentChapter(type: ComicType) -> Chapter? {
+        switch type {
+        case .story:
+            return mainStoryChapters.first(where: { $0.containsPage(lastReadMainStoryPage) })
+        case .specials:
+            return univereSpecialChapters.first(where: { $0.containsPage(lastReadSpecialPage) })
+        }
+    }
+}
+
+
+// MARK: - Extension Dependenies
+fileprivate extension Chapter {
+    func containsPage(_ page: Int) -> Bool {
+        return page >= startPage && page <= endPage
     }
 }

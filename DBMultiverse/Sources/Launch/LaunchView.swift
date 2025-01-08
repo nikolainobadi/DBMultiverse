@@ -12,7 +12,7 @@ struct LaunchView: View {
     @AppStorage("isInitialLogin") private var isInitialLogin = true
     
     var body: some View {
-        MainFeaturesView()
+        MainFeaturesView(viewModel: .init())
             .showingConditionalView(when: isInitialLogin) {
                 WelcomeView {
                     isInitialLogin = false

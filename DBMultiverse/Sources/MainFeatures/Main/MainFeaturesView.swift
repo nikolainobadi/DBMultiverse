@@ -10,19 +10,14 @@ import SwiftData
 import DBMultiverseComicKit
 
 struct MainFeaturesView: View {
-    @AppStorage(.lastReadSpecialPage) private var lastReadSpecialPage: Int = 168
-    @AppStorage(.lastReadMainStoryPage) private var lastReadMainStoryPage: Int = 0
+    @StateObject var viewModel: MainFeaturesViewModel
     @Query(sort: \SwiftDataChapter.number, order: .forward) var chapterList: SwiftDataChapterList
-    
-    private func getCurrentPage(route: ChapterRoute) -> Int {
-        return route.comicType == .story ? lastReadMainStoryPage : lastReadSpecialPage
-    }
     
     var body: some View {
         MainNavStack {
-            ChapterListFeatureView(eventHandler: .init(chapterList: chapterList))
+            ChapterListFeatureView(eventHandler: .customInit(viewModel: viewModel, chapterList: chapterList))
                 .navigationDestination(for: ChapterRoute.self) { route in
-                    ComicPageFeatureView(viewModel: .customInit(chapter: route.chapter, currentPage: getCurrentPage(route: route)))
+                    ComicPageFeatureView(viewModel: .customInit(route: route, store: viewModel))
                         .navigationTitle(route.chapter.name)
                 }
         } settingsContent: {
@@ -49,21 +44,23 @@ fileprivate struct MainNavStack<ComicContent: View, SettingsContent: View>: View
 
 // MARK: - Preview
 #Preview {
-    MainFeaturesView()
+    return MainFeaturesView(viewModel: .init())
         .withPreviewModifiers()
 }
 
 
 // MARK: - Extension Dependencies
-fileprivate extension ComicPageViewModel {
-    static func customInit(chapter: Chapter, currentPage: Int) -> ComicPageViewModel {
-        return .init(chapter: chapter, currentPageNumber: currentPage, loader: ComicPageLoaderAdapter())
+fileprivate extension SwiftDataChapterListEventHandler {
+    static func customInit(viewModel: MainFeaturesViewModel, chapterList: SwiftDataChapterList) -> SwiftDataChapterListEventHandler {
+        return .init(lastReadSpecialPage: viewModel.lastReadSpecialPage, lastReadMainStoryPage: viewModel.lastReadMainStoryPage, chapterList: chapterList)
     }
 }
 
-final class ComicPageLoaderAdapter: ComicPageLoader {
-    func loadPages(chapterNumber: Int, pages: [Int]) async throws -> [PageInfo] {
-        // TODO: - 
-        return try await ChapterComicLoaderAdapter().loadPages(chapterNumber: chapterNumber, pages: pages)
+fileprivate extension ComicPageViewModel {
+    static func customInit(route: ChapterRoute, store: MainFeaturesViewModel) -> ComicPageViewModel {
+        let currentPageNumber = store.getCurrentPageNumber(for: route.comicType)
+        let delegate = ComicPageLoaderAdapter(comicType: route.comicType, store: store)
+        
+        return .init(chapter: route.chapter, currentPageNumber: currentPageNumber, delegate: delegate)
     }
 }

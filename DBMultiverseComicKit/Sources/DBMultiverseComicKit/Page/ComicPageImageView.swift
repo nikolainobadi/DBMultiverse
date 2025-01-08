@@ -22,8 +22,10 @@ public struct ComicPageImageView: View {
             
             Spacer()
             
-            ZoomableImageView(image: page.image)
-                .padding()
+            if let image = UIImage(data: page.imageData) {
+                ZoomableImageView(image: image)
+                    .padding()
+            }
         }
     }
 }

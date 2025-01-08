@@ -5,19 +5,19 @@
 //  Created by Nikolai Nobadi on 1/7/25.
 //
 
-import SwiftUI
+import Foundation
 
-public struct ComicPage {
+public struct ComicPage: Equatable {
     public let number: Int
     public let chapterName: String
     public let pagePosition: PagePosition
-    public let image: UIImage
+    public let imageData: Data
     
-    public init(number: Int, chapterName: String, pagePosition: PagePosition, image: UIImage) {
+    public init(number: Int, chapterName: String, pagePosition: PagePosition, imageData: Data) {
         self.number = number
         self.chapterName = chapterName
         self.pagePosition = pagePosition
-        self.image = image
+        self.imageData = imageData
     }
 }
 
@@ -34,7 +34,7 @@ public extension ComicPage {
 
 
 // MARK: - Dependencies
-public struct PagePosition {
+public struct PagePosition: Equatable {
     public let page: Int
     public let totalPages: Int
     

@@ -9,6 +9,7 @@ import SwiftUI
 import DBMultiverseComicKit
 
 struct ComicPageFeatureView: View {
+    @Environment(\.dismiss) private var dismiss
     @StateObject var viewModel: ComicPageViewModel
     
     var body: some View {
@@ -19,12 +20,13 @@ struct ComicPageFeatureView: View {
                     page: page,
                     nextPage: viewModel.nextPage,
                     previousPage: viewModel.previousPage,
-                    finishChapter: { } // TODO: - 
+                    finishChapter: { dismiss() } 
                 )
             }
             .asyncTask {
                 try await viewModel.loadData()
             }
+            
     }
 }
 

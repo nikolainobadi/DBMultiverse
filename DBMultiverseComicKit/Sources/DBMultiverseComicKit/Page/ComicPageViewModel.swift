@@ -1,11 +1,11 @@
 //
-//  File.swift
+//  ComicPageViewModel.swift
 //  
 //
 //  Created by Nikolai Nobadi on 1/7/25.
 //
 
-import UIKit
+import Combine
 import Foundation
 
 public final class ComicPageViewModel: ObservableObject {
@@ -14,13 +14,17 @@ public final class ComicPageViewModel: ObservableObject {
     @Published var didFetchInitialPages = false
     
     private let chapter: Chapter
-    private let loader: ComicPageLoader
+    private let delegate: ComicPageDelegate
     
-    public init(chapter: Chapter, currentPageNumber: Int, loader: ComicPageLoader, pages: [PageInfo] = []) {
+    private var cancellables = Set<AnyCancellable>()
+    
+    public init(chapter: Chapter, currentPageNumber: Int, delegate: ComicPageDelegate, pages: [PageInfo] = []) {
         self.pages = pages
-        self.loader = loader
+        self.delegate = delegate
         self.chapter = chapter
         self.currentPageNumber = currentPageNumber
+        
+        self.startObservers()
     }
 }
 
@@ -36,11 +40,11 @@ public extension ComicPageViewModel {
     }
     
     var currentPage: ComicPage? {
-        guard let currentPagePosition, let currentPageInfo, let image = UIImage(data: currentPageInfo.imageData) else {
+        guard let currentPagePosition, let currentPageInfo else {
             return nil
         }
         
-        return .init(number: currentPageInfo.pageNumber, chapterName: chapter.name, pagePosition: currentPagePosition, image: image)
+        return .init(number: currentPageInfo.pageNumber, chapterName: chapter.name, pagePosition: currentPagePosition, imageData: currentPageInfo.imageData)
     }
 }
 
@@ -51,12 +55,11 @@ public extension ComicPageViewModel {
         if !didFetchInitialPages {
             let startPage = chapter.lastReadPage ?? chapter.startPage
             let initialPages = Array(startPage...(min(startPage + 4, chapter.endPage)))
-            let fetchedPages = try await loader.loadPages(chapterNumber: chapter.number, pages: initialPages)
+            let fetchedPages = try await delegate.loadPages(chapterNumber: chapter.number, pages: initialPages)
             
             print("fetched \(fetchedPages.count) pages, currentPageNumber: \(currentPageNumber)")
             
             await setPages(fetchedPages)
-
         }
     }
     
@@ -90,6 +93,7 @@ public extension ComicPageViewModel {
 }
 
 
+// MARK: - MainActor
 @MainActor
 private extension ComicPageViewModel {
     func setPages(_ pages: [PageInfo]) {
@@ -99,32 +103,33 @@ private extension ComicPageViewModel {
 }
 
 
-// MARK: - Dependencies
-public protocol ComicPageLoader {
-    func loadPages(chapterNumber: Int, pages: [Int]) async throws -> [PageInfo]
-}
-
-public struct PageInfo {
-    public let chapter: Int
-    public let pageNumber: Int
-    public let secondPageNumber: Int?
-    public let imageData: Data
-    
-    public init(chapter: Int, pageNumber: Int, secondPageNumber: Int?, imageData: Data) {
-        self.chapter = chapter
-        self.pageNumber = pageNumber
-        self.secondPageNumber = secondPageNumber
-        self.imageData = imageData
+// MARK: - Combine
+private extension ComicPageViewModel {
+    func startObservers() {
+        $currentPageNumber
+            .dropFirst()
+            .sink { [unowned self] newPageNumber in
+                delegate.updateCurrentPageNumber(newPageNumber)
+            }
+            .store(in: &cancellables)
     }
 }
 
-extension Chapter {
+
+// MARK: - Dependencies
+public protocol ComicPageDelegate {
+    func updateCurrentPageNumber(_ pageNumber: Int)
+    func loadPages(chapterNumber: Int, pages: [Int]) async throws -> [PageInfo]
+}
+
+
+// MARK: - Extension Dependencies
+fileprivate extension Chapter {
     var totalPages: Int {
         return endPage - startPage
     }
 }
 
-// MARK: - Extension Dependencies
 fileprivate extension PageInfo {
     var nextPage: Int {
         guard let secondPageNumber else {
@@ -134,4 +139,3 @@ fileprivate extension PageInfo {
         return secondPageNumber + 1
     }
 }
-

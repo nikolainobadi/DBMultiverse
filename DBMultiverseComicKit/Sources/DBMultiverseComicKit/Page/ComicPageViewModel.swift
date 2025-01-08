@@ -46,7 +46,7 @@ public extension ComicPageViewModel {
 
 
 // MARK: - Actions
-extension ComicPageViewModel {
+public extension ComicPageViewModel {
     func loadData() async throws {
         if !didFetchInitialPages {
             let startPage = chapter.lastReadPage ?? chapter.startPage

@@ -149,6 +149,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		D42036B42D2F156E00F0A1D0 /* Adapters */ = {
+			isa = PBXGroup;
+			children = (
+				D49598142D0B766E00B4493F /* ChapterComicLoaderAdapter.swift */,
+			);
+			path = Adapters;
+			sourceTree = "<group>";
+		};
 		D45F17572D2E052E006362E8 /* iPhone */ = {
 			isa = PBXGroup;
 			children = (
@@ -208,7 +216,6 @@
 				D4AD50792D0A81CA00F4D874 /* ComicDetailView.swift */,
 				D49598102D0B764000B4493F /* ZoomableImageView.swift */,
 				D49598122D0B765600B4493F /* ComicDetailViewModel.swift */,
-				D49598142D0B766E00B4493F /* ChapterComicLoaderAdapter.swift */,
 				D42AF28D2D2A1F1A00AB36EC /* CustomButtonStyle.swift */,
 				D45F90A62D2A487C0040C04C /* ChapterInfo.swift */,
 			);
@@ -284,8 +291,9 @@
 				E85DBC762CE5DCA400B97513 /* Main */,
 				D45F175A2D2E07AB006362E8 /* iPad */,
 				D45F17572D2E052E006362E8 /* iPhone */,
-				D4DD9B752D0A721E00A16227 /* Settings */,
 				E8B1AFAF2CFEDCD100BB9F9C /* Comic */,
+				D4DD9B752D0A721E00A16227 /* Settings */,
+				D42036B42D2F156E00F0A1D0 /* Adapters */,
 			);
 			path = MainFeatures;
 			sourceTree = "<group>";

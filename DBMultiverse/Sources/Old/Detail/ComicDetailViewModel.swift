@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import DBMultiverseComicKit
 
 /// ViewModel for managing the state and logic of comic chapters.
 final class ComicDetailViewModel: ObservableObject {

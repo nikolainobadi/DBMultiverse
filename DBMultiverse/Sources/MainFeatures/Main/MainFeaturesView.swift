@@ -10,15 +10,20 @@ import SwiftData
 import DBMultiverseComicKit
 
 struct MainFeaturesView: View {
+    @AppStorage(.lastReadSpecialPage) private var lastReadSpecialPage: Int = 168
+    @AppStorage(.lastReadMainStoryPage) private var lastReadMainStoryPage: Int = 0
     @Query(sort: \SwiftDataChapter.number, order: .forward) var chapterList: SwiftDataChapterList
+    
+    private func getCurrentPage(route: ChapterRoute) -> Int {
+        return route.comicType == .story ? lastReadMainStoryPage : lastReadSpecialPage
+    }
     
     var body: some View {
         MainNavStack {
             ChapterListFeatureView(eventHandler: .init(chapterList: chapterList))
-                .navigationDestination(for: Chapter.self) { chapter in
-                    // TODO: -
-                    ComicPageFeatureView(viewModel: .customInit(chapter: chapter, currentPage: 1))
-                        .navigationTitle(chapter.name)
+                .navigationDestination(for: ChapterRoute.self) { route in
+                    ComicPageFeatureView(viewModel: .customInit(chapter: route.chapter, currentPage: getCurrentPage(route: route)))
+                        .navigationTitle(route.chapter.name)
                 }
         } settingsContent: {
             SettingsFeatureNavStack()
@@ -57,7 +62,8 @@ fileprivate extension ComicPageViewModel {
 }
 
 final class ComicPageLoaderAdapter: ComicPageLoader {
-    func loadPages(chapterNumber: Int, pages: [Int]) async throws -> [DBMultiverseComicKit.PageInfo] {
-        []
+    func loadPages(chapterNumber: Int, pages: [Int]) async throws -> [PageInfo] {
+        // TODO: - 
+        return try await ChapterComicLoaderAdapter().loadPages(chapterNumber: chapterNumber, pages: pages)
     }
 }

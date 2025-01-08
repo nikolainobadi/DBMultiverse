@@ -22,6 +22,9 @@ struct ComicPageFeatureView: View {
                     finishChapter: { } // TODO: - 
                 )
             }
+            .asyncTask {
+                try await viewModel.loadData()
+            }
     }
 }
 

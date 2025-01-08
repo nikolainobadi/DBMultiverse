@@ -7,6 +7,7 @@
 
 import SwiftUI
 import NnSwiftUIKit
+import DBMultiverseComicKit
 
 struct ComicDetailView: View {
     @Bindable var chapter: SwiftDataChapter
@@ -50,16 +51,16 @@ struct ComicImageContentView: View {
     var body: some View {
         VStack {
             Text("Loading page...")
-                .showingViewWithOptional(viewModel.currentPageInfo?.image) { image in
-                    Text(chapter.name)
-                    Text(viewModel.getCurrentPagePosition(chapterInfo: chapter.info))
-                        .foregroundColor(.secondary)
-                    
-                    Spacer()
-                    
-                    ZoomableImageView(image: image)
-                        .padding()
-                }
+//                .showingViewWithOptional(viewModel.currentPageInfo?.image) { image in
+//                    Text(chapter.name)
+//                    Text(viewModel.getCurrentPagePosition(chapterInfo: chapter.info))
+//                        .foregroundColor(.secondary)
+//                    
+//                    Spacer()
+//                    
+//                    ZoomableImageView(image: image)
+//                        .padding()
+//                }
         }
     }
 }

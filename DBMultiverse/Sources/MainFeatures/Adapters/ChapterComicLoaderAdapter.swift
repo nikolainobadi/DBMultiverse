@@ -7,6 +7,7 @@
 
 import SwiftSoup
 import Foundation
+import DBMultiverseComicKit
 
 /// Adapter responsible for loading comic pages from the network or cache.
 final class ChapterComicLoaderAdapter {
@@ -196,15 +197,6 @@ private extension ChapterComicLoaderAdapter {
             try updatedData.write(to: metadataFile)
         }
     }
-}
-
-// MARK: - Dependencies
-/// Represents metadata and data for a single page.
-struct PageInfo {
-    let chapter: Int
-    let pageNumber: Int
-    let secondPageNumber: Int?
-    let imageData: Data
 }
 
 /// Represents metadata for an image URL.

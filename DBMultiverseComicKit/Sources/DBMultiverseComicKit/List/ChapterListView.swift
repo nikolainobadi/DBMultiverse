@@ -8,6 +8,16 @@
 import SwiftUI
 import NnSwiftUIKit
 
+public struct ChapterRoute: Hashable {
+    public let chapter: Chapter
+    public let comicType: ComicType
+    
+    public init(chapter: Chapter, comicType: ComicType) {
+        self.chapter = chapter
+        self.comicType = comicType
+    }
+}
+
 public struct ChapterListView<ComicPicker: View>: View {
     @State private var selection: ComicType = .story
     
@@ -34,7 +44,7 @@ public struct ChapterListView<ComicPicker: View>: View {
                 DynamicSection(section.title) {
                     ForEach(section.chapters, id: \.name) { chapter in
                         ChapterRow(chapter, url: eventHandler.makeImageURL(for: chapter), imageSize: imageSize)
-                            .asNavLink(chapter)
+                            .asNavLink(ChapterRoute(chapter: chapter, comicType: selection))
                             .withUnreadSwipeAction(isActive: true) {
                                 eventHandler.unreadChapter(chapter)
                             }

@@ -32,11 +32,7 @@ public final class ComicPageViewModel: ObservableObject {
 // MARK: - Display Data
 public extension ComicPageViewModel {
     var currentPagePosition: PagePosition {
-        let totalpages = chapter.totalPages
-        let secondPage = currentPageInfo?.secondPageNumber
-        let currentPageIndex = currentPageNumber - chapter.startPage
-        
-        return .init(page: currentPageIndex, secondPage: secondPage, totalPages: totalpages)
+        return .init(page: currentPageNumber, secondPage: currentPageInfo?.secondPageNumber, endPage: chapter.endPage)
     }
     
     var currentPageInfo: PageInfo? {

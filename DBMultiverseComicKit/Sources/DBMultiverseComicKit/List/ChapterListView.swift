@@ -8,27 +8,12 @@
 import SwiftUI
 import NnSwiftUIKit
 
-public struct ChapterRoute: Hashable {
-    public let chapter: Chapter
-    public let comicType: ComicType
-    
-    public init(chapter: Chapter, comicType: ComicType) {
-        self.chapter = chapter
-        self.comicType = comicType
-    }
-}
-
 public struct ChapterListView<ComicPicker: View>: View {
     @State private var selection: ComicType = .story
     
     let imageSize: CGSize
     let eventHandler: ChapterListEventHandler
     let comicPicker: (Binding<ComicType>) -> ComicPicker
-    
-    private var sections: [ChapterSection] {
-        // TODO: - need to account for current chapter
-        return eventHandler.makeSections(type: selection)
-    }
     
     public init(imageSize: CGSize, eventHandler: ChapterListEventHandler, @ViewBuilder comicPicker: @escaping (Binding<ComicType>) -> ComicPicker) {
         self.imageSize = imageSize
@@ -40,8 +25,8 @@ public struct ChapterListView<ComicPicker: View>: View {
         VStack {
             comicPicker($selection)
             
-            List(sections, id: \.title) { section in
-                DynamicSection(section.title) {
+            List(eventHandler.makeSections(type: selection), id: \.title) { section in
+                DynamicSection(section.title, gradient: section.gradient) {
                     ForEach(section.chapters, id: \.name) { chapter in
                         ChapterRow(chapter, url: eventHandler.makeImageURL(for: chapter), imageSize: imageSize)
                             .asNavLink(ChapterRoute(chapter: chapter, comicType: selection))
@@ -86,15 +71,16 @@ fileprivate struct ChapterRow: View {
                         .withFont(.caption2, textColor: .secondary)
                 }
             }
-            
-            if chapter.didFinishReading {
-                Text("Finished")
-                    .padding(.horizontal)
-                    .withFont(.caption, textColor: .red)
-                    .frame(maxWidth: .infinity, alignment: .trailing)
-            }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
+        .overlay(alignment: .bottomTrailing) {
+            if chapter.didFinishReading {
+                Text("Finished")
+                    .padding()
+                    .withFont(.caption)
+                    .textLinearGradient(.redText)
+            }
+        }
     }
 }
 
@@ -121,5 +107,16 @@ extension Chapter {
     
     var pageRangeText: String {
         return "Pages: \(startPage) - \(endPage)"
+    }
+}
+
+extension ChapterSection {
+    var gradient: LinearGradient {
+        switch type {
+        case .currentChapter:
+            return .yellowText
+        default:
+            return .redText
+        }
     }
 }

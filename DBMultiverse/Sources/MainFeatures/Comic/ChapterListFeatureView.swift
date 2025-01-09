@@ -12,8 +12,7 @@ struct ChapterListFeatureView: View {
     let eventHandler: SwiftDataChapterListEventHandler
     
     private var imageSize: CGSize {
-        // TODO: - 
-        return isPad ? .init(width: 50, height: 70) : .init(width: 50, height: 70)
+        return .init(width: getWidthPercent(15), height: getHeightPercent(isPad ? 15 : 10))
     }
     
     var body: some View {

@@ -80,6 +80,7 @@ public extension ComicPageViewModel {
                 let remainingList = try await delegate.loadPages(chapterNumber: chapter.number, pages: remainingPagesNumbers)
                 
                 await addRemainingPages(remainingList)
+                cacheChapterCoverImage()
             } catch {
                 // TODO: - need to handle this error
                 print("Error loading remaining pages: \(error.localizedDescription)")
@@ -147,8 +148,19 @@ private extension ComicPageViewModel {
 }
 
 
+// MARK: - Private Methods
+private extension ComicPageViewModel {
+    func cacheChapterCoverImage() {
+        if let chapterCoverPage = pages.first(where: { $0.pageNumber == chapter.startPage }) {
+            delegate.saveChapterCoverPage(chapterCoverPage)
+        }
+    }
+}
+
+
 // MARK: - Dependencies
 public protocol ComicPageDelegate {
+    func saveChapterCoverPage(_ info: PageInfo)
     func updateCurrentPageNumber(_ pageNumber: Int)
     func loadPages(chapterNumber: Int, pages: [Int]) async throws -> [PageInfo]
 }

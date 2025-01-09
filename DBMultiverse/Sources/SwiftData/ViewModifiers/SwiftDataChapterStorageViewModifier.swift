@@ -19,13 +19,12 @@ struct SwiftDataChapterStorageViewModifier: ViewModifier {
         content
             .onChange(of: chapters) { _, newList in
                 for chapter in newList {
-                    if let existingChapterIndex = existingChapters.firstIndex(where: { $0.number == chapter.number }) {
-                        if existingChapters[existingChapterIndex].endPage != chapter.endPage {
-                            // TODO: -
-                            print("chapter \(chapter.number) has received new pages, should update in SwiftData, currentEndPage: \(existingChapters[existingChapterIndex].endPage), newEndPage: \(chapter.endPage)")
+                    if let index = existingChapters.firstIndex(where: { $0.number == chapter.number }) {
+                        if existingChapters[index].endPage != chapter.endPage || existingChapters[index].name != chapter.name {
+                            modelContext.delete(existingChapters[index])
+                            modelContext.insert(SwiftDataChapter(chapter: chapter))
                         }
                     } else {
-                        print("adding chapter \(chapter.name) to SwiftData")
                         modelContext.insert(SwiftDataChapter(chapter: chapter))
                     }
                 }

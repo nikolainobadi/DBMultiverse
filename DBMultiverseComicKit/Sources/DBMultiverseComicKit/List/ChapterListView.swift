@@ -34,6 +34,19 @@ public struct ChapterListView<ComicPicker: View>: View {
                                 eventHandler.toggleReadStatus(for: chapter)
                             }
                     }
+                    
+                    if let chapter = section.chapters.first {
+                        Button {
+                            eventHandler.startNextChapter(currentChapter: chapter)
+                        } label: {
+                            Text("Start Reading Next Chapter")
+                                .withFont()
+                                .underline()
+                                .frame(maxWidth: .infinity)
+                                .textLinearGradient(.yellowText)
+                        }
+                        .onlyShow(when: section.canShowNextChapterButton && selection == .story)
+                    }
                 }
             }
             .listStyle(.plain)
@@ -88,6 +101,7 @@ fileprivate struct ChapterRow: View {
 // MARK: - Dependencies
 public protocol ChapterListEventHandler {
     func toggleReadStatus(for chapter: Chapter)
+    func startNextChapter(currentChapter: Chapter)
     func makeImageURL(for chapter: Chapter) -> URL?
     func makeSections(type: ComicType) -> [ChapterSection]
 }
@@ -111,12 +125,20 @@ extension Chapter {
 }
 
 extension ChapterSection {
-    var gradient: LinearGradient {
+    var canShowNextChapterButton: Bool {
+        guard type == .currentChapter, let chapter = chapters.first else {
+            return false
+        }
+        
+        return chapter.didFinishReading
+    }
+    
+    var gradient: LinearGradient? {
         switch type {
         case .currentChapter:
-            return .yellowText
+            return .lightStarrySky
         default:
-            return .redText
+            return nil
         }
     }
 }

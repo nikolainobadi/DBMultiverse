@@ -54,14 +54,17 @@ struct WelcomeView: View {
             
             Spacer()
             
-            Toggle("I understand", isOn: $didAgree)
-                .toggleStyle(CheckboxToggleStyle())
-               
-            Button("Get Started", action: getStarted)
-                .padding()
-                .withFont()
-                .buttonStyle(.borderedProminent)
-                .onlyShow(when: didAgree)
+            VStack {
+                Toggle("I understand", isOn: $didAgree)
+                    .toggleStyle(CheckboxToggleStyle())
+                
+                Button("Get Started", action: getStarted)
+                    .padding()
+                    .withFont()
+                    .buttonStyle(.borderedProminent)
+                    .onlyShow(when: didAgree)
+            }
+            .padding()
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
     }

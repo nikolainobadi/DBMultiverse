@@ -28,6 +28,12 @@ struct MainFeaturesView: View {
         }
         .syncChaptersWithSwiftData(chapters: viewModel.chapters)
         .withDeepLinkNavigation(path: $path, chapters: chapterList.chapters)
+        .onChange(of: viewModel.nextChapterToRead) { _, newValue in
+            if let newValue {
+                // only works for main story chapters for now
+                path.append(ChapterRoute(chapter: newValue, comicType: .story))
+            }
+        }
     }
 }
 
@@ -61,7 +67,12 @@ fileprivate struct MainNavStack<ComicContent: View, SettingsContent: View>: View
 // MARK: - Extension Dependencies
 fileprivate extension SwiftDataChapterListEventHandler {
     static func customInit(viewModel: MainFeaturesViewModel, chapterList: SwiftDataChapterList) -> SwiftDataChapterListEventHandler {
-        return .init(lastReadSpecialPage: viewModel.lastReadSpecialPage, lastReadMainStoryPage: viewModel.lastReadMainStoryPage, chapterList: chapterList)
+        return .init(
+            lastReadSpecialPage: viewModel.lastReadSpecialPage,
+            lastReadMainStoryPage: viewModel.lastReadMainStoryPage,
+            chapterList: chapterList,
+            onStartNextChapter: viewModel.startNextChapter(_:)
+        )
     }
 }
 

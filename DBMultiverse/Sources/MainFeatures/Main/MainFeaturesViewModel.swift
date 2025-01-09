@@ -10,6 +10,7 @@ import DBMultiverseComicKit
 
 final class MainFeaturesViewModel: ObservableObject {
     @Published var chapters: [Chapter] = []
+    @Published var nextChapterToRead: Chapter?
     @AppStorage(.lastReadSpecialPage) var lastReadSpecialPage: Int = 168
     @AppStorage(.lastReadMainStoryPage) var lastReadMainStoryPage: Int = 0
     
@@ -49,6 +50,10 @@ extension MainFeaturesViewModel {
         case .specials:
             return lastReadSpecialPage
         }
+    }
+    
+    func startNextChapter(_ chapter: Chapter) {
+        nextChapterToRead = chapter
     }
 }
 

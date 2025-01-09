@@ -28,7 +28,7 @@ public struct DynamicSection<Content: View>: View {
                     Text(title)
                         .textLinearGradient(gradient)
                 }
-                .withFont(isPad ? .body : .caption, autoSizeLineLimit: 1)
+                .withFont(.caption, autoSizeLineLimit: 1)
         }
     }
 }

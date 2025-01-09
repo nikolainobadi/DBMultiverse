@@ -104,6 +104,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		D408B02B2D2F68B80006ECC6 /* DBMultiverse.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DBMultiverse.entitlements; sourceTree = "<group>"; };
+		D408B02C2D2F69380006ECC6 /* DBMultiverseWidgetsExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DBMultiverseWidgetsExtension.entitlements; sourceTree = "<group>"; };
 		D42036A22D2F064D00F0A1D0 /* iPhoneMainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iPhoneMainTabView.swift; sourceTree = "<group>"; };
 		D42036A42D2F066F00F0A1D0 /* iPadMainNavStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iPadMainNavStack.swift; sourceTree = "<group>"; };
 		D42036A62D2F068F00F0A1D0 /* SwiftDataChapterListEventHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftDataChapterListEventHandler.swift; sourceTree = "<group>"; };
@@ -311,6 +313,7 @@
 			children = (
 				D47D00F82D2F4A060064FEB2 /* Info.plist */,
 				D47D00F62D2F4A060064FEB2 /* Assets.xcassets */,
+				D408B02C2D2F69380006ECC6 /* DBMultiverseWidgetsExtension.entitlements */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -404,6 +407,7 @@
 			isa = PBXGroup;
 			children = (
 				E8A095C02CE0941400D28E3F /* Assets.xcassets */,
+				D408B02B2D2F68B80006ECC6 /* DBMultiverse.entitlements */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -729,6 +733,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = DBMultiverseWidgets/Resources/DBMultiverseWidgetsExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 57VY6WCDRM;
@@ -760,6 +765,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = DBMultiverseWidgets/Resources/DBMultiverseWidgetsExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 57VY6WCDRM;
@@ -911,6 +917,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = DBMultiverse/Resources/DBMultiverse.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"DBMultiverse/Preview Content\"";
@@ -947,6 +954,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = DBMultiverse/Resources/DBMultiverse.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"DBMultiverse/Preview Content\"";

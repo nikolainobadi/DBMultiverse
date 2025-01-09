@@ -9,7 +9,7 @@ import UIKit
 import Foundation
 
 public class CoverImageCache {
-    private let cachesDirectory: URL
+    private let sharedContainerDirectory: URL
     private let fileManager = FileManager.default
     private let imageFileName = "chapterCoverImage.jpg"
     private let jsonFileName = "currentChapterData.json"
@@ -17,7 +17,11 @@ public class CoverImageCache {
     public static let shared = CoverImageCache()
     
     private init() {
-        cachesDirectory = fileManager.urls(for: .cachesDirectory, in: .userDomainMask).first!
+        guard let appGroupDirectory = fileManager.containerURL(forSecurityApplicationGroupIdentifier: "group.com.nobadiCares.DBMultiverse") else {
+            fatalError("Failed to get App Group directory")
+        }
+        
+        sharedContainerDirectory = appGroupDirectory
     }
 }
 
@@ -25,7 +29,7 @@ public class CoverImageCache {
 // MARK: - Load
 public extension CoverImageCache {
     func loadCurrentChapterData() -> CurrentChapterData? {
-        let jsonFileURL = cachesDirectory.appendingPathComponent(jsonFileName)
+        let jsonFileURL = sharedContainerDirectory.appendingPathComponent(jsonFileName)
         
         do {
             let jsonData = try Data(contentsOf: jsonFileURL)
@@ -33,7 +37,7 @@ public extension CoverImageCache {
             return chapterData
         } catch {
             print("Failed to load current chapter data JSON: \(error)")
-            return nil
+            return .init(number: 0, name: error.localizedDescription, progress: 0, coverImagePath: "")
         }
     }
 }
@@ -42,7 +46,7 @@ public extension CoverImageCache {
 // MARK: - Save
 public extension CoverImageCache {
     func saveCurrentChapterData(chapter: Int, name: String, progress: Int, imageData: Data) {
-        let imageFileURL = cachesDirectory.appendingPathComponent(imageFileName)
+        let imageFileURL = sharedContainerDirectory.appendingPathComponent(imageFileName)
         
         guard let compressedImageData = compressImageData(imageData) else {
             print("Failed to compress image data for chapter \(chapter)")
@@ -57,7 +61,7 @@ public extension CoverImageCache {
         }
         
         let chapterData = CurrentChapterData(number: chapter, name: name, progress: progress, coverImagePath: imageFileURL.path)
-        let jsonFileURL = cachesDirectory.appendingPathComponent(jsonFileName)
+        let jsonFileURL = sharedContainerDirectory.appendingPathComponent(jsonFileName)
         
         do {
             let jsonData = try JSONEncoder().encode(chapterData)
@@ -69,7 +73,7 @@ public extension CoverImageCache {
     }
     
     func updateProgress(to newProgress: Int) {
-        let jsonFileURL = cachesDirectory.appendingPathComponent(jsonFileName)
+        let jsonFileURL = sharedContainerDirectory.appendingPathComponent(jsonFileName)
         
         do {
             let jsonData = try Data(contentsOf: jsonFileURL)
@@ -100,14 +104,14 @@ private extension CoverImageCache {
     }
     
     func saveChapterDataToFile(_ chapterData: CurrentChapterData) {
-            let jsonFileURL = cachesDirectory.appendingPathComponent(jsonFileName)
+        let jsonFileURL = sharedContainerDirectory.appendingPathComponent(jsonFileName)
 
-            do {
-                let jsonData = try JSONEncoder().encode(chapterData)
-                try jsonData.write(to: jsonFileURL)
-                print("Chapter data saved successfully to \(jsonFileURL.path)")
-            } catch {
-                print("Failed to save chapter data JSON: \(error)")
-            }
+        do {
+            let jsonData = try JSONEncoder().encode(chapterData)
+            try jsonData.write(to: jsonFileURL)
+            print("Chapter data saved successfully to \(jsonFileURL.path)")
+        } catch {
+            print("Failed to save chapter data JSON: \(error)")
         }
+    }
 }

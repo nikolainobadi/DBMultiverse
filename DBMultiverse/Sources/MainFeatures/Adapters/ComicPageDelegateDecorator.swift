@@ -36,7 +36,7 @@ extension ComicPageDelegateDecorator: ComicPageDelegate {
         }
     }
     
-    func loadPages(chapterNumber: Int, pages: [Int]) async throws -> [PageInfo] {
-        return try await decoratee.loadPages(chapterNumber: chapterNumber, pages: pages)
+    func loadPages(_ pages: [Int]) async throws -> [PageInfo] {
+        return try await decoratee.loadPages(pages)
     }
 }

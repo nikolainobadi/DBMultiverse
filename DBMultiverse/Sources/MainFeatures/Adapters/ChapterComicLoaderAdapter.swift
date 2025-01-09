@@ -12,9 +12,9 @@ import DBMultiverseComicKit
 final class ChapterComicLoaderAdapter {
     private let imageCache: ComicPageImageCache
     private let imageParser: ComicPageImageParser
-    private let networkService: ComicPageNetworkService
+    private let networkService: OldComicPageNetworkService
     
-    init(imageCache: ComicPageImageCache = ComicPageImageCacheAdapter(), imageParser: ComicPageImageParser = ComicImageParserAdapter(), networkService: ComicPageNetworkService = ComicPageNetworkServiceAdapter()) {
+    init(imageCache: ComicPageImageCache = ComicPageImageCacheAdapter(), imageParser: ComicPageImageParser = ComicImageParserAdapter(), networkService: OldComicPageNetworkService = OldComicPageNetworkServiceAdapter()) {
         self.imageCache = imageCache
         self.imageParser = imageParser
         self.networkService = networkService
@@ -61,9 +61,9 @@ private extension ChapterComicLoaderAdapter {
 
 
 // MARK: - Dependencies
-protocol ComicPageNetworkService {
-    func fetchData(from url: URL?) async throws -> Data
-}
+//protocol ComicPageNetworkService {
+//    func fetchData(from url: URL?) async throws -> Data
+//}
 
 protocol ComicPageImageParser {
     func parseURL(from data: Data) throws -> URL?
@@ -86,9 +86,12 @@ fileprivate extension Int {
     }
 }
 
+protocol OldComicPageNetworkService {
+    func fetchData(from url: URL?) async throws -> Data
+}
 
 // MARK: - Networker
-final class ComicPageNetworkServiceAdapter: ComicPageNetworkService {
+final class OldComicPageNetworkServiceAdapter: OldComicPageNetworkService {
     func fetchData(from url: URL?) async throws -> Data {
         guard let url else {
             throw CustomError.urlError

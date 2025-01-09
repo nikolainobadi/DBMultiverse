@@ -59,7 +59,7 @@ public extension ComicPageViewModel {
     func loadData() async throws {
         if !didFetchInitialPages {
             let initialPages = Array(currentPageNumber...(min(currentPageNumber + 4, chapter.endPage)))
-            let fetchedPages = try await delegate.loadPages(chapterNumber: chapter.number, pages: initialPages)
+            let fetchedPages = try await delegate.loadPages(initialPages)
             
             await setPages(fetchedPages)
         }
@@ -73,7 +73,7 @@ public extension ComicPageViewModel {
             let remainingPagesNumbers = allPages.filter({ !fetchedPages.contains($0) })
             
             do {
-                let remainingList = try await delegate.loadPages(chapterNumber: chapter.number, pages: remainingPagesNumbers)
+                let remainingList = try await delegate.loadPages(remainingPagesNumbers)
                 
                 await addRemainingPages(remainingList)
                 cacheChapterCoverImage()
@@ -158,7 +158,7 @@ private extension ComicPageViewModel {
 public protocol ComicPageDelegate {
     func saveChapterCoverPage(_ info: PageInfo)
     func updateCurrentPageNumber(_ pageNumber: Int)
-    func loadPages(chapterNumber: Int, pages: [Int]) async throws -> [PageInfo]
+    func loadPages(_ pages: [Int]) async throws -> [PageInfo]
 }
 
 

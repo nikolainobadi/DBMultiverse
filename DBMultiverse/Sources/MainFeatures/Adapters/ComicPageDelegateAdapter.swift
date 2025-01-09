@@ -30,9 +30,8 @@ extension ComicPageDelegateAdapter: ComicPageDelegate  {
         CoverImageCache.shared.updateProgress(to: calculateProgress(page: pageNumber))
     }
     
-    func loadPages(chapterNumber: Int, pages: [Int]) async throws -> [PageInfo] {
-        // TODO: -
-        return await ChapterComicLoaderAdapter().loadPages(chapterNumber: chapterNumber, pages: pages)
+    func loadPages(_ pages: [Int]) async throws -> [PageInfo] {
+        return await ChapterComicLoaderAdapter().loadPages(chapterNumber: chapter.number, pages: pages)
     }
     
     func saveChapterCoverPage(_ info: PageInfo) {

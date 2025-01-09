@@ -45,6 +45,33 @@ public extension CoverImageCache {
 
 // MARK: - Save
 public extension CoverImageCache {
+    func saveCurrentChapterData(imageData: Data, metadata: CoverImageMetaData) {
+        let imageFileURL = sharedContainerDirectory.appendingPathComponent(imageFileName)
+        
+        guard let compressedImageData = compressImageData(imageData) else {
+            print("Failed to compress image data for chapter \(metadata.chapterNumber)")
+            return
+        }
+        
+        do {
+            try compressedImageData.write(to: imageFileURL)
+        } catch {
+            print("Unable to save compressed cover image for chapter \(metadata.chapterNumber): \(error)")
+            return
+        }
+        
+        let chapterData = CurrentChapterData(number: metadata.chapterNumber, name: metadata.chapterName, progress: metadata.readProgress, coverImagePath: imageFileURL.path)
+        let jsonFileURL = sharedContainerDirectory.appendingPathComponent(jsonFileName)
+        
+        do {
+            let jsonData = try JSONEncoder().encode(chapterData)
+            try jsonData.write(to: jsonFileURL)
+            print("Current chapter data saved successfully to \(jsonFileURL.path)")
+        } catch {
+            print("Failed to save current chapter data JSON: \(error)")
+        }
+    }
+    
     func saveCurrentChapterData(chapter: Int, name: String, progress: Int, imageData: Data) {
         let imageFileURL = sharedContainerDirectory.appendingPathComponent(imageFileName)
         
@@ -113,5 +140,19 @@ private extension CoverImageCache {
         } catch {
             print("Failed to save chapter data JSON: \(error)")
         }
+    }
+}
+
+
+// MARK: - Dependencies
+public struct CoverImageMetaData {
+    public let chapterName: String
+    public let chapterNumber: Int
+    public let readProgress: Int
+    
+    public init(chapterName: String, chapterNumber: Int, readProgress: Int) {
+        self.chapterName = chapterName
+        self.chapterNumber = chapterNumber
+        self.readProgress = readProgress
     }
 }

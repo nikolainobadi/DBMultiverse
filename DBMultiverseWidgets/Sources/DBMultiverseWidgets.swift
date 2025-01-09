@@ -8,38 +8,6 @@
 import SwiftUI
 import WidgetKit
 
-struct Provider: TimelineProvider {
-    func placeholder(in context: Context) -> ComicImageEntry {
-        ComicImageEntry(date: Date(), image: .init("sampleCoverImage"), family: context.family)
-    }
-
-    func getSnapshot(in context: Context, completion: @escaping (ComicImageEntry) -> Void) {
-        completion(ComicImageEntry(date: Date(), image: .init("sampleCoverImage"), family: context.family))
-    }
-
-    func getTimeline(in context: Context, completion: @escaping (Timeline<ComicImageEntry>) -> Void) {
-        let imagePath = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first?.appendingPathComponent("latestChapterImage.jpg").path
-        let image = makeImage(path: imagePath)
-        let entry = ComicImageEntry(date: .now, image: image, family: context.family)
-    
-        completion(.init(entries: [entry], policy: .atEnd))
-    }
-    
-    func makeImage(path: String?) -> Image? {
-        guard let path, let uiImage = UIImage(contentsOfFile: path) else {
-            return nil
-        }
-        
-        return .init(uiImage: uiImage)
-    }
-}
-
-struct ComicImageEntry: TimelineEntry {
-    let date: Date
-    let image: Image?
-    let family: WidgetFamily
-}
-
 struct DBMultiverseWidgets: Widget {
     let kind: String = "DBMultiverseWidgets"
 
@@ -55,19 +23,8 @@ struct DBMultiverseWidgets: Widget {
 }
 
 
-// MARK: - Preview
-#Preview(as: .systemSmall) {
-    DBMultiverseWidgets()
-} timeline: {
-    ComicImageEntry(date: .now, image: .init("sampleCoverImage"), family: .systemSmall)
-}
-//#Preview(as: .systemMedium) {
-//    DBMultiverseWidgets()
-//} timeline: {
-//    ComicImageEntry(date: .now, image: .init("sampleCoverImage"), family: .systemMedium)
-//}
-
-struct DBMultiverseWidgetContentView: View {
+// MARK: - ContentView
+fileprivate struct DBMultiverseWidgetContentView: View {
     let entry: ComicImageEntry
     
     var body: some View {
@@ -79,42 +36,22 @@ struct DBMultiverseWidgetContentView: View {
     }
 }
 
-struct MediumWidgetView: View {
-    var body: some View {
-        VStack {
-            
-        }
-    }
+
+
+
+
+
+// MARK: - Preview
+#Preview(as: .systemSmall) {
+    DBMultiverseWidgets()
+} timeline: {
+    ComicImageEntry(date: .now, image: .init("sampleCoverImage"), family: .systemSmall)
 }
-
-struct SmallWidgetView: View {
-    let entry: ComicImageEntry
-
-    var body: some View {
-        VStack {
-            HStack {
-                Text("Ch")
-                    .textLinearGradient(.yellowText)
-                Text("1")
-                    .textLinearGradient(.redText)
-                
-                Text(" - 85%")
-                    .bold()
-                    .font(.caption)
-                    .foregroundStyle(.white)
-            }
-            .bold()
-            .font(.title2)
-
-            if let image = entry.image {
-                image
-                    .resizable()
-                    .frame(width: 70, height: 90)
-            }
-        }
-        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
-    }
-}
+//#Preview(as: .systemMedium) {
+//    DBMultiverseWidgets()
+//} timeline: {
+//    ComicImageEntry(date: .now, image: .init("sampleCoverImage"), family: .systemMedium)
+//}
 
 
 import SwiftUI

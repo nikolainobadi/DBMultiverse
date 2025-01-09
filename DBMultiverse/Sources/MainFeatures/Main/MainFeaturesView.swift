@@ -56,7 +56,7 @@ fileprivate struct MainNavStack<ComicContent: View, SettingsContent: View>: View
 // MARK: - Preview
 #Preview {
     class PreviewLoader: ChapterLoader {
-        func loadChapters() async throws -> [Chapter] { [] }
+        func loadChapters(language: ComicLanguage) async throws -> [Chapter] { [] }
     }
     
     return MainFeaturesView(viewModel: .init(loader: PreviewLoader()))

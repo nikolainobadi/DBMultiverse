@@ -25,7 +25,7 @@ final class MainFeaturesViewModel: ObservableObject {
 // MARK: - Actions
 extension MainFeaturesViewModel {
     func loadData() async throws {
-        let fetchedList = try await loader.loadChapters()
+        let fetchedList = try await loader.loadChapters(language: .english)
         
         print("---------- fetched chapters ----------")
         print("fetched \(fetchedList.count) chapters")
@@ -73,5 +73,5 @@ private extension MainFeaturesViewModel {
 
 // MARK: - Dependencies
 protocol ChapterLoader {
-    func loadChapters() async throws -> [Chapter]
+    func loadChapters(language: ComicLanguage) async throws -> [Chapter]
 }

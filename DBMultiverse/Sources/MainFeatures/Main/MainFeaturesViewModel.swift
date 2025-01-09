@@ -27,6 +27,10 @@ extension MainFeaturesViewModel {
     func loadData() async throws {
         let fetchedList = try await loader.loadChapters()
         
+        print("---------- fetched chapters ----------")
+        print("fetched \(fetchedList.count) chapters")
+        print("---------- end fetched chapters ----------\n\n")
+        
         await setChapters(fetchedList)
     }
     

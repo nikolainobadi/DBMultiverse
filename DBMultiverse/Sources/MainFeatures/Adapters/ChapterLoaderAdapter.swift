@@ -68,51 +68,131 @@ private extension ChapterLoaderAdapter {
         }
     }
 
-    /// Parses a chapter element from the HTML to create a `Chapter` object.
-    /// - Parameter element: The HTML element representing a chapter.
-    /// - Returns: A `Chapter` object, or `nil` if parsing fails.
+//    /// Parses a chapter element from the HTML to create a `Chapter` object.
+//    /// - Parameter element: The HTML element representing a chapter.
+//    /// - Returns: A `Chapter` object, or `nil` if parsing fails.
+//    func parseChapter(_ element: Element, universe: Int?) throws -> Chapter? {
+//        let chapterTitle = try element.select("h4").text()
+//        
+//        if let match = chapterTitle.range(of: #"Chapter (\d+):"#, options: .regularExpression) {
+//            let numberString = String(chapterTitle[match])
+//                .replacingOccurrences(of: "Chapter ", with: "")
+//                .replacingOccurrences(of: ":", with: "")
+//                .trimmingCharacters(in: .whitespaces)
+//            
+//            let cleanedTitle = chapterTitle.replacingOccurrences(of: #"Chapter \d+:"#, with: "", options: .regularExpression)
+//                .trimmingCharacters(in: .whitespaces)
+//            let pageLinks = try element.select("p a")
+//            
+//            if let startPageText = try? pageLinks.first()?.text(),
+//               let endPageText = try? pageLinks.last()?.text(),
+//               let startPage = Int(startPageText),
+//               let endPage = Int(endPageText),
+//               let number = Int(numberString) {
+//                
+//                let coverImageElement = try element.select("img").first()
+//                let coverImageURL = try coverImageElement?.attr("src") ?? ""
+//                
+//                return .init(name: cleanedTitle, number: number, startPage: startPage, endPage: endPage, universe: universe, lastReadPage: nil, coverImageURL: coverImageURL, didFinishReading: false)
+//            }
+//        }
+//        
+//        return nil
+//    }
+    
     func parseChapter(_ element: Element, universe: Int?) throws -> Chapter? {
+        // Extract the chapter title
         let chapterTitle = try element.select("h4").text()
         
-        if let match = chapterTitle.range(of: #"Chapter (\d+):"#, options: .regularExpression) {
-            let numberString = String(chapterTitle[match])
-                .replacingOccurrences(of: "Chapter ", with: "")
-                .replacingOccurrences(of: ":", with: "")
-                .trimmingCharacters(in: .whitespaces)
+        // Use regex to find the first number in the title (before the colon)
+        let numberPattern = #"\b(\d+)\b"#
+        let numberMatch = chapterTitle.range(of: numberPattern, options: .regularExpression)
+        
+        // Extract the chapter number
+        let chapterNumber: Int?
+        if let numberMatch = numberMatch {
+            let numberString = String(chapterTitle[numberMatch])
+            chapterNumber = Int(numberString)
+        } else {
+            chapterNumber = nil // No number found
+        }
+        
+        // Extract everything after the first colon
+        let cleanedTitle: String
+        if let colonRange = chapterTitle.range(of: ":") {
+            cleanedTitle = String(chapterTitle[colonRange.upperBound...]).trimmingCharacters(in: .whitespacesAndNewlines)
+        } else {
+            cleanedTitle = chapterTitle // Fallback in case there's no colon
+        }
+        
+        // Ensure chapter number exists (skip invalid entries)
+        guard let number = chapterNumber else { return nil }
+        
+        // Extract page links
+        let pageLinks = try element.select("p a")
+        if let startPageText = try? pageLinks.first()?.text(),
+           let endPageText = try? pageLinks.last()?.text(),
+           let startPage = Int(startPageText),
+           let endPage = Int(endPageText) {
             
-            let cleanedTitle = chapterTitle.replacingOccurrences(of: #"Chapter \d+:"#, with: "", options: .regularExpression)
-                .trimmingCharacters(in: .whitespaces)
-            let pageLinks = try element.select("p a")
+            // Extract the cover image URL
+            let coverImageElement = try element.select("img").first()
+            let coverImageURL = try coverImageElement?.attr("src") ?? ""
             
-            if let startPageText = try? pageLinks.first()?.text(),
-               let endPageText = try? pageLinks.last()?.text(),
-               let startPage = Int(startPageText),
-               let endPage = Int(endPageText),
-               let number = Int(numberString) {
-                
-                let coverImageElement = try element.select("img").first()
-                let coverImageURL = try coverImageElement?.attr("src") ?? ""
-                
-                return .init(name: cleanedTitle, number: number, startPage: startPage, endPage: endPage, universe: universe, lastReadPage: nil, coverImageURL: coverImageURL, didFinishReading: false)
-            }
+            // Return the parsed Chapter object
+            return .init(
+                name: cleanedTitle,
+                number: number,
+                startPage: startPage,
+                endPage: endPage,
+                universe: universe,
+                lastReadPage: nil,
+                coverImageURL: coverImageURL,
+                didFinishReading: false
+            )
         }
         
         return nil
     }
     
-    /// Extracts the universe number from a section title.
-    /// - Parameter title: The section title.
-    /// - Returns: The universe number, or `nil` if it cannot be extracted.
+//    /// Extracts the universe number from a section title.
+//    /// - Parameter title: The section title.
+//    /// - Returns: The universe number, or `nil` if it cannot be extracted.
+//    func extractUniverseNumber(_ title: String) -> Int? {
+//        if title.lowercased().contains("DBMultiverse") {
+//            return nil
+//        } else if title.lowercased().contains("special") {
+//            let pattern = #"Special Universe (\d+)"#
+//            let regex = try? NSRegularExpression(pattern: pattern, options: [])
+//            if let match = regex?.firstMatch(in: title, options: [], range: NSRange(title.startIndex..., in: title)),
+//               let range = Range(match.range(at: 1), in: title) {
+//                return Int(title[range]) ?? Int.max
+//            }
+//        } else if title.lowercased().contains("Broly") {
+//            return 20
+//        }
+//        
+//        return nil
+//    }
     func extractUniverseNumber(_ title: String) -> Int? {
-        if title.lowercased().contains("tournament") {
+        // Check for "DBMultiverse" (return nil if present)
+        if title.lowercased().contains("dbmultiverse") {
             return nil
-        } else if title.lowercased().contains("special") {
-            let pattern = #"Special Universe (\d+)"#
-            let regex = try? NSRegularExpression(pattern: pattern, options: [])
-            if let match = regex?.firstMatch(in: title, options: [], range: NSRange(title.startIndex..., in: title)),
-               let range = Range(match.range(at: 1), in: title) {
-                return Int(title[range]) ?? Int.max
-            }
+        }
+        
+        // Regex to match any number preceded by the word "Special" (case-insensitive)
+        let pattern = #"(?i)\bSpecial\s+Universe\s+(\d+)\b"#
+        let regex = try? NSRegularExpression(pattern: pattern, options: [])
+        
+        if let match = regex?.firstMatch(in: title, options: [], range: NSRange(title.startIndex..., in: title)),
+           let range = Range(match.range(at: 1), in: title) {
+            // Extract and return the number
+            return Int(title[range]) ?? Int.max
+        }
+        
+        // Handle "Broly" as a constant
+        if title.lowercased().contains("broly") {
+            return 20
         }
         
         return nil

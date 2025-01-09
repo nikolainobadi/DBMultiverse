@@ -13,38 +13,40 @@ struct MediumWidgetView: View {
     let entry: ComicImageEntry
     
     var body: some View {
-        HStack {
-            if let image = entry.image {
-                image
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-            }
-            
-            Spacer()
-            
+        Link(destination: entry.deepLink) {
             HStack {
-                VStack {
-                    HStack {
-                        HStack {
-                            Text("Ch")
-                                .textLinearGradient(.yellowText)
-                            Text("\(entry.chapter)")
-                                .textLinearGradient(.redText)
-                        }
-                        .withFont()
-                    }
-                    .bold()
-                    .padding(.bottom, 5)
-                    .font(.title2)
-                    
-                    Text(entry.name)
-                        .padding(.horizontal)
-                        .multilineTextAlignment(.center)
-                        .withFont(.caption, textColor: .white,  autoSizeLineLimit: 2)
+                if let image = entry.image {
+                    image
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
                 }
                 
-                Text("\(entry.progress)%")
-                    .withFont(textColor: .white)
+                Spacer()
+                
+                HStack {
+                    VStack {
+                        HStack {
+                            HStack {
+                                Text("Ch")
+                                    .textLinearGradient(.yellowText)
+                                Text("\(entry.chapter)")
+                                    .textLinearGradient(.redText)
+                            }
+                            .withFont()
+                        }
+                        .bold()
+                        .padding(.bottom, 5)
+                        .font(.title2)
+                        
+                        Text(entry.name)
+                            .padding(.horizontal)
+                            .multilineTextAlignment(.center)
+                            .withFont(.caption, textColor: .white,  autoSizeLineLimit: 2)
+                    }
+                    
+                    Text("\(entry.progress)%")
+                        .withFont(textColor: .white)
+                }
             }
         }
         .showingConditionalView(when: entry.chapter == 0) {

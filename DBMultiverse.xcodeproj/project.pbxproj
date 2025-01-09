@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D408B02E2D2F6E550006ECC6 /* DeepLinkNavigationViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D408B02D2D2F6E550006ECC6 /* DeepLinkNavigationViewModifier.swift */; };
 		D42036A32D2F064D00F0A1D0 /* iPhoneMainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42036A22D2F064D00F0A1D0 /* iPhoneMainTabView.swift */; };
 		D42036A52D2F066F00F0A1D0 /* iPadMainNavStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42036A42D2F066F00F0A1D0 /* iPadMainNavStack.swift */; };
 		D42036A72D2F068F00F0A1D0 /* SwiftDataChapterListEventHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42036A62D2F068F00F0A1D0 /* SwiftDataChapterListEventHandler.swift */; };
@@ -106,6 +107,7 @@
 /* Begin PBXFileReference section */
 		D408B02B2D2F68B80006ECC6 /* DBMultiverse.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DBMultiverse.entitlements; sourceTree = "<group>"; };
 		D408B02C2D2F69380006ECC6 /* DBMultiverseWidgetsExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DBMultiverseWidgetsExtension.entitlements; sourceTree = "<group>"; };
+		D408B02D2D2F6E550006ECC6 /* DeepLinkNavigationViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLinkNavigationViewModifier.swift; sourceTree = "<group>"; };
 		D42036A22D2F064D00F0A1D0 /* iPhoneMainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iPhoneMainTabView.swift; sourceTree = "<group>"; };
 		D42036A42D2F066F00F0A1D0 /* iPadMainNavStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iPadMainNavStack.swift; sourceTree = "<group>"; };
 		D42036A62D2F068F00F0A1D0 /* SwiftDataChapterListEventHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftDataChapterListEventHandler.swift; sourceTree = "<group>"; };
@@ -364,6 +366,7 @@
 			children = (
 				E84A2CE32CFC435800FAF001 /* MainFeaturesView.swift */,
 				D42036B72D2F21BF00F0A1D0 /* MainFeaturesViewModel.swift */,
+				D408B02D2D2F6E550006ECC6 /* DeepLinkNavigationViewModifier.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -664,6 +667,7 @@
 				D49598152D0B766E00B4493F /* ChapterComicLoaderAdapter.swift in Sources */,
 				D4D32FAD2D2CCE1D0059DA27 /* WelcomeView.swift in Sources */,
 				E8A095BD2CE0941200D28E3F /* DBMultiverseApp.swift in Sources */,
+				D408B02E2D2F6E550006ECC6 /* DeepLinkNavigationViewModifier.swift in Sources */,
 				D4771DBF2D2A2C4200F2AC58 /* iPadComicPicker.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -9,14 +9,17 @@ import SwiftUI
 import NnSwiftUIKit
 
 public struct ComicNavStack<Content: View>: View {
+    @Binding var path: NavigationPath
+    
     let content: () -> Content
     
-    public init(@ViewBuilder content: @escaping () -> Content) {
+    public init(path: Binding<NavigationPath>, @ViewBuilder content: @escaping () -> Content) {
+        self._path = path
         self.content = content
     }
     
     public var body: some View {
-        NavigationStack {
+        NavigationStack(path: $path) {
             VStack {
                 VStack(spacing: 0) {
                     HStack {

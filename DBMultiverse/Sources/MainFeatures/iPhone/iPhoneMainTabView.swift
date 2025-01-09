@@ -9,12 +9,13 @@ import SwiftUI
 import DBMultiverseComicKit
 
 struct iPhoneMainTabView<ComicTab: View, SettingsTab: View>: View {
+    @Binding var path: NavigationPath
     @ViewBuilder var comicContent: () -> ComicTab
     @ViewBuilder var settingsTab: () -> SettingsTab
     
     var body: some View {
         TabView {
-            ComicNavStack(content: comicContent)
+            ComicNavStack(path: $path, content: comicContent)
                 .tabItem {
                     Label("Comic", systemImage: "book")
                 }

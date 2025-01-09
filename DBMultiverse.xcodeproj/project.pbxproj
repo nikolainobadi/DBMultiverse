@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D408B02E2D2F6E550006ECC6 /* DeepLinkNavigationViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D408B02D2D2F6E550006ECC6 /* DeepLinkNavigationViewModifier.swift */; };
 		D42036A32D2F064D00F0A1D0 /* iPhoneMainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42036A22D2F064D00F0A1D0 /* iPhoneMainTabView.swift */; };
 		D42036A52D2F066F00F0A1D0 /* iPadMainNavStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42036A42D2F066F00F0A1D0 /* iPadMainNavStack.swift */; };
 		D42036A72D2F068F00F0A1D0 /* SwiftDataChapterListEventHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42036A62D2F068F00F0A1D0 /* SwiftDataChapterListEventHandler.swift */; };
@@ -30,6 +31,17 @@
 		D46C70842D1BB65400C217D6 /* ChapterComicViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46C70832D1BB65400C217D6 /* ChapterComicViewModelTests.swift */; };
 		D46C70862D1BB7E000C217D6 /* ChapterListRepositoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46C70852D1BB7E000C217D6 /* ChapterListRepositoryTests.swift */; };
 		D4771DBF2D2A2C4200F2AC58 /* iPadComicPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4771DBE2D2A2C4200F2AC58 /* iPadComicPicker.swift */; };
+		D47D00EE2D2F4A050064FEB2 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D47D00ED2D2F4A050064FEB2 /* WidgetKit.framework */; };
+		D47D00F02D2F4A050064FEB2 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D47D00EF2D2F4A050064FEB2 /* SwiftUI.framework */; };
+		D47D00F32D2F4A050064FEB2 /* DBMultiverseWidgetsBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47D00F22D2F4A050064FEB2 /* DBMultiverseWidgetsBundle.swift */; };
+		D47D00F52D2F4A050064FEB2 /* DBMultiverseWidgets.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47D00F42D2F4A050064FEB2 /* DBMultiverseWidgets.swift */; };
+		D47D00F72D2F4A060064FEB2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D47D00F62D2F4A060064FEB2 /* Assets.xcassets */; };
+		D47D00FB2D2F4A060064FEB2 /* DBMultiverseWidgetsExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = D47D00EC2D2F4A050064FEB2 /* DBMultiverseWidgetsExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		D47D01052D2F58240064FEB2 /* Provider.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47D01042D2F58240064FEB2 /* Provider.swift */; };
+		D47D01072D2F58480064FEB2 /* ComicImageEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47D01062D2F58480064FEB2 /* ComicImageEntry.swift */; };
+		D47D01092D2F589D0064FEB2 /* SmallWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47D01082D2F589D0064FEB2 /* SmallWidgetView.swift */; };
+		D47D010B2D2F58C90064FEB2 /* MediumWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47D010A2D2F58C90064FEB2 /* MediumWidgetView.swift */; };
+		D47D010D2D2F60310064FEB2 /* DBMultiverseComicKit in Frameworks */ = {isa = PBXBuildFile; productRef = D47D010C2D2F60310064FEB2 /* DBMultiverseComicKit */; };
 		D495980F2D0B762E00B4493F /* HapticButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = D495980E2D0B762E00B4493F /* HapticButton.swift */; };
 		D49598152D0B766E00B4493F /* ChapterComicLoaderAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49598142D0B766E00B4493F /* ChapterComicLoaderAdapter.swift */; };
 		D49598182D0B82D700B4493F /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49598172D0B82D700B4493F /* SettingsViewModel.swift */; };
@@ -58,9 +70,27 @@
 			remoteGlobalIDString = E8A095B82CE0941200D28E3F;
 			remoteInfo = DBMultiverse;
 		};
+		D47D00F92D2F4A060064FEB2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E8A095B12CE0941200D28E3F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D47D00EB2D2F4A050064FEB2;
+			remoteInfo = DBMultiverseWidgetsExtension;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		D47D00FC2D2F4A060064FEB2 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				D47D00FB2D2F4A060064FEB2 /* DBMultiverseWidgetsExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		E84A2CE22CFC36D400FAF001 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -74,6 +104,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		D408B02B2D2F68B80006ECC6 /* DBMultiverse.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DBMultiverse.entitlements; sourceTree = "<group>"; };
+		D408B02C2D2F69380006ECC6 /* DBMultiverseWidgetsExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DBMultiverseWidgetsExtension.entitlements; sourceTree = "<group>"; };
+		D408B02D2D2F6E550006ECC6 /* DeepLinkNavigationViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLinkNavigationViewModifier.swift; sourceTree = "<group>"; };
 		D42036A22D2F064D00F0A1D0 /* iPhoneMainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iPhoneMainTabView.swift; sourceTree = "<group>"; };
 		D42036A42D2F066F00F0A1D0 /* iPadMainNavStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iPadMainNavStack.swift; sourceTree = "<group>"; };
 		D42036A62D2F068F00F0A1D0 /* SwiftDataChapterListEventHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftDataChapterListEventHandler.swift; sourceTree = "<group>"; };
@@ -95,6 +128,17 @@
 		D46C70832D1BB65400C217D6 /* ChapterComicViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChapterComicViewModelTests.swift; sourceTree = "<group>"; };
 		D46C70852D1BB7E000C217D6 /* ChapterListRepositoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChapterListRepositoryTests.swift; sourceTree = "<group>"; };
 		D4771DBE2D2A2C4200F2AC58 /* iPadComicPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iPadComicPicker.swift; sourceTree = "<group>"; };
+		D47D00EC2D2F4A050064FEB2 /* DBMultiverseWidgetsExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = DBMultiverseWidgetsExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		D47D00ED2D2F4A050064FEB2 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		D47D00EF2D2F4A050064FEB2 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		D47D00F22D2F4A050064FEB2 /* DBMultiverseWidgetsBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBMultiverseWidgetsBundle.swift; sourceTree = "<group>"; };
+		D47D00F42D2F4A050064FEB2 /* DBMultiverseWidgets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBMultiverseWidgets.swift; sourceTree = "<group>"; };
+		D47D00F62D2F4A060064FEB2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		D47D00F82D2F4A060064FEB2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D47D01042D2F58240064FEB2 /* Provider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Provider.swift; sourceTree = "<group>"; };
+		D47D01062D2F58480064FEB2 /* ComicImageEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComicImageEntry.swift; sourceTree = "<group>"; };
+		D47D01082D2F589D0064FEB2 /* SmallWidgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmallWidgetView.swift; sourceTree = "<group>"; };
+		D47D010A2D2F58C90064FEB2 /* MediumWidgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediumWidgetView.swift; sourceTree = "<group>"; };
 		D495980E2D0B762E00B4493F /* HapticButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticButton.swift; sourceTree = "<group>"; };
 		D49598142D0B766E00B4493F /* ChapterComicLoaderAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChapterComicLoaderAdapter.swift; sourceTree = "<group>"; };
 		D49598172D0B82D700B4493F /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
@@ -125,6 +169,16 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		D47D00E92D2F4A050064FEB2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D47D00F02D2F4A050064FEB2 /* SwiftUI.framework in Frameworks */,
+				D47D00EE2D2F4A050064FEB2 /* WidgetKit.framework in Frameworks */,
+				D47D010D2D2F60310064FEB2 /* DBMultiverseComicKit in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		E8A095B62CE0941200D28E3F /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -139,6 +193,33 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		D408B02F2D2F6EBB0006ECC6 /* WidgetViews */ = {
+			isa = PBXGroup;
+			children = (
+				D47D010A2D2F58C90064FEB2 /* MediumWidgetView.swift */,
+				D47D01082D2F589D0064FEB2 /* SmallWidgetView.swift */,
+			);
+			path = WidgetViews;
+			sourceTree = "<group>";
+		};
+		D408B0302D2F6EC40006ECC6 /* Widget */ = {
+			isa = PBXGroup;
+			children = (
+				D47D01042D2F58240064FEB2 /* Provider.swift */,
+				D47D01062D2F58480064FEB2 /* ComicImageEntry.swift */,
+				D47D00F42D2F4A050064FEB2 /* DBMultiverseWidgets.swift */,
+			);
+			path = Widget;
+			sourceTree = "<group>";
+		};
+		D408B0312D2F6EFB0006ECC6 /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				D47D00F22D2F4A050064FEB2 /* DBMultiverseWidgetsBundle.swift */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
 		D42036B42D2F156E00F0A1D0 /* Adapters */ = {
 			isa = PBXGroup;
 			children = (
@@ -208,6 +289,8 @@
 		D46C70772D1BB4E200C217D6 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				D47D00ED2D2F4A050064FEB2 /* WidgetKit.framework */,
+				D47D00EF2D2F4A050064FEB2 /* SwiftUI.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -227,6 +310,35 @@
 				D46C70852D1BB7E000C217D6 /* ChapterListRepositoryTests.swift */,
 			);
 			path = UnitTests;
+			sourceTree = "<group>";
+		};
+		D47D00F12D2F4A050064FEB2 /* DBMultiverseWidgets */ = {
+			isa = PBXGroup;
+			children = (
+				D47D01002D2F4A280064FEB2 /* Sources */,
+				D47D01012D2F4A2B0064FEB2 /* Resources */,
+			);
+			path = DBMultiverseWidgets;
+			sourceTree = "<group>";
+		};
+		D47D01002D2F4A280064FEB2 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				D408B0312D2F6EFB0006ECC6 /* Main */,
+				D408B0302D2F6EC40006ECC6 /* Widget */,
+				D408B02F2D2F6EBB0006ECC6 /* WidgetViews */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		D47D01012D2F4A2B0064FEB2 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				D47D00F82D2F4A060064FEB2 /* Info.plist */,
+				D47D00F62D2F4A060064FEB2 /* Assets.xcassets */,
+				D408B02C2D2F69380006ECC6 /* DBMultiverseWidgetsExtension.entitlements */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 		D4D32FAE2D2CD2550059DA27 /* Launch */ = {
@@ -275,6 +387,7 @@
 			children = (
 				E84A2CE32CFC435800FAF001 /* MainFeaturesView.swift */,
 				D42036B72D2F21BF00F0A1D0 /* MainFeaturesViewModel.swift */,
+				D408B02D2D2F6E550006ECC6 /* DeepLinkNavigationViewModifier.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -318,6 +431,7 @@
 			isa = PBXGroup;
 			children = (
 				E8A095C02CE0941400D28E3F /* Assets.xcassets */,
+				D408B02B2D2F68B80006ECC6 /* DBMultiverse.entitlements */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -328,6 +442,7 @@
 				E8A095BB2CE0941200D28E3F /* DBMultiverse */,
 				D46C706F2D1BB4C000C217D6 /* DBMultiverseUnitTests */,
 				D4F6F48B2D2DF73C00A27411 /* DBMultiverseComicKit */,
+				D47D00F12D2F4A050064FEB2 /* DBMultiverseWidgets */,
 				E8A095BA2CE0941200D28E3F /* Products */,
 				D46C70772D1BB4E200C217D6 /* Frameworks */,
 			);
@@ -338,6 +453,7 @@
 			children = (
 				E8A095B92CE0941200D28E3F /* DBMultiverse.app */,
 				D46C706E2D1BB4C000C217D6 /* DBMultiverseUnitTests.xctest */,
+				D47D00EC2D2F4A050064FEB2 /* DBMultiverseWidgetsExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -393,6 +509,26 @@
 			productReference = D46C706E2D1BB4C000C217D6 /* DBMultiverseUnitTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		D47D00EB2D2F4A050064FEB2 /* DBMultiverseWidgetsExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D47D00FF2D2F4A060064FEB2 /* Build configuration list for PBXNativeTarget "DBMultiverseWidgetsExtension" */;
+			buildPhases = (
+				D47D00E82D2F4A050064FEB2 /* Sources */,
+				D47D00E92D2F4A050064FEB2 /* Frameworks */,
+				D47D00EA2D2F4A050064FEB2 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = DBMultiverseWidgetsExtension;
+			packageProductDependencies = (
+				D47D010C2D2F60310064FEB2 /* DBMultiverseComicKit */,
+			);
+			productName = DBMultiverseWidgetsExtension;
+			productReference = D47D00EC2D2F4A050064FEB2 /* DBMultiverseWidgetsExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		E8A095B82CE0941200D28E3F /* DBMultiverse */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = E8A095C72CE0941400D28E3F /* Build configuration list for PBXNativeTarget "DBMultiverse" */;
@@ -401,10 +537,12 @@
 				E8A095B62CE0941200D28E3F /* Frameworks */,
 				E8A095B72CE0941200D28E3F /* Resources */,
 				E84A2CE22CFC36D400FAF001 /* Embed Frameworks */,
+				D47D00FC2D2F4A060064FEB2 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				D47D00FA2D2F4A060064FEB2 /* PBXTargetDependency */,
 			);
 			name = DBMultiverse;
 			packageProductDependencies = (
@@ -431,6 +569,9 @@
 						CreatedOnToolsVersion = 15.1;
 						TestTargetID = E8A095B82CE0941200D28E3F;
 					};
+					D47D00EB2D2F4A050064FEB2 = {
+						CreatedOnToolsVersion = 15.1;
+					};
 					E8A095B82CE0941200D28E3F = {
 						CreatedOnToolsVersion = 15.0.1;
 					};
@@ -456,6 +597,7 @@
 			targets = (
 				E8A095B82CE0941200D28E3F /* DBMultiverse */,
 				D46C706D2D1BB4C000C217D6 /* DBMultiverseUnitTests */,
+				D47D00EB2D2F4A050064FEB2 /* DBMultiverseWidgetsExtension */,
 			);
 		};
 /* End PBXProject section */
@@ -465,6 +607,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D47D00EA2D2F4A050064FEB2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D47D00F72D2F4A060064FEB2 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -486,6 +636,19 @@
 			files = (
 				D46C70862D1BB7E000C217D6 /* ChapterListRepositoryTests.swift in Sources */,
 				D46C70842D1BB65400C217D6 /* ChapterComicViewModelTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D47D00E82D2F4A050064FEB2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D47D01072D2F58480064FEB2 /* ComicImageEntry.swift in Sources */,
+				D47D01052D2F58240064FEB2 /* Provider.swift in Sources */,
+				D47D010B2D2F58C90064FEB2 /* MediumWidgetView.swift in Sources */,
+				D47D00F32D2F4A050064FEB2 /* DBMultiverseWidgetsBundle.swift in Sources */,
+				D47D00F52D2F4A050064FEB2 /* DBMultiverseWidgets.swift in Sources */,
+				D47D01092D2F589D0064FEB2 /* SmallWidgetView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -524,6 +687,7 @@
 				D49598152D0B766E00B4493F /* ChapterComicLoaderAdapter.swift in Sources */,
 				D4D32FAD2D2CCE1D0059DA27 /* WelcomeView.swift in Sources */,
 				E8A095BD2CE0941200D28E3F /* DBMultiverseApp.swift in Sources */,
+				D408B02E2D2F6E550006ECC6 /* DeepLinkNavigationViewModifier.swift in Sources */,
 				D4771DBF2D2A2C4200F2AC58 /* iPadComicPicker.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -535,6 +699,11 @@
 			isa = PBXTargetDependency;
 			target = E8A095B82CE0941200D28E3F /* DBMultiverse */;
 			targetProxy = D46C70722D1BB4C000C217D6 /* PBXContainerItemProxy */;
+		};
+		D47D00FA2D2F4A060064FEB2 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D47D00EB2D2F4A050064FEB2 /* DBMultiverseWidgetsExtension */;
+			targetProxy = D47D00F92D2F4A060064FEB2 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -580,6 +749,70 @@
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/DBMultiverse.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/DBMultiverse";
+			};
+			name = Release;
+		};
+		D47D00FD2D2F4A060064FEB2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = DBMultiverseWidgets/Resources/DBMultiverseWidgetsExtension.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 57VY6WCDRM;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = DBMultiverseWidgets/Resources/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = DBMultiverseWidgets;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 0.5.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.nobadiCares.DBMultiverse.DBMultiverseWidgets;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		D47D00FE2D2F4A060064FEB2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = DBMultiverseWidgets/Resources/DBMultiverseWidgetsExtension.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 57VY6WCDRM;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = DBMultiverseWidgets/Resources/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = DBMultiverseWidgets;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 0.5.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.nobadiCares.DBMultiverse.DBMultiverseWidgets;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
@@ -705,8 +938,10 @@
 		E8A095C82CE0941400D28E3F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = DBMultiverse/Resources/DBMultiverse.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"DBMultiverse/Preview Content\"";
@@ -740,8 +975,10 @@
 		E8A095C92CE0941400D28E3F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = DBMultiverse/Resources/DBMultiverse.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"DBMultiverse/Preview Content\"";
@@ -780,6 +1017,15 @@
 			buildConfigurations = (
 				D46C70752D1BB4C000C217D6 /* Debug */,
 				D46C70762D1BB4C000C217D6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D47D00FF2D2F4A060064FEB2 /* Build configuration list for PBXNativeTarget "DBMultiverseWidgetsExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D47D00FD2D2F4A060064FEB2 /* Debug */,
+				D47D00FE2D2F4A060064FEB2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -850,6 +1096,10 @@
 			isa = XCSwiftPackageProductDependency;
 			package = D46C70692D1BB4A700C217D6 /* XCRemoteSwiftPackageReference "NnTestKit" */;
 			productName = NnTestVariables;
+		};
+		D47D010C2D2F60310064FEB2 /* DBMultiverseComicKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = DBMultiverseComicKit;
 		};
 		E8A095CB2CE0944C00D28E3F /* SwiftSoup */ = {
 			isa = XCSwiftPackageProductDependency;

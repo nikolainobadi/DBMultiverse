@@ -23,6 +23,10 @@ final class ComicPageDelegateDecorator {
 
 // MARK: - Delegate
 extension ComicPageDelegateDecorator: ComicPageDelegate {
+    func saveChapterCoverPage(_ info: PageInfo) {
+        decoratee.saveChapterCoverPage(info)
+    }
+    
     func updateCurrentPageNumber(_ pageNumber: Int) {
         decoratee.updateCurrentPageNumber(pageNumber)
         chapterList.updateLastReadPage(page: pageNumber, chapter: chapter)

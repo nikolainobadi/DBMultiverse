@@ -9,6 +9,7 @@ extension String {
     static let lastReadSpecialPage = "lastReadSpecialPage"
     static let lastReadMainStoryPage = "lastReadMainStoryPage"
     static let completedChapterListKey = "completedChapterListKey"
+    static let currentlyReadingChapterKey = "currentlyReadingChapterKey"
     static let baseWebsiteURLString = "https://www.dragonball-multiverse.com"
     
     static func makeFullURLString(suffix: String) -> String {

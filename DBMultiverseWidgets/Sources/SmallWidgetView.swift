@@ -7,24 +7,28 @@
 
 import SwiftUI
 import WidgetKit
+import DBMultiverseComicKit
 
 struct SmallWidgetView: View {
     let entry: ComicImageEntry
 
     var body: some View {
-        VStack {
+        VStack(spacing: 0) {
             HStack {
-                Text("Ch")
-                    .textLinearGradient(.yellowText)
-                Text("1")
-                    .textLinearGradient(.redText)
+                HStack {
+                    Text("Ch")
+                        .textLinearGradient(.yellowText)
+                    Text("\(entry.chapter)")
+                        .textLinearGradient(.redText)
+                }
+                .withFont()
                 
-                Text(" - 85%")
+                Text("\(entry.progress)%")
                     .bold()
-                    .font(.caption)
-                    .foregroundStyle(.white)
+                    .withFont(.caption2, textColor: .white, autoSizeLineLimit: 1)
             }
             .bold()
+            .padding(.bottom, 5)
             .font(.title2)
 
             if let image = entry.image {
@@ -32,6 +36,18 @@ struct SmallWidgetView: View {
                     .resizable()
                     .frame(width: 70, height: 90)
             }
+        }
+        .showingConditionalView(when: entry.chapter == 0) {
+            VStack {
+                Text("Read")
+                    .padding(5)
+                    .withFont(.caption2, textColor: .white)
+                Text("DB")
+                    .textLinearGradient(.yellowText)
+                Text("Multiverse")
+                    .textLinearGradient(.redText)
+            }
+            .withFont(autoSizeLineLimit: 1)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
     }
@@ -42,5 +58,5 @@ struct SmallWidgetView: View {
 #Preview(as: .systemSmall) {
     DBMultiverseWidgets()
 } timeline: {
-    ComicImageEntry(date: .now, image: .init("sampleCoverImage"), family: .systemSmall)
+    ComicImageEntry.makeSample(family: .systemSmall)
 }

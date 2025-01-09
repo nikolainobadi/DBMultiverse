@@ -41,6 +41,7 @@
 		D47D01072D2F58480064FEB2 /* ComicImageEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47D01062D2F58480064FEB2 /* ComicImageEntry.swift */; };
 		D47D01092D2F589D0064FEB2 /* SmallWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47D01082D2F589D0064FEB2 /* SmallWidgetView.swift */; };
 		D47D010B2D2F58C90064FEB2 /* MediumWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47D010A2D2F58C90064FEB2 /* MediumWidgetView.swift */; };
+		D47D010D2D2F60310064FEB2 /* DBMultiverseComicKit in Frameworks */ = {isa = PBXBuildFile; productRef = D47D010C2D2F60310064FEB2 /* DBMultiverseComicKit */; };
 		D495980F2D0B762E00B4493F /* HapticButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = D495980E2D0B762E00B4493F /* HapticButton.swift */; };
 		D49598152D0B766E00B4493F /* ChapterComicLoaderAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49598142D0B766E00B4493F /* ChapterComicLoaderAdapter.swift */; };
 		D49598182D0B82D700B4493F /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49598172D0B82D700B4493F /* SettingsViewModel.swift */; };
@@ -172,6 +173,7 @@
 			files = (
 				D47D00F02D2F4A050064FEB2 /* SwiftUI.framework in Frameworks */,
 				D47D00EE2D2F4A050064FEB2 /* WidgetKit.framework in Frameworks */,
+				D47D010D2D2F60310064FEB2 /* DBMultiverseComicKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -492,6 +494,9 @@
 			dependencies = (
 			);
 			name = DBMultiverseWidgetsExtension;
+			packageProductDependencies = (
+				D47D010C2D2F60310064FEB2 /* DBMultiverseComicKit */,
+			);
 			productName = DBMultiverseWidgetsExtension;
 			productReference = D47D00EC2D2F4A050064FEB2 /* DBMultiverseWidgetsExtension.appex */;
 			productType = "com.apple.product-type.app-extension";
@@ -1059,6 +1064,10 @@
 			isa = XCSwiftPackageProductDependency;
 			package = D46C70692D1BB4A700C217D6 /* XCRemoteSwiftPackageReference "NnTestKit" */;
 			productName = NnTestVariables;
+		};
+		D47D010C2D2F60310064FEB2 /* DBMultiverseComicKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = DBMultiverseComicKit;
 		};
 		E8A095CB2CE0944C00D28E3F /* SwiftSoup */ = {
 			isa = XCSwiftPackageProductDependency;

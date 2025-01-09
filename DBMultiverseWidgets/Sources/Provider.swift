@@ -7,20 +7,26 @@
 
 import SwiftUI
 import WidgetKit
+import DBMultiverseComicKit
 
 struct Provider: TimelineProvider {
     func placeholder(in context: Context) -> ComicImageEntry {
-        ComicImageEntry(date: Date(), image: .init("sampleCoverImage"), family: context.family)
+        return .makeSample(family: context.family)
     }
     
     func getSnapshot(in context: Context, completion: @escaping (ComicImageEntry) -> Void) {
-        completion(ComicImageEntry(date: Date(), image: .init("sampleCoverImage"), family: context.family))
+        completion(.makeSample(family: context.family))
     }
     
     func getTimeline(in context: Context, completion: @escaping (Timeline<ComicImageEntry>) -> Void) {
-        let imagePath = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first?.appendingPathComponent("latestChapterImage.jpg").path
-        let image = makeImage(path: imagePath)
-        let entry = ComicImageEntry(date: .now, image: image, family: context.family)
+        guard let chapterData = CoverImageCache.shared.loadCurrentChapterData() else {
+            completion(.init(entries: [.init(date: .now, chapter: 0, name: "", progress: 0, image: nil, family: context.family)], policy: .atEnd))
+            return
+        }
+        
+        let progress = chapterData.progress
+        let image = makeImage(path: chapterData.coverImagePath)
+        let entry = ComicImageEntry(date: .now, chapter: chapterData.number, name: chapterData.name, progress: progress, image: image, family: context.family)
         
         completion(.init(entries: [entry], policy: .atEnd))
     }

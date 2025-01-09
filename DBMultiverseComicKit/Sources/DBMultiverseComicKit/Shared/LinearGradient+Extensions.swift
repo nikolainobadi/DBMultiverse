@@ -19,6 +19,10 @@ public extension LinearGradient {
     static var starrySky: LinearGradient {
         return makeTopBottomTextGradient(colors: [.init(red: 0.0, green: 0.0, blue: 0.5), .init(red: 0.0, green: 0.4, blue: 1.0)])
     }
+    
+    static var lightStarrySky: LinearGradient {
+        return makeTopBottomTextGradient(colors: [.init(red: 0.5, green: 0.5, blue: 0.8), .init(red: 0.7, green: 0.8, blue: 1.0), .init(red: 0.5, green: 0.5, blue: 0.8)])
+    }
 }
 
 

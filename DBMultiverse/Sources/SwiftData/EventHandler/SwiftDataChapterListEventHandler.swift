@@ -12,6 +12,7 @@ struct SwiftDataChapterListEventHandler {
     let lastReadSpecialPage: Int
     let lastReadMainStoryPage: Int
     let chapterList: SwiftDataChapterList
+    let onStartNextChapter: (Chapter) -> Void
 }
 
 
@@ -19,6 +20,12 @@ struct SwiftDataChapterListEventHandler {
 extension SwiftDataChapterListEventHandler: ChapterListEventHandler {
     func makeImageURL(for chapter: Chapter) -> URL? {
         return .init(string: .makeFullURLString(suffix: chapter.coverImageURL))
+    }
+    
+    func startNextChapter(currentChapter: Chapter) {
+        if let nextChapter = getNextChapter(currentChapter: currentChapter) {
+            onStartNextChapter(nextChapter)
+        }
     }
     
     func toggleReadStatus(for chapter: DBMultiverseComicKit.Chapter) {
@@ -64,6 +71,20 @@ private extension SwiftDataChapterListEventHandler {
     
     var univereSpecialChapters: [Chapter] {
         return chapters.filter({ $0.universe != nil })
+    }
+    
+    func getNextChapter(currentChapter: Chapter) -> Chapter? {
+        guard let index = chapters.firstIndex(where: { $0.number == currentChapter.number }) else {
+            return nil
+        }
+        
+        let nextIndex = index + 1
+        
+        guard chapters.indices.contains(nextIndex) else {
+            return nil
+        }
+        
+        return chapters[nextIndex]
     }
     
     func getCurrentChapter(type: ComicType) -> Chapter? {

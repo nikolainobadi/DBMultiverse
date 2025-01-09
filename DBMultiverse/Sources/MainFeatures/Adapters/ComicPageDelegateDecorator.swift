@@ -29,11 +29,11 @@ extension ComicPageDelegateDecorator: ComicPageDelegate {
     
     func updateCurrentPageNumber(_ pageNumber: Int) {
         decoratee.updateCurrentPageNumber(pageNumber)
-        chapterList.updateLastReadPage(page: pageNumber, chapter: chapter)
-        
-        if chapter.endPage == pageNumber {
-            chapterList.read(chapter)
-        }
+//        chapterList.updateLastReadPage(page: pageNumber, chapter: chapter)
+//        
+//        if chapter.endPage == pageNumber {
+//            chapterList.read(chapter)
+//        }
     }
     
     func loadPages(_ pages: [Int]) async throws -> [PageInfo] {

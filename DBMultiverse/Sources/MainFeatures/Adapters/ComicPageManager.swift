@@ -12,11 +12,13 @@ final class ComicPageManager {
     private let chapter: Chapter
     private let imageCache: ComicImageCache
     private let networkService: ComicPageNetworkService
+    private let chapterProgressHandler: ChapterProgressHandler
     
-    init(chapter: Chapter, imageCache: ComicImageCache, networkService: ComicPageNetworkService) {
+    init(chapter: Chapter, imageCache: ComicImageCache, networkService: ComicPageNetworkService, chapterProgressHandler: ChapterProgressHandler) {
         self.chapter = chapter
         self.imageCache = imageCache
         self.networkService = networkService
+        self.chapterProgressHandler = chapterProgressHandler
     }
 }
 
@@ -31,6 +33,7 @@ extension ComicPageManager: ComicPageDelegate {
     }
     
     func updateCurrentPageNumber(_ pageNumber: Int) {
+        updateChapterProgress(lastReadPage: pageNumber)
         imageCache.updateCurrentPageNumber(pageNumber, readProgress: calculateProgress(page: pageNumber))
     }
 
@@ -56,6 +59,14 @@ extension ComicPageManager: ComicPageDelegate {
 
 // MARK: - Private Methods
 private extension ComicPageManager {
+    func updateChapterProgress(lastReadPage: Int) {
+        chapterProgressHandler.updateLastReadPage(page: lastReadPage, chapter: chapter)
+        
+        if chapter.endPage == lastReadPage {
+            chapterProgressHandler.markChapterAsRead(chapter)
+        }
+    }
+    
     func calculateProgress(page: Int) -> Int {
         let totalPages = chapter.endPage - chapter.startPage + 1
         let pagesRead = page - chapter.startPage + 1
@@ -80,6 +91,11 @@ private extension ComicPageManager {
 // MARK: - Dependencies
 protocol ComicPageNetworkService {
     func fetchImageData(from url: URL?) async throws -> Data
+}
+
+protocol ChapterProgressHandler {
+    func markChapterAsRead(_ chapter: Chapter)
+    func updateLastReadPage(page: Int, chapter: Chapter)
 }
 
 protocol ComicImageCache {

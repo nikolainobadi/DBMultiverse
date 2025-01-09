@@ -66,7 +66,6 @@ public extension ComicPageViewModel {
     }
     
     func loadRemainingPages() {
-        print("loading the remaining pages")
         Task {
             let allPages = Array(chapter.startPage...chapter.endPage)
             let fetchedPages = pages.map({ $0.pageNumber })

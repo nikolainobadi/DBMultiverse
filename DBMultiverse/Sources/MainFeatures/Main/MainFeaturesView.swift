@@ -81,9 +81,13 @@ fileprivate extension ComicPageViewModel {
         let currentPageNumber = store.getCurrentPageNumber(for: route.comicType)
         let imageCache = ComicImageCacheAdapter(comicType: route.comicType, viewModel: store)
         let networkService = ComicPageNetworkServiceAdapter()
-        let manager = ComicPageManager(chapter: route.chapter, imageCache: imageCache, networkService: networkService)
-        let decorator = ComicPageDelegateDecorator(chapter: route.chapter, decoratee: manager, chapterList: chapterList)
+        let manager = ComicPageManager(
+            chapter: route.chapter,
+            imageCache: imageCache,
+            networkService: networkService,
+            chapterProgressHandler: chapterList
+        )
         
-        return .init(chapter: route.chapter, currentPageNumber: currentPageNumber, delegate: decorator)
+        return .init(chapter: route.chapter, currentPageNumber: currentPageNumber, delegate: manager)
     }
 }

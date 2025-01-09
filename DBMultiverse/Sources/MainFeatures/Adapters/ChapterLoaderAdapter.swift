@@ -175,7 +175,6 @@ private extension ChapterLoaderAdapter {
 //        return nil
 //    }
     func extractUniverseNumber(_ title: String) -> Int? {
-        // Check for "DBMultiverse" (return nil if present)
         if title.lowercased().contains("dbmultiverse") {
             return nil
         }
@@ -190,7 +189,6 @@ private extension ChapterLoaderAdapter {
             return Int(title[range]) ?? Int.max
         }
         
-        // Handle "Broly" as a constant
         if title.lowercased().contains("broly") {
             return 20
         }

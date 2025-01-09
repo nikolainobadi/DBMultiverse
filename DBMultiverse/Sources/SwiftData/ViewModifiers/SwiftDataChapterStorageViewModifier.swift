@@ -50,8 +50,8 @@ struct SwiftDataChapterStorageViewModifier: ViewModifier {
                         }
                     } else {
                         missingChapters += 1
-                        print("should add chapter \(chapter.number): \(chapter.name)")
-//                        modelContext.insert(SwiftDataChapter(chapter: chapter))
+                        print("adding chapter \(chapter.number): \(chapter.name)")
+                        modelContext.insert(SwiftDataChapter(chapter: chapter))
                     }
                 }
                 

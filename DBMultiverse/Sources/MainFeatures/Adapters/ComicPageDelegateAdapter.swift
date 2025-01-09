@@ -32,7 +32,7 @@ extension ComicPageDelegateAdapter: ComicPageDelegate  {
     
     func loadPages(chapterNumber: Int, pages: [Int]) async throws -> [PageInfo] {
         // TODO: -
-        return try await ChapterComicLoaderAdapter().loadPages(chapterNumber: chapterNumber, pages: pages)
+        return await ChapterComicLoaderAdapter().loadPages(chapterNumber: chapterNumber, pages: pages)
     }
     
     func saveChapterCoverPage(_ info: PageInfo) {

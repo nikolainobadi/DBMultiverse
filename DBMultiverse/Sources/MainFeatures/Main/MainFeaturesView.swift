@@ -65,7 +65,7 @@ fileprivate extension SwiftDataChapterListEventHandler {
 fileprivate extension ComicPageViewModel {
     static func customInit(route: ChapterRoute, store: MainFeaturesViewModel, chapterList: SwiftDataChapterList) -> ComicPageViewModel {
         let currentPageNumber = store.getCurrentPageNumber(for: route.comicType)
-        let delegate = ComicPageDelegateAdapter(comicType: route.comicType, store: store)
+        let delegate = ComicPageDelegateAdapter(chapter: route.chapter, comicType: route.comicType, store: store)
         let decorator = ComicPageDelegateDecorator(chapter: route.chapter, decoratee: delegate, chapterList: chapterList)
         
         return .init(chapter: route.chapter, currentPageNumber: currentPageNumber, delegate: decorator)

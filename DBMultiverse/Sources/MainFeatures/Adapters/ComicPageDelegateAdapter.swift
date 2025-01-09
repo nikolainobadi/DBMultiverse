@@ -10,17 +10,14 @@ import Foundation
 import DBMultiverseComicKit
 
 final class ComicPageDelegateAdapter {
+    private let chapter: Chapter
     private let comicType: ComicType
-    private let fileManager: FileManager
-    private let userDefaults: UserDefaults
     private let store: MainFeaturesViewModel
-    private let chapterCoverImageDataFileName = "lastReadChapterCoverImageData"
     
-    init(comicType: ComicType, store: MainFeaturesViewModel, fileManager: FileManager = .default, userDefaults: UserDefaults = .standard) {
+    init(chapter: Chapter, comicType: ComicType, store: MainFeaturesViewModel) {
         self.store = store
+        self.chapter = chapter
         self.comicType = comicType
-        self.fileManager = fileManager
-        self.userDefaults = userDefaults
     }
 }
 
@@ -29,6 +26,8 @@ final class ComicPageDelegateAdapter {
 extension ComicPageDelegateAdapter: ComicPageDelegate  {
     func updateCurrentPageNumber(_ pageNumber: Int) {
         store.updateCurrentPageNumber(pageNumber, comicType: comicType)
+        
+        CoverImageCache.shared.updateProgress(to: calculateProgress(page: pageNumber))
     }
     
     func loadPages(chapterNumber: Int, pages: [Int]) async throws -> [PageInfo] {
@@ -37,29 +36,32 @@ extension ComicPageDelegateAdapter: ComicPageDelegate  {
     }
     
     func saveChapterCoverPage(_ info: PageInfo) {
-        guard let fileURL = fileManager.urls(for: .cachesDirectory, in: .userDomainMask).first?.appendingPathComponent(chapterCoverImageDataFileName) else {
-            print("Failed to get file URL for saving image")
-            return
-        }
-
-        if let compressedData = compressImageData(info.imageData) {
-            do {
-                try compressedData.write(to: fileURL)
-            
-                userDefaults.set(info.chapter, forKey: .currentlyReadingChapterKey)
-            } catch {
-                print("Unable to save compressed cover image for chapter \(info.chapter): \(error)")
-            }
-        } else {
-            print("Failed to compress image data for chapter \(info.chapter)")
-        }
+        CoverImageCache.shared.saveCurrentChapterData(chapter: chapter.number, name: chapter.name, progress: chapter.progress, imageData: info.imageData)
     }
 }
 
 
 // MARK: - Private Methods
 private extension ComicPageDelegateAdapter {
-    func compressImageData(_ data: Data) -> Data? {
-        return UIImage(data: data)?.jpegData(compressionQuality: 0.7)
+    func calculateProgress(page: Int) -> Int {
+        let totalPages = chapter.endPage - chapter.startPage + 1
+        let pagesRead = page - chapter.startPage + 1
+        
+        return max(0, min((pagesRead * 100) / totalPages, 100))
+    }
+}
+
+
+// MARK: - Extension Dependencies
+fileprivate extension Chapter {
+    var progress: Int {
+        guard let lastReadPage = lastReadPage, lastReadPage >= startPage else {
+            return 0
+        }
+        
+        let totalPages = endPage - startPage + 1
+        let pagesRead = lastReadPage - startPage + 1
+        
+        return min((pagesRead * 100) / totalPages, 100)
     }
 }

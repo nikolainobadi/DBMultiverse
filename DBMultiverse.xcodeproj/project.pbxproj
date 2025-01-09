@@ -37,7 +37,6 @@
 		D47D00F52D2F4A050064FEB2 /* DBMultiverseWidgets.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47D00F42D2F4A050064FEB2 /* DBMultiverseWidgets.swift */; };
 		D47D00F72D2F4A060064FEB2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D47D00F62D2F4A060064FEB2 /* Assets.xcassets */; };
 		D47D00FB2D2F4A060064FEB2 /* DBMultiverseWidgetsExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = D47D00EC2D2F4A050064FEB2 /* DBMultiverseWidgetsExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		D47D01032D2F4B220064FEB2 /* DBMultiverseWidgetsEntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47D01022D2F4B220064FEB2 /* DBMultiverseWidgetsEntryView.swift */; };
 		D47D01052D2F58240064FEB2 /* Provider.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47D01042D2F58240064FEB2 /* Provider.swift */; };
 		D47D01072D2F58480064FEB2 /* ComicImageEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47D01062D2F58480064FEB2 /* ComicImageEntry.swift */; };
 		D47D01092D2F589D0064FEB2 /* SmallWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47D01082D2F589D0064FEB2 /* SmallWidgetView.swift */; };
@@ -136,7 +135,6 @@
 		D47D00F42D2F4A050064FEB2 /* DBMultiverseWidgets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBMultiverseWidgets.swift; sourceTree = "<group>"; };
 		D47D00F62D2F4A060064FEB2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D47D00F82D2F4A060064FEB2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		D47D01022D2F4B220064FEB2 /* DBMultiverseWidgetsEntryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBMultiverseWidgetsEntryView.swift; sourceTree = "<group>"; };
 		D47D01042D2F58240064FEB2 /* Provider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Provider.swift; sourceTree = "<group>"; };
 		D47D01062D2F58480064FEB2 /* ComicImageEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComicImageEntry.swift; sourceTree = "<group>"; };
 		D47D01082D2F589D0064FEB2 /* SmallWidgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmallWidgetView.swift; sourceTree = "<group>"; };
@@ -195,6 +193,26 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		D408B02F2D2F6EBB0006ECC6 /* WidgetViews */ = {
+			isa = PBXGroup;
+			children = (
+				D47D010A2D2F58C90064FEB2 /* MediumWidgetView.swift */,
+				D47D01082D2F589D0064FEB2 /* SmallWidgetView.swift */,
+			);
+			path = WidgetViews;
+			sourceTree = "<group>";
+		};
+		D408B0302D2F6EC40006ECC6 /* Widget */ = {
+			isa = PBXGroup;
+			children = (
+				D47D01042D2F58240064FEB2 /* Provider.swift */,
+				D47D01062D2F58480064FEB2 /* ComicImageEntry.swift */,
+				D47D00F22D2F4A050064FEB2 /* DBMultiverseWidgetsBundle.swift */,
+				D47D00F42D2F4A050064FEB2 /* DBMultiverseWidgets.swift */,
+			);
+			path = Widget;
+			sourceTree = "<group>";
+		};
 		D42036B42D2F156E00F0A1D0 /* Adapters */ = {
 			isa = PBXGroup;
 			children = (
@@ -299,13 +317,8 @@
 		D47D01002D2F4A280064FEB2 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				D47D00F42D2F4A050064FEB2 /* DBMultiverseWidgets.swift */,
-				D47D00F22D2F4A050064FEB2 /* DBMultiverseWidgetsBundle.swift */,
-				D47D01022D2F4B220064FEB2 /* DBMultiverseWidgetsEntryView.swift */,
-				D47D01042D2F58240064FEB2 /* Provider.swift */,
-				D47D01062D2F58480064FEB2 /* ComicImageEntry.swift */,
-				D47D01082D2F589D0064FEB2 /* SmallWidgetView.swift */,
-				D47D010A2D2F58C90064FEB2 /* MediumWidgetView.swift */,
+				D408B0302D2F6EC40006ECC6 /* Widget */,
+				D408B02F2D2F6EBB0006ECC6 /* WidgetViews */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -628,7 +641,6 @@
 				D47D00F32D2F4A050064FEB2 /* DBMultiverseWidgetsBundle.swift in Sources */,
 				D47D00F52D2F4A050064FEB2 /* DBMultiverseWidgets.swift in Sources */,
 				D47D01092D2F589D0064FEB2 /* SmallWidgetView.swift in Sources */,
-				D47D01032D2F4B220064FEB2 /* DBMultiverseWidgetsEntryView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

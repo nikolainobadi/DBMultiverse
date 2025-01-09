@@ -67,38 +67,6 @@ private extension ChapterLoaderAdapter {
             throw CustomError.parseHTMLError
         }
     }
-
-//    /// Parses a chapter element from the HTML to create a `Chapter` object.
-//    /// - Parameter element: The HTML element representing a chapter.
-//    /// - Returns: A `Chapter` object, or `nil` if parsing fails.
-//    func parseChapter(_ element: Element, universe: Int?) throws -> Chapter? {
-//        let chapterTitle = try element.select("h4").text()
-//        
-//        if let match = chapterTitle.range(of: #"Chapter (\d+):"#, options: .regularExpression) {
-//            let numberString = String(chapterTitle[match])
-//                .replacingOccurrences(of: "Chapter ", with: "")
-//                .replacingOccurrences(of: ":", with: "")
-//                .trimmingCharacters(in: .whitespaces)
-//            
-//            let cleanedTitle = chapterTitle.replacingOccurrences(of: #"Chapter \d+:"#, with: "", options: .regularExpression)
-//                .trimmingCharacters(in: .whitespaces)
-//            let pageLinks = try element.select("p a")
-//            
-//            if let startPageText = try? pageLinks.first()?.text(),
-//               let endPageText = try? pageLinks.last()?.text(),
-//               let startPage = Int(startPageText),
-//               let endPage = Int(endPageText),
-//               let number = Int(numberString) {
-//                
-//                let coverImageElement = try element.select("img").first()
-//                let coverImageURL = try coverImageElement?.attr("src") ?? ""
-//                
-//                return .init(name: cleanedTitle, number: number, startPage: startPage, endPage: endPage, universe: universe, lastReadPage: nil, coverImageURL: coverImageURL, didFinishReading: false)
-//            }
-//        }
-//        
-//        return nil
-//    }
     
     func parseChapter(_ element: Element, universe: Int?) throws -> Chapter? {
         // Extract the chapter title
@@ -155,25 +123,6 @@ private extension ChapterLoaderAdapter {
         return nil
     }
     
-//    /// Extracts the universe number from a section title.
-//    /// - Parameter title: The section title.
-//    /// - Returns: The universe number, or `nil` if it cannot be extracted.
-//    func extractUniverseNumber(_ title: String) -> Int? {
-//        if title.lowercased().contains("DBMultiverse") {
-//            return nil
-//        } else if title.lowercased().contains("special") {
-//            let pattern = #"Special Universe (\d+)"#
-//            let regex = try? NSRegularExpression(pattern: pattern, options: [])
-//            if let match = regex?.firstMatch(in: title, options: [], range: NSRange(title.startIndex..., in: title)),
-//               let range = Range(match.range(at: 1), in: title) {
-//                return Int(title[range]) ?? Int.max
-//            }
-//        } else if title.lowercased().contains("Broly") {
-//            return 20
-//        }
-//        
-//        return nil
-//    }
     func extractUniverseNumber(_ title: String) -> Int? {
         if title.lowercased().contains("dbmultiverse") {
             return nil

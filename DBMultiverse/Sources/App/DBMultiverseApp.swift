@@ -7,9 +7,14 @@
 
 import SwiftUI
 import SwiftData
+import WidgetKit
 import NnSwiftUIKit
+import DBMultiverseComicKit
 
 struct DBMultiverseApp: App {
+    @Environment(\.scenePhase) private var scenePhase
+    @State private var lastSavedChapterData: CurrentChapterData?
+
     init() {
         print(URL.applicationSupportDirectory.path(percentEncoded: false))
     }
@@ -21,6 +26,13 @@ struct DBMultiverseApp: App {
                 .withNnErrorHandling()
                 .preferredColorScheme(.dark)
                 .modelContainer(for: SwiftDataChapter.self)
+                .onChange(of: scenePhase) { 
+                    // to prevent widget from being reloaded too often
+                    if let currentChapterData = CoverImageCache.shared.loadCurrentChapterData(), lastSavedChapterData != currentChapterData {
+                        WidgetCenter.shared.reloadAllTimelines()
+                        lastSavedChapterData = currentChapterData
+                    }
+                }
         }
     }
 }

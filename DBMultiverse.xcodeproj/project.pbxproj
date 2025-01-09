@@ -207,10 +207,17 @@
 			children = (
 				D47D01042D2F58240064FEB2 /* Provider.swift */,
 				D47D01062D2F58480064FEB2 /* ComicImageEntry.swift */,
-				D47D00F22D2F4A050064FEB2 /* DBMultiverseWidgetsBundle.swift */,
 				D47D00F42D2F4A050064FEB2 /* DBMultiverseWidgets.swift */,
 			);
 			path = Widget;
+			sourceTree = "<group>";
+		};
+		D408B0312D2F6EFB0006ECC6 /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				D47D00F22D2F4A050064FEB2 /* DBMultiverseWidgetsBundle.swift */,
+			);
+			path = Main;
 			sourceTree = "<group>";
 		};
 		D42036B42D2F156E00F0A1D0 /* Adapters */ = {
@@ -317,6 +324,7 @@
 		D47D01002D2F4A280064FEB2 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				D408B0312D2F6EFB0006ECC6 /* Main */,
 				D408B0302D2F6EC40006ECC6 /* Widget */,
 				D408B02F2D2F6EBB0006ECC6 /* WidgetViews */,
 			);

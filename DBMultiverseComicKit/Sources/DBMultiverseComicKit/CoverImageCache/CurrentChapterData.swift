@@ -5,7 +5,7 @@
 //  Created by Nikolai Nobadi on 1/8/25.
 //
 
-public struct CurrentChapterData: Codable {
+public struct CurrentChapterData: Codable, Equatable {
     public let number: Int
     public let name: String
     public let progress: Int

@@ -37,7 +37,7 @@ public extension CoverImageCache {
             return chapterData
         } catch {
             print("Failed to load current chapter data JSON: \(error)")
-            return .init(number: 0, name: error.localizedDescription, progress: 0, coverImagePath: "")
+            return nil
         }
     }
 }

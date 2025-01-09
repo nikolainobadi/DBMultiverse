@@ -40,14 +40,15 @@ extension ComicPageManager: ComicPageDelegate {
     func loadPages(_ pages: [Int]) async throws -> [PageInfo] {
         var infoList = [PageInfo]()
         
+        // TODO: - maybe handle the thrown errors?
         for page in pages {
             if !page.isSecondPage {
-                if let cachedInfo = imageCache.loadCachedImage(chapter: chapter.number, page: page) {
+                if let cachedInfo = try? imageCache.loadCachedImage(chapter: chapter.number, page: page) {
                     print("found page \(page) in cache for chapter \(chapter.number)")
                     infoList.append(cachedInfo)
                 } else if let fetchedInfo = await fetchPageInfo(page: page) {
                     infoList.append(fetchedInfo)
-                    imageCache.savePageImage(pageInfo: fetchedInfo)
+                    try? imageCache.savePageImage(pageInfo: fetchedInfo)
                 }
             }
         }
@@ -99,8 +100,8 @@ protocol ChapterProgressHandler {
 }
 
 protocol ComicImageCache {
-    func savePageImage(pageInfo: PageInfo)
-    func loadCachedImage(chapter: Int, page: Int) -> PageInfo?
+    func savePageImage(pageInfo: PageInfo) throws
+    func loadCachedImage(chapter: Int, page: Int) throws -> PageInfo?
     func updateCurrentPageNumber(_ pageNumber: Int, readProgress: Int)
     func saveChapterCoverImage(imageData: Data, metadata: CoverImageMetaData) throws
 }

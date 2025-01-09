@@ -119,42 +119,7 @@ fileprivate extension Int {
 
 
 
-// MARK: - Networker
-import SwiftSoup
 
-final class ComicPageNetworkServiceAdapter: ComicPageNetworkService {
-    func fetchImageData(from url: URL?) async throws -> Data {
-        let data = try await fetchData(from: url)
-        let imageURL = try parseURL(from: data)
-        
-        return try await fetchData(from: imageURL)
-    }
-}
-
-
-// MARK: - Private Methods
-private extension ComicPageNetworkServiceAdapter {
-    func fetchData(from url: URL?) async throws -> Data {
-        guard let url else {
-            throw CustomError.urlError
-        }
-        
-        return try await URLSession.shared.data(from: url).0
-    }
-    
-    func parseURL(from data: Data) throws -> URL? {
-        let html = String(data: data, encoding: .utf8) ?? ""
-        let document = try SwiftSoup.parse(html)
-        
-        guard let imgElement = try document.select("img[id=balloonsimg]").first() else {
-            return nil
-        }
-        
-        let imgSrc = try imgElement.attr("src")
-        
-        return .init(string: .makeFullURLString(suffix: imgSrc))
-    }
-}
 
 
 // MARK: - Adapter

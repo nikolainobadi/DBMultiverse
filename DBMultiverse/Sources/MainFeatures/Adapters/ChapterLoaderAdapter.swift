@@ -17,6 +17,6 @@ final class ChapterLoaderAdapter: ChapterLoader {
         
         let data = try await URLSession.shared.data(from: url).0
 
-        return try ComicHTMLParser.parseChapterListHTML(.init(data: data, encoding: .utf8))
+        return try ComicHTMLParser.parseChapterList(data: data)
     }
 }

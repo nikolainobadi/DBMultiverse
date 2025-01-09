@@ -10,12 +10,23 @@ import Foundation
 import DBMultiverseComicKit
 
 enum ComicHTMLParser {
-    static func parseChapterListHTML(_ html: String?) throws -> [Chapter] {
+    static func parseComicPageImageURL(data: Data) throws -> URL? {
+        let html = try makeHTML(from: data)
+        let document = try SwiftSoup.parse(html)
+        
+        guard let imgElement = try document.select("img[id=balloonsimg]").first() else {
+            print("could not find imageElement")
+            return nil
+        }
+        
+        let imgSrc = try imgElement.attr("src")
+        
+        return .init(string: .makeFullURLString(suffix: imgSrc))
+    }
+    
+    static func parseChapterList(data: Data) throws -> [Chapter] {
         do {
-            guard let html else {
-                throw ComicParseError.missingHTML
-            }
-            
+            let html = try makeHTML(from: data)
             let document = try SwiftSoup.parse(html)
             let sections = try document.select("h1.horscadrelect")
             
@@ -49,8 +60,16 @@ enum ComicHTMLParser {
 }
 
 
-// MARK: - ChapterList Methods
+// MARK: - Private Methods
 private extension ComicHTMLParser {
+    static func makeHTML(from data: Data) throws -> String {
+        guard let html = String(data: data, encoding: .utf8) else {
+            throw ComicParseError.missingHTML
+        }
+        
+        return html
+    }
+    
     static func extractUniverseNumber(_ title: String) -> Int? {
         if title.lowercased().contains("dbmultiverse") {
             return nil

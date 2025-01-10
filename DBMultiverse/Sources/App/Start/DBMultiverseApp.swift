@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import SwiftData
 import WidgetKit
 import NnSwiftUIKit
 import DBMultiverseComicKit
@@ -25,7 +24,7 @@ struct DBMultiverseApp: App {
                 .withNnLoadingView()
                 .withNnErrorHandling()
                 .preferredColorScheme(.dark)
-                .modelContainer(for: SwiftDataChapter.self)
+                .initializeSwiftDataModelConatainer()
                 .onChange(of: scenePhase) { 
                     // to prevent widget from being reloaded too often
                     if let currentChapterData = CoverImageCache.shared.loadCurrentChapterData(), lastSavedChapterData != currentChapterData {

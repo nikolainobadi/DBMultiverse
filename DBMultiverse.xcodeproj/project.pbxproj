@@ -26,8 +26,6 @@
 		D46C707B2D1BB4F000C217D6 /* NnTestVariables in Frameworks */ = {isa = PBXBuildFile; productRef = D46C707A2D1BB4F000C217D6 /* NnTestVariables */; };
 		D46C707D2D1BB50600C217D6 /* AppLauncher.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46C707C2D1BB50600C217D6 /* AppLauncher.swift */; };
 		D46C707F2D1BB55500C217D6 /* TestApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46C707E2D1BB55500C217D6 /* TestApp.swift */; };
-		D46C70842D1BB65400C217D6 /* ChapterComicViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46C70832D1BB65400C217D6 /* ChapterComicViewModelTests.swift */; };
-		D46C70862D1BB7E000C217D6 /* ChapterListRepositoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46C70852D1BB7E000C217D6 /* ChapterListRepositoryTests.swift */; };
 		D4771DBF2D2A2C4200F2AC58 /* iPadComicPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4771DBE2D2A2C4200F2AC58 /* iPadComicPicker.swift */; };
 		D47D00EE2D2F4A050064FEB2 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D47D00ED2D2F4A050064FEB2 /* WidgetKit.framework */; };
 		D47D00F02D2F4A050064FEB2 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D47D00EF2D2F4A050064FEB2 /* SwiftUI.framework */; };
@@ -42,6 +40,7 @@
 		D47D010D2D2F60310064FEB2 /* DBMultiverseComicKit in Frameworks */ = {isa = PBXBuildFile; productRef = D47D010C2D2F60310064FEB2 /* DBMultiverseComicKit */; };
 		D495980F2D0B762E00B4493F /* HapticButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = D495980E2D0B762E00B4493F /* HapticButton.swift */; };
 		D49598182D0B82D700B4493F /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49598172D0B82D700B4493F /* SettingsViewModel.swift */; };
+		D4B7BD0C2D31E41A00219889 /* ComicPageManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B7BD0B2D31E41A00219889 /* ComicPageManagerTests.swift */; };
 		D4BA43602D3080F600D6EAF6 /* ComicPageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BA435F2D3080F600D6EAF6 /* ComicPageManager.swift */; };
 		D4BA43632D30918E00D6EAF6 /* ComicLanguage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BA43622D30918E00D6EAF6 /* ComicLanguage.swift */; };
 		D4BA43652D3092A800D6EAF6 /* URLFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BA43642D3092A800D6EAF6 /* URLFactory.swift */; };
@@ -132,8 +131,6 @@
 		D46C707C2D1BB50600C217D6 /* AppLauncher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLauncher.swift; sourceTree = "<group>"; };
 		D46C707E2D1BB55500C217D6 /* TestApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestApp.swift; sourceTree = "<group>"; };
 		D46C70812D1BB59600C217D6 /* UnitTestPlan.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = UnitTestPlan.xctestplan; sourceTree = "<group>"; };
-		D46C70832D1BB65400C217D6 /* ChapterComicViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChapterComicViewModelTests.swift; sourceTree = "<group>"; };
-		D46C70852D1BB7E000C217D6 /* ChapterListRepositoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChapterListRepositoryTests.swift; sourceTree = "<group>"; };
 		D4771DBE2D2A2C4200F2AC58 /* iPadComicPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iPadComicPicker.swift; sourceTree = "<group>"; };
 		D47D00EC2D2F4A050064FEB2 /* DBMultiverseWidgetsExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = DBMultiverseWidgetsExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		D47D00ED2D2F4A050064FEB2 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
@@ -148,6 +145,7 @@
 		D47D010A2D2F58C90064FEB2 /* MediumWidgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediumWidgetView.swift; sourceTree = "<group>"; };
 		D495980E2D0B762E00B4493F /* HapticButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticButton.swift; sourceTree = "<group>"; };
 		D49598172D0B82D700B4493F /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
+		D4B7BD0B2D31E41A00219889 /* ComicPageManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComicPageManagerTests.swift; sourceTree = "<group>"; };
 		D4BA435F2D3080F600D6EAF6 /* ComicPageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComicPageManager.swift; sourceTree = "<group>"; };
 		D4BA43622D30918E00D6EAF6 /* ComicLanguage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComicLanguage.swift; sourceTree = "<group>"; };
 		D4BA43642D3092A800D6EAF6 /* URLFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLFactory.swift; sourceTree = "<group>"; };
@@ -299,8 +297,8 @@
 		D46C706F2D1BB4C000C217D6 /* DBMultiverseUnitTests */ = {
 			isa = PBXGroup;
 			children = (
-				D46C70822D1BB5B900C217D6 /* UnitTests */,
 				D46C70802D1BB58A00C217D6 /* TestPlan */,
+				D46C70822D1BB5B900C217D6 /* UnitTests */,
 			);
 			path = DBMultiverseUnitTests;
 			sourceTree = "<group>";
@@ -325,8 +323,7 @@
 		D46C70822D1BB5B900C217D6 /* UnitTests */ = {
 			isa = PBXGroup;
 			children = (
-				D46C70832D1BB65400C217D6 /* ChapterComicViewModelTests.swift */,
-				D46C70852D1BB7E000C217D6 /* ChapterListRepositoryTests.swift */,
+				D4B7BD0B2D31E41A00219889 /* ComicPageManagerTests.swift */,
 			);
 			path = UnitTests;
 			sourceTree = "<group>";
@@ -676,6 +673,7 @@
 				TargetAttributes = {
 					D46C706D2D1BB4C000C217D6 = {
 						CreatedOnToolsVersion = 15.1;
+						LastSwiftMigration = 1510;
 						TestTargetID = E8A095B82CE0941200D28E3F;
 					};
 					D47D00EB2D2F4A050064FEB2 = {
@@ -742,8 +740,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D46C70862D1BB7E000C217D6 /* ChapterListRepositoryTests.swift in Sources */,
-				D46C70842D1BB65400C217D6 /* ChapterComicViewModelTests.swift in Sources */,
+				D4B7BD0C2D31E41A00219889 /* ComicPageManagerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -829,6 +826,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = R8SJ24LQF3;
@@ -841,6 +839,7 @@
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/DBMultiverse.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/DBMultiverse";
@@ -851,6 +850,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = R8SJ24LQF3;

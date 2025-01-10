@@ -14,17 +14,21 @@ struct MainFeaturesView: View {
     @StateObject var viewModel: MainFeaturesViewModel
     @Query(sort: \SwiftDataChapter.number, order: .forward) var chapterList: SwiftDataChapterList
     
+    @Binding var language: ComicLanguage
+    
     var body: some View {
         MainNavStack(path: $path) {
             ChapterListFeatureView(eventHandler: .customInit(viewModel: viewModel, chapterList: chapterList))
                 .navigationDestination(for: ChapterRoute.self) { route in
-                    ComicPageFeatureView(viewModel: .customInit(route: route, store: viewModel, chapterList: chapterList))
+                    ComicPageFeatureView(
+                        viewModel: .customInit(route: route, store: viewModel, chapterList: chapterList, language: language)
+                    )
                 }
         } settingsContent: {
-            SettingsFeatureNavStack(viewModel: .init(), withDismissButton: isPad)
+            SettingsFeatureNavStack(language: $language, viewModel: .init(), canDismiss: isPad)
         }
         .asyncTask {
-            try await viewModel.loadData()
+            try await viewModel.loadData(language: language)
         }
         .syncChaptersWithSwiftData(chapters: viewModel.chapters)
         .withDeepLinkNavigation(path: $path, chapters: chapterList.chapters)
@@ -59,7 +63,7 @@ fileprivate struct MainNavStack<ComicContent: View, SettingsContent: View>: View
         func loadChapters(url: URL?) async throws -> [Chapter] { [] }
     }
     
-    return MainFeaturesView(viewModel: .init(loader: PreviewLoader()))
+    return MainFeaturesView(viewModel: .init(loader: PreviewLoader()), language: .constant(.english))
         .withPreviewModifiers()
 }
 
@@ -77,13 +81,13 @@ fileprivate extension SwiftDataChapterListEventHandler {
 }
 
 fileprivate extension ComicPageViewModel {
-    static func customInit(route: ChapterRoute, store: MainFeaturesViewModel, chapterList: SwiftDataChapterList) -> ComicPageViewModel {
+    static func customInit(route: ChapterRoute, store: MainFeaturesViewModel, chapterList: SwiftDataChapterList, language: ComicLanguage) -> ComicPageViewModel {
         let currentPageNumber = store.getCurrentPageNumber(for: route.comicType)
         let imageCache = ComicImageCacheAdapter(comicType: route.comicType, viewModel: store)
         let networkService = ComicPageNetworkServiceAdapter()
         let manager = ComicPageManager(
             chapter: route.chapter,
-            language: .english, // TODO: - make this dynamic
+            language: language,
             imageCache: imageCache,
             networkService: networkService,
             chapterProgressHandler: chapterList

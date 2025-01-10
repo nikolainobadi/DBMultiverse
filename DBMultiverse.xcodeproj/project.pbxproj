@@ -53,6 +53,7 @@
 		D4BA436C2D30968500D6EAF6 /* ComicNetworkingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BA436B2D30968500D6EAF6 /* ComicNetworkingManager.swift */; };
 		D4BA436E2D3098A800D6EAF6 /* ComicImageCacheAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BA436D2D3098A800D6EAF6 /* ComicImageCacheAdapter.swift */; };
 		D4BA43712D309B2400D6EAF6 /* SharedComicNetworkingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BA43702D309B2400D6EAF6 /* SharedComicNetworkingManager.swift */; };
+		D4C86AD72D30A0430075D091 /* LanguagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C86AD62D30A0430075D091 /* LanguagePicker.swift */; };
 		D4D32FAD2D2CCE1D0059DA27 /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D32FAC2D2CCE1D0059DA27 /* WelcomeView.swift */; };
 		D4D32FB02D2CD25C0059DA27 /* LaunchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D32FAF2D2CD25C0059DA27 /* LaunchView.swift */; };
 		D4D32FB32D2CD44E0059DA27 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D32FB22D2CD44E0059DA27 /* Constants.swift */; };
@@ -158,6 +159,7 @@
 		D4BA436B2D30968500D6EAF6 /* ComicNetworkingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComicNetworkingManager.swift; sourceTree = "<group>"; };
 		D4BA436D2D3098A800D6EAF6 /* ComicImageCacheAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComicImageCacheAdapter.swift; sourceTree = "<group>"; };
 		D4BA43702D309B2400D6EAF6 /* SharedComicNetworkingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedComicNetworkingManager.swift; sourceTree = "<group>"; };
+		D4C86AD62D30A0430075D091 /* LanguagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguagePicker.swift; sourceTree = "<group>"; };
 		D4D32FAC2D2CCE1D0059DA27 /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
 		D4D32FAF2D2CD25C0059DA27 /* LaunchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchView.swift; sourceTree = "<group>"; };
 		D4D32FB22D2CD44E0059DA27 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
@@ -388,6 +390,7 @@
 			children = (
 				D4D32FAF2D2CD25C0059DA27 /* LaunchView.swift */,
 				D4D32FAC2D2CCE1D0059DA27 /* WelcomeView.swift */,
+				D4C86AD62D30A0430075D091 /* LanguagePicker.swift */,
 			);
 			path = Launch;
 			sourceTree = "<group>";
@@ -724,6 +727,7 @@
 				D4BA43652D3092A800D6EAF6 /* URLFactory.swift in Sources */,
 				E84A2CE62CFC463300FAF001 /* CustomError.swift in Sources */,
 				D42036BC2D2F38F100F0A1D0 /* SwiftDataChapterStorageViewModifier.swift in Sources */,
+				D4C86AD72D30A0430075D091 /* LanguagePicker.swift in Sources */,
 				D42036A32D2F064D00F0A1D0 /* iPhoneMainTabView.swift in Sources */,
 				D46C707D2D1BB50600C217D6 /* AppLauncher.swift in Sources */,
 				D42036AD2D2F096D00F0A1D0 /* iPhoneComicPicker.swift in Sources */,

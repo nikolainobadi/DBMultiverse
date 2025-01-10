@@ -10,13 +10,12 @@ import NnSwiftUIKit
 
 struct LaunchView: View {
     @AppStorage("isInitialLogin") private var isInitialLogin = true
-    
-//    let loader: ChapterLoader
+    @AppStorage("selectedLanguage") private var language: ComicLanguage = .english
     
     var body: some View {
-        MainFeaturesView(viewModel: .init(loader: ChapterLoaderAdapter()))
+        MainFeaturesView(viewModel: .init(loader: ChapterLoaderAdapter()), language: $language)
             .showingConditionalView(when: isInitialLogin) {
-                WelcomeView {
+                WelcomeView(language: $language) {
                     isInitialLogin = false
                 }
             }

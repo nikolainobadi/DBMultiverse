@@ -10,10 +10,11 @@ import NnSwiftUIKit
 import DBMultiverseComicKit
 
 struct SettingsFeatureNavStack: View {
+    @Binding var language: ComicLanguage
     @State private var showingCacheList = false
     @StateObject var viewModel: SettingsViewModel
     
-    let withDismissButton: Bool
+    let canDismiss: Bool
     
     var body: some View {
         NavStack(title: "Settings") {
@@ -44,7 +45,7 @@ struct SettingsFeatureNavStack: View {
                     
                     DynamicSection("Web Comic Links") {
                         ForEach(SettingsLinkItem.allCases, id: \.name) { link in
-                            if let url = viewModel.makeURL(for: link) {
+                            if let url = viewModel.makeURL(for: link, language: language) {
                                 Link(link.name, destination: url)
                                     .padding(.vertical, 10)
                                     .withFont(textColor: .blue)
@@ -76,7 +77,7 @@ struct SettingsFeatureNavStack: View {
                 viewModel.loadCachedChapters()
             }
             .animation(.easeInOut, value: viewModel.cachedChapters)
-            .withNavBarDismissButton(isActive: withDismissButton, dismissType: .xmark)
+            .withNavBarDismissButton(isActive: canDismiss, dismissType: .xmark)
             .showingAlert("Error", message: "Something went wrong when trying to clear the caches folder", isPresented: $viewModel.showingErrorAlert)
             .showingAlert("Cached Cleared!", message: "All images have been removed from the caches folder", isPresented: $viewModel.showingClearedCacheAlert)
             .navigationDestination(isPresented: $showingCacheList) {
@@ -97,5 +98,5 @@ struct SettingsFeatureNavStack: View {
 
 // MARK: - Preview
 #Preview {
-    SettingsFeatureNavStack(viewModel: .init(), withDismissButton: true)
+    SettingsFeatureNavStack(language: .constant(.english), viewModel: .init(), canDismiss: true)
 }

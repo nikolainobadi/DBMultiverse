@@ -5,7 +5,7 @@
 //  Created by Nikolai Nobadi on 1/9/25.
 //
 
-enum ComicLanguage: String {
+enum ComicLanguage: String, CaseIterable {
     case english = "en"
     case french = "fr"
     case italian = "it"

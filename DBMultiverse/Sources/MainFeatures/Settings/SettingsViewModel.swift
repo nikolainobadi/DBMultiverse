@@ -22,8 +22,8 @@ final class SettingsViewModel: ObservableObject {
 
 // MARK: - Actions
 extension SettingsViewModel {
-    func makeURL(for link: SettingsLinkItem) -> URL? {
-        return URLFactory.makeURL(language: .english, pathComponent: link.pathComponent)
+    func makeURL(for link: SettingsLinkItem, language: ComicLanguage) -> URL? {
+        return URLFactory.makeURL(language: language, pathComponent: link.pathComponent)
     }
     /// Clears all cached data from the app's cache directory.
     func clearCache() {

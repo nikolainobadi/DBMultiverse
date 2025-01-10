@@ -21,7 +21,7 @@ struct MainFeaturesView: View {
                     ComicPageFeatureView(viewModel: .customInit(route: route, store: viewModel, chapterList: chapterList))
                 }
         } settingsContent: {
-            SettingsFeatureNavStack()
+            SettingsFeatureNavStack(viewModel: .init())
         }
         .asyncTask {
             try await viewModel.loadData()
@@ -30,7 +30,7 @@ struct MainFeaturesView: View {
         .withDeepLinkNavigation(path: $path, chapters: chapterList.chapters)
         .onChange(of: viewModel.nextChapterToRead) { _, newValue in
             if let newValue {
-                // only works for main story chapters for now
+                // TODO: - only works for main story chapters for now
                 path.append(ChapterRoute(chapter: newValue, comicType: .story))
             }
         }

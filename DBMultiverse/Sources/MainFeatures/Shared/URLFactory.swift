@@ -24,6 +24,9 @@ extension URLFactory {
 enum URLWebsitePathComponent {
     case chapterList
     case comicPage(Int)
+    case authors
+    case universeHelp
+    case tournamentHelp
 }
 
 extension URLWebsitePathComponent {
@@ -33,6 +36,12 @@ extension URLWebsitePathComponent {
             return "chapters.html?comic=page&chaptersmode=1"
         case .comicPage(let page):
             return "page-\(page).html"
+        case .authors:
+            return "the-authors.html"
+        case .universeHelp:
+            return "listing.html"
+        case .tournamentHelp:
+            return "tournament.html"
         }
     }
 }

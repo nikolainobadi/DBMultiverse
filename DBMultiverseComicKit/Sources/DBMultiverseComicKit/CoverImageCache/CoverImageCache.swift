@@ -17,7 +17,7 @@ public class CoverImageCache {
     public static let shared = CoverImageCache()
     
     private init() {
-        guard let appGroupDirectory = fileManager.containerURL(forSecurityApplicationGroupIdentifier: "group.com.nobadiCares.DBMultiverse") else {
+        guard let appGroupDirectory = fileManager.containerURL(forSecurityApplicationGroupIdentifier: "group.com.nobadi.dbm") else {
             fatalError("Failed to get App Group directory")
         }
         

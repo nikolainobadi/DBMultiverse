@@ -15,7 +15,15 @@ struct Provider: TimelineProvider {
     }
     
     func getSnapshot(in context: Context, completion: @escaping (ComicImageEntry) -> Void) {
-        completion(.makeSample(family: context.family))
+        guard let chapterData = CoverImageCache.shared.loadCurrentChapterData() else {
+            completion(.init(date: .now, chapter: 0, name: "", progress: 0, image: nil, family: context.family, deepLink: .sampleURL))
+            return
+        }
+        
+        let progress = chapterData.progress
+        let image = makeImage(path: chapterData.coverImagePath)
+        
+        completion(.init(date: .now, chapter: chapterData.number, name: chapterData.name, progress: progress, image: image, family: context.family, deepLink: .sampleURL))
     }
     
     func getTimeline(in context: Context, completion: @escaping (Timeline<ComicImageEntry>) -> Void) {

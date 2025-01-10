@@ -45,6 +45,14 @@
 		D495980F2D0B762E00B4493F /* HapticButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = D495980E2D0B762E00B4493F /* HapticButton.swift */; };
 		D49598152D0B766E00B4493F /* ChapterComicLoaderAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49598142D0B766E00B4493F /* ChapterComicLoaderAdapter.swift */; };
 		D49598182D0B82D700B4493F /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49598172D0B82D700B4493F /* SettingsViewModel.swift */; };
+		D4BA43602D3080F600D6EAF6 /* ComicPageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BA435F2D3080F600D6EAF6 /* ComicPageManager.swift */; };
+		D4BA43632D30918E00D6EAF6 /* ComicLanguage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BA43622D30918E00D6EAF6 /* ComicLanguage.swift */; };
+		D4BA43652D3092A800D6EAF6 /* URLFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BA43642D3092A800D6EAF6 /* URLFactory.swift */; };
+		D4BA43682D30945400D6EAF6 /* ComicHTMLParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BA43672D30945400D6EAF6 /* ComicHTMLParser.swift */; };
+		D4BA436A2D30956F00D6EAF6 /* ComicParseError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BA43692D30956F00D6EAF6 /* ComicParseError.swift */; };
+		D4BA436C2D30968500D6EAF6 /* ComicNetworkingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BA436B2D30968500D6EAF6 /* ComicNetworkingManager.swift */; };
+		D4BA436E2D3098A800D6EAF6 /* ComicImageCacheAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BA436D2D3098A800D6EAF6 /* ComicImageCacheAdapter.swift */; };
+		D4BA43712D309B2400D6EAF6 /* SharedComicNetworkingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BA43702D309B2400D6EAF6 /* SharedComicNetworkingManager.swift */; };
 		D4D32FAD2D2CCE1D0059DA27 /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D32FAC2D2CCE1D0059DA27 /* WelcomeView.swift */; };
 		D4D32FB02D2CD25C0059DA27 /* LaunchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D32FAF2D2CD25C0059DA27 /* LaunchView.swift */; };
 		D4D32FB32D2CD44E0059DA27 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D32FB22D2CD44E0059DA27 /* Constants.swift */; };
@@ -142,6 +150,14 @@
 		D495980E2D0B762E00B4493F /* HapticButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticButton.swift; sourceTree = "<group>"; };
 		D49598142D0B766E00B4493F /* ChapterComicLoaderAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChapterComicLoaderAdapter.swift; sourceTree = "<group>"; };
 		D49598172D0B82D700B4493F /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
+		D4BA435F2D3080F600D6EAF6 /* ComicPageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComicPageManager.swift; sourceTree = "<group>"; };
+		D4BA43622D30918E00D6EAF6 /* ComicLanguage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComicLanguage.swift; sourceTree = "<group>"; };
+		D4BA43642D3092A800D6EAF6 /* URLFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLFactory.swift; sourceTree = "<group>"; };
+		D4BA43672D30945400D6EAF6 /* ComicHTMLParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComicHTMLParser.swift; sourceTree = "<group>"; };
+		D4BA43692D30956F00D6EAF6 /* ComicParseError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComicParseError.swift; sourceTree = "<group>"; };
+		D4BA436B2D30968500D6EAF6 /* ComicNetworkingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComicNetworkingManager.swift; sourceTree = "<group>"; };
+		D4BA436D2D3098A800D6EAF6 /* ComicImageCacheAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComicImageCacheAdapter.swift; sourceTree = "<group>"; };
+		D4BA43702D309B2400D6EAF6 /* SharedComicNetworkingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedComicNetworkingManager.swift; sourceTree = "<group>"; };
 		D4D32FAC2D2CCE1D0059DA27 /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
 		D4D32FAF2D2CD25C0059DA27 /* LaunchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchView.swift; sourceTree = "<group>"; };
 		D4D32FB22D2CD44E0059DA27 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
@@ -224,9 +240,8 @@
 			isa = PBXGroup;
 			children = (
 				E88C4C602CE32FC600CF3D0C /* ChapterLoaderAdapter.swift */,
-				D49598142D0B766E00B4493F /* ChapterComicLoaderAdapter.swift */,
-				D42036B52D2F216D00F0A1D0 /* ComicPageDelegateAdapter.swift */,
-				D42036B92D2F300400F0A1D0 /* ComicPageDelegateDecorator.swift */,
+				D4BA436B2D30968500D6EAF6 /* ComicNetworkingManager.swift */,
+				D4BA436D2D3098A800D6EAF6 /* ComicImageCacheAdapter.swift */,
 			);
 			path = Adapters;
 			sourceTree = "<group>";
@@ -341,6 +356,33 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
+		D4BA43612D308FA400D6EAF6 /* Old */ = {
+			isa = PBXGroup;
+			children = (
+				D42036B92D2F300400F0A1D0 /* ComicPageDelegateDecorator.swift */,
+				D42036B52D2F216D00F0A1D0 /* ComicPageDelegateAdapter.swift */,
+				D49598142D0B766E00B4493F /* ChapterComicLoaderAdapter.swift */,
+			);
+			path = Old;
+			sourceTree = "<group>";
+		};
+		D4BA43662D30944800D6EAF6 /* SwiftSoup */ = {
+			isa = PBXGroup;
+			children = (
+				D4BA43672D30945400D6EAF6 /* ComicHTMLParser.swift */,
+				D4BA43692D30956F00D6EAF6 /* ComicParseError.swift */,
+			);
+			path = SwiftSoup;
+			sourceTree = "<group>";
+		};
+		D4BA436F2D309B1900D6EAF6 /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				D4BA43702D309B2400D6EAF6 /* SharedComicNetworkingManager.swift */,
+			);
+			path = Networking;
+			sourceTree = "<group>";
+		};
 		D4D32FAE2D2CD2550059DA27 /* Launch */ = {
 			isa = PBXGroup;
 			children = (
@@ -357,6 +399,8 @@
 				E8D4ED1F2CE721CA005ED4BC /* String+Extensions.swift */,
 				D495980E2D0B762E00B4493F /* HapticButton.swift */,
 				D4D32FB22D2CD44E0059DA27 /* Constants.swift */,
+				D4BA43622D30918E00D6EAF6 /* ComicLanguage.swift */,
+				D4BA43642D3092A800D6EAF6 /* URLFactory.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -419,10 +463,13 @@
 		E88C4C622CE3300A00CF3D0C /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				D4BA43612D308FA400D6EAF6 /* Old */,
 				E88C4C572CE32F6D00CF3D0C /* App */,
 				D4D32FAE2D2CD2550059DA27 /* Launch */,
 				E88C4C582CE32F7200CF3D0C /* MainFeatures */,
+				D4BA43662D30944800D6EAF6 /* SwiftSoup */,
 				D4FF65812D09408F0023988F /* SwiftData */,
+				D4BA436F2D309B1900D6EAF6 /* Networking */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -479,6 +526,7 @@
 		E8B1AFAF2CFEDCD100BB9F9C /* Comic */ = {
 			isa = PBXGroup;
 			children = (
+				D4BA435F2D3080F600D6EAF6 /* ComicPageManager.swift */,
 				D42036AA2D2F06F800F0A1D0 /* ChapterListFeatureView.swift */,
 				D42036B22D2F121400F0A1D0 /* ComicPageFeatureView.swift */,
 			);
@@ -656,19 +704,24 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D4BA436A2D30956F00D6EAF6 /* ComicParseError.swift in Sources */,
 				D42036A52D2F066F00F0A1D0 /* iPadMainNavStack.swift in Sources */,
 				D42036BA2D2F300400F0A1D0 /* ComicPageDelegateDecorator.swift in Sources */,
 				E8D4ED202CE721CA005ED4BC /* String+Extensions.swift in Sources */,
 				D42036AB2D2F06F800F0A1D0 /* ChapterListFeatureView.swift in Sources */,
 				D42036B32D2F121400F0A1D0 /* ComicPageFeatureView.swift in Sources */,
+				D4BA43712D309B2400D6EAF6 /* SharedComicNetworkingManager.swift in Sources */,
 				D4FF65832D0940A70023988F /* SwiftDataChapter.swift in Sources */,
+				D4BA43602D3080F600D6EAF6 /* ComicPageManager.swift in Sources */,
 				D4D32FB02D2CD25C0059DA27 /* LaunchView.swift in Sources */,
 				D42036B12D2F11D800F0A1D0 /* iPadComicPageView.swift in Sources */,
+				D4BA436E2D3098A800D6EAF6 /* ComicImageCacheAdapter.swift in Sources */,
 				D42036B82D2F21BF00F0A1D0 /* MainFeaturesViewModel.swift in Sources */,
 				D42036AF2D2F0A1200F0A1D0 /* iPhoneComicPageView.swift in Sources */,
 				D49598182D0B82D700B4493F /* SettingsViewModel.swift in Sources */,
 				D495980F2D0B762E00B4493F /* HapticButton.swift in Sources */,
 				D4DD9B742D0A6F5000A16227 /* PreviewModifiersViewModifier.swift in Sources */,
+				D4BA43652D3092A800D6EAF6 /* URLFactory.swift in Sources */,
 				E84A2CE62CFC463300FAF001 /* CustomError.swift in Sources */,
 				D42036BC2D2F38F100F0A1D0 /* SwiftDataChapterStorageViewModifier.swift in Sources */,
 				D42036A32D2F064D00F0A1D0 /* iPhoneMainTabView.swift in Sources */,
@@ -681,6 +734,8 @@
 				E84A2CE42CFC435800FAF001 /* MainFeaturesView.swift in Sources */,
 				D46C707F2D1BB55500C217D6 /* TestApp.swift in Sources */,
 				D4DD9B772D0A722900A16227 /* SettingsFeatureNavStack.swift in Sources */,
+				D4BA436C2D30968500D6EAF6 /* ComicNetworkingManager.swift in Sources */,
+				D4BA43682D30945400D6EAF6 /* ComicHTMLParser.swift in Sources */,
 				D4FA44A82D2B5595004B8D12 /* CachedChapter.swift in Sources */,
 				D42036B62D2F216D00F0A1D0 /* ComicPageDelegateAdapter.swift in Sources */,
 				D4D32FB32D2CD44E0059DA27 /* Constants.swift in Sources */,
@@ -688,6 +743,7 @@
 				D4D32FAD2D2CCE1D0059DA27 /* WelcomeView.swift in Sources */,
 				E8A095BD2CE0941200D28E3F /* DBMultiverseApp.swift in Sources */,
 				D408B02E2D2F6E550006ECC6 /* DeepLinkNavigationViewModifier.swift in Sources */,
+				D4BA43632D30918E00D6EAF6 /* ComicLanguage.swift in Sources */,
 				D4771DBF2D2A2C4200F2AC58 /* iPadComicPicker.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

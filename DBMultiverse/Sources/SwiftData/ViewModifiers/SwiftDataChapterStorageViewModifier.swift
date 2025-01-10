@@ -15,20 +15,49 @@ struct SwiftDataChapterStorageViewModifier: ViewModifier {
     
     let chapters: [Chapter]
     
+    private func printChapterTuple(prefix: String, existing: SwiftDataChapter, chapter: Chapter) {
+        print("\(prefix)!!! -> existing (number(\(existing.number)) name(\(existing.name), universe(\(existing.universe ?? 0), fetched (number(\(chapter.number)) name(\(chapter.name) universe(\(chapter.universe ?? 0)))")
+    }
+    
+    private func shouldUpdateChapter(existing: SwiftDataChapter, chapter: Chapter) -> Bool {
+        if existing.universe != chapter.universe {
+            printChapterTuple(prefix: "WRONG UNIVERSE", existing: existing, chapter: chapter)
+            return true
+        } else if existing.name != chapter.name {
+            printChapterTuple(prefix: "LANGUAGE CHANGE", existing: existing, chapter: chapter)
+            return true
+        } else if existing.endPage != chapter.endPage {
+            printChapterTuple(prefix: "NEW PAGES", existing: existing, chapter: chapter)
+            return true
+        }
+        
+        return false
+    }
+    
     func body(content: Content) -> some View {
         content
             .onChange(of: chapters) { _, newList in
+                print("---------- existing chapters ----------")
+                print("fetched \(existingChapters.count) chapters")
+                print("---------- end existing chapters ----------\n\n")
+                
+                var missingChapters = 0
                 for chapter in newList {
-                    if let existingChapterIndex = existingChapters.firstIndex(where: { $0.number == chapter.number }) {
-                        if existingChapters[existingChapterIndex].endPage != chapter.endPage {
-                            // TODO: -
-                            print("chapter \(chapter.number) has received new pages, should update in SwiftData, currentEndPage: \(existingChapters[existingChapterIndex].endPage), newEndPage: \(chapter.endPage)")
+                    if let index = existingChapters.firstIndex(where: { $0.number == chapter.number }) {
+                        if shouldUpdateChapter(existing: existingChapters[index], chapter: chapter) {
+                            print("deleting existing chapter \(existingChapters[index].number)")
+                            modelContext.delete(existingChapters[index])
+                            print("creating new chapter \(chapter.number)")
+                            modelContext.insert(SwiftDataChapter(chapter: chapter))
                         }
                     } else {
-                        print("adding chapter \(chapter.name) to SwiftData")
+                        missingChapters += 1
+                        print("adding chapter \(chapter.number): \(chapter.name)")
                         modelContext.insert(SwiftDataChapter(chapter: chapter))
                     }
                 }
+                
+                print("\n\nmissing \(missingChapters) chapters. 103 - \(missingChapters) = \(103 - missingChapters)")
             }
     }
 }

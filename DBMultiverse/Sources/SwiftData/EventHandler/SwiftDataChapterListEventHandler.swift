@@ -32,7 +32,7 @@ extension SwiftDataChapterListEventHandler: ChapterListEventHandler {
         if chapter.didFinishReading {
             chapterList.unread(chapter)
         } else {
-            chapterList.read(chapter)
+            chapterList.markChapterAsRead(chapter)
         }
     }
     

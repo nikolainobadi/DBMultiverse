@@ -26,15 +26,14 @@ extension SettingsLinkItem {
         }
     }
 
-    /// Returns the URL suffix for the link item.
-    var linkSuffix: String {
+    var pathComponent: URLWebsitePathComponent {
         switch self {
-        case .authors: 
-            return "/en/the-authors.html"
-        case .universeHelp: 
-            return "/en/listing.html"
-        case .tournamentHelp: 
-            return "/en/tournament.html"
+        case .authors:
+            return .authors
+        case .universeHelp:
+            return .universeHelp
+        case .tournamentHelp:
+            return .tournamentHelp
         }
     }
 }

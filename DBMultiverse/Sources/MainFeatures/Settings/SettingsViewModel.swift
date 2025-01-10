@@ -7,18 +7,11 @@
 
 import Foundation
 
-/// ViewModel for managing the settings view.
 final class SettingsViewModel: ObservableObject {
-    /// Indicates whether the error alert should be shown.
     @Published var showingErrorAlert = false
-    
-    /// Indicates whether the cache cleared alert should be shown.
     @Published var showingClearedCacheAlert = false
-    
-    /// Stores the cached chapters.
     @Published var cachedChapters: [CachedChapter] = []
 
-    /// File manager for handling file-related operations.
     private let fileManager: FileManager
 
     /// Initializes the ViewModel with an optional file manager.
@@ -29,6 +22,9 @@ final class SettingsViewModel: ObservableObject {
 
 // MARK: - Actions
 extension SettingsViewModel {
+    func makeURL(for link: SettingsLinkItem) -> URL? {
+        return URLFactory.makeURL(language: .english, pathComponent: link.pathComponent)
+    }
     /// Clears all cached data from the app's cache directory.
     func clearCache() {
         let cacheDirectory = fileManager.urls(for: .cachesDirectory, in: .userDomainMask).first!

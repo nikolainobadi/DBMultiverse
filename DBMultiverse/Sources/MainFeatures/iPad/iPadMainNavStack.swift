@@ -22,7 +22,6 @@ struct iPadMainNavStack<ComicContent: View, SettingsContent: View>: View {
                 }
                 .sheetWithErrorHandling(isPresented: $showingSettings) {
                     settingsContent()
-                        .withNavBarDismissButton(dismissType: .xmark)
                 }
         }
     }

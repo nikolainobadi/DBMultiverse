@@ -11,7 +11,9 @@ import DBMultiverseComicKit
 
 struct SettingsFeatureNavStack: View {
     @State private var showingCacheList = false
-    @StateObject private var cacheManager = SettingsViewModel()
+    @StateObject var viewModel: SettingsViewModel
+    
+    let withDismissButton: Bool
     
     var body: some View {
         NavStack(title: "Settings") {
@@ -28,24 +30,26 @@ struct SettingsFeatureNavStack: View {
                             
                             Divider()
                             
-                            HapticButton("Clear All Cached Data", action: cacheManager.clearCache)
+                            HapticButton("Clear All Cached Data", action: viewModel.clearCache)
                                 .padding()
                                 .tint(.red)
                                 .buttonStyle(.bordered)
                                 .withFont(textColor: .red)
                                 .frame(maxWidth: .infinity)
                         }
-                        .showingConditionalView(when: cacheManager.cachedChapters.isEmpty) {
+                        .showingConditionalView(when: viewModel.cachedChapters.isEmpty) {
                             Text("No cached data")
                         }
                     }
                     
                     DynamicSection("Web Comic Links") {
                         ForEach(SettingsLinkItem.allCases, id: \.name) { link in
-                            Link(link.name, destination: .init(string: .makeFullURLString(suffix: link.linkSuffix))!)
-                                .padding(.vertical, 10)
-                                .withFont(textColor: .blue)
-                                .asRowItem(withChevron: true)
+                            if let url = viewModel.makeURL(for: link) {
+                                Link(link.name, destination: url)
+                                    .padding(.vertical, 10)
+                                    .withFont(textColor: .blue)
+                                    .asRowItem(withChevron: true)
+                            }
                         }
                     }
                 }
@@ -66,15 +70,17 @@ struct SettingsFeatureNavStack: View {
             .overlay(alignment: .bottom) {
                 Text(NnAppVersionCache.getDeviceVersionDetails(mainBundle: .main))
                     .font(.caption)
+                    .padding()
             }
             .onAppear {
-                cacheManager.loadCachedChapters()
+                viewModel.loadCachedChapters()
             }
-            .animation(.easeInOut, value: cacheManager.cachedChapters)
-            .showingAlert("Error", message: "Something went wrong when trying to clear the caches folder", isPresented: $cacheManager.showingErrorAlert)
-            .showingAlert("Cached Cleared!", message: "All images have been removed from the caches folder", isPresented: $cacheManager.showingClearedCacheAlert)
+            .animation(.easeInOut, value: viewModel.cachedChapters)
+            .withNavBarDismissButton(isActive: withDismissButton, dismissType: .xmark)
+            .showingAlert("Error", message: "Something went wrong when trying to clear the caches folder", isPresented: $viewModel.showingErrorAlert)
+            .showingAlert("Cached Cleared!", message: "All images have been removed from the caches folder", isPresented: $viewModel.showingClearedCacheAlert)
             .navigationDestination(isPresented: $showingCacheList) {
-                List(cacheManager.cachedChapters, id: \.number) { chapter in
+                List(viewModel.cachedChapters, id: \.number) { chapter in
                     HStack {
                         Text("Chapter \(chapter.number)")
                         Spacer()
@@ -91,5 +97,5 @@ struct SettingsFeatureNavStack: View {
 
 // MARK: - Preview
 #Preview {
-    SettingsFeatureNavStack()
+    SettingsFeatureNavStack(viewModel: .init(), withDismissButton: true)
 }

@@ -21,7 +21,7 @@ struct MainFeaturesView: View {
                     ComicPageFeatureView(viewModel: .customInit(route: route, store: viewModel, chapterList: chapterList))
                 }
         } settingsContent: {
-            SettingsFeatureNavStack()
+            SettingsFeatureNavStack(viewModel: .init(), withDismissButton: isPad)
         }
         .asyncTask {
             try await viewModel.loadData()
@@ -30,7 +30,7 @@ struct MainFeaturesView: View {
         .withDeepLinkNavigation(path: $path, chapters: chapterList.chapters)
         .onChange(of: viewModel.nextChapterToRead) { _, newValue in
             if let newValue {
-                // only works for main story chapters for now
+                // TODO: - only works for main story chapters for now
                 path.append(ChapterRoute(chapter: newValue, comicType: .story))
             }
         }
@@ -56,7 +56,7 @@ fileprivate struct MainNavStack<ComicContent: View, SettingsContent: View>: View
 // MARK: - Preview
 #Preview {
     class PreviewLoader: ChapterLoader {
-        func loadChapters() async throws -> [Chapter] { [] }
+        func loadChapters(url: URL?) async throws -> [Chapter] { [] }
     }
     
     return MainFeaturesView(viewModel: .init(loader: PreviewLoader()))
@@ -79,9 +79,16 @@ fileprivate extension SwiftDataChapterListEventHandler {
 fileprivate extension ComicPageViewModel {
     static func customInit(route: ChapterRoute, store: MainFeaturesViewModel, chapterList: SwiftDataChapterList) -> ComicPageViewModel {
         let currentPageNumber = store.getCurrentPageNumber(for: route.comicType)
-        let delegate = ComicPageDelegateAdapter(chapter: route.chapter, comicType: route.comicType, store: store)
-        let decorator = ComicPageDelegateDecorator(chapter: route.chapter, decoratee: delegate, chapterList: chapterList)
+        let imageCache = ComicImageCacheAdapter(comicType: route.comicType, viewModel: store)
+        let networkService = ComicPageNetworkServiceAdapter()
+        let manager = ComicPageManager(
+            chapter: route.chapter,
+            language: .english, // TODO: - make this dynamic
+            imageCache: imageCache,
+            networkService: networkService,
+            chapterProgressHandler: chapterList
+        )
         
-        return .init(chapter: route.chapter, currentPageNumber: currentPageNumber, delegate: decorator)
+        return .init(chapter: route.chapter, currentPageNumber: currentPageNumber, delegate: manager)
     }
 }

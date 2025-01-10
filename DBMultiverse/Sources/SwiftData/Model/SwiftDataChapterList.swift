@@ -27,18 +27,26 @@ extension SwiftDataChapterList {
         }
     }
     
-    func read(_ chapter: Chapter) {
-        getChapter(chapter)?.didFinishReading = true
-    }
-    
     func unread(_ chapter: Chapter) {
         getChapter(chapter)?.didFinishReading = false
     }
-    
+}
+
+
+// MARK: - ProgressHandler
+extension SwiftDataChapterList: ChapterProgressHandler {
     func updateLastReadPage(page: Int, chapter: Chapter) {
         getChapter(chapter)?.lastReadPage = page
     }
     
+    func markChapterAsRead(_ chapter: Chapter) {
+        getChapter(chapter)?.didFinishReading = true
+    }
+}
+
+
+// MARK: - Private Helpers
+private extension SwiftDataChapterList {
     func getChapter(_ chapter: Chapter) -> SwiftDataChapter? {
         return first(where: { $0.name == chapter.name })
     }

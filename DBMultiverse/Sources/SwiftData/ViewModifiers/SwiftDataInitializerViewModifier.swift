@@ -9,6 +9,10 @@ import SwiftUI
 import SwiftData
 
 struct SwiftDataInitializerViewModifier: ViewModifier {
+    init() {
+        print(URL.applicationSupportDirectory.path(percentEncoded: false))
+    }
+    
     func body(content: Content) -> some View {
         content
             .modelContainer(for: SwiftDataChapter.self)

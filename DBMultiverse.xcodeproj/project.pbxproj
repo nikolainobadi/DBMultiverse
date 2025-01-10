@@ -49,8 +49,6 @@
 		D4BA43602D3080F600D6EAF6 /* ComicPageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BA435F2D3080F600D6EAF6 /* ComicPageManager.swift */; };
 		D4BA43632D30918E00D6EAF6 /* ComicLanguage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BA43622D30918E00D6EAF6 /* ComicLanguage.swift */; };
 		D4BA43652D3092A800D6EAF6 /* URLFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BA43642D3092A800D6EAF6 /* URLFactory.swift */; };
-		D4BA43682D30945400D6EAF6 /* ComicHTMLParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BA43672D30945400D6EAF6 /* ComicHTMLParser.swift */; };
-		D4BA436A2D30956F00D6EAF6 /* ComicParseError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BA43692D30956F00D6EAF6 /* ComicParseError.swift */; };
 		D4BA436C2D30968500D6EAF6 /* ComicNetworkingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BA436B2D30968500D6EAF6 /* ComicNetworkingManager.swift */; };
 		D4BA436E2D3098A800D6EAF6 /* ComicImageCacheAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BA436D2D3098A800D6EAF6 /* ComicImageCacheAdapter.swift */; };
 		D4BA43712D309B2400D6EAF6 /* SharedComicNetworkingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BA43702D309B2400D6EAF6 /* SharedComicNetworkingManager.swift */; };
@@ -63,6 +61,7 @@
 		D4D32FB32D2CD44E0059DA27 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D32FB22D2CD44E0059DA27 /* Constants.swift */; };
 		D4DD9B742D0A6F5000A16227 /* PreviewModifiersViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4DD9B732D0A6F5000A16227 /* PreviewModifiersViewModifier.swift */; };
 		D4DD9B772D0A722900A16227 /* SettingsFeatureNavStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4DD9B762D0A722900A16227 /* SettingsFeatureNavStack.swift */; };
+		D4E498292D31A8ED007F6E1A /* DBMultiverseParseKit in Frameworks */ = {isa = PBXBuildFile; productRef = D4E498282D31A8ED007F6E1A /* DBMultiverseParseKit */; };
 		D4FA44A82D2B5595004B8D12 /* CachedChapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FA44A72D2B5595004B8D12 /* CachedChapter.swift */; };
 		D4FF65832D0940A70023988F /* SwiftDataChapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FF65822D0940A70023988F /* SwiftDataChapter.swift */; };
 		E84A2CE42CFC435800FAF001 /* MainFeaturesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E84A2CE32CFC435800FAF001 /* MainFeaturesView.swift */; };
@@ -71,7 +70,6 @@
 		E8A095BD2CE0941200D28E3F /* DBMultiverseApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8A095BC2CE0941200D28E3F /* DBMultiverseApp.swift */; };
 		E8A095C12CE0941400D28E3F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E8A095C02CE0941400D28E3F /* Assets.xcassets */; };
 		E8A095C42CE0941400D28E3F /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E8A095C32CE0941400D28E3F /* Preview Assets.xcassets */; };
-		E8A095CC2CE0944C00D28E3F /* SwiftSoup in Frameworks */ = {isa = PBXBuildFile; productRef = E8A095CB2CE0944C00D28E3F /* SwiftSoup */; };
 		E8D4ED202CE721CA005ED4BC /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8D4ED1F2CE721CA005ED4BC /* String+Extensions.swift */; };
 /* End PBXBuildFile section */
 
@@ -158,8 +156,6 @@
 		D4BA435F2D3080F600D6EAF6 /* ComicPageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComicPageManager.swift; sourceTree = "<group>"; };
 		D4BA43622D30918E00D6EAF6 /* ComicLanguage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComicLanguage.swift; sourceTree = "<group>"; };
 		D4BA43642D3092A800D6EAF6 /* URLFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLFactory.swift; sourceTree = "<group>"; };
-		D4BA43672D30945400D6EAF6 /* ComicHTMLParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComicHTMLParser.swift; sourceTree = "<group>"; };
-		D4BA43692D30956F00D6EAF6 /* ComicParseError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComicParseError.swift; sourceTree = "<group>"; };
 		D4BA436B2D30968500D6EAF6 /* ComicNetworkingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComicNetworkingManager.swift; sourceTree = "<group>"; };
 		D4BA436D2D3098A800D6EAF6 /* ComicImageCacheAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComicImageCacheAdapter.swift; sourceTree = "<group>"; };
 		D4BA43702D309B2400D6EAF6 /* SharedComicNetworkingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedComicNetworkingManager.swift; sourceTree = "<group>"; };
@@ -172,6 +168,7 @@
 		D4D32FB22D2CD44E0059DA27 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		D4DD9B732D0A6F5000A16227 /* PreviewModifiersViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewModifiersViewModifier.swift; sourceTree = "<group>"; };
 		D4DD9B762D0A722900A16227 /* SettingsFeatureNavStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsFeatureNavStack.swift; sourceTree = "<group>"; };
+		D4E498272D31A4E5007F6E1A /* DBMultiverseParseKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = DBMultiverseParseKit; sourceTree = "<group>"; };
 		D4F6F48B2D2DF73C00A27411 /* DBMultiverseComicKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = DBMultiverseComicKit; sourceTree = "<group>"; };
 		D4FA44A72D2B5595004B8D12 /* CachedChapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CachedChapter.swift; sourceTree = "<group>"; };
 		D4FF65822D0940A70023988F /* SwiftDataChapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftDataChapter.swift; sourceTree = "<group>"; };
@@ -208,7 +205,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E8A095CC2CE0944C00D28E3F /* SwiftSoup in Frameworks */,
+				D4E498292D31A8ED007F6E1A /* DBMultiverseParseKit in Frameworks */,
 				D4AF53202D30BE2D009EB2F2 /* NnAppVersionValidator in Frameworks */,
 				D45F17562D2E0519006362E8 /* DBMultiverseComicKit in Frameworks */,
 				D46C707B2D1BB4F000C217D6 /* NnTestVariables in Frameworks */,
@@ -376,15 +373,6 @@
 			path = VersionCheck;
 			sourceTree = "<group>";
 		};
-		D4BA43662D30944800D6EAF6 /* SwiftSoup */ = {
-			isa = PBXGroup;
-			children = (
-				D4BA43672D30945400D6EAF6 /* ComicHTMLParser.swift */,
-				D4BA43692D30956F00D6EAF6 /* ComicParseError.swift */,
-			);
-			path = SwiftSoup;
-			sourceTree = "<group>";
-		};
 		D4BA436F2D309B1900D6EAF6 /* Networking */ = {
 			isa = PBXGroup;
 			children = (
@@ -504,7 +492,6 @@
 				E88C4C572CE32F6D00CF3D0C /* App */,
 				D4D32FAE2D2CD2550059DA27 /* Launch */,
 				E88C4C582CE32F7200CF3D0C /* MainFeatures */,
-				D4BA43662D30944800D6EAF6 /* SwiftSoup */,
 				D4FF65812D09408F0023988F /* SwiftData */,
 				D4BA436F2D309B1900D6EAF6 /* Networking */,
 				D4AF53252D30C445009EB2F2 /* VersionCheck */,
@@ -526,6 +513,7 @@
 			children = (
 				E8A095BB2CE0941200D28E3F /* DBMultiverse */,
 				D46C706F2D1BB4C000C217D6 /* DBMultiverseUnitTests */,
+				D4E498272D31A4E5007F6E1A /* DBMultiverseParseKit */,
 				D4F6F48B2D2DF73C00A27411 /* DBMultiverseComicKit */,
 				D47D00F12D2F4A050064FEB2 /* DBMultiverseWidgets */,
 				E8A095BA2CE0941200D28E3F /* Products */,
@@ -632,11 +620,11 @@
 			);
 			name = DBMultiverse;
 			packageProductDependencies = (
-				E8A095CB2CE0944C00D28E3F /* SwiftSoup */,
 				D46C707A2D1BB4F000C217D6 /* NnTestVariables */,
 				D45F17532D2DF8C5006362E8 /* NnSwiftUIKit */,
 				D45F17552D2E0519006362E8 /* DBMultiverseComicKit */,
 				D4AF531F2D30BE2D009EB2F2 /* NnAppVersionValidator */,
+				D4E498282D31A8ED007F6E1A /* DBMultiverseParseKit */,
 			);
 			productName = DBMultiverse;
 			productReference = E8A095B92CE0941200D28E3F /* DBMultiverse.app */;
@@ -674,7 +662,6 @@
 			);
 			mainGroup = E8A095B02CE0941200D28E3F;
 			packageReferences = (
-				E8A095CA2CE0944C00D28E3F /* XCRemoteSwiftPackageReference "SwiftSoup" */,
 				D46C70692D1BB4A700C217D6 /* XCRemoteSwiftPackageReference "NnTestKit" */,
 				D45F17522D2DF8C5006362E8 /* XCRemoteSwiftPackageReference "NnSwiftUIKit" */,
 				D4AF531E2D30BE2D009EB2F2 /* XCRemoteSwiftPackageReference "NnAppVersionValidator" */,
@@ -744,7 +731,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D4BA436A2D30956F00D6EAF6 /* ComicParseError.swift in Sources */,
 				D42036A52D2F066F00F0A1D0 /* iPadMainNavStack.swift in Sources */,
 				E8D4ED202CE721CA005ED4BC /* String+Extensions.swift in Sources */,
 				D4AF53242D30C004009EB2F2 /* UpdateAvailableView.swift in Sources */,
@@ -780,7 +766,6 @@
 				D4C86ADB2D30AB530075D091 /* LanguageSelectionView.swift in Sources */,
 				D4AF53222D30BE4E009EB2F2 /* AppUpdateCheckViewModifier.swift in Sources */,
 				D4BA436C2D30968500D6EAF6 /* ComicNetworkingManager.swift in Sources */,
-				D4BA43682D30945400D6EAF6 /* ComicHTMLParser.swift in Sources */,
 				D4C86AD92D30AB370075D091 /* CacheChapterListView.swift in Sources */,
 				D4FA44A82D2B5595004B8D12 /* CachedChapter.swift in Sources */,
 				D4D32FB32D2CD44E0059DA27 /* Constants.swift in Sources */,
@@ -1175,14 +1160,6 @@
 				kind = branch;
 			};
 		};
-		E8A095CA2CE0944C00D28E3F /* XCRemoteSwiftPackageReference "SwiftSoup" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/scinfu/SwiftSoup";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 2.7.6;
-			};
-		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1214,10 +1191,9 @@
 			package = D4AF531E2D30BE2D009EB2F2 /* XCRemoteSwiftPackageReference "NnAppVersionValidator" */;
 			productName = NnAppVersionValidator;
 		};
-		E8A095CB2CE0944C00D28E3F /* SwiftSoup */ = {
+		D4E498282D31A8ED007F6E1A /* DBMultiverseParseKit */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = E8A095CA2CE0944C00D28E3F /* XCRemoteSwiftPackageReference "SwiftSoup" */;
-			productName = SwiftSoup;
+			productName = DBMultiverseParseKit;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

@@ -5,15 +5,15 @@
 //  Created by Nikolai Nobadi on 1/9/25.
 //
 
-import SwiftSoup
 import Foundation
+import DBMultiverseParseKit
 
 final class ComicPageNetworkServiceAdapter: ComicPageNetworkService {
     func fetchImageData(from url: URL?) async throws -> Data {
         let networker = SharedComicNetworkingManager.self
         let data = try await networker.fetchData(from: url)
-        let imageURL = try ComicHTMLParser.parseComicPageImageURL(data: data)
+        let imgSrc = try ComicHTMLParser.parseComicPageImageSource(data: data)
         
-        return try await networker.fetchData(from: imageURL)
+        return try await networker.fetchData(from: .init(string: .makeFullURLString(suffix: imgSrc)))
     }
 }

@@ -57,6 +57,7 @@ struct UpdateAvailableView: View {
                 
                 Button("Don't show me this again") {
                     canCheckForUpdates = false
+                    finished()
                 }
                 .padding()
                 .tint(.red)

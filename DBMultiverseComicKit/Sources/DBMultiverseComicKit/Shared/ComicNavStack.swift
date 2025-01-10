@@ -21,24 +21,31 @@ public struct ComicNavStack<Content: View>: View {
     public var body: some View {
         NavigationStack(path: $path) {
             VStack {
-                VStack(spacing: 0) {
-                    HStack {
-                        Text("DB")
-                            .textLinearGradient(.yellowText)
-            
-                        Text("Multiverse")
-                            .textLinearGradient(.redText)
-                    }
-                    .bold()
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .withFont(.title3, autoSizeLineLimit: 1)
-                    
-                    Divider()
-                }
-                .padding()
+                ComicNavBar()
                 
                 content()
             }
         }
+    }
+}
+
+public struct ComicNavBar: View {
+    public init() { }
+    public var body: some View {
+        VStack(spacing: 0) {
+            HStack {
+                Text("DB")
+                    .textLinearGradient(.yellowText)
+    
+                Text("Multiverse")
+                    .textLinearGradient(.redText)
+            }
+            .bold()
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .withFont(.title3, autoSizeLineLimit: 1)
+            
+            Divider()
+        }
+        .padding()
     }
 }

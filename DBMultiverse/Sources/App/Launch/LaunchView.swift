@@ -10,7 +10,6 @@ import NnSwiftUIKit
 
 struct LaunchView: View {
     @AppStorage("isInitialLogin") private var isInitialLogin = true
-    @AppStorage("canCheckForUpdates") private var canCheckForUpdates = true
     @AppStorage("selectedLanguage") private var language: ComicLanguage = .english
     
     var body: some View {
@@ -20,7 +19,6 @@ struct LaunchView: View {
                     isInitialLogin = false
                 }
             }
-            .onAppUpdateAvailable(canCheckForUpdates: $canCheckForUpdates)
     }
 }
 

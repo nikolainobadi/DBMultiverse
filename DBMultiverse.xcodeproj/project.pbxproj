@@ -42,10 +42,6 @@
 		D47D010D2D2F60310064FEB2 /* DBMultiverseComicKit in Frameworks */ = {isa = PBXBuildFile; productRef = D47D010C2D2F60310064FEB2 /* DBMultiverseComicKit */; };
 		D495980F2D0B762E00B4493F /* HapticButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = D495980E2D0B762E00B4493F /* HapticButton.swift */; };
 		D49598182D0B82D700B4493F /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49598172D0B82D700B4493F /* SettingsViewModel.swift */; };
-		D4AF53202D30BE2D009EB2F2 /* NnAppVersionValidator in Frameworks */ = {isa = PBXBuildFile; productRef = D4AF531F2D30BE2D009EB2F2 /* NnAppVersionValidator */; };
-		D4AF53222D30BE4E009EB2F2 /* AppUpdateCheckViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4AF53212D30BE4E009EB2F2 /* AppUpdateCheckViewModifier.swift */; };
-		D4AF53242D30C004009EB2F2 /* UpdateAvailableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4AF53232D30C004009EB2F2 /* UpdateAvailableView.swift */; };
-		D4AF53272D30C460009EB2F2 /* AppUpdateCheckViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4AF53262D30C460009EB2F2 /* AppUpdateCheckViewModel.swift */; };
 		D4BA43602D3080F600D6EAF6 /* ComicPageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BA435F2D3080F600D6EAF6 /* ComicPageManager.swift */; };
 		D4BA43632D30918E00D6EAF6 /* ComicLanguage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BA43622D30918E00D6EAF6 /* ComicLanguage.swift */; };
 		D4BA43652D3092A800D6EAF6 /* URLFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BA43642D3092A800D6EAF6 /* URLFactory.swift */; };
@@ -58,9 +54,9 @@
 		D4C86ADD2D30AB7D0075D091 /* SettingsFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C86ADC2D30AB7D0075D091 /* SettingsFormView.swift */; };
 		D4CCE1942D31AF1F00F29B0B /* SwiftDataInitializerViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4CCE1932D31AF1F00F29B0B /* SwiftDataInitializerViewModifier.swift */; };
 		D4CCE1972D31AFC700F29B0B /* WidgetSyncViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4CCE1962D31AFC700F29B0B /* WidgetSyncViewModifier.swift */; };
+		D4CCE19B2D31DDC300F29B0B /* SettingsDisclaimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4CCE19A2D31DDC300F29B0B /* SettingsDisclaimerView.swift */; };
 		D4D32FAD2D2CCE1D0059DA27 /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D32FAC2D2CCE1D0059DA27 /* WelcomeView.swift */; };
 		D4D32FB02D2CD25C0059DA27 /* LaunchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D32FAF2D2CD25C0059DA27 /* LaunchView.swift */; };
-		D4D32FB32D2CD44E0059DA27 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D32FB22D2CD44E0059DA27 /* Constants.swift */; };
 		D4DD9B742D0A6F5000A16227 /* PreviewModifiersViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4DD9B732D0A6F5000A16227 /* PreviewModifiersViewModifier.swift */; };
 		D4DD9B772D0A722900A16227 /* SettingsFeatureNavStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4DD9B762D0A722900A16227 /* SettingsFeatureNavStack.swift */; };
 		D4E498292D31A8ED007F6E1A /* DBMultiverseParseKit in Frameworks */ = {isa = PBXBuildFile; productRef = D4E498282D31A8ED007F6E1A /* DBMultiverseParseKit */; };
@@ -152,9 +148,6 @@
 		D47D010A2D2F58C90064FEB2 /* MediumWidgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediumWidgetView.swift; sourceTree = "<group>"; };
 		D495980E2D0B762E00B4493F /* HapticButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticButton.swift; sourceTree = "<group>"; };
 		D49598172D0B82D700B4493F /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
-		D4AF53212D30BE4E009EB2F2 /* AppUpdateCheckViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUpdateCheckViewModifier.swift; sourceTree = "<group>"; };
-		D4AF53232D30C004009EB2F2 /* UpdateAvailableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateAvailableView.swift; sourceTree = "<group>"; };
-		D4AF53262D30C460009EB2F2 /* AppUpdateCheckViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUpdateCheckViewModel.swift; sourceTree = "<group>"; };
 		D4BA435F2D3080F600D6EAF6 /* ComicPageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComicPageManager.swift; sourceTree = "<group>"; };
 		D4BA43622D30918E00D6EAF6 /* ComicLanguage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComicLanguage.swift; sourceTree = "<group>"; };
 		D4BA43642D3092A800D6EAF6 /* URLFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLFactory.swift; sourceTree = "<group>"; };
@@ -167,9 +160,9 @@
 		D4C86ADC2D30AB7D0075D091 /* SettingsFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsFormView.swift; sourceTree = "<group>"; };
 		D4CCE1932D31AF1F00F29B0B /* SwiftDataInitializerViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftDataInitializerViewModifier.swift; sourceTree = "<group>"; };
 		D4CCE1962D31AFC700F29B0B /* WidgetSyncViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetSyncViewModifier.swift; sourceTree = "<group>"; };
+		D4CCE19A2D31DDC300F29B0B /* SettingsDisclaimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsDisclaimerView.swift; sourceTree = "<group>"; };
 		D4D32FAC2D2CCE1D0059DA27 /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
 		D4D32FAF2D2CD25C0059DA27 /* LaunchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchView.swift; sourceTree = "<group>"; };
-		D4D32FB22D2CD44E0059DA27 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		D4DD9B732D0A6F5000A16227 /* PreviewModifiersViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewModifiersViewModifier.swift; sourceTree = "<group>"; };
 		D4DD9B762D0A722900A16227 /* SettingsFeatureNavStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsFeatureNavStack.swift; sourceTree = "<group>"; };
 		D4E498272D31A4E5007F6E1A /* DBMultiverseParseKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = DBMultiverseParseKit; sourceTree = "<group>"; };
@@ -210,7 +203,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				D4E498292D31A8ED007F6E1A /* DBMultiverseParseKit in Frameworks */,
-				D4AF53202D30BE2D009EB2F2 /* NnAppVersionValidator in Frameworks */,
 				D45F17562D2E0519006362E8 /* DBMultiverseComicKit in Frameworks */,
 				D46C707B2D1BB4F000C217D6 /* NnTestVariables in Frameworks */,
 				D45F17542D2DF8C5006362E8 /* NnSwiftUIKit in Frameworks */,
@@ -368,16 +360,6 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
-		D4AF53252D30C445009EB2F2 /* VersionCheck */ = {
-			isa = PBXGroup;
-			children = (
-				D4AF53232D30C004009EB2F2 /* UpdateAvailableView.swift */,
-				D4AF53212D30BE4E009EB2F2 /* AppUpdateCheckViewModifier.swift */,
-				D4AF53262D30C460009EB2F2 /* AppUpdateCheckViewModel.swift */,
-			);
-			path = VersionCheck;
-			sourceTree = "<group>";
-		};
 		D4BA436F2D309B1900D6EAF6 /* Networking */ = {
 			isa = PBXGroup;
 			children = (
@@ -410,6 +392,7 @@
 				D4C86ADC2D30AB7D0075D091 /* SettingsFormView.swift */,
 				D4C86ADA2D30AB530075D091 /* LanguageSelectionView.swift */,
 				D4C86AD82D30AB370075D091 /* CacheChapterListView.swift */,
+				D4CCE19A2D31DDC300F29B0B /* SettingsDisclaimerView.swift */,
 			);
 			path = SubViews;
 			sourceTree = "<group>";
@@ -444,7 +427,6 @@
 		D4CCE1912D31ADDC00F29B0B /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
-				D4D32FB22D2CD44E0059DA27 /* Constants.swift */,
 				D4BA43642D3092A800D6EAF6 /* URLFactory.swift */,
 				E8D4ED1F2CE721CA005ED4BC /* String+Extensions.swift */,
 				E84A2CE52CFC463300FAF001 /* CustomError.swift */,
@@ -548,7 +530,6 @@
 				D4CCE1952D31AFB500F29B0B /* Widgets */,
 				D4FF65812D09408F0023988F /* SwiftData */,
 				D4BA436F2D309B1900D6EAF6 /* Networking */,
-				D4AF53252D30C445009EB2F2 /* VersionCheck */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -677,7 +658,6 @@
 				D46C707A2D1BB4F000C217D6 /* NnTestVariables */,
 				D45F17532D2DF8C5006362E8 /* NnSwiftUIKit */,
 				D45F17552D2E0519006362E8 /* DBMultiverseComicKit */,
-				D4AF531F2D30BE2D009EB2F2 /* NnAppVersionValidator */,
 				D4E498282D31A8ED007F6E1A /* DBMultiverseParseKit */,
 			);
 			productName = DBMultiverse;
@@ -718,7 +698,6 @@
 			packageReferences = (
 				D46C70692D1BB4A700C217D6 /* XCRemoteSwiftPackageReference "NnTestKit" */,
 				D45F17522D2DF8C5006362E8 /* XCRemoteSwiftPackageReference "NnSwiftUIKit" */,
-				D4AF531E2D30BE2D009EB2F2 /* XCRemoteSwiftPackageReference "NnAppVersionValidator" */,
 			);
 			productRefGroup = E8A095BA2CE0941200D28E3F /* Products */;
 			projectDirPath = "";
@@ -787,11 +766,9 @@
 			files = (
 				D42036A52D2F066F00F0A1D0 /* iPadMainNavStack.swift in Sources */,
 				E8D4ED202CE721CA005ED4BC /* String+Extensions.swift in Sources */,
-				D4AF53242D30C004009EB2F2 /* UpdateAvailableView.swift in Sources */,
 				D42036AB2D2F06F800F0A1D0 /* ChapterListFeatureView.swift in Sources */,
 				D42036B32D2F121400F0A1D0 /* ComicPageFeatureView.swift in Sources */,
 				D4BA43712D309B2400D6EAF6 /* SharedComicNetworkingManager.swift in Sources */,
-				D4AF53272D30C460009EB2F2 /* AppUpdateCheckViewModel.swift in Sources */,
 				D4FF65832D0940A70023988F /* SwiftDataChapter.swift in Sources */,
 				D4BA43602D3080F600D6EAF6 /* ComicPageManager.swift in Sources */,
 				D4D32FB02D2CD25C0059DA27 /* LaunchView.swift in Sources */,
@@ -819,16 +796,15 @@
 				D46C707F2D1BB55500C217D6 /* TestApp.swift in Sources */,
 				D4DD9B772D0A722900A16227 /* SettingsFeatureNavStack.swift in Sources */,
 				D4C86ADB2D30AB530075D091 /* LanguageSelectionView.swift in Sources */,
-				D4AF53222D30BE4E009EB2F2 /* AppUpdateCheckViewModifier.swift in Sources */,
 				D4BA436C2D30968500D6EAF6 /* ComicNetworkingManager.swift in Sources */,
 				D4C86AD92D30AB370075D091 /* CacheChapterListView.swift in Sources */,
 				D4CCE1942D31AF1F00F29B0B /* SwiftDataInitializerViewModifier.swift in Sources */,
 				D4FA44A82D2B5595004B8D12 /* CachedChapter.swift in Sources */,
-				D4D32FB32D2CD44E0059DA27 /* Constants.swift in Sources */,
 				D4D32FAD2D2CCE1D0059DA27 /* WelcomeView.swift in Sources */,
 				E8A095BD2CE0941200D28E3F /* DBMultiverseApp.swift in Sources */,
 				D408B02E2D2F6E550006ECC6 /* DeepLinkNavigationViewModifier.swift in Sources */,
 				D4BA43632D30918E00D6EAF6 /* ComicLanguage.swift in Sources */,
+				D4CCE19B2D31DDC300F29B0B /* SettingsDisclaimerView.swift in Sources */,
 				D4771DBF2D2A2C4200F2AC58 /* iPadComicPicker.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1208,14 +1184,6 @@
 				minimumVersion = 1.0.0;
 			};
 		};
-		D4AF531E2D30BE2D009EB2F2 /* XCRemoteSwiftPackageReference "NnAppVersionValidator" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/nikolainobadi/NnAppVersionValidator";
-			requirement = {
-				branch = "new-version-info";
-				kind = branch;
-			};
-		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1241,11 +1209,6 @@
 		D47D010C2D2F60310064FEB2 /* DBMultiverseComicKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = DBMultiverseComicKit;
-		};
-		D4AF531F2D30BE2D009EB2F2 /* NnAppVersionValidator */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = D4AF531E2D30BE2D009EB2F2 /* XCRemoteSwiftPackageReference "NnAppVersionValidator" */;
-			productName = NnAppVersionValidator;
 		};
 		D4E498282D31A8ED007F6E1A /* DBMultiverseParseKit */ = {
 			isa = XCSwiftPackageProductDependency;

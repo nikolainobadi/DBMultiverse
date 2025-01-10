@@ -20,11 +20,8 @@ struct SettingsFeatureNavStack: View {
             VStack {
                 SettingsFormView(viewModel: viewModel, language: language)
                 
-                SettingsDisclaimerView()
-                
                 Text(NnAppVersionCache.getDeviceVersionDetails(mainBundle: .main))
                     .font(.caption)
-                    .padding()
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
             .onAppear {
@@ -39,6 +36,8 @@ struct SettingsFeatureNavStack: View {
                 case .cacheList:
                     CacheChapterListView(chapters: viewModel.cachedChapters)
                         .navigationTitle("Cached Chapters")
+                case .disclaimer:
+                    DisclaimerView(state: $viewModel.disclaimerState)
                 case .languageSelection:
                     LanguageSelectionView(selection: language) { updatedLanguage in
                         if updatedLanguage != language {
@@ -49,22 +48,6 @@ struct SettingsFeatureNavStack: View {
                 }
             }
         }
-    }
-}
-
-
-// MARK: - Disclaimer
-fileprivate struct SettingsDisclaimerView: View {
-    var body: some View {
-        VStack(alignment: .center) {
-            Text("This is an unofficial iOS app.\n")
-            Text("Please send any questions or concerns to:\n")
-            Text(FEEDBACK_EMAIL)
-                .textLinearGradient(.lightStarrySky)
-        }
-        .multilineTextAlignment(.center)
-        .padding([.bottom, .horizontal])
-        .withFont()
     }
 }
 

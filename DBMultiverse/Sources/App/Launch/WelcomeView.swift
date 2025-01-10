@@ -7,10 +7,12 @@
 
 import SwiftUI
 import NnSwiftUIKit
+import DBMultiverseComicKit
 
 struct WelcomeView: View {
     @Binding var language: ComicLanguage
     @State private var selectingLanguage = false
+    @State private var state: DisclaimerState = .first
     
     let getStarted: () -> Void
     
@@ -20,7 +22,7 @@ struct WelcomeView: View {
             
             Spacer()
             
-            DisclaimerView()
+            DisclaimerView(state: $state)
                 .showingConditionalView(when: selectingLanguage) {
                     VStack {
                         Text("Choose a language")
@@ -46,7 +48,9 @@ struct WelcomeView: View {
                 .buttonStyle(.borderedProminent)
             }
             .padding()
+            .onlyShow(when: state == .third)
         }
+        .animation(.smooth, value: state)
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
     }
 }
@@ -72,32 +76,6 @@ fileprivate struct WelcomeHeaderView: View {
             Text("for iOS")
                 .bold()
         }
-    }
-}
-
-
-// MARK: - Disclaimer
-fileprivate struct DisclaimerView: View {
-    var body: some View {
-        VStack(alignment: .leading) {
-            Text("This is an unofficial fan-made app.\n")
-            
-            Text("While I did receive permission from Salagir to distribute this app for free, it was NOT developed by the DBMultiverse team.\n")
-            
-            Text("I made this app as a way to make the web comic easier to read on iOS.\n")
-            
-            Text("As such, please direct any questions and/or concerns to:\n")
-            
-            Text(FEEDBACK_EMAIL)
-                .bold()
-                .frame(maxWidth: .infinity)
-                
-        }
-        .padding()
-        .background(.thinMaterial)
-        .clipShape(.rect(cornerRadius: 10))
-        .withFont(.caption)
-        .padding()
     }
 }
 

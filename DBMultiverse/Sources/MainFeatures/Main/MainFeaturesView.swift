@@ -56,7 +56,7 @@ fileprivate struct MainNavStack<ComicContent: View, SettingsContent: View>: View
 // MARK: - Preview
 #Preview {
     class PreviewLoader: ChapterLoader {
-        func loadChapters(language: ComicLanguage) async throws -> [Chapter] { [] }
+        func loadChapters(url: URL?) async throws -> [Chapter] { [] }
     }
     
     return MainFeaturesView(viewModel: .init(loader: PreviewLoader()))
@@ -83,6 +83,7 @@ fileprivate extension ComicPageViewModel {
         let networkService = ComicPageNetworkServiceAdapter()
         let manager = ComicPageManager(
             chapter: route.chapter,
+            language: .english, // TODO: - make this dynamic
             imageCache: imageCache,
             networkService: networkService,
             chapterProgressHandler: chapterList

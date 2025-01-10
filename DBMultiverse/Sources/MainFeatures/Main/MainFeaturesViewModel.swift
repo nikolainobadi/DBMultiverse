@@ -25,7 +25,9 @@ final class MainFeaturesViewModel: ObservableObject {
 // MARK: - Actions
 extension MainFeaturesViewModel {
     func loadData() async throws {
-        let fetchedList = try await loader.loadChapters(language: .english)
+        // TODO: - make language dynamic
+        let url = URLFactory.makeURL(language: .english, pathComponent: .chapterList)
+        let fetchedList = try await loader.loadChapters(url: url)
         
         print("---------- fetched chapters ----------")
         print("fetched \(fetchedList.count) chapters")
@@ -73,5 +75,5 @@ private extension MainFeaturesViewModel {
 
 // MARK: - Dependencies
 protocol ChapterLoader {
-    func loadChapters(language: ComicLanguage) async throws -> [Chapter]
+    func loadChapters(url: URL?) async throws -> [Chapter]
 }

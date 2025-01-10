@@ -15,12 +15,24 @@ enum URLFactory {
 // MARK: - Factory
 extension URLFactory {
     static func makeURL(language: ComicLanguage, pathComponent: URLWebsitePathComponent) -> URL? {
-        return .init(string: "\(baseWebsiteURLString)/\(language.rawValue)/\(pathComponent.rawValue)")
+        return .init(string: "\(baseWebsiteURLString)/\(language.rawValue)/\(pathComponent.path)")
     }
 }
 
 
 // MARK: - Dependencies
-enum URLWebsitePathComponent: String {
-    case chapterList = "chapters.html?comic=page&chaptersmode=1"
+enum URLWebsitePathComponent {
+    case chapterList
+    case comicPage(Int)
+}
+
+extension URLWebsitePathComponent {
+    var path: String {
+        switch self {
+        case .chapterList:
+            return "chapters.html?comic=page&chaptersmode=1"
+        case .comicPage(let page):
+            return "page-\(page).html"
+        }
+    }
 }

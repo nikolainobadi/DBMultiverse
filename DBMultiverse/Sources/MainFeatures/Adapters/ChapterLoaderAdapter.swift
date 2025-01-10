@@ -10,12 +10,8 @@ import Foundation
 import DBMultiverseComicKit
 
 final class ChapterLoaderAdapter: ChapterLoader {
-    func loadChapters(language: ComicLanguage) async throws -> [Chapter] {
-        guard let url = URLFactory.makeURL(language: language, pathComponent: .chapterList) else {
-            throw CustomError.urlError
-        }
-        
-        let data = try await URLSession.shared.data(from: url).0
+    func loadChapters(url: URL?) async throws -> [Chapter] {
+        let data = try await SharedComicNetworkingManager.fetchData(from: url)
 
         return try ComicHTMLParser.parseChapterList(data: data)
     }

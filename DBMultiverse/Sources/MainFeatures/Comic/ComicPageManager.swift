@@ -10,12 +10,14 @@ import DBMultiverseComicKit
 
 final class ComicPageManager {
     private let chapter: Chapter
+    private let language: ComicLanguage
     private let imageCache: ComicImageCache
     private let networkService: ComicPageNetworkService
     private let chapterProgressHandler: ChapterProgressHandler
     
-    init(chapter: Chapter, imageCache: ComicImageCache, networkService: ComicPageNetworkService, chapterProgressHandler: ChapterProgressHandler) {
+    init(chapter: Chapter, language: ComicLanguage, imageCache: ComicImageCache, networkService: ComicPageNetworkService, chapterProgressHandler: ChapterProgressHandler) {
         self.chapter = chapter
+        self.language = language
         self.imageCache = imageCache
         self.networkService = networkService
         self.chapterProgressHandler = chapterProgressHandler
@@ -78,7 +80,7 @@ private extension ComicPageManager {
     func fetchPageInfo(page: Int) async -> PageInfo? {
         print("fetching page \(page) for chapter \(chapter.number)")
         do {
-            let url = URL(string: .makeFullURLString(suffix: "/en/page-\(page).html"))
+            let url = URLFactory.makeURL(language: language, pathComponent: .comicPage(page))
             let imageData = try await networkService.fetchImageData(from: url)
 
             return .init(chapter: chapter.number, pageNumber: page, secondPageNumber: page.secondPage, imageData: imageData)

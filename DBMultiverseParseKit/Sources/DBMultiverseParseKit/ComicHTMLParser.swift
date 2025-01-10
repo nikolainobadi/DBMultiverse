@@ -9,7 +9,7 @@ import SwiftSoup
 import Foundation
 
 public enum ComicHTMLParser {
-    static func parseComicPageImageSource(data: Data) throws -> String? {
+    public static func parseComicPageImageSource(data: Data) throws -> String {
         do {
             let html = try makeHTML(from: data)
             let document = try SwiftSoup.parse(html)
@@ -26,7 +26,7 @@ public enum ComicHTMLParser {
         }
     }
     
-    static func parseChapterList(data: Data) throws -> [ParsedChapter] {
+    public static func parseChapterList(data: Data) throws -> [ParsedChapter] {
         do {
             let html = try makeHTML(from: data)
             let document = try SwiftSoup.parse(html)

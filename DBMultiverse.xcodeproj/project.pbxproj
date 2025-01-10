@@ -172,6 +172,7 @@
 		D4D32FB22D2CD44E0059DA27 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		D4DD9B732D0A6F5000A16227 /* PreviewModifiersViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewModifiersViewModifier.swift; sourceTree = "<group>"; };
 		D4DD9B762D0A722900A16227 /* SettingsFeatureNavStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsFeatureNavStack.swift; sourceTree = "<group>"; };
+		D4E498272D31A4E5007F6E1A /* DBMultiverseParseKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = DBMultiverseParseKit; sourceTree = "<group>"; };
 		D4F6F48B2D2DF73C00A27411 /* DBMultiverseComicKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = DBMultiverseComicKit; sourceTree = "<group>"; };
 		D4FA44A72D2B5595004B8D12 /* CachedChapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CachedChapter.swift; sourceTree = "<group>"; };
 		D4FF65822D0940A70023988F /* SwiftDataChapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftDataChapter.swift; sourceTree = "<group>"; };
@@ -526,6 +527,7 @@
 			children = (
 				E8A095BB2CE0941200D28E3F /* DBMultiverse */,
 				D46C706F2D1BB4C000C217D6 /* DBMultiverseUnitTests */,
+				D4E498272D31A4E5007F6E1A /* DBMultiverseParseKit */,
 				D4F6F48B2D2DF73C00A27411 /* DBMultiverseComicKit */,
 				D47D00F12D2F4A050064FEB2 /* DBMultiverseWidgets */,
 				E8A095BA2CE0941200D28E3F /* Products */,

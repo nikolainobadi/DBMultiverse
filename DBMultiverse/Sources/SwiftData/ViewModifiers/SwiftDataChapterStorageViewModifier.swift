@@ -45,8 +45,10 @@ struct SwiftDataChapterStorageViewModifier: ViewModifier {
                 for chapter in newList {
                     if let index = existingChapters.firstIndex(where: { $0.number == chapter.number }) {
                         if shouldUpdateChapter(existing: existingChapters[index], chapter: chapter) {
-//                            modelContext.delete(existingChapters[index])
-//                            modelContext.insert(SwiftDataChapter(chapter: chapter))
+                            print("deleting existing chapter \(existingChapters[index].number)")
+                            modelContext.delete(existingChapters[index])
+                            print("creating new chapter \(chapter.number)")
+                            modelContext.insert(SwiftDataChapter(chapter: chapter))
                         }
                     } else {
                         missingChapters += 1

@@ -17,9 +17,7 @@
 		D42036AF2D2F0A1200F0A1D0 /* iPhoneComicPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42036AE2D2F0A1200F0A1D0 /* iPhoneComicPageView.swift */; };
 		D42036B12D2F11D800F0A1D0 /* iPadComicPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42036B02D2F11D800F0A1D0 /* iPadComicPageView.swift */; };
 		D42036B32D2F121400F0A1D0 /* ComicPageFeatureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42036B22D2F121400F0A1D0 /* ComicPageFeatureView.swift */; };
-		D42036B62D2F216D00F0A1D0 /* ComicPageDelegateAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42036B52D2F216D00F0A1D0 /* ComicPageDelegateAdapter.swift */; };
 		D42036B82D2F21BF00F0A1D0 /* MainFeaturesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42036B72D2F21BF00F0A1D0 /* MainFeaturesViewModel.swift */; };
-		D42036BA2D2F300400F0A1D0 /* ComicPageDelegateDecorator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42036B92D2F300400F0A1D0 /* ComicPageDelegateDecorator.swift */; };
 		D42036BC2D2F38F100F0A1D0 /* SwiftDataChapterStorageViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42036BB2D2F38F100F0A1D0 /* SwiftDataChapterStorageViewModifier.swift */; };
 		D42AF2962D2A23D000AB36EC /* SettingsLinkItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42AF2952D2A23D000AB36EC /* SettingsLinkItem.swift */; };
 		D45F17542D2DF8C5006362E8 /* NnSwiftUIKit in Frameworks */ = {isa = PBXBuildFile; productRef = D45F17532D2DF8C5006362E8 /* NnSwiftUIKit */; };
@@ -43,7 +41,6 @@
 		D47D010B2D2F58C90064FEB2 /* MediumWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47D010A2D2F58C90064FEB2 /* MediumWidgetView.swift */; };
 		D47D010D2D2F60310064FEB2 /* DBMultiverseComicKit in Frameworks */ = {isa = PBXBuildFile; productRef = D47D010C2D2F60310064FEB2 /* DBMultiverseComicKit */; };
 		D495980F2D0B762E00B4493F /* HapticButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = D495980E2D0B762E00B4493F /* HapticButton.swift */; };
-		D49598152D0B766E00B4493F /* ChapterComicLoaderAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49598142D0B766E00B4493F /* ChapterComicLoaderAdapter.swift */; };
 		D49598182D0B82D700B4493F /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49598172D0B82D700B4493F /* SettingsViewModel.swift */; };
 		D4BA43602D3080F600D6EAF6 /* ComicPageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BA435F2D3080F600D6EAF6 /* ComicPageManager.swift */; };
 		D4BA43632D30918E00D6EAF6 /* ComicLanguage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BA43622D30918E00D6EAF6 /* ComicLanguage.swift */; };
@@ -53,6 +50,10 @@
 		D4BA436C2D30968500D6EAF6 /* ComicNetworkingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BA436B2D30968500D6EAF6 /* ComicNetworkingManager.swift */; };
 		D4BA436E2D3098A800D6EAF6 /* ComicImageCacheAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BA436D2D3098A800D6EAF6 /* ComicImageCacheAdapter.swift */; };
 		D4BA43712D309B2400D6EAF6 /* SharedComicNetworkingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BA43702D309B2400D6EAF6 /* SharedComicNetworkingManager.swift */; };
+		D4C86AD72D30A0430075D091 /* LanguagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C86AD62D30A0430075D091 /* LanguagePicker.swift */; };
+		D4C86AD92D30AB370075D091 /* CacheChapterListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C86AD82D30AB370075D091 /* CacheChapterListView.swift */; };
+		D4C86ADB2D30AB530075D091 /* LanguageSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C86ADA2D30AB530075D091 /* LanguageSelectionView.swift */; };
+		D4C86ADD2D30AB7D0075D091 /* SettingsFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C86ADC2D30AB7D0075D091 /* SettingsFormView.swift */; };
 		D4D32FAD2D2CCE1D0059DA27 /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D32FAC2D2CCE1D0059DA27 /* WelcomeView.swift */; };
 		D4D32FB02D2CD25C0059DA27 /* LaunchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D32FAF2D2CD25C0059DA27 /* LaunchView.swift */; };
 		D4D32FB32D2CD44E0059DA27 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D32FB22D2CD44E0059DA27 /* Constants.swift */; };
@@ -124,9 +125,7 @@
 		D42036AE2D2F0A1200F0A1D0 /* iPhoneComicPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iPhoneComicPageView.swift; sourceTree = "<group>"; };
 		D42036B02D2F11D800F0A1D0 /* iPadComicPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iPadComicPageView.swift; sourceTree = "<group>"; };
 		D42036B22D2F121400F0A1D0 /* ComicPageFeatureView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComicPageFeatureView.swift; sourceTree = "<group>"; };
-		D42036B52D2F216D00F0A1D0 /* ComicPageDelegateAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComicPageDelegateAdapter.swift; sourceTree = "<group>"; };
 		D42036B72D2F21BF00F0A1D0 /* MainFeaturesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainFeaturesViewModel.swift; sourceTree = "<group>"; };
-		D42036B92D2F300400F0A1D0 /* ComicPageDelegateDecorator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComicPageDelegateDecorator.swift; sourceTree = "<group>"; };
 		D42036BB2D2F38F100F0A1D0 /* SwiftDataChapterStorageViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftDataChapterStorageViewModifier.swift; sourceTree = "<group>"; };
 		D42AF2952D2A23D000AB36EC /* SettingsLinkItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsLinkItem.swift; sourceTree = "<group>"; };
 		D46C706E2D1BB4C000C217D6 /* DBMultiverseUnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DBMultiverseUnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -148,7 +147,6 @@
 		D47D01082D2F589D0064FEB2 /* SmallWidgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmallWidgetView.swift; sourceTree = "<group>"; };
 		D47D010A2D2F58C90064FEB2 /* MediumWidgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediumWidgetView.swift; sourceTree = "<group>"; };
 		D495980E2D0B762E00B4493F /* HapticButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticButton.swift; sourceTree = "<group>"; };
-		D49598142D0B766E00B4493F /* ChapterComicLoaderAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChapterComicLoaderAdapter.swift; sourceTree = "<group>"; };
 		D49598172D0B82D700B4493F /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
 		D4BA435F2D3080F600D6EAF6 /* ComicPageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComicPageManager.swift; sourceTree = "<group>"; };
 		D4BA43622D30918E00D6EAF6 /* ComicLanguage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComicLanguage.swift; sourceTree = "<group>"; };
@@ -158,6 +156,10 @@
 		D4BA436B2D30968500D6EAF6 /* ComicNetworkingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComicNetworkingManager.swift; sourceTree = "<group>"; };
 		D4BA436D2D3098A800D6EAF6 /* ComicImageCacheAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComicImageCacheAdapter.swift; sourceTree = "<group>"; };
 		D4BA43702D309B2400D6EAF6 /* SharedComicNetworkingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedComicNetworkingManager.swift; sourceTree = "<group>"; };
+		D4C86AD62D30A0430075D091 /* LanguagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguagePicker.swift; sourceTree = "<group>"; };
+		D4C86AD82D30AB370075D091 /* CacheChapterListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheChapterListView.swift; sourceTree = "<group>"; };
+		D4C86ADA2D30AB530075D091 /* LanguageSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageSelectionView.swift; sourceTree = "<group>"; };
+		D4C86ADC2D30AB7D0075D091 /* SettingsFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsFormView.swift; sourceTree = "<group>"; };
 		D4D32FAC2D2CCE1D0059DA27 /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
 		D4D32FAF2D2CD25C0059DA27 /* LaunchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchView.swift; sourceTree = "<group>"; };
 		D4D32FB22D2CD44E0059DA27 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
@@ -356,16 +358,6 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
-		D4BA43612D308FA400D6EAF6 /* Old */ = {
-			isa = PBXGroup;
-			children = (
-				D42036B92D2F300400F0A1D0 /* ComicPageDelegateDecorator.swift */,
-				D42036B52D2F216D00F0A1D0 /* ComicPageDelegateAdapter.swift */,
-				D49598142D0B766E00B4493F /* ChapterComicLoaderAdapter.swift */,
-			);
-			path = Old;
-			sourceTree = "<group>";
-		};
 		D4BA43662D30944800D6EAF6 /* SwiftSoup */ = {
 			isa = PBXGroup;
 			children = (
@@ -383,11 +375,40 @@
 			path = Networking;
 			sourceTree = "<group>";
 		};
+		D4C86ADE2D30ABC20075D091 /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				D4DD9B762D0A722900A16227 /* SettingsFeatureNavStack.swift */,
+				D49598172D0B82D700B4493F /* SettingsViewModel.swift */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
+		D4C86ADF2D30ABCA0075D091 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				D4FA44A72D2B5595004B8D12 /* CachedChapter.swift */,
+				D42AF2952D2A23D000AB36EC /* SettingsLinkItem.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		D4C86AE02D30ABD30075D091 /* SubViews */ = {
+			isa = PBXGroup;
+			children = (
+				D4C86ADC2D30AB7D0075D091 /* SettingsFormView.swift */,
+				D4C86ADA2D30AB530075D091 /* LanguageSelectionView.swift */,
+				D4C86AD82D30AB370075D091 /* CacheChapterListView.swift */,
+			);
+			path = SubViews;
+			sourceTree = "<group>";
+		};
 		D4D32FAE2D2CD2550059DA27 /* Launch */ = {
 			isa = PBXGroup;
 			children = (
 				D4D32FAF2D2CD25C0059DA27 /* LaunchView.swift */,
 				D4D32FAC2D2CCE1D0059DA27 /* WelcomeView.swift */,
+				D4C86AD62D30A0430075D091 /* LanguagePicker.swift */,
 			);
 			path = Launch;
 			sourceTree = "<group>";
@@ -408,10 +429,9 @@
 		D4DD9B752D0A721E00A16227 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
-				D4DD9B762D0A722900A16227 /* SettingsFeatureNavStack.swift */,
-				D49598172D0B82D700B4493F /* SettingsViewModel.swift */,
-				D42AF2952D2A23D000AB36EC /* SettingsLinkItem.swift */,
-				D4FA44A72D2B5595004B8D12 /* CachedChapter.swift */,
+				D4C86ADE2D30ABC20075D091 /* Main */,
+				D4C86ADF2D30ABCA0075D091 /* Model */,
+				D4C86AE02D30ABD30075D091 /* SubViews */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -463,7 +483,6 @@
 		E88C4C622CE3300A00CF3D0C /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				D4BA43612D308FA400D6EAF6 /* Old */,
 				E88C4C572CE32F6D00CF3D0C /* App */,
 				D4D32FAE2D2CD2550059DA27 /* Launch */,
 				E88C4C582CE32F7200CF3D0C /* MainFeatures */,
@@ -706,7 +725,6 @@
 			files = (
 				D4BA436A2D30956F00D6EAF6 /* ComicParseError.swift in Sources */,
 				D42036A52D2F066F00F0A1D0 /* iPadMainNavStack.swift in Sources */,
-				D42036BA2D2F300400F0A1D0 /* ComicPageDelegateDecorator.swift in Sources */,
 				E8D4ED202CE721CA005ED4BC /* String+Extensions.swift in Sources */,
 				D42036AB2D2F06F800F0A1D0 /* ChapterListFeatureView.swift in Sources */,
 				D42036B32D2F121400F0A1D0 /* ComicPageFeatureView.swift in Sources */,
@@ -724,6 +742,8 @@
 				D4BA43652D3092A800D6EAF6 /* URLFactory.swift in Sources */,
 				E84A2CE62CFC463300FAF001 /* CustomError.swift in Sources */,
 				D42036BC2D2F38F100F0A1D0 /* SwiftDataChapterStorageViewModifier.swift in Sources */,
+				D4C86ADD2D30AB7D0075D091 /* SettingsFormView.swift in Sources */,
+				D4C86AD72D30A0430075D091 /* LanguagePicker.swift in Sources */,
 				D42036A32D2F064D00F0A1D0 /* iPhoneMainTabView.swift in Sources */,
 				D46C707D2D1BB50600C217D6 /* AppLauncher.swift in Sources */,
 				D42036AD2D2F096D00F0A1D0 /* iPhoneComicPicker.swift in Sources */,
@@ -734,12 +754,12 @@
 				E84A2CE42CFC435800FAF001 /* MainFeaturesView.swift in Sources */,
 				D46C707F2D1BB55500C217D6 /* TestApp.swift in Sources */,
 				D4DD9B772D0A722900A16227 /* SettingsFeatureNavStack.swift in Sources */,
+				D4C86ADB2D30AB530075D091 /* LanguageSelectionView.swift in Sources */,
 				D4BA436C2D30968500D6EAF6 /* ComicNetworkingManager.swift in Sources */,
 				D4BA43682D30945400D6EAF6 /* ComicHTMLParser.swift in Sources */,
+				D4C86AD92D30AB370075D091 /* CacheChapterListView.swift in Sources */,
 				D4FA44A82D2B5595004B8D12 /* CachedChapter.swift in Sources */,
-				D42036B62D2F216D00F0A1D0 /* ComicPageDelegateAdapter.swift in Sources */,
 				D4D32FB32D2CD44E0059DA27 /* Constants.swift in Sources */,
-				D49598152D0B766E00B4493F /* ChapterComicLoaderAdapter.swift in Sources */,
 				D4D32FAD2D2CCE1D0059DA27 /* WelcomeView.swift in Sources */,
 				E8A095BD2CE0941200D28E3F /* DBMultiverseApp.swift in Sources */,
 				D408B02E2D2F6E550006ECC6 /* DeepLinkNavigationViewModifier.swift in Sources */,

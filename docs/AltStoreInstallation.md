@@ -29,7 +29,7 @@ This guide explains how to install the DBMultiverse app on your iPhone or iPad u
 ### Step 2: Install the DBMultiverse App
 
 1. Download the DBMultiverse `.ipa` file directly to your iPhone or iPad from the following link:  
-   [DBMultiverse.ipa](https://dl.dropboxusercontent.com/scl/fi/9vg5v1g5zjwyy9uwd577o/DBMultiverse.ipa?rlkey=i4btz3y4dcg8nyane6d3p7n5i&st=iyeidd29)
+   [DBMultiverse.ipa](https://nikolainobadi.github.io/DBMultiverse/?utm_source=altstore&utm_medium=app&utm_campaign=dbm-altstore)
 
 2. Open **AltStore** on your device.
 

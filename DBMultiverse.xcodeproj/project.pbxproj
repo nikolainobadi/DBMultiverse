@@ -409,12 +409,58 @@
 			path = SubViews;
 			sourceTree = "<group>";
 		};
+		D4CCE18E2D31ACF800F29B0B /* Start */ = {
+			isa = PBXGroup;
+			children = (
+				D46C707C2D1BB50600C217D6 /* AppLauncher.swift */,
+				E8A095BC2CE0941200D28E3F /* DBMultiverseApp.swift */,
+				D46C707E2D1BB55500C217D6 /* TestApp.swift */,
+			);
+			path = Start;
+			sourceTree = "<group>";
+		};
+		D4CCE18F2D31ADAB00F29B0B /* Platforms */ = {
+			isa = PBXGroup;
+			children = (
+				D45F17572D2E052E006362E8 /* iPhone */,
+				D45F175A2D2E07AB006362E8 /* iPad */,
+			);
+			path = Platforms;
+			sourceTree = "<group>";
+		};
+		D4CCE1902D31ADCB00F29B0B /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				D495980E2D0B762E00B4493F /* HapticButton.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		D4CCE1912D31ADDC00F29B0B /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				D4D32FB22D2CD44E0059DA27 /* Constants.swift */,
+				D4BA43642D3092A800D6EAF6 /* URLFactory.swift */,
+				E8D4ED1F2CE721CA005ED4BC /* String+Extensions.swift */,
+				E84A2CE52CFC463300FAF001 /* CustomError.swift */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
+		D4CCE1922D31ADEF00F29B0B /* Language */ = {
+			isa = PBXGroup;
+			children = (
+				D4BA43622D30918E00D6EAF6 /* ComicLanguage.swift */,
+				D4C86AD62D30A0430075D091 /* LanguagePicker.swift */,
+			);
+			path = Language;
+			sourceTree = "<group>";
+		};
 		D4D32FAE2D2CD2550059DA27 /* Launch */ = {
 			isa = PBXGroup;
 			children = (
 				D4D32FAF2D2CD25C0059DA27 /* LaunchView.swift */,
 				D4D32FAC2D2CCE1D0059DA27 /* WelcomeView.swift */,
-				D4C86AD62D30A0430075D091 /* LanguagePicker.swift */,
 			);
 			path = Launch;
 			sourceTree = "<group>";
@@ -422,12 +468,9 @@
 		D4D32FB12D2CD4480059DA27 /* Shared */ = {
 			isa = PBXGroup;
 			children = (
-				E84A2CE52CFC463300FAF001 /* CustomError.swift */,
-				E8D4ED1F2CE721CA005ED4BC /* String+Extensions.swift */,
-				D495980E2D0B762E00B4493F /* HapticButton.swift */,
-				D4D32FB22D2CD44E0059DA27 /* Constants.swift */,
-				D4BA43622D30918E00D6EAF6 /* ComicLanguage.swift */,
-				D4BA43642D3092A800D6EAF6 /* URLFactory.swift */,
+				D4CCE1902D31ADCB00F29B0B /* Views */,
+				D4CCE1912D31ADDC00F29B0B /* Utilities */,
+				D4CCE1922D31ADEF00F29B0B /* Language */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -452,22 +495,21 @@
 			path = SwiftData;
 			sourceTree = "<group>";
 		};
-		E85DBC762CE5DCA400B97513 /* Main */ = {
+		E85DBC762CE5DCA400B97513 /* Core */ = {
 			isa = PBXGroup;
 			children = (
 				E84A2CE32CFC435800FAF001 /* MainFeaturesView.swift */,
 				D42036B72D2F21BF00F0A1D0 /* MainFeaturesViewModel.swift */,
 				D408B02D2D2F6E550006ECC6 /* DeepLinkNavigationViewModifier.swift */,
 			);
-			path = Main;
+			path = Core;
 			sourceTree = "<group>";
 		};
 		E88C4C572CE32F6D00CF3D0C /* App */ = {
 			isa = PBXGroup;
 			children = (
-				D46C707C2D1BB50600C217D6 /* AppLauncher.swift */,
-				E8A095BC2CE0941200D28E3F /* DBMultiverseApp.swift */,
-				D46C707E2D1BB55500C217D6 /* TestApp.swift */,
+				D4CCE18E2D31ACF800F29B0B /* Start */,
+				D4D32FAE2D2CD2550059DA27 /* Launch */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -475,10 +517,9 @@
 		E88C4C582CE32F7200CF3D0C /* MainFeatures */ = {
 			isa = PBXGroup;
 			children = (
-				E85DBC762CE5DCA400B97513 /* Main */,
-				D45F175A2D2E07AB006362E8 /* iPad */,
-				D45F17572D2E052E006362E8 /* iPhone */,
+				E85DBC762CE5DCA400B97513 /* Core */,
 				E8B1AFAF2CFEDCD100BB9F9C /* Comic */,
+				D4CCE18F2D31ADAB00F29B0B /* Platforms */,
 				D4DD9B752D0A721E00A16227 /* Settings */,
 				D42036B42D2F156E00F0A1D0 /* Adapters */,
 				D4D32FB12D2CD4480059DA27 /* Shared */,
@@ -490,7 +531,6 @@
 			isa = PBXGroup;
 			children = (
 				E88C4C572CE32F6D00CF3D0C /* App */,
-				D4D32FAE2D2CD2550059DA27 /* Launch */,
 				E88C4C582CE32F7200CF3D0C /* MainFeatures */,
 				D4FF65812D09408F0023988F /* SwiftData */,
 				D4BA436F2D309B1900D6EAF6 /* Networking */,

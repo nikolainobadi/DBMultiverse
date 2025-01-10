@@ -15,14 +15,14 @@ public enum ComicHTMLParser {
             let document = try SwiftSoup.parse(html)
             
             guard let imgElement = try document.select("img[id=balloonsimg]").first() else {
-                throw ComicParseError.imageNotFoundError
+                throw ComicParseError.imageElementNotFound
             }
             
             return try imgElement.attr("src")
         } catch let error as ComicParseError {
             throw error // Re-throw the specific ComicParseError
         } catch {
-            throw ComicParseError.imageSourceError // Wrap any other error
+            throw ComicParseError.invalidImageSource // Wrap any other error
         }
     }
     
@@ -56,7 +56,7 @@ public enum ComicHTMLParser {
             
             return allChapters
         } catch {
-            throw ComicParseError.chapterListParsingError
+            throw ComicParseError.chapterListParsingFailure
         }
     }
 }
@@ -66,7 +66,7 @@ public enum ComicHTMLParser {
 private extension ComicHTMLParser {
     static func makeHTML(from data: Data) throws -> String {
         guard let html = String(data: data, encoding: .utf8) else {
-            throw ComicParseError.missingHTML
+            throw ComicParseError.missingHTMLDocument
         }
         
         return html
@@ -99,50 +99,48 @@ private extension ComicHTMLParser {
             // Extract the chapter title
             let chapterTitle = try element.select("h4").text()
             
-            // Use regex to find the first number in the title (before the colon)
+            // Extract the chapter number using regex
             let numberPattern = #"\b(\d+)\b"#
-            let numberMatch = chapterTitle.range(of: numberPattern, options: .regularExpression)
+            let chapterNumber = chapterTitle.range(of: numberPattern, options: .regularExpression)
+                .flatMap { Int(chapterTitle[$0]) }
             
-            // Extract the chapter number
-            let chapterNumber: Int?
-            if let numberMatch = numberMatch {
-                let numberString = String(chapterTitle[numberMatch])
-                chapterNumber = Int(numberString)
-            } else {
-                chapterNumber = nil // No number found
+            // Ensure chapter number exists
+            guard let number = chapterNumber else {
+                throw ComicParseError.invalidChapterNumber
             }
             
-            // Extract everything after the first colon
-            let cleanedTitle: String
-            if let colonRange = chapterTitle.range(of: ":") {
-                cleanedTitle = String(chapterTitle[colonRange.upperBound...]).trimmingCharacters(in: .whitespacesAndNewlines)
-            } else {
-                cleanedTitle = chapterTitle // Fallback in case there's no colon
-            }
+            // Extract and clean the chapter title (everything after the colon, if present)
+            let cleanedTitle = chapterTitle
+                .split(separator: ":", maxSplits: 1)
+                .dropFirst()
+                .joined(separator: ":")
+                .trimmingCharacters(in: .whitespacesAndNewlines)
             
-            // Ensure chapter number exists (skip invalid entries)
-            guard let number = chapterNumber else { return nil }
-            
-            // Extract page links
+            // Extract page links and parse start and end pages
             let pageLinks = try element.select("p a")
-            
             guard
-                let startPageText = try? pageLinks.first()?.text(), let startPage = Int(startPageText),
-                let endPageText = try? pageLinks.last()?.text(), let endPage = Int(endPageText)
+                let startPage = try pageLinks.first().flatMap({ Int(try $0.text()) }),
+                let endPage = try pageLinks.last().flatMap({ Int(try $0.text()) })
             else {
-                return nil
+                throw ComicParseError.missingPageLinks
             }
-                
-            // Extract the cover image URL
-            let coverImageElement = try element.select("img").first()
-            let coverImageURL = try coverImageElement?.attr("src") ?? ""
             
-            // Return the parsed Chapter object
-            return .init(name: cleanedTitle, number: number, startPage: startPage, endPage: endPage, universe: universe, coverImageURL: coverImageURL)
+            // Extract the cover image URL
+            let coverImageURL = try element.select("img").first()?.attr("src") ?? ""
+            
+            // Return the parsed chapter object
+            return .init(
+                name: cleanedTitle,
+                number: number,
+                startPage: startPage,
+                endPage: endPage,
+                universe: universe,
+                coverImageURL: coverImageURL
+            )
         } catch let error as ComicParseError {
             throw error // Re-throw specific parsing errors
         } catch {
-            throw ComicParseError.generalParseError // Wrap other errors in a general parsing error
+            throw ComicParseError.generalParsingFailure // Wrap other errors in a general parsing error
         }
     }
 }

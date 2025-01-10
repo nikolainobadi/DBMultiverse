@@ -21,7 +21,7 @@ struct MainFeaturesView: View {
                     ComicPageFeatureView(viewModel: .customInit(route: route, store: viewModel, chapterList: chapterList))
                 }
         } settingsContent: {
-            SettingsFeatureNavStack(viewModel: .init())
+            SettingsFeatureNavStack(viewModel: .init(), withDismissButton: isPad)
         }
         .asyncTask {
             try await viewModel.loadData()

@@ -13,6 +13,8 @@ struct SettingsFeatureNavStack: View {
     @State private var showingCacheList = false
     @StateObject var viewModel: SettingsViewModel
     
+    let withDismissButton: Bool
+    
     var body: some View {
         NavStack(title: "Settings") {
             VStack {
@@ -68,11 +70,13 @@ struct SettingsFeatureNavStack: View {
             .overlay(alignment: .bottom) {
                 Text(NnAppVersionCache.getDeviceVersionDetails(mainBundle: .main))
                     .font(.caption)
+                    .padding()
             }
             .onAppear {
                 viewModel.loadCachedChapters()
             }
             .animation(.easeInOut, value: viewModel.cachedChapters)
+            .withNavBarDismissButton(isActive: withDismissButton, dismissType: .xmark)
             .showingAlert("Error", message: "Something went wrong when trying to clear the caches folder", isPresented: $viewModel.showingErrorAlert)
             .showingAlert("Cached Cleared!", message: "All images have been removed from the caches folder", isPresented: $viewModel.showingClearedCacheAlert)
             .navigationDestination(isPresented: $showingCacheList) {
@@ -93,5 +97,5 @@ struct SettingsFeatureNavStack: View {
 
 // MARK: - Preview
 #Preview {
-    SettingsFeatureNavStack(viewModel: .init())
+    SettingsFeatureNavStack(viewModel: .init(), withDismissButton: true)
 }

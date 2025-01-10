@@ -8,6 +8,7 @@
 import Foundation
 
 final class SettingsViewModel: ObservableObject {
+    @Published var route: SettingsRoute?
     @Published var showingErrorAlert = false
     @Published var showingClearedCacheAlert = false
     @Published var cachedChapters: [CachedChapter] = []
@@ -22,9 +23,14 @@ final class SettingsViewModel: ObservableObject {
 
 // MARK: - Actions
 extension SettingsViewModel {
+    func showView(_ route: SettingsRoute) {
+        self.route = route
+    }
+    
     func makeURL(for link: SettingsLinkItem, language: ComicLanguage) -> URL? {
         return URLFactory.makeURL(language: language, pathComponent: link.pathComponent)
     }
+    
     /// Clears all cached data from the app's cache directory.
     func clearCache() {
         let cacheDirectory = fileManager.urls(for: .cachesDirectory, in: .userDomainMask).first!
@@ -58,4 +64,10 @@ extension SettingsViewModel {
         }
         cachedChapters = chapters
     }
+}
+
+
+// MARK: - Dependencies
+enum SettingsRoute {
+    case cacheList, languageSelection
 }

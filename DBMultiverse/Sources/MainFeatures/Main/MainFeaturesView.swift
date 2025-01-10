@@ -30,6 +30,9 @@ struct MainFeaturesView: View {
         .asyncTask {
             try await viewModel.loadData(language: language)
         }
+        .asyncOnChange(of: language) { newLanguage in
+            try await viewModel.loadData(language: newLanguage)
+        }
         .syncChaptersWithSwiftData(chapters: viewModel.chapters)
         .withDeepLinkNavigation(path: $path, chapters: chapterList.chapters)
         .onChange(of: viewModel.nextChapterToRead) { _, newValue in

@@ -1,10 +1,6 @@
 
 # DBMultiverse
 
-<div align="center">
-  <img src="media/appIcon.jpeg" alt="App Icon" height="200" width="300"/>
-</div>
-
 A fan-made companion app for the [DragonBall Multiverse](https://www.dragonball-multiverse.com) website. 
 
 I created this app independently, with permission from the creators of DragonBall Multiverse, to enhance your experience with the webcomic. The app is not affiliated with or developed by the official DragonBall Multiverse team.

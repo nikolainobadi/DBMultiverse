@@ -46,7 +46,6 @@ extension ComicPageManager: ComicPageDelegate {
         for page in pages {
             if !page.isSecondPage {
                 if let cachedInfo = try? imageCache.loadCachedImage(chapter: chapter.number, page: page) {
-                    print("found page \(page) in cache for chapter \(chapter.number)")
                     infoList.append(cachedInfo)
                 } else if let fetchedInfo = await fetchPageInfo(page: page) {
                     infoList.append(fetchedInfo)
@@ -78,7 +77,6 @@ private extension ComicPageManager {
     }
     
     func fetchPageInfo(page: Int) async -> PageInfo? {
-        print("fetching page \(page) for chapter \(chapter.number)")
         do {
             let url = URLFactory.makeURL(language: language, pathComponent: .comicPage(page))
             let imageData = try await networkService.fetchImageData(from: url)

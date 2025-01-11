@@ -1,30 +1,31 @@
 
 # DBMultiverse
 
-A fan-made companion app for the [DragonBall Multiverse](https://www.dragonball-multiverse.com) website. 
-
-I created this app independently, with permission from the creators of DragonBall Multiverse, to enhance your experience with the webcomic. The app is not affiliated with or developed by the official DragonBall Multiverse team.
+DBMultiverse is an iOS application designed to enhance the experience of reading and managing the DragonBall Multiverse webcomic. The app integrates several modules, each providing specific functionality to ensure a seamless and enjoyable user experience.
 
 ## Table of Contents
+
 - [Overview](#overview)
 - [Screenshots](#screenshots)
   - [iPhone Screenshots](#iphone-screenshots)
   - [iPad Screenshots](#ipad-screenshots)
-- [Installation](#installation)
-  - [Install with Xcode](docs/XcodeInstallation.md)
-- [Developer Overview](#developer-overview)
-  - [Features](#features)
-  - [Architecture](#architecture)
-  - [Key Components](#key-components)
-  - [How to Contribute](#how-to-contribute)
+- [Installation](docs/XcodeInstallation.md)
+- [Modules](#modules)
+    - [DBMultiverse](docs/DBMultiverse_Documentation.md)
+    - [ComicKit](docs/DBMultiverseComicKit_Documentation.md)
+    - [ParseKit](docs/DBMultiverseParseKit_Documentation.md)
+    - [Widgets](docs/DBMultiverseWidgets_Documentation.md)
 
----
+- [License](LICENSE)
 
 ## Overview
 
-The **DBMultiverse** app is a Swift-based iOS and iPadOS application designed to provide quick access to the DragonBall Multiverse webcomic, cached chapters, and additional functionality like clearing cache and exploring special universe sections. Whether you're a fan looking for an easier way to interact with the comic or a developer interested in the project’s architecture, this app is for you.
+DBMultiverse is built with modularity in mind, utilizing distinct modules for:
+- Parsing webcomic data from HTML sources (ParseKit).
+- Managing and displaying comic chapters and pages (ComicKit).
+- Extending functionality via home screen widgets (Widgets).
 
----
+Each module is documented in detail, and their integration is explained within the core [DBMultiverse Documentation](docs/DBMultiverse_Documentation.md).
 
 ## Screenshots
 
@@ -54,55 +55,50 @@ The **DBMultiverse** app is a Swift-based iOS and iPadOS application designed to
   </tr>
 </table>
 
----
-
 ## Installation
 
-This app can be installed using either of the following methods:
+To install the app using Xcode:
 
-1. **[Install with Xcode](docs/XcodeInstallation.md)**: Follow this guide to build and install the app directly from Xcode.
+1. **Open** Xcode (or **Download** it from the [Mac App Store](https://apps.apple.com/us/app/xcode/id497799835?mt=12)).
+2. **Clone the project** from the [GitHub repository](https://github.com/nikolainobadi/DBMultiverse).
+3. **Open the project** in Xcode by selecting the `DBMultiverse.xcodeproj` file.
+4. **Connect your iPhone or iPad** and select it as the target device in Xcode.
+5. **Run the app** by clicking the play button in Xcode.
 
----
+For detailed installation steps, refer to the [Xcode Installation Guide](docs/XcodeInstallation.md).
 
-## Developer Overview
+## Modules
 
-This section is for developers interested in the technical details of the project.
+The **DBMultiverse** app is architected with modularity at its core, leveraging the separation of concerns to ensure scalability, maintainability, and ease of testing. Each module has a clearly defined purpose:
 
-### Features
+### 1. Core Application
+- **Documentation**: [DBMultiverse](docs/DBMultiverse_Documentation.md)
+- **Purpose**: Acts as the central layer that integrates functionality from all modules, orchestrating the primary app logic and navigation.
 
-- **Cached Chapters:** Users can view and manage cached chapters locally on their device.
-- **Special Universe Sections:** Explore chapters grouped by their universe.
-- **Web Links:** Direct access to DragonBall Multiverse webcomic pages.
-- **Error Handling:** Alerts for cache clearing or data loading issues.
+### 2. ComicKit Module
+- **Documentation**: [ComicKit](docs/DBMultiverseComicKit_Documentation.md)
+- **Purpose**: Manages comic-related functionality, including chapter handling, caching, and displaying comic pages with interactive features.
 
-### Architecture
+### 3. ParseKit Module
+- **Documentation**: [ParseKit](docs/DBMultiverseParseKit_Documentation.md)
+- **Purpose**: Responsible for parsing HTML data to extract comic metadata dynamically, enabling updates and ensuring accurate content delivery.
 
-The app is designed with modularity and clean separation of concerns in mind:
+### 4. Widgets Module
+- **Documentation**: [Widgets](docs/DBMultiverseWidgets_Documentation.md)
+- **Purpose**: Extends the app’s functionality to the home screen, providing widgets that display chapter progress and enable quick navigation.
 
-- **MVVM Architecture:** Combines `View`, `ViewModel`, and `Model` layers for scalable and testable code.
-- **SwiftData Integration:** Simplifies data persistence and management.
-- **Composable Views:** Built with SwiftUI for a responsive and declarative UI.
+### Architecture and Benefits
+The **DBMultiverse** app’s modular architecture provides numerous benefits:
+- **Reduced Coupling**: Each module operates independently, allowing easier updates and maintenance without impacting other parts of the app.
+- **Scalability**: Adding new features or expanding existing ones is simplified due to the modular structure.
+- **Ease of Testing**: Modules can be tested in isolation, ensuring robust functionality and easier debugging.
+- **Code Reuse**: Core components, such as **ComicKit**, can be reused across different projects.
 
-### Key Components
-
-#### 1. **Data Layer**
-   - `ChapterListRepository`: Manages loading, caching, and organizing chapter data.
-   - `ChapterDataStore Protocol`: Defines the interface for data fetching.
-   - `ChapterLoaderAdapter`: Handles remote data loading and parsing using `SwiftSoup`.
-
-#### 2. **UI Layer**
-   - Built entirely with **SwiftUI**.
-   - Includes reusable custom components like `DynamicSection` and `HapticButton`.
-
-#### 3. **Persistence**
-   - **SwiftData**: Used to persist chapters and maintain state across app sessions.
-
-### How to Contribute
-
-Any feedback or ideas to enhance `DBMultiverse` would be well received. Please feel free to [open an issue](https://github.com/nikolainobadi/DBMultiverse/issues/new) if you'd like to help improve this project.
-
----
+The modules fit together seamlessly:
+- **ParseKit** supplies structured data to **ComicKit**, which processes and presents it.
+- The core **DBMultiverse** app integrates these features to provide the main user experience.
+- **Widgets** consume data from **ComicKit** to deliver dynamic and interactive home screen functionality.
 
 ## License
 
-`DBMultiverse` is available under the MIT license. See the LICENSE file for more information.
+This project is licensed under the terms specified in the [LICENSE](LICENSE) file.

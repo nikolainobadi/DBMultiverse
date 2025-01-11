@@ -84,10 +84,6 @@ extension ComicPageManagerTests {
     func makePageInfo(page: Int, secondPage: Int? = nil) -> PageInfo {
         return .init(chapter: 1, pageNumber: page, secondPageNumber: secondPage, imageData: .init())
     }
-    
-    func makeChapter(name: String = "first", startPage: Int = 0, endPage: Int = 20) -> Chapter {
-        return .init(name: name, number: 1, startPage: startPage, endPage: endPage, universe: nil, lastReadPage: nil, coverImageURL: "", didFinishReading: false)
-    }
 }
 
 

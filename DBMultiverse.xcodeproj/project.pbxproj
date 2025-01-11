@@ -41,6 +41,8 @@
 		D495980F2D0B762E00B4493F /* HapticButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = D495980E2D0B762E00B4493F /* HapticButton.swift */; };
 		D49598182D0B82D700B4493F /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49598172D0B82D700B4493F /* SettingsViewModel.swift */; };
 		D4B7BD0C2D31E41A00219889 /* ComicPageManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B7BD0B2D31E41A00219889 /* ComicPageManagerTests.swift */; };
+		D4B7BD0E2D31EC1500219889 /* MainFeaturesViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B7BD0D2D31EC1500219889 /* MainFeaturesViewModelTests.swift */; };
+		D4B7BD102D31ECF900219889 /* XCTestCase+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B7BD0F2D31ECF900219889 /* XCTestCase+Extensions.swift */; };
 		D4BA43602D3080F600D6EAF6 /* ComicPageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BA435F2D3080F600D6EAF6 /* ComicPageManager.swift */; };
 		D4BA43632D30918E00D6EAF6 /* ComicLanguage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BA43622D30918E00D6EAF6 /* ComicLanguage.swift */; };
 		D4BA43652D3092A800D6EAF6 /* URLFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BA43642D3092A800D6EAF6 /* URLFactory.swift */; };
@@ -146,6 +148,8 @@
 		D495980E2D0B762E00B4493F /* HapticButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticButton.swift; sourceTree = "<group>"; };
 		D49598172D0B82D700B4493F /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
 		D4B7BD0B2D31E41A00219889 /* ComicPageManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComicPageManagerTests.swift; sourceTree = "<group>"; };
+		D4B7BD0D2D31EC1500219889 /* MainFeaturesViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainFeaturesViewModelTests.swift; sourceTree = "<group>"; };
+		D4B7BD0F2D31ECF900219889 /* XCTestCase+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTestCase+Extensions.swift"; sourceTree = "<group>"; };
 		D4BA435F2D3080F600D6EAF6 /* ComicPageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComicPageManager.swift; sourceTree = "<group>"; };
 		D4BA43622D30918E00D6EAF6 /* ComicLanguage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComicLanguage.swift; sourceTree = "<group>"; };
 		D4BA43642D3092A800D6EAF6 /* URLFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLFactory.swift; sourceTree = "<group>"; };
@@ -324,6 +328,8 @@
 			isa = PBXGroup;
 			children = (
 				D4B7BD0B2D31E41A00219889 /* ComicPageManagerTests.swift */,
+				D4B7BD0D2D31EC1500219889 /* MainFeaturesViewModelTests.swift */,
+				D4B7BD0F2D31ECF900219889 /* XCTestCase+Extensions.swift */,
 			);
 			path = UnitTests;
 			sourceTree = "<group>";
@@ -740,6 +746,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D4B7BD0E2D31EC1500219889 /* MainFeaturesViewModelTests.swift in Sources */,
+				D4B7BD102D31ECF900219889 /* XCTestCase+Extensions.swift in Sources */,
 				D4B7BD0C2D31E41A00219889 /* ComicPageManagerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

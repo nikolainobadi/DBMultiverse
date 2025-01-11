@@ -26,8 +26,11 @@ final class ComicImageCacheAdapter {
 // MARK: - Cache
 extension ComicImageCacheAdapter: ComicImageCache {
     func updateCurrentPageNumber(_ pageNumber: Int, readProgress: Int) {
-        viewModel.updateCurrentPageNumber(pageNumber, comicType: comicType)
         coverImageCache.updateProgress(to: readProgress)
+        
+        DispatchQueue.main.async { [unowned self] in 
+            viewModel.updateCurrentPageNumber(pageNumber, comicType: comicType)
+        }
     }
     
     func saveChapterCoverImage(imageData: Data, metadata: CoverImageMetaData) throws {

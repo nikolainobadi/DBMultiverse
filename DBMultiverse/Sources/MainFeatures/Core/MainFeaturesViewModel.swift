@@ -11,13 +11,16 @@ import DBMultiverseComicKit
 final class MainFeaturesViewModel: ObservableObject {
     @Published var chapters: [Chapter] = []
     @Published var nextChapterToRead: Chapter?
-    @AppStorage(.lastReadSpecialPage) var lastReadSpecialPage: Int = 168
-    @AppStorage(.lastReadMainStoryPage) var lastReadMainStoryPage: Int = 0
+    @AppStorage var lastReadSpecialPage: Int
+    @AppStorage var lastReadMainStoryPage: Int
     
     private let loader: ChapterLoader
     
-    init(loader: ChapterLoader) {
+    init(loader: ChapterLoader, userDefaults: UserDefaults? = .standard) {
         self.loader = loader
+        
+        self._lastReadSpecialPage = .init(wrappedValue: 168, .lastReadSpecialPage, store: userDefaults)
+        self._lastReadMainStoryPage = .init(wrappedValue: 0, .lastReadMainStoryPage, store: userDefaults)
     }
 }
 
@@ -36,7 +39,7 @@ extension MainFeaturesViewModel {
     }
     
     func updateCurrentPageNumber(_ pageNumber: Int, comicType: ComicType) {
-        Task { @MainActor [unowned self] in
+//        Task { @MainActor [unowned self] in
             switch comicType {
             case .story:
                 print("updated last read story page")
@@ -45,7 +48,7 @@ extension MainFeaturesViewModel {
                 print("updating last read special page")
                 lastReadSpecialPage = pageNumber
             }
-        }
+//        }
     }
     
     func getCurrentPageNumber(for type: ComicType) -> Int {

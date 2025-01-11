@@ -31,24 +31,16 @@ extension MainFeaturesViewModel {
         let url = URLFactory.makeURL(language: language, pathComponent: .chapterList)
         let fetchedList = try await loader.loadChapters(url: url)
         
-        print("---------- fetched chapters ----------")
-        print("fetched \(fetchedList.count) chapters")
-        print("---------- end fetched chapters ----------\n\n")
-        
         await setChapters(fetchedList)
     }
     
     func updateCurrentPageNumber(_ pageNumber: Int, comicType: ComicType) {
-//        Task { @MainActor [unowned self] in
-            switch comicType {
-            case .story:
-                print("updated last read story page")
-                lastReadMainStoryPage = pageNumber
-            case .specials:
-                print("updating last read special page")
-                lastReadSpecialPage = pageNumber
-            }
-//        }
+        switch comicType {
+        case .story:
+            lastReadMainStoryPage = pageNumber
+        case .specials:
+            lastReadSpecialPage = pageNumber
+        }
     }
     
     func getCurrentPageNumber(for type: ComicType) -> Int {

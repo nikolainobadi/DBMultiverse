@@ -45,6 +45,8 @@ struct SwiftDataChapterStorageViewModifier: ViewModifier {
 }
 
 extension View {
+    /// Synchronizes a list of `Chapter` objects with SwiftData storage by applying the `SwiftDataChapterStorageViewModifier`.
+    /// - Parameter chapters: The list of `Chapter` objects to sync.
     func syncChaptersWithSwiftData(chapters: [Chapter]) -> some View {
         modifier(SwiftDataChapterStorageViewModifier(chapters: chapters))
     }

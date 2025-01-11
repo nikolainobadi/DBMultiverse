@@ -8,12 +8,26 @@
 import Foundation
 import DBMultiverseComicKit
 
+/// An adapter that implements the `ComicImageCache` protocol, providing functionality for caching comic images, managing chapter progress, and interacting with the filesystem.
 final class ComicImageCacheAdapter {
+    /// The type of comic (e.g., story or specials) for which the adapter is responsible.
     private let comicType: ComicType
+    
+    /// The file manager instance used for accessing and modifying the file system.
     private let fileManager: FileManager
+    
+    /// The main features view model used for updating page progress.
     private let viewModel: MainFeaturesViewModel
+    
+    /// A shared cache for storing cover images and progress metadata.
     private let coverImageCache: CoverImageCache
     
+    /// Initializes the `ComicImageCacheAdapter` with its dependencies.
+    /// - Parameters:
+    ///   - comicType: The type of comic (story or specials).
+    ///   - viewModel: The main features view model for managing chapter progress.
+    ///   - fileManager: The file manager instance for file operations. Defaults to `.default`.
+    ///   - coverImageCache: The shared cache for cover images. Defaults to `.shared`.
     init(comicType: ComicType, viewModel: MainFeaturesViewModel, fileManager: FileManager = .default, coverImageCache: CoverImageCache = .shared) {
         self.comicType = comicType
         self.viewModel = viewModel
@@ -22,21 +36,35 @@ final class ComicImageCacheAdapter {
     }
 }
 
-
 // MARK: - Cache
 extension ComicImageCacheAdapter: ComicImageCache {
+    /// Updates the current page number and read progress in the cache.
+    /// - Parameters:
+    ///   - pageNumber: The current page number being read.
+    ///   - readProgress: The read progress as a percentage.
     func updateCurrentPageNumber(_ pageNumber: Int, readProgress: Int) {
         coverImageCache.updateProgress(to: readProgress)
         
-        DispatchQueue.main.async { [unowned self] in 
+        DispatchQueue.main.async { [unowned self] in
             viewModel.updateCurrentPageNumber(pageNumber, comicType: comicType)
         }
     }
     
+    /// Saves a chapter cover image and its metadata to the cache.
+    /// - Parameters:
+    ///   - imageData: The image data of the cover.
+    ///   - metadata: The metadata associated with the cover image.
+    /// - Throws: An error if the image data cannot be saved.
     func saveChapterCoverImage(imageData: Data, metadata: CoverImageMetaData) throws {
         coverImageCache.saveCurrentChapterData(imageData: imageData, metadata: metadata)
     }
     
+    /// Loads a cached image for a specific chapter and page.
+    /// - Parameters:
+    ///   - chapter: The chapter number.
+    ///   - page: The page number.
+    /// - Returns: The cached `PageInfo` object if available.
+    /// - Throws: An error if the image cannot be loaded.
     func loadCachedImage(chapter: Int, page: Int) throws -> PageInfo? {
         let singlePagePath = getCacheDirectory(for: chapter, page: page)
         
@@ -63,6 +91,9 @@ extension ComicImageCacheAdapter: ComicImageCache {
         return nil
     }
     
+    /// Saves a page image and its metadata to the cache.
+    /// - Parameter pageInfo: The `PageInfo` object containing image data and metadata.
+    /// - Throws: An error if the image data or metadata cannot be saved.
     func savePageImage(pageInfo: PageInfo) throws {
         let filePath = getCacheDirectory(for: pageInfo.chapter, page: pageInfo.pageNumber, secondPageNumber: pageInfo.secondPageNumber)
         let chapterFolder = filePath.deletingLastPathComponent()
@@ -95,9 +126,14 @@ extension ComicImageCacheAdapter: ComicImageCache {
     }
 }
 
-
 // MARK: - Private Methods
 private extension ComicImageCacheAdapter {
+    /// Constructs the file path for caching a page image.
+    /// - Parameters:
+    ///   - chapter: The chapter number.
+    ///   - page: The page number.
+    ///   - secondPageNumber: The second page number if applicable.
+    /// - Returns: A `URL` representing the file path in the cache directory.
     func getCacheDirectory(for chapter: Int, page: Int, secondPageNumber: Int? = nil) -> URL {
         let cacheDirectory = fileManager.urls(for: .cachesDirectory, in: .userDomainMask).first!
         let fileName = secondPageNumber != nil ? "Page_\(page)-\(secondPageNumber!).jpg" : "Page_\(page).jpg"

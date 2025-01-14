@@ -89,7 +89,3 @@ To install the DBMultiverse app on your device, you will need to 'sign the app' 
 2. Open the **Signing & Capabilities** tab.
 3. Under **Team**, select your Apple ID or Developer Program team.
 4. If your Apple ID isn't listed, click **Add an Account** and log in with your credentials.
-
----
-
-For additional details or troubleshooting, return to the main [README](../README.md).

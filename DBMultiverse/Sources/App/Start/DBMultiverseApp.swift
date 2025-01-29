@@ -16,7 +16,7 @@ struct DBMultiverseApp: App {
                 .withNnLoadingView()
                 .withNnErrorHandling()
                 .preferredColorScheme(.dark)
-                .initializeSwiftDataModelConatainer()
+                .initializeSwiftDataModelContainer()
         }
     }
 }

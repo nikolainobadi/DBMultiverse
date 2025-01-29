@@ -21,7 +21,7 @@ struct SwiftDataInitializerViewModifier: ViewModifier {
 
 extension View {
     /// Adds a SwiftData model container to the view, enabling persistence for the specified SwiftData model.
-    func initializeSwiftDataModelConatainer() -> some View {
+    func initializeSwiftDataModelContainer() -> some View {
         modifier(SwiftDataInitializerViewModifier())
     }
 }

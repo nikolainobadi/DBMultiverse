@@ -50,7 +50,7 @@ extension MainFeaturesViewModelTests {
     
     func test_loads_and_sets_chapters_correctly() async {
         let chaptersToLoad = [makeChapter(name: "Chapter 1"), makeChapter(name: "Chapter 2")]
-        let (sut, loader) = makeSUT(chaptersToLoad: chaptersToLoad)
+        let sut = makeSUT(chaptersToLoad: chaptersToLoad).sut
         
         await asyncAssertNoErrorThrown {
             try await sut.loadData(language: .english)

@@ -12,7 +12,6 @@ import DBMultiverseComicKit
 struct WelcomeView: View {
     @Binding var language: ComicLanguage
     @State private var selectingLanguage = false
-    @State private var state: DisclaimerState = .first
     
     let getStarted: () -> Void
     
@@ -22,7 +21,7 @@ struct WelcomeView: View {
             
             Spacer()
             
-            DisclaimerView(state: $state)
+            DisclaimerView()
                 .showingConditionalView(when: selectingLanguage) {
                     VStack {
                         Text("Choose a language")
@@ -48,9 +47,7 @@ struct WelcomeView: View {
                 .buttonStyle(.borderedProminent)
             }
             .padding()
-            .onlyShow(when: state == .third)
         }
-        .animation(.smooth, value: state)
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
     }
 }
@@ -64,7 +61,7 @@ fileprivate struct WelcomeHeaderView: View {
                 .bold()
             
             HStack {
-                Text("Dragon Ball")
+                Text("DB")
                     .textLinearGradient(.yellowText)
                     
                 Text("Multiverse")

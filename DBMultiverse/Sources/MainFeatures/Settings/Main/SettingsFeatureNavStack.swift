@@ -37,7 +37,7 @@ struct SettingsFeatureNavStack: View {
                     CacheChapterListView(chapters: viewModel.cachedChapters)
                         .navigationTitle("Cached Chapters")
                 case .disclaimer:
-                    DisclaimerView(state: $viewModel.disclaimerState)
+                    DisclaimerView()
                 case .languageSelection:
                     LanguageSelectionView(selection: language) { updatedLanguage in
                         if updatedLanguage != language {

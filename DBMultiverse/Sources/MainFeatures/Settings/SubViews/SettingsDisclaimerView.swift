@@ -9,12 +9,10 @@ import SwiftUI
 import DBMultiverseComicKit
 
 struct SettingsDisclaimerView: View {
-    @State private var state: DisclaimerState = .first
-    
     var body: some View {
         VStack {
             ComicNavBar()
-            DisclaimerView(state: $state)
+            DisclaimerView()
         }
     }
 }

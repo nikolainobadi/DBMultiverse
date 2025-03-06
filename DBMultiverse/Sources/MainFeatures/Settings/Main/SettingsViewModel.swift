@@ -13,7 +13,6 @@ final class SettingsViewModel: ObservableObject {
     @Published var showingErrorAlert = false
     @Published var showingClearedCacheAlert = false
     @Published var cachedChapters: [CachedChapter] = []
-    @Published var disclaimerState: DisclaimerState = .first
 
     private let fileManager: FileManager
 

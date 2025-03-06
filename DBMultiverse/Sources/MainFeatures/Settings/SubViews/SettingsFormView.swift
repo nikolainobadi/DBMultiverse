@@ -15,15 +15,6 @@ struct SettingsFormView: View {
     
     var body: some View {
         Form {
-            Section {
-                Text("About the app")
-                    .withFont()
-                    .asRowItem(withChevron: true)
-                    .tappable {
-                        viewModel.showView(.disclaimer)
-                    }
-            }
-            
             DynamicSection("Cached Data") {
                 VStack {
                     Text("View Cached Chapters")

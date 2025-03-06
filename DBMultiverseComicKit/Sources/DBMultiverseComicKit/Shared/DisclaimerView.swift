@@ -11,9 +11,7 @@ import NnSwiftUIKit
 public struct DisclaimerView: View {
     let feedbackEmail = "iosdbmultiverse@gmail.com"
     
-    public init() {
-        
-    }
+    public init() { }
     
     public var body: some View {
         VStack {

@@ -34,10 +34,10 @@ public struct ComicNavBar: View {
     public var body: some View {
         VStack(spacing: 0) {
             HStack {
-                Text("DB")
+                Text("Multiverse")
                     .textLinearGradient(.yellowText)
     
-                Text("Multiverse")
+                Text("Reader")
                     .textLinearGradient(.redText)
             }
             .bold()

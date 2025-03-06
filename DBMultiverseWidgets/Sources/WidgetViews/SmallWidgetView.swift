@@ -42,9 +42,9 @@ struct SmallWidgetView: View {
                 Text("Read")
                     .padding(5)
                     .withFont(.caption2, textColor: .white)
-                Text("DB")
-                    .textLinearGradient(.yellowText)
                 Text("Multiverse")
+                    .textLinearGradient(.yellowText)
+                Text("Reader")
                     .textLinearGradient(.redText)
             }
             .withFont(autoSizeLineLimit: 1)

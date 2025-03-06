@@ -61,10 +61,10 @@ fileprivate struct WelcomeHeaderView: View {
                 .bold()
             
             HStack {
-                Text("DB")
+                Text("Multiverse")
                     .textLinearGradient(.yellowText)
                     
-                Text("Multiverse")
+                Text("Reader")
                     .textLinearGradient(.redText)
             }
             .padding(.horizontal)

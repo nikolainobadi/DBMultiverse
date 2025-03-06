@@ -61,9 +61,9 @@ struct MediumWidgetView: View {
                         .withFont(.caption, textColor: .white, autoSizeLineLimit: 1)
                     
                     HStack {
-                        Text("DB")
-                            .textLinearGradient(.yellowText)
                         Text("Multiverse")
+                            .textLinearGradient(.yellowText)
+                        Text("Reader")
                             .textLinearGradient(.redText)
                     }
                     .withFont(autoSizeLineLimit: 1)

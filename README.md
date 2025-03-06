@@ -1,7 +1,14 @@
 
-# DBMultiverse
+# Multiverse Reader
 
-DBMultiverse is an iOS application designed to enhance the experience of reading and managing the DragonBall Multiverse webcomic. The app integrates several modules, each providing specific functionality to ensure a seamless and enjoyable user experience.
+Multiverse Reader is an iOS application designed to enhance the experience of reading and managing the DB Multiverse webcomic. The app integrates several modules, each providing specific functionality to ensure a seamless and enjoyable user experience.
+
+## TestFlight
+If you just want access to the app, it has been approved for beta testing through TestFlight (Apple's own beta testing app). 
+
+[Install Multiverse Reader with TestFlight](https://testflight.apple.com/join/8B21HpTS)
+
+If you don't have TestFlight installed on your device, the link should first prompt you to install TestFlight, then you should be able to install Multiverse Reader. 
 
 ## Table of Contents
 
@@ -20,7 +27,7 @@ DBMultiverse is an iOS application designed to enhance the experience of reading
 
 ## Overview
 
-DBMultiverse is built with modularity in mind, utilizing distinct modules for:
+Multiverse Reader is built with modularity in mind, utilizing distinct modules for:
 - Parsing webcomic data from HTML sources (ParseKit).
 - Managing and displaying comic chapters and pages (ComicKit).
 - Extending functionality via home screen widgets (Widgets).
@@ -30,6 +37,7 @@ Each module is documented in detail, and their integration is explained within t
 ## Screenshots
 
 ### iPhone Screenshots
+(The name of the app changed. I'll get around to updating the screenshots soon.)
 
 <table>
   <tr>
@@ -43,6 +51,7 @@ Each module is documented in detail, and their integration is explained within t
 </table>
 
 ### iPad Screenshots
+(The name of the app changed. I'll get around to updating the screenshots soon.)
 
 <table>
   <tr>
@@ -72,7 +81,7 @@ For detailed installation steps, refer to the [Xcode Installation Guide](docs/Xc
 The **DBMultiverse** app is architected with modularity at its core, leveraging the separation of concerns to ensure scalability, maintainability, and ease of testing. Each module has a clearly defined purpose:
 
 ### 1. Core Application
-- **Documentation**: [DBMultiverse](docs/DBMultiverse_Documentation.md)
+- **Documentation**: [MultiverseReader](docs/DBMultiverse_Documentation.md)
 - **Purpose**: Acts as the central layer that integrates functionality from all modules, orchestrating the primary app logic and navigation.
 
 ### 2. ComicKit Module

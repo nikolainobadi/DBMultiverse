@@ -40,6 +40,7 @@
 		D47D010D2D2F60310064FEB2 /* DBMultiverseComicKit in Frameworks */ = {isa = PBXBuildFile; productRef = D47D010C2D2F60310064FEB2 /* DBMultiverseComicKit */; };
 		D495980F2D0B762E00B4493F /* HapticButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = D495980E2D0B762E00B4493F /* HapticButton.swift */; };
 		D49598182D0B82D700B4493F /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49598172D0B82D700B4493F /* SettingsViewModel.swift */; };
+		D4A701972DA1C890008D3530 /* NnSwiftDataKit in Frameworks */ = {isa = PBXBuildFile; productRef = D4A701962DA1C890008D3530 /* NnSwiftDataKit */; };
 		D4B7BD0C2D31E41A00219889 /* ComicPageManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B7BD0B2D31E41A00219889 /* ComicPageManagerTests.swift */; };
 		D4B7BD0E2D31EC1500219889 /* MainFeaturesViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B7BD0D2D31EC1500219889 /* MainFeaturesViewModelTests.swift */; };
 		D4B7BD102D31ECF900219889 /* XCTestCase+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B7BD0F2D31ECF900219889 /* XCTestCase+Extensions.swift */; };
@@ -53,7 +54,6 @@
 		D4C86AD92D30AB370075D091 /* CacheChapterListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C86AD82D30AB370075D091 /* CacheChapterListView.swift */; };
 		D4C86ADB2D30AB530075D091 /* LanguageSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C86ADA2D30AB530075D091 /* LanguageSelectionView.swift */; };
 		D4C86ADD2D30AB7D0075D091 /* SettingsFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C86ADC2D30AB7D0075D091 /* SettingsFormView.swift */; };
-		D4CCE1942D31AF1F00F29B0B /* SwiftDataInitializerViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4CCE1932D31AF1F00F29B0B /* SwiftDataInitializerViewModifier.swift */; };
 		D4CCE1972D31AFC700F29B0B /* WidgetSyncViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4CCE1962D31AFC700F29B0B /* WidgetSyncViewModifier.swift */; };
 		D4CCE19B2D31DDC300F29B0B /* SettingsDisclaimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4CCE19A2D31DDC300F29B0B /* SettingsDisclaimerView.swift */; };
 		D4D32FAD2D2CCE1D0059DA27 /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D32FAC2D2CCE1D0059DA27 /* WelcomeView.swift */; };
@@ -160,7 +160,6 @@
 		D4C86AD82D30AB370075D091 /* CacheChapterListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheChapterListView.swift; sourceTree = "<group>"; };
 		D4C86ADA2D30AB530075D091 /* LanguageSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageSelectionView.swift; sourceTree = "<group>"; };
 		D4C86ADC2D30AB7D0075D091 /* SettingsFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsFormView.swift; sourceTree = "<group>"; };
-		D4CCE1932D31AF1F00F29B0B /* SwiftDataInitializerViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftDataInitializerViewModifier.swift; sourceTree = "<group>"; };
 		D4CCE1962D31AFC700F29B0B /* WidgetSyncViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetSyncViewModifier.swift; sourceTree = "<group>"; };
 		D4CCE19A2D31DDC300F29B0B /* SettingsDisclaimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsDisclaimerView.swift; sourceTree = "<group>"; };
 		D4D32FAC2D2CCE1D0059DA27 /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
@@ -206,6 +205,7 @@
 			files = (
 				D4E498292D31A8ED007F6E1A /* DBMultiverseParseKit in Frameworks */,
 				D45F17562D2E0519006362E8 /* DBMultiverseComicKit in Frameworks */,
+				D4A701972DA1C890008D3530 /* NnSwiftDataKit in Frameworks */,
 				D46C707B2D1BB4F000C217D6 /* NnTestVariables in Frameworks */,
 				D45F17542D2DF8C5006362E8 /* NnSwiftUIKit in Frameworks */,
 			);
@@ -255,7 +255,6 @@
 			isa = PBXGroup;
 			children = (
 				D4DD9B732D0A6F5000A16227 /* PreviewModifiersViewModifier.swift */,
-				D4CCE1932D31AF1F00F29B0B /* SwiftDataInitializerViewModifier.swift */,
 				D42036BB2D2F38F100F0A1D0 /* SwiftDataChapterStorageViewModifier.swift */,
 			);
 			path = ViewModifiers;
@@ -662,6 +661,7 @@
 				D45F17532D2DF8C5006362E8 /* NnSwiftUIKit */,
 				D45F17552D2E0519006362E8 /* DBMultiverseComicKit */,
 				D4E498282D31A8ED007F6E1A /* DBMultiverseParseKit */,
+				D4A701962DA1C890008D3530 /* NnSwiftDataKit */,
 			);
 			productName = DBMultiverse;
 			productReference = E8A095B92CE0941200D28E3F /* DBMultiverse.app */;
@@ -675,7 +675,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1510;
-				LastUpgradeCheck = 1500;
+				LastUpgradeCheck = 1620;
 				TargetAttributes = {
 					D46C706D2D1BB4C000C217D6 = {
 						CreatedOnToolsVersion = 15.1;
@@ -702,6 +702,7 @@
 			packageReferences = (
 				D46C70692D1BB4A700C217D6 /* XCRemoteSwiftPackageReference "NnTestKit" */,
 				D45F17522D2DF8C5006362E8 /* XCRemoteSwiftPackageReference "NnSwiftUIKit" */,
+				D4A701952DA1C890008D3530 /* XCRemoteSwiftPackageReference "NnSwiftDataKit" */,
 			);
 			productRefGroup = E8A095BA2CE0941200D28E3F /* Products */;
 			projectDirPath = "";
@@ -803,7 +804,6 @@
 				D4C86ADB2D30AB530075D091 /* LanguageSelectionView.swift in Sources */,
 				D4BA436C2D30968500D6EAF6 /* ComicNetworkingManager.swift in Sources */,
 				D4C86AD92D30AB370075D091 /* CacheChapterListView.swift in Sources */,
-				D4CCE1942D31AF1F00F29B0B /* SwiftDataInitializerViewModifier.swift in Sources */,
 				D4FA44A82D2B5595004B8D12 /* CachedChapter.swift in Sources */,
 				D4D32FAD2D2CCE1D0059DA27 /* WelcomeView.swift in Sources */,
 				E8A095BD2CE0941200D28E3F /* DBMultiverseApp.swift in Sources */,
@@ -896,7 +896,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.0.0;
+				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.nobadi.DBMultiverse.DBMultiverseWidgets;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -928,7 +928,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.0.0;
+				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.nobadi.DBMultiverse.DBMultiverseWidgets;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1063,7 +1063,6 @@
 		E8A095C82CE0941400D28E3F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = DBMultiverse/Resources/DBMultiverse.entitlements;
@@ -1085,7 +1084,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.0;
+				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.nobadi.DBMultiverse;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -1100,7 +1099,6 @@
 		E8A095C92CE0941400D28E3F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = DBMultiverse/Resources/DBMultiverse.entitlements;
@@ -1122,7 +1120,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.0;
+				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.nobadi.DBMultiverse;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -1192,6 +1190,14 @@
 				minimumVersion = 1.0.0;
 			};
 		};
+		D4A701952DA1C890008D3530 /* XCRemoteSwiftPackageReference "NnSwiftDataKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/nikolainobadi/NnSwiftDataKit.git";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1217,6 +1223,11 @@
 		D47D010C2D2F60310064FEB2 /* DBMultiverseComicKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = DBMultiverseComicKit;
+		};
+		D4A701962DA1C890008D3530 /* NnSwiftDataKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D4A701952DA1C890008D3530 /* XCRemoteSwiftPackageReference "NnSwiftDataKit" */;
+			productName = NnSwiftDataKit;
 		};
 		D4E498282D31A8ED007F6E1A /* DBMultiverseParseKit */ = {
 			isa = XCSwiftPackageProductDependency;

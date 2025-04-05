@@ -7,6 +7,7 @@
 
 import SwiftUI
 import NnSwiftUIKit
+import NnSwiftDataKit
 
 struct DBMultiverseApp: App {
     var body: some Scene {
@@ -16,7 +17,7 @@ struct DBMultiverseApp: App {
                 .withNnLoadingView()
                 .withNnErrorHandling()
                 .preferredColorScheme(.dark)
-                .initializeSwiftDataModelContainer()
         }
+        .initializeSwiftDataModelContainer(schema: .init([SwiftDataChapter.self]))
     }
 }

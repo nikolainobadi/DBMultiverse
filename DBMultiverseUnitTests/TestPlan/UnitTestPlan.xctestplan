@@ -15,6 +15,11 @@
           "containerPath" : "container:DBMultiverse.xcodeproj",
           "identifier" : "E8A095B82CE0941200D28E3F",
           "name" : "DBMultiverse"
+        },
+        {
+          "containerPath" : "container:DBMultiverseComicKit",
+          "identifier" : "DBMultiverseComicKit",
+          "name" : "DBMultiverseComicKit"
         }
       ]
     },
@@ -27,6 +32,13 @@
         "containerPath" : "container:DBMultiverse.xcodeproj",
         "identifier" : "D46C706D2D1BB4C000C217D6",
         "name" : "DBMultiverseUnitTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:DBMultiverseComicKit",
+        "identifier" : "DBMultiverseComicKitTests",
+        "name" : "DBMultiverseComicKitTests"
       }
     }
   ],

@@ -221,31 +221,33 @@ final class ComicPageViewModelTests: TrackingMemoryLeaks {
     
     // MARK: - Background Loading Tests
     
-    @Test("Background loading fetches remaining pages after initial load")
-    func backgroundLoadingFetchesRemainingPages() async throws {
-        let initialPages = [makePageInfo(pageNumber: 3), makePageInfo(pageNumber: 4)]
-        let remainingPages = [makePageInfo(pageNumber: 1), makePageInfo(pageNumber: 2), makePageInfo(pageNumber: 5)]
+    @Test("Loading data triggers background loading of remaining pages")
+    func loadDataTriggersBackgroundLoading() async throws {
+        let initialPages = [makePageInfo(pageNumber: 3), makePageInfo(pageNumber: 4), makePageInfo(pageNumber: 5)]
+        let remainingPages = [makePageInfo(pageNumber: 1), makePageInfo(pageNumber: 2)]
+        let allPages = initialPages + remainingPages
         let chapter = makeChapter(startPage: 1, endPage: 5)
-        let (sut, delegate) = makeSUT(chapter: chapter, currentPageNumber: 3, currentPages: initialPages, pagesToLoad: remainingPages)
+        let sut = makeSUT(chapter: chapter, currentPageNumber: 3, pagesToLoad: allPages).sut
         
-        sut.loadRemainingPages()
+        try await sut.loadData()
+        try await sut.$didFetchInitialPages.waitUntil(condition: { $0 })
+        try await sut.$pages.waitUntil(condition: { $0.count == 5 })
         
-        try await sut.$pages.waitUntil(condition: { $0.count > initialPages.count })
-       
         #expect(sut.pages.count == 5)
         #expect(sut.pages.map(\.pageNumber).sorted() == [1, 2, 3, 4, 5])
     }
     
-    @Test("Background loading caches cover image when start page is loaded")
-    func backgroundLoadingCachesCoverImage() async throws {
+    @Test("Loading data caches cover image when start page is loaded in background")
+    func loadDataCachesCoverImageInBackground() async throws {
+        let initialPages = [makePageInfo(pageNumber: 2), makePageInfo(pageNumber: 3)]
         let coverPageInfo = makePageInfo(pageNumber: 1)
-        let otherPages = [makePageInfo(pageNumber: 2), makePageInfo(pageNumber: 3)]
+        let allPages = initialPages + [coverPageInfo]
         let chapter = makeChapter(startPage: 1, endPage: 3)
-        let (sut, delegate) = makeSUT(chapter: chapter, currentPageNumber: 2, currentPages: [makePageInfo(pageNumber: 2)], pagesToLoad: [coverPageInfo] + otherPages)
+        let (sut, delegate) = makeSUT(chapter: chapter, currentPageNumber: 2, pagesToLoad: allPages)
         
-        sut.loadRemainingPages()
-        
-        try await sut.$pages.waitUntil(condition: { $0.count > 1 })
+        try await sut.loadData()
+        try await sut.$didFetchInitialPages.waitUntil(condition: { $0 })
+        try await sut.$pages.waitUntil(condition: { $0.count == 3 })
         
         #expect(delegate.savedPageInfo?.pageNumber == 1)
     }

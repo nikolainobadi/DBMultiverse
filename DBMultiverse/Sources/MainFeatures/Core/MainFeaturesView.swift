@@ -17,7 +17,7 @@ struct MainFeaturesView: View {
     @Binding var language: ComicLanguage
     
     var body: some View {
-        MainNavStack(path: $path) {
+        navStack {
             ChapterListFeatureView(eventHandler: .customInit(viewModel: viewModel, chapterList: chapterList))
                 .navigationDestination(for: ChapterRoute.self) { route in
                     ComicPageFeatureView(
@@ -46,12 +46,9 @@ struct MainFeaturesView: View {
 
 
 // MARK: - NavStack
-fileprivate struct MainNavStack<ComicContent: View, SettingsContent: View>: View {
-    @Binding var path: NavigationPath
-    @ViewBuilder var comicContent: () -> ComicContent
-    @ViewBuilder var settingsContent: () -> SettingsContent
-    
-    var body: some View {
+private extension MainFeaturesView {
+    @ViewBuilder
+    func navStack(comicContent: @escaping () -> some View, settingsContent: @escaping () -> some View) -> some View {
         iPhoneMainTabView(path: $path, comicContent: comicContent, settingsTab: settingsContent)
             .showingConditionalView(when: isPad) {
                 iPadMainNavStack(path: $path, comicContent: comicContent, settingsContent: settingsContent)
@@ -72,7 +69,7 @@ fileprivate struct MainNavStack<ComicContent: View, SettingsContent: View>: View
 
 
 // MARK: - Extension Dependencies
-fileprivate extension SwiftDataChapterListEventHandler {
+private extension SwiftDataChapterListEventHandler {
     static func customInit(viewModel: MainFeaturesViewModel, chapterList: SwiftDataChapterList) -> SwiftDataChapterListEventHandler {
         return .init(
             lastReadSpecialPage: viewModel.lastReadSpecialPage,
@@ -83,10 +80,10 @@ fileprivate extension SwiftDataChapterListEventHandler {
     }
 }
 
-fileprivate extension ComicPageViewModel {
+private extension ComicPageViewModel {
     static func customInit(route: ChapterRoute, store: MainFeaturesViewModel, chapterList: SwiftDataChapterList, language: ComicLanguage) -> ComicPageViewModel {
         let currentPageNumber = store.getCurrentPageNumber(for: route.comicType)
-        let imageCache = ComicImageCacheAdapter(comicType: route.comicType, viewModel: store)
+        let imageCache = ComicImageCacheAdapter(comicType: route.comicType, store: store)
         let networkService = ComicPageNetworkServiceAdapter()
         let manager = ComicPageManager(
             chapter: route.chapter,

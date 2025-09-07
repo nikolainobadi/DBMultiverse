@@ -44,19 +44,6 @@ extension MainFeaturesViewModel {
         await setChapters(fetchedList)
     }
     
-    /// Updates the last read page number for a given comic type.
-    /// - Parameters:
-    ///   - pageNumber: The page number to update.
-    ///   - comicType: The type of comic (e.g., story or specials).
-    func updateCurrentPageNumber(_ pageNumber: Int, comicType: ComicType) {
-        switch comicType {
-        case .story:
-            lastReadMainStoryPage = pageNumber
-        case .specials:
-            lastReadSpecialPage = pageNumber
-        }
-    }
-    
     /// Retrieves the current page number for a given comic type.
     /// - Parameter type: The type of comic (e.g., story or specials).
     /// - Returns: The last read page number for the specified comic type.
@@ -75,6 +62,24 @@ extension MainFeaturesViewModel {
         nextChapterToRead = chapter
     }
 }
+
+
+// MARK: - ComicPageStore
+extension MainFeaturesViewModel: ComicPageStore {
+    /// Updates the last read page number for a given comic type.
+    /// - Parameters:
+    ///   - pageNumber: The page number to update.
+    ///   - comicType: The type of comic (e.g., story or specials).
+    func updateCurrentPageNumber(_ pageNumber: Int, comicType: ComicType) {
+        switch comicType {
+        case .story:
+            lastReadMainStoryPage = pageNumber
+        case .specials:
+            lastReadSpecialPage = pageNumber
+        }
+    }
+}
+
 
 // MARK: - MainActor
 @MainActor

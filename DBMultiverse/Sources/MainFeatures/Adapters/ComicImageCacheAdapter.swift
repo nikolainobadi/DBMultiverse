@@ -16,8 +16,8 @@ final class ComicImageCacheAdapter {
     /// The file manager instance used for accessing and modifying the file system.
     private let fileManager: FileManager
     
-    /// The main features view model used for updating page progress.
-    private let viewModel: MainFeaturesViewModel
+    /// The storel used for updating page progress.
+    private let store: ComicPageStore
     
     /// A shared cache for storing cover images and progress metadata.
     private let coverImageCache: CoverImageCache
@@ -25,12 +25,12 @@ final class ComicImageCacheAdapter {
     /// Initializes the `ComicImageCacheAdapter` with its dependencies.
     /// - Parameters:
     ///   - comicType: The type of comic (story or specials).
-    ///   - viewModel: The main features view model for managing chapter progress.
+    ///   - store: The store for managing chapter progress.
     ///   - fileManager: The file manager instance for file operations. Defaults to `.default`.
     ///   - coverImageCache: The shared cache for cover images. Defaults to `.shared`.
-    init(comicType: ComicType, viewModel: MainFeaturesViewModel, fileManager: FileManager = .default, coverImageCache: CoverImageCache = .shared) {
+    init(comicType: ComicType, store: ComicPageStore, fileManager: FileManager = .default, coverImageCache: CoverImageCache = .shared) {
         self.comicType = comicType
-        self.viewModel = viewModel
+        self.store = store
         self.fileManager = fileManager
         self.coverImageCache = coverImageCache
     }
@@ -46,7 +46,7 @@ extension ComicImageCacheAdapter: ComicImageCache {
         coverImageCache.updateProgress(to: readProgress)
         
         DispatchQueue.main.async { [unowned self] in
-            viewModel.updateCurrentPageNumber(pageNumber, comicType: comicType)
+            store.updateCurrentPageNumber(pageNumber, comicType: comicType)
         }
     }
     
@@ -140,4 +140,10 @@ private extension ComicImageCacheAdapter {
         
         return cacheDirectory.appendingPathComponent("Chapters/Chapter_\(chapter)/\(fileName)")
     }
+}
+
+
+// MARK: - Dependencies
+protocol ComicPageStore {
+    func updateCurrentPageNumber(_ pageNumber: Int, comicType: ComicType)
 }

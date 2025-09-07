@@ -97,6 +97,8 @@ public extension ComicPageViewModel {
         if currentPageNumber > chapter.startPage {
             currentPageNumber -= 1
             
+            let pageInfo = currentPageInfo
+            
             if currentPageInfo == nil {
                 currentPageNumber -= 1
             }

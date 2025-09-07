@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct PageInfo {
+public struct PageInfo: Sendable {
     public let chapter: Int
     public let pageNumber: Int
     public let secondPageNumber: Int?

@@ -14,6 +14,7 @@ let package = Package(
             targets: ["DBMultiverseComicKit"]),
     ],
     dependencies: [
+        .package(url: "https://github.com/nikolainobadi/NnTestKit", from: "1.0.0"),
         .package(url: "https://github.com/nikolainobadi/NnSwiftUIKit.git", branch: "swift-6")
     ],
     targets: [
@@ -25,7 +26,10 @@ let package = Package(
         ),
         .testTarget(
             name: "DBMultiverseComicKitTests",
-            dependencies: ["DBMultiverseComicKit"]
+            dependencies: [
+                "DBMultiverseComicKit",
+                .product(name: "NnSwiftTestingHelpers", package: "NnTestKit")
+            ]
         ),
     ]
 )

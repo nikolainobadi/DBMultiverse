@@ -232,8 +232,8 @@ final class ComicPageViewModelTests: TrackingMemoryLeaks {
     
     // MARK: - Background Loading Tests
     
-    @Test("Background loading fetches remaining pages after initial load", .disabled())
-    func backgroundLoadingFetchesRemainingPages() async {
+    @Test("Background loading fetches remaining pages after initial load")
+    func backgroundLoadingFetchesRemainingPages() async throws {
         let initialPages = [makePageInfo(pageNumber: 3), makePageInfo(pageNumber: 4)]
         let remainingPages = [makePageInfo(pageNumber: 1), makePageInfo(pageNumber: 2), makePageInfo(pageNumber: 5)]
         let chapter = makeChapter(startPage: 1, endPage: 5)
@@ -241,15 +241,14 @@ final class ComicPageViewModelTests: TrackingMemoryLeaks {
         
         sut.loadRemainingPages()
         
-        // Allow some time for background task
-        try? await Task.sleep(nanoseconds: 100_000_000)
-        
+        try await sut.$pages.waitUntil(condition: { $0.count > initialPages.count })
+       
         #expect(sut.pages.count == 5)
         #expect(sut.pages.map(\.pageNumber).sorted() == [1, 2, 3, 4, 5])
     }
     
-    @Test("Background loading caches cover image when start page is loaded", .disabled())
-    func backgroundLoadingCachesCoverImage() async {
+    @Test("Background loading caches cover image when start page is loaded")
+    func backgroundLoadingCachesCoverImage() async throws {
         let coverPageInfo = makePageInfo(pageNumber: 1)
         let otherPages = [makePageInfo(pageNumber: 2), makePageInfo(pageNumber: 3)]
         let chapter = makeChapter(startPage: 1, endPage: 3)
@@ -257,22 +256,9 @@ final class ComicPageViewModelTests: TrackingMemoryLeaks {
         
         sut.loadRemainingPages()
         
-        try? await Task.sleep(nanoseconds: 100_000_000)
+        try await sut.$pages.waitUntil(condition: { $0.count > 1 })
         
         #expect(delegate.savedPageInfo?.pageNumber == 1)
-    }
-    
-    @Test("Background loading handles delegate errors gracefully", .disabled())
-    func backgroundLoadingHandlesErrors() async {
-        let chapter = makeChapter(startPage: 1, endPage: 5)
-        let (sut, _) = makeSUT(chapter: chapter, currentPageNumber: 1, throwError: true)
-        
-        sut.loadRemainingPages()
-        
-        try? await Task.sleep(nanoseconds: 100_000_000)
-        
-        // Should not crash and pages should remain empty
-        #expect(sut.pages.isEmpty)
     }
 }
 

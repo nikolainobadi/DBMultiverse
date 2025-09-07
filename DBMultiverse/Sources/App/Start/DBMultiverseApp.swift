@@ -14,7 +14,6 @@ struct DBMultiverseApp: App {
         WindowGroup {
             LaunchView()
                 .syncWidgetData()
-                .withNnLoadingView()
                 .withNnErrorHandling()
                 .preferredColorScheme(.dark)
         }

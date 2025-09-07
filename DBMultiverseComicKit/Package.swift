@@ -14,7 +14,7 @@ let package = Package(
             targets: ["DBMultiverseComicKit"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/nikolainobadi/NnSwiftUIKit.git", branch: "remove-nn-prefixes")
+        .package(url: "https://github.com/nikolainobadi/NnSwiftUIKit.git", branch: "swift-6")
     ],
     targets: [
         .target(

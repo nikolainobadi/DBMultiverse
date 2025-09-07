@@ -23,9 +23,9 @@ struct ComicPageFeatureView: View {
                     finishChapter: { dismiss() } 
                 )
             }
-            .asyncTask {
-                try await viewModel.loadData()
-            }
+//            .asyncTask {
+//                try await viewModel.loadData()
+//            }
             
     }
 }

@@ -27,10 +27,10 @@ struct MainFeaturesView: View {
         } settingsContent: {
             SettingsFeatureNavStack(language: $language, viewModel: .init(), canDismiss: isPad)
         }
-        .asyncTask {
+        .throwingTask {
             try await viewModel.loadData(language: language)
         }
-        .asyncOnChange(of: language) { newLanguage in
+        .asyncOnChange(item: language, initial: true, hideLoadingIndicator: true) { newLanguage in
             try await viewModel.loadData(language: newLanguage)
         }
         .syncChaptersWithSwiftData(chapters: viewModel.chapters)

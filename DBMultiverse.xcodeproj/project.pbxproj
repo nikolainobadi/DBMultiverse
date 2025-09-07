@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		D45F17542D2DF8C5006362E8 /* NnSwiftUIKit in Frameworks */ = {isa = PBXBuildFile; productRef = D45F17532D2DF8C5006362E8 /* NnSwiftUIKit */; };
 		D45F17562D2E0519006362E8 /* DBMultiverseComicKit in Frameworks */ = {isa = PBXBuildFile; productRef = D45F17552D2E0519006362E8 /* DBMultiverseComicKit */; };
 		D46C70792D1BB4E200C217D6 /* NnTestHelpers in Frameworks */ = {isa = PBXBuildFile; productRef = D46C70782D1BB4E200C217D6 /* NnTestHelpers */; };
 		D46C707B2D1BB4F000C217D6 /* NnTestVariables in Frameworks */ = {isa = PBXBuildFile; productRef = D46C707A2D1BB4F000C217D6 /* NnTestVariables */; };
@@ -128,7 +127,6 @@
 				D45F17562D2E0519006362E8 /* DBMultiverseComicKit in Frameworks */,
 				D4A701972DA1C890008D3530 /* NnSwiftDataKit in Frameworks */,
 				D46C707B2D1BB4F000C217D6 /* NnTestVariables in Frameworks */,
-				D45F17542D2DF8C5006362E8 /* NnSwiftUIKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -291,7 +289,6 @@
 			name = DBMultiverse;
 			packageProductDependencies = (
 				D46C707A2D1BB4F000C217D6 /* NnTestVariables */,
-				D45F17532D2DF8C5006362E8 /* NnSwiftUIKit */,
 				D45F17552D2E0519006362E8 /* DBMultiverseComicKit */,
 				D4E498282D31A8ED007F6E1A /* DBMultiverseParseKit */,
 				D4A701962DA1C890008D3530 /* NnSwiftDataKit */,
@@ -334,7 +331,6 @@
 			mainGroup = E8A095B02CE0941200D28E3F;
 			packageReferences = (
 				D46C70692D1BB4A700C217D6 /* XCRemoteSwiftPackageReference "NnTestKit" */,
-				D45F17522D2DF8C5006362E8 /* XCRemoteSwiftPackageReference "NnSwiftUIKit" */,
 				D4A701952DA1C890008D3530 /* XCRemoteSwiftPackageReference "NnSwiftDataKit" */,
 			);
 			productRefGroup = E8A095BA2CE0941200D28E3F /* Products */;
@@ -761,14 +757,6 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		D45F17522D2DF8C5006362E8 /* XCRemoteSwiftPackageReference "NnSwiftUIKit" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/nikolainobadi/NnSwiftUIKit";
-			requirement = {
-				branch = "remove-nn-prefixes";
-				kind = branch;
-			};
-		};
 		D46C70692D1BB4A700C217D6 /* XCRemoteSwiftPackageReference "NnTestKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/nikolainobadi/NnTestKit";
@@ -781,18 +769,13 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/nikolainobadi/NnSwiftDataKit.git";
 			requirement = {
-				branch = main;
+				branch = "swift-6";
 				kind = branch;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		D45F17532D2DF8C5006362E8 /* NnSwiftUIKit */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = D45F17522D2DF8C5006362E8 /* XCRemoteSwiftPackageReference "NnSwiftUIKit" */;
-			productName = NnSwiftUIKit;
-		};
 		D45F17552D2E0519006362E8 /* DBMultiverseComicKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = DBMultiverseComicKit;

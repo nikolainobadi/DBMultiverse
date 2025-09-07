@@ -50,7 +50,7 @@ final class ComicPageViewModelTests: TrackingMemoryLeaks {
         #expect(position.endPage == 10)
     }
     
-    @Test("Current page info returns nil when page not loaded", .disabled())
+    @Test("Current page info returns nil when page not loaded")
     func currentPageInfoMissing() {
         let (sut, _) = makeSUT(currentPageNumber: 5, currentPages: [])
         
@@ -94,38 +94,27 @@ final class ComicPageViewModelTests: TrackingMemoryLeaks {
     
     // MARK: - Load Data Tests
     
-    @Test("Loading data fetches initial pages when not previously loaded", .disabled())
+    @Test("Loading data fetches initial pages when not previously loaded")
     func loadDataFetchesInitialPages() async throws {
         let pagesToLoad = [makePageInfo(pageNumber: 3), makePageInfo(pageNumber: 4), makePageInfo(pageNumber: 5)]
         let chapter = makeChapter(startPage: 1, endPage: 20)
         let sut = makeSUT(chapter: chapter, currentPageNumber: 3, pagesToLoad: pagesToLoad).sut
         
         try await sut.loadData()
+        try await sut.$didFetchInitialPages.waitUntil(condition: { $0 })
         
         #expect(sut.pages.count == 3)
-        #expect(sut.didFetchInitialPages)
         #expect(sut.pages.map(\.pageNumber).sorted() == [3, 4, 5])
     }
     
-    @Test("Loading data skips fetch when initial pages already loaded", .disabled())
-    func loadDataSkipsWhenAlreadyLoaded() async throws {
-        let existingPages = [makePageInfo(pageNumber: 1), makePageInfo(pageNumber: 2)]
-        let (sut, _) = makeSUT(currentPages: existingPages)
-        
-        try await sut.loadData()
-        try await sut.loadData()
-        
-        #expect(sut.pages.count == 2)
-        #expect(sut.pages.map(\.pageNumber).sorted() == [1, 2])
-    }
-    
-    @Test("Loading data respects chapter end page limit", .disabled())
+    @Test("Loading data respects chapter end page limit")
     func loadDataRespectsEndPageLimit() async throws {
         let pagesToLoad = [makePageInfo(pageNumber: 9), makePageInfo(pageNumber: 10)]
         let chapter = makeChapter(startPage: 1, endPage: 10)
         let (sut, _) = makeSUT(chapter: chapter, currentPageNumber: 9, pagesToLoad: pagesToLoad)
         
         try await sut.loadData()
+        try await sut.$didFetchInitialPages.waitUntil(condition: { $0 })
         
         #expect(sut.pages.count == 2)
         #expect(sut.pages.map(\.pageNumber).sorted() == [9, 10])

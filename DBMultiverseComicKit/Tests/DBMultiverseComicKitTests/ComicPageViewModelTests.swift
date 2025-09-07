@@ -180,20 +180,35 @@ final class ComicPageViewModelTests: TrackingMemoryLeaks {
     }
     
     @Test("Moving to previous page decrements correctly")
-    func previousPageDecrementsCorrectly() {
-        let page2 = makePageInfo(pageNumber: 2)
+    func previousPageDecrementsCorrectly() throws {
         let page4 = makePageInfo(pageNumber: 4)
         let page5 = makePageInfo(pageNumber: 5)
-        let currentPages = [page2, page4, page5]
-        let (sut, _) = makeSUT(currentPageNumber: page5.pageNumber, currentPages: currentPages)
+        let currentPages = [page4, page5]
+        let (sut, delegate) = makeSUT(currentPageNumber: page5.pageNumber, currentPages: currentPages)
         
         sut.previousPage()
         
         #expect(sut.currentPageNumber == page4.pageNumber)
         
+        let delegatePage = try #require(delegate.updatedPageNumber)
+        
+        #expect(delegatePage == page4.pageNumber)
+    }
+    
+    @Test("Moving to previous page on a 'double page' skips a page number")
+    func previousPageFromDoublePageSkipsNumber() throws {
+        let page2 = makePageInfo(pageNumber: 2)
+        let page4 = makePageInfo(pageNumber: 4)
+        let currentPages = [page2, page4]
+        let (sut, delegate) = makeSUT(currentPageNumber: page4.pageNumber, currentPages: currentPages)
+        
         sut.previousPage()
         
         #expect(sut.currentPageNumber == page2.pageNumber)
+        
+        let delegatePage = try #require(delegate.updatedPageNumber)
+        
+        #expect(delegatePage == page2.pageNumber)
     }
     
     @Test("Moving to previous page stops at chapter start")

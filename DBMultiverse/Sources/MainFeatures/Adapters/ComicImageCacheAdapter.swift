@@ -27,8 +27,8 @@ final class ComicImageCacheAdapter {
     ///   - comicType: The type of comic (story or specials).
     ///   - store: The store for managing chapter progress.
     ///   - fileManager: The file manager instance for file operations. Defaults to `.default`.
-    ///   - coverImageCache: The shared cache for cover images. Defaults to `.shared`.
-    init(comicType: ComicType, store: ComicPageStore, fileManager: FileManager = .default, coverImageCache: CoverImageCache = .shared) {
+    ///   - coverImageCache: The shared cache for cover images.
+    init(comicType: ComicType, store: ComicPageStore, fileManager: FileManager = .default, coverImageCache: CoverImageCache = .init()) {
         self.comicType = comicType
         self.store = store
         self.fileManager = fileManager

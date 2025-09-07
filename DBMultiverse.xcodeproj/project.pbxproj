@@ -138,10 +138,10 @@
 			isa = PBXGroup;
 			children = (
 				D4D934962E6E05E20024A6E9 /* DBMultiverse */,
+				D46ABDE02E6E08F000CCB026 /* DBMultiverseWidgets */,
 				D4D934C82E6E05E50024A6E9 /* DBMultiverseUnitTests */,
 				D4E498272D31A4E5007F6E1A /* DBMultiverseParseKit */,
 				D4F6F48B2D2DF73C00A27411 /* DBMultiverseComicKit */,
-				D46ABDE02E6E08F000CCB026 /* DBMultiverseWidgets */,
 				E8A095BA2CE0941200D28E3F /* Products */,
 				D46C70772D1BB4E200C217D6 /* Frameworks */,
 			);

@@ -6,9 +6,10 @@
 //
 
 import Foundation
+import DBMultiverseComicKit
 
 /// Adapter that bridges between the CoverImageDelegate protocol and CoverImageManager implementation.
-public final class CoverImageDelegateAdapter: CoverImageDelegate {
+final class CoverImageDelegateAdapter {
     private let manager: CoverImageManager
     
     /// Initializes the adapter with a CoverImageManager instance.
@@ -16,12 +17,16 @@ public final class CoverImageDelegateAdapter: CoverImageDelegate {
     public init(manager: CoverImageManager = CoverImageManager()) {
         self.manager = manager
     }
-    
-    public func saveCurrentChapterData(imageData: Data, metadata: CoverImageMetaData) {
+}
+
+
+// MARK: - CoverImageDelegate
+extension CoverImageDelegateAdapter: CoverImageDelegate {
+    func saveCurrentChapterData(imageData: Data, metadata: CoverImageMetaData) {
         manager.saveCurrentChapterData(imageData: imageData, metadata: metadata)
     }
     
-    public func updateProgress(to newProgress: Int) {
+    func updateProgress(to newProgress: Int) {
         manager.updateProgress(to: newProgress)
     }
 }

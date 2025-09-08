@@ -132,7 +132,8 @@ private extension ComicPageViewModel {
 
 
 // MARK: - Dependencies
-public protocol ComicPageDelegate: Sendable {
+@MainActor
+public protocol ComicPageDelegate {
     func saveChapterCoverPage(_ info: PageInfo)
     func updateCurrentPageNumber(_ pageNumber: Int)
     func loadPages(_ pages: [Int]) async throws -> [PageInfo]

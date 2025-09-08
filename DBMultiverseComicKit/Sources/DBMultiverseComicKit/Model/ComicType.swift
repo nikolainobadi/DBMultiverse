@@ -8,7 +8,7 @@
 import SwiftUI
 
 /// Represents the type of comic, such as main story or specials.
-public enum ComicType: Int, Identifiable, CaseIterable {
+public enum ComicType: Int, Identifiable, CaseIterable, Sendable {
     case story
     case specials
     

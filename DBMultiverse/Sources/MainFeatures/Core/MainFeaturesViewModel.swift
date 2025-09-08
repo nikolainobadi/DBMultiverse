@@ -8,8 +8,9 @@
 import SwiftUI
 import DBMultiverseComicKit
 
+// TODO: - Adress Unchecked sendable
 /// A view model responsible for managing the main features of the app, such as handling chapters, page tracking, and user preferences.
-final class MainFeaturesViewModel: ObservableObject {
+final class MainFeaturesViewModel: ObservableObject, @unchecked Sendable {
     @Published var chapters: [Chapter] = []
     @Published var nextChapterToRead: Chapter?
     @AppStorage var lastReadSpecialPage: Int

@@ -10,6 +10,7 @@ import NnTestHelpers
 import DBMultiverseComicKit
 @testable import DBMultiverse
 
+@MainActor
 final class ComicPageManagerTests: XCTestCase {
     func test_starting_values_are_empty() {
         let (_, delegate) = makeSUT()

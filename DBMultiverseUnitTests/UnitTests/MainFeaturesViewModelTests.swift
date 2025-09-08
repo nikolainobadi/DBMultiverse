@@ -11,6 +11,7 @@ import NnTestHelpers
 import DBMultiverseComicKit
 @testable import DBMultiverse
 
+@MainActor
 final class MainFeaturesViewModelTests: XCTestCase {
     private var cancellables = Set<AnyCancellable>()
     

@@ -143,7 +143,7 @@ protocol ChapterProgressHandler {
     func updateLastReadPage(page: Int, chapter: Chapter)
 }
 
-/// Protocol defining a cache for comic images.
+@MainActor
 protocol ComicImageCache {
     /// Saves the given page image data to the cache.
     /// - Parameter pageInfo: The `PageInfo` to save.

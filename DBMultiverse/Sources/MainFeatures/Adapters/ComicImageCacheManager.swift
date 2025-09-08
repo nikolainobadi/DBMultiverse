@@ -8,8 +8,8 @@
 import Foundation
 import DBMultiverseComicKit
 
-/// A manager that implements the `ComicImageCache` protocol, providing functionality for caching comic images, managing chapter progress, and interacting with the filesystem.
-final class ComicImageCacheManager {
+@MainActor
+struct ComicImageCacheManager {
     /// The type of comic (e.g., story or specials) for which the manager is responsible.
     private let comicType: ComicType
     
@@ -45,7 +45,9 @@ extension ComicImageCacheManager: ComicImageCache {
     func updateCurrentPageNumber(_ pageNumber: Int, readProgress: Int) {
         coverImageDelegate.updateProgress(to: readProgress)
         
-        DispatchQueue.main.async { [unowned self] in
+        let store = self.store
+        let comicType = self.comicType
+        DispatchQueue.main.async {
             store.updateCurrentPageNumber(pageNumber, comicType: comicType)
         }
     }
@@ -144,6 +146,20 @@ private extension ComicImageCacheManager {
 
 
 // MARK: - Dependencies
+@MainActor
 protocol ComicPageStore {
     func updateCurrentPageNumber(_ pageNumber: Int, comicType: ComicType)
+}
+
+@MainActor
+protocol CoverImageDelegate {
+    func updateProgress(to newProgress: Int)
+    func saveCurrentChapterData(imageData: Data, metadata: CoverImageMetaData)
+}
+
+protocol FileSystemOperations: Sendable {
+    func write(data: Data, to url: URL) throws
+    func contents(atPath path: String) -> Data?
+    func createDirectory(at url: URL, withIntermediateDirectories createIntermediates: Bool) throws
+    func urls(for directory: FileManager.SearchPathDirectory, in domainMask: FileManager.SearchPathDomainMask) -> [URL]
 }

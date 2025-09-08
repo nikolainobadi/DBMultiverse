@@ -1,6 +1,11 @@
 
 # Multiverse Reader
 
+![Build Status](https://github.com/nikolainobadi/DBMultiverse/actions/workflows/ci.yml/badge.svg)
+![Swift Version](https://badgen.net/badge/swift/6.0/purple)
+![Platform](https://img.shields.io/badge/platform-iOS%2017%2B-blue)
+![License](https://img.shields.io/badge/license-MIT-lightgray)
+
 Multiverse Reader is an iOS application designed to enhance the experience of reading and managing the DB Multiverse webcomic. The app integrates several modules, each providing specific functionality to ensure a seamless and enjoyable user experience.
 
 ## TestFlight

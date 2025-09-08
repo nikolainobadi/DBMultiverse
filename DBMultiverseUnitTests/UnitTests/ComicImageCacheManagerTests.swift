@@ -134,7 +134,7 @@ final class ComicImageCacheManagerTests: TrackingMemoryLeaks {
         
         try sut.savePageImage(pageInfo: pageInfo)
         
-        let expectedDir = URL(fileURLWithPath: "/Users/test/Library/Caches/Chapters/Chapter_5")
+        let expectedDir = URL(fileURLWithPath: "/Users/test/Library/Caches/Chapters/Chapter_5/")
         let expectedFile = URL(fileURLWithPath: "/Users/test/Library/Caches/Chapters/Chapter_5/Page_10.jpg")
         
         #expect(fileSystem.createdDirectories.contains(expectedDir))

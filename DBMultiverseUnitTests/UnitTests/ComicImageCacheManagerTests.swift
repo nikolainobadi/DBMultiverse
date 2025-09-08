@@ -29,7 +29,7 @@ final class ComicImageCacheManagerTests: TrackingMemoryLeaks {
     
     // MARK: - Update Current Page Number Tests
     
-    @Test("Update current page number updates cover image progress", .disabled())
+    @Test("Update current page number updates cover image progress")
     func updateCurrentPageNumberUpdatesCoverImageProgress() {
         let pageNumber = 5
         let readProgress = 50
@@ -127,7 +127,7 @@ final class ComicImageCacheManagerTests: TrackingMemoryLeaks {
     
     // MARK: - Save Page Image Tests
     
-    @Test("Save page image creates directory and writes single page data", .disabled())
+    @Test("Save page image creates directory and writes single page data")
     func savePageImageCreatesDirectoryAndWritesSinglePageData() throws {
         let pageInfo = PageInfo(chapter: 5, pageNumber: 10, secondPageNumber: nil, imageData: Data("page-data".utf8))
         let (sut, _, fileSystem, _) = makeSUT()

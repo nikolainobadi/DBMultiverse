@@ -44,12 +44,7 @@ extension ComicImageCacheManager: ComicImageCache {
     ///   - readProgress: The read progress as a percentage.
     func updateCurrentPageNumber(_ pageNumber: Int, readProgress: Int) {
         coverImageDelegate.updateProgress(to: readProgress)
-        
-        let store = self.store
-        let comicType = self.comicType
-        DispatchQueue.main.async {
-            store.updateCurrentPageNumber(pageNumber, comicType: comicType)
-        }
+        store.updateCurrentPageNumber(pageNumber, comicType: comicType)
     }
     
     /// Saves a chapter cover image and its metadata to the cache.

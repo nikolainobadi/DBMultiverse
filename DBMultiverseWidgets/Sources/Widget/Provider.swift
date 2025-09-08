@@ -15,7 +15,7 @@ struct Provider: TimelineProvider {
     }
     
     func getSnapshot(in context: Context, completion: @escaping (ComicImageEntry) -> Void) {
-        guard let chapterData = CoverImageCache.shared.loadCurrentChapterData() else {
+        guard let chapterData = CoverImageManager().loadCurrentChapterData() else {
             completion(.init(date: .now, chapter: 0, name: "", progress: 0, image: nil, family: context.family, deepLink: .sampleURL))
             return
         }
@@ -27,7 +27,7 @@ struct Provider: TimelineProvider {
     }
     
     func getTimeline(in context: Context, completion: @escaping (Timeline<ComicImageEntry>) -> Void) {
-        guard let chapterData = CoverImageCache.shared.loadCurrentChapterData() else {
+        guard let chapterData = CoverImageManager().loadCurrentChapterData() else {
             completion(.init(entries: [.init(date: .now, chapter: 0, name: "", progress: 0, image: nil, family: context.family, deepLink: .sampleURL)], policy: .atEnd))
             return
         }

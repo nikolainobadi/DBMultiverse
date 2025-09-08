@@ -5,26 +5,22 @@
 //  Created by Nikolai Nobadi on 1/7/25.
 //
 
-import Combine
 import Foundation
 
+@MainActor
 public final class ComicPageViewModel: ObservableObject {
     @Published var pages: [PageInfo]
     @Published var currentPageNumber: Int
-    @Published var didFetchInitialPages = false
+    @Published private(set) var didFetchInitialPages = false
     
     private let chapter: Chapter
     private let delegate: ComicPageDelegate
-    
-    private var cancellables = Set<AnyCancellable>()
     
     public init(chapter: Chapter, currentPageNumber: Int, delegate: ComicPageDelegate, pages: [PageInfo] = []) {
         self.pages = pages
         self.delegate = delegate
         self.chapter = chapter
         self.currentPageNumber = chapter.getCurrentPage(currentPage: currentPageNumber)
-        
-        self.startObservers()
     }
 }
 
@@ -61,25 +57,8 @@ public extension ComicPageViewModel {
             let initialPages = Array(currentPageNumber...(min(currentPageNumber + 4, chapter.endPage)))
             let fetchedPages = try await delegate.loadPages(initialPages)
             
-            await setPages(fetchedPages)
-        }
-    }
-    
-    func loadRemainingPages() {
-        Task {
-            let allPages = Array(chapter.startPage...chapter.endPage)
-            let fetchedPages = pages.map({ $0.pageNumber })
-            let remainingPagesNumbers = allPages.filter({ !fetchedPages.contains($0) })
-            
-            do {
-                let remainingList = try await delegate.loadPages(remainingPagesNumbers)
-                
-                await addRemainingPages(remainingList)
-                cacheChapterCoverImage()
-            } catch {
-                // TODO: - need to handle this error
-                print("Error loading remaining pages: \(error.localizedDescription)")
-            }
+            setPages(fetchedPages)
+            await loadRemainingPages()
         }
     }
 }
@@ -89,25 +68,37 @@ public extension ComicPageViewModel {
 public extension ComicPageViewModel {
     func nextPage() {
         if let currentPageInfo, currentPageInfo.pageNumber < chapter.endPage {
-            currentPageNumber = currentPageInfo.nextPage
+            updatePageNumber(currentPageInfo.nextPage)
         }
     }
     
     func previousPage() {
         if currentPageNumber > chapter.startPage {
-            currentPageNumber -= 1
+            var newPageNumber = currentPageNumber - 1
             
-            if currentPageInfo == nil {
-                currentPageNumber -= 1
+            if pages.first(where: { $0.pageNumber == newPageNumber }) == nil {
+                newPageNumber -= 1
             }
+            
+            updatePageNumber(newPageNumber)
         }
     }
 }
 
 
-// MARK: - MainActor
-@MainActor
+// MARK: - Private Methods
 private extension ComicPageViewModel {
+    func updatePageNumber(_ newPageNumber: Int) {
+        currentPageNumber = newPageNumber
+        delegate.updateCurrentPageNumber(newPageNumber)
+    }
+    
+    func cacheChapterCoverImage() {
+        if let chapterCoverPage = pages.first(where: { $0.pageNumber == chapter.startPage }) {
+            delegate.saveChapterCoverPage(chapterCoverPage)
+        }
+    }
+    
     func setPages(_ pages: [PageInfo]) {
         self.pages = pages
         self.didFetchInitialPages = true
@@ -121,39 +112,27 @@ private extension ComicPageViewModel {
         pages.append(contentsOf: uniquePages)
         pages.sort { $0.pageNumber < $1.pageNumber }
     }
-}
-
-
-// MARK: - Combine
-private extension ComicPageViewModel {
-    func startObservers() {
-        $currentPageNumber
-            .sink { [unowned self] newPageNumber in
-                delegate.updateCurrentPageNumber(newPageNumber)
-            }
-            .store(in: &cancellables)
+    
+    func loadRemainingPages() async {
+        let allPages = Array(chapter.startPage...chapter.endPage)
+        let fetchedPages = pages.map({ $0.pageNumber })
+        let remainingPagesNumbers = allPages.filter({ !fetchedPages.contains($0) })
         
-        $didFetchInitialPages
-            .first(where: { $0 })
-            .sink { [unowned self] _ in
-                loadRemainingPages()
-            }
-            .store(in: &cancellables)
-    }
-}
-
-
-// MARK: - Private Methods
-private extension ComicPageViewModel {
-    func cacheChapterCoverImage() {
-        if let chapterCoverPage = pages.first(where: { $0.pageNumber == chapter.startPage }) {
-            delegate.saveChapterCoverPage(chapterCoverPage)
+        do {
+            let remainingList = try await delegate.loadPages(remainingPagesNumbers)
+            
+            addRemainingPages(remainingList)
+            cacheChapterCoverImage()
+        } catch {
+            // TODO: - need to handle this error
+            print("Error loading remaining pages: \(error.localizedDescription)")
         }
     }
 }
 
 
 // MARK: - Dependencies
+@MainActor
 public protocol ComicPageDelegate {
     func saveChapterCoverPage(_ info: PageInfo)
     func updateCurrentPageNumber(_ pageNumber: Int)
@@ -162,7 +141,7 @@ public protocol ComicPageDelegate {
 
 
 // MARK: - Extension Dependencies
-fileprivate extension Chapter {
+private extension Chapter {
     var totalPages: Int {
         return endPage - startPage
     }
@@ -172,7 +151,7 @@ fileprivate extension Chapter {
     }
 }
 
-fileprivate extension PageInfo {
+private extension PageInfo {
     var nextPage: Int {
         guard let secondPageNumber else {
             return pageNumber + 1

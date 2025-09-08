@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct ChapterSection {
+public struct ChapterSection: Sendable {
     public let type: ChapterSectionType
     public let chapters: [Chapter]
     
@@ -36,7 +36,7 @@ extension ChapterSection {
 
 
 // MARK: - Dependencies
-public enum ChapterSectionType: Equatable {
+public enum ChapterSectionType: Equatable, Sendable {
     case currentChapter
     case chapterList(title: String)
 }

@@ -10,14 +10,18 @@ import SwiftData
 import DBMultiverseComicKit
 
 struct MainFeaturesView: View {
-    @State private var path: NavigationPath = .init()
-    @StateObject var viewModel: MainFeaturesViewModel
-    @Query(sort: \SwiftDataChapter.number, order: .forward) var chapterList: SwiftDataChapterList
-    
     @Binding var language: ComicLanguage
+    @State private var path: NavigationPath = .init()
+    @StateObject private var viewModel: MainFeaturesViewModel
+    @Query(sort: \SwiftDataChapter.number, order: .forward) private var chapterList: SwiftDataChapterList
+    
+    init(language: Binding<ComicLanguage>, viewModel: @autoclosure @escaping () -> MainFeaturesViewModel) {
+        self._language = language
+        self._viewModel = .init(wrappedValue: viewModel())
+    }
     
     var body: some View {
-        MainNavStack(path: $path) {
+        navStack {
             ChapterListFeatureView(eventHandler: .customInit(viewModel: viewModel, chapterList: chapterList))
                 .navigationDestination(for: ChapterRoute.self) { route in
                     ComicPageFeatureView(
@@ -27,10 +31,10 @@ struct MainFeaturesView: View {
         } settingsContent: {
             SettingsFeatureNavStack(language: $language, viewModel: .init(), canDismiss: isPad)
         }
-        .asyncTask {
+        .throwingTask {
             try await viewModel.loadData(language: language)
         }
-        .asyncOnChange(of: language) { newLanguage in
+        .asyncOnChange(item: language, initial: true, hideLoadingIndicator: true) { newLanguage in
             try await viewModel.loadData(language: newLanguage)
         }
         .syncChaptersWithSwiftData(chapters: viewModel.chapters)
@@ -46,12 +50,9 @@ struct MainFeaturesView: View {
 
 
 // MARK: - NavStack
-fileprivate struct MainNavStack<ComicContent: View, SettingsContent: View>: View {
-    @Binding var path: NavigationPath
-    @ViewBuilder var comicContent: () -> ComicContent
-    @ViewBuilder var settingsContent: () -> SettingsContent
-    
-    var body: some View {
+private extension MainFeaturesView {
+    @ViewBuilder
+    func navStack(comicContent: @escaping () -> some View, settingsContent: @escaping () -> some View) -> some View {
         iPhoneMainTabView(path: $path, comicContent: comicContent, settingsTab: settingsContent)
             .showingConditionalView(when: isPad) {
                 iPadMainNavStack(path: $path, comicContent: comicContent, settingsContent: settingsContent)
@@ -62,17 +63,17 @@ fileprivate struct MainNavStack<ComicContent: View, SettingsContent: View>: View
 
 // MARK: - Preview
 #Preview {
-    class PreviewLoader: ChapterLoader {
+    struct PreviewLoader: ChapterLoader {
         func loadChapters(url: URL?) async throws -> [Chapter] { [] }
     }
     
-    return MainFeaturesView(viewModel: .init(loader: PreviewLoader()), language: .constant(.english))
+    return MainFeaturesView(language: .constant(.english), viewModel: .init(loader: PreviewLoader()))
         .withPreviewModifiers()
 }
 
 
 // MARK: - Extension Dependencies
-fileprivate extension SwiftDataChapterListEventHandler {
+private extension SwiftDataChapterListEventHandler {
     static func customInit(viewModel: MainFeaturesViewModel, chapterList: SwiftDataChapterList) -> SwiftDataChapterListEventHandler {
         return .init(
             lastReadSpecialPage: viewModel.lastReadSpecialPage,
@@ -83,10 +84,12 @@ fileprivate extension SwiftDataChapterListEventHandler {
     }
 }
 
-fileprivate extension ComicPageViewModel {
+private extension ComicPageViewModel {
     static func customInit(route: ChapterRoute, store: MainFeaturesViewModel, chapterList: SwiftDataChapterList, language: ComicLanguage) -> ComicPageViewModel {
         let currentPageNumber = store.getCurrentPageNumber(for: route.comicType)
-        let imageCache = ComicImageCacheAdapter(comicType: route.comicType, viewModel: store)
+        let fileSystemOperations = FileSystemOperationsAdapter()
+        let coverImageDelegate = CoverImageDelegateAdapter()
+        let imageCache = ComicImageCacheManager(comicType: route.comicType, store: store, fileSystemOperations: fileSystemOperations, coverImageDelegate: coverImageDelegate)
         let networkService = ComicPageNetworkServiceAdapter()
         let manager = ComicPageManager(
             chapter: route.chapter,

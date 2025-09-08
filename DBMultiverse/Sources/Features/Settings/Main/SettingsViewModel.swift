@@ -8,16 +8,17 @@
 import Foundation
 import DBMultiverseComicKit
 
+@MainActor
 final class SettingsViewModel: ObservableObject {
     @Published var route: SettingsRoute?
     @Published var showingErrorAlert = false
     @Published var showingClearedCacheAlert = false
     @Published var cachedChapters: [CachedChapter] = []
 
-    private let fileManager: FileManager
+    private let fileManager: FileManaging
 
     /// Initializes the ViewModel with an optional file manager.
-    init(fileManager: FileManager = .default) {
+    init(fileManager: FileManaging = FileManagingAdapter()) {
         self.fileManager = fileManager
     }
 }
@@ -71,4 +72,10 @@ extension SettingsViewModel {
 // MARK: - Dependencies
 enum SettingsRoute {
     case cacheList, languageSelection, disclaimer
+}
+
+protocol FileManaging {
+    func urls(for directory: FileManager.SearchPathDirectory, in domainMask: FileManager.SearchPathDomainMask) -> [URL]
+    func contentsOfDirectory(at url: URL, includingPropertiesForKeys keys: [URLResourceKey]?) throws -> [URL]
+    func removeItem(at URL: URL) throws
 }

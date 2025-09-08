@@ -8,7 +8,7 @@
 import SwiftUI
 import DBMultiverseComicKit
 
-/// A view model responsible for managing the main features of the app, such as handling chapters, page tracking, and user preferences.
+@MainActor
 final class MainFeaturesViewModel: ObservableObject {
     @Published var chapters: [Chapter] = []
     @Published var nextChapterToRead: Chapter?
@@ -36,25 +36,10 @@ extension MainFeaturesViewModel {
     /// - Parameter language: The language of the comics to fetch.
     /// - Throws: An error if the chapter data cannot be fetched.
     func loadData(language: ComicLanguage) async throws {
-        // Construct the URL for fetching chapters.
         let url = URLFactory.makeURL(language: language, pathComponent: .chapterList)
-        
-        // Fetch chapters using the loader and set them to the published property.
         let fetchedList = try await loader.loadChapters(url: url)
-        await setChapters(fetchedList)
-    }
-    
-    /// Updates the last read page number for a given comic type.
-    /// - Parameters:
-    ///   - pageNumber: The page number to update.
-    ///   - comicType: The type of comic (e.g., story or specials).
-    func updateCurrentPageNumber(_ pageNumber: Int, comicType: ComicType) {
-        switch comicType {
-        case .story:
-            lastReadMainStoryPage = pageNumber
-        case .specials:
-            lastReadSpecialPage = pageNumber
-        }
+        
+        chapters = fetchedList
     }
     
     /// Retrieves the current page number for a given comic type.
@@ -76,15 +61,23 @@ extension MainFeaturesViewModel {
     }
 }
 
-// MARK: - MainActor
-@MainActor
-private extension MainFeaturesViewModel {
-    /// Updates the list of chapters on the main actor to ensure thread safety.
-    /// - Parameter chapters: The chapters to set.
-    func setChapters(_ chapters: [Chapter]) {
-        self.chapters = chapters
+
+// MARK: - ComicPageStore
+extension MainFeaturesViewModel: ComicPageStore {
+    /// Updates the last read page number for a given comic type.
+    /// - Parameters:
+    ///   - pageNumber: The page number to update.
+    ///   - comicType: The type of comic (e.g., story or specials).
+    func updateCurrentPageNumber(_ pageNumber: Int, comicType: ComicType) {
+        switch comicType {
+        case .story:
+            lastReadMainStoryPage = pageNumber
+        case .specials:
+            lastReadSpecialPage = pageNumber
+        }
     }
 }
+
 
 // MARK: - Dependencies
 /// Protocol defining the requirements for loading chapter data.

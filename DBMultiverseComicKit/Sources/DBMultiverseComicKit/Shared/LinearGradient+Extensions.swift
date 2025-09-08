@@ -27,7 +27,7 @@ public extension LinearGradient {
 
 
 // MARK: - Helpers
-fileprivate extension LinearGradient {
+private extension LinearGradient {
     static func makeTopBottomTextGradient(colors: [Color]) -> LinearGradient {
         return .init(gradient: .init(colors: colors), startPoint: .top, endPoint: .bottom)
     }

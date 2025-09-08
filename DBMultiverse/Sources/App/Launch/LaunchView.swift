@@ -13,7 +13,7 @@ struct LaunchView: View {
     @AppStorage("selectedLanguage") private var language: ComicLanguage = .english
     
     var body: some View {
-        MainFeaturesView(viewModel: .init(loader: ChapterLoaderAdapter()), language: $language)
+        MainFeaturesView(language: $language, viewModel: .init(loader: ChapterLoaderAdapter()))
             .showingConditionalView(when: isInitialLogin) {
                 WelcomeView(language: $language) {
                     isInitialLogin = false

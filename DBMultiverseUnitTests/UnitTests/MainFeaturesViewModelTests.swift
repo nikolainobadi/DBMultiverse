@@ -5,104 +5,167 @@
 //  Created by Nikolai Nobadi on 1/10/25.
 //
 
-import XCTest
-import Combine
-import NnTestHelpers
+import Testing
+import Foundation
+import NnSwiftTestingHelpers
 import DBMultiverseComicKit
 @testable import DBMultiverse
 
-final class MainFeaturesViewModelTests: XCTestCase {
-    private var cancellables = Set<AnyCancellable>()
-    
-    override func tearDown() {
-        cancellables.forEach { $0.cancel() }
-        cancellables.removeAll()
-        super.tearDown()
-    }
-}
-
-
-// MARK: - Unit Tests
-extension MainFeaturesViewModelTests {
-    func test_starting_values_are_empty() {
+@MainActor
+final class MainFeaturesViewModelTests: TrackingMemoryLeaks {
+    @Test("Starting values are empty")
+    func startingValuesAreEmpty() {
         let (sut, loader) = makeSUT()
         
-        XCTAssertNil(loader.urlPath)
-        XCTAssert(sut.chapters.isEmpty)
-        XCTAssertNil(sut.nextChapterToRead)
-        XCTAssertEqual(sut.lastReadMainStoryPage, 0)
-        XCTAssertNotEqual(sut.lastReadSpecialPage, sut.lastReadMainStoryPage)
+        #expect(loader.urlPath == nil)
+        #expect(sut.chapters.isEmpty)
+        #expect(sut.nextChapterToRead == nil)
+        #expect(sut.lastReadMainStoryPage == 0)
+        #expect(sut.lastReadSpecialPage != sut.lastReadMainStoryPage)
     }
     
-    func test_url_contains_correct_language_parameter() async {
+    @Test("URL contains correct language parameter for all languages")
+    func urlContainsCorrectLanguageParameter() async throws {
         for language in ComicLanguage.allCases {
             let (sut, loader) = makeSUT()
             
-            await asyncAssertNoErrorThrown {
-                try await sut.loadData(language: language)
+            try await sut.loadData(language: language)
+            
+            guard let urlPath = loader.urlPath else {
+                #expect(Bool(false), "URL path should be set after loading data")
+                continue
             }
             
-            assertProperty(loader.urlPath) { path in
-                XCTAssert(path.contains(language.rawValue))
-            }
+            #expect(urlPath.contains(language.rawValue))
         }
     }
     
-    func test_loads_and_sets_chapters_correctly() async {
+    @Test("Loads and sets chapters correctly")
+    func loadsAndSetsChaptersCorrectly() async throws {
         let chaptersToLoad = [makeChapter(name: "Chapter 1"), makeChapter(name: "Chapter 2")]
         let sut = makeSUT(chaptersToLoad: chaptersToLoad).sut
         
-        await asyncAssertNoErrorThrown {
-            try await sut.loadData(language: .english)
-        }
+        try await sut.loadData(language: .english)
         
-        assertArray(sut.chapters, contains: chaptersToLoad)
+        #expect(sut.chapters.count == chaptersToLoad.count)
+        #expect(sut.chapters.map(\.name).sorted() == chaptersToLoad.map(\.name).sorted())
     }
     
-    func test_updates_current_page_number_based_on_comic_type() {
+    @Test("Updates current page number based on comic type")
+    func updatesCurrentPageNumberBasedOnComicType() {
         let (sut, _) = makeSUT()
         
         sut.updateCurrentPageNumber(42, comicType: .story)
-        XCTAssertEqual(sut.lastReadMainStoryPage, 42)
-        XCTAssertNotEqual(sut.lastReadSpecialPage, 42)
+        #expect(sut.lastReadMainStoryPage == 42)
+        #expect(sut.lastReadSpecialPage != 42)
         
         sut.updateCurrentPageNumber(99, comicType: .specials)
-        XCTAssertEqual(sut.lastReadSpecialPage, 99)
-        XCTAssertNotEqual(sut.lastReadMainStoryPage, 99)
+        #expect(sut.lastReadSpecialPage == 99)
+        #expect(sut.lastReadMainStoryPage != 99)
     }
     
-    func test_returns_current_page_number_based_on_comic_type() {
+    @Test("Returns current page number based on comic type")
+    func returnsCurrentPageNumberBasedOnComicType() {
         let (sut, _) = makeSUT()
         
         sut.updateCurrentPageNumber(21, comicType: .story)
-        XCTAssertEqual(sut.getCurrentPageNumber(for: .story), 21)
-        XCTAssertEqual(sut.getCurrentPageNumber(for: .specials), sut.lastReadSpecialPage)
+        #expect(sut.getCurrentPageNumber(for: .story) == 21)
+        #expect(sut.getCurrentPageNumber(for: .specials) == sut.lastReadSpecialPage)
         
         sut.updateCurrentPageNumber(84, comicType: .specials)
-        XCTAssertEqual(sut.getCurrentPageNumber(for: .specials), 84)
-        XCTAssertEqual(sut.getCurrentPageNumber(for: .story), 21)
+        #expect(sut.getCurrentPageNumber(for: .specials) == 84)
+        #expect(sut.getCurrentPageNumber(for: .story) == 21)
     }
     
-    func test_sets_next_chapter_to_read() {
+    @Test("Sets next chapter to read")
+    func setsNextChapterToRead() {
         let (sut, _) = makeSUT()
         let chapter = makeChapter(name: "Next Chapter")
         
         sut.startNextChapter(chapter)
         
-        assertPropertyEquality(sut.nextChapterToRead, expectedProperty: chapter)
+        #expect(sut.nextChapterToRead == chapter)
+    }
+    
+    @Test("Handles loading errors gracefully")
+    func handlesLoadingErrorsGracefully() async {
+        let (sut, _) = makeSUT(throwError: true)
+        
+        await #expect(throws: (any Error).self) {
+            try await sut.loadData(language: .english)
+        }
+        
+        #expect(sut.chapters.isEmpty)
+    }
+    
+    @Test("Preserves page numbers across different comic types")
+    func preservesPageNumbersAcrossDifferentComicTypes() {
+        let (sut, _) = makeSUT()
+        
+        // Set different page numbers for each comic type
+        sut.updateCurrentPageNumber(10, comicType: .story)
+        sut.updateCurrentPageNumber(25, comicType: .specials)
+        
+        // Verify both are preserved independently
+        #expect(sut.getCurrentPageNumber(for: .story) == 10)
+        #expect(sut.getCurrentPageNumber(for: .specials) == 25)
+        
+        // Update one type and verify the other remains unchanged
+        sut.updateCurrentPageNumber(15, comicType: .story)
+        #expect(sut.getCurrentPageNumber(for: .story) == 15)
+        #expect(sut.getCurrentPageNumber(for: .specials) == 25)
+    }
+    
+    @Test("Chapters remain consistent after multiple load operations")
+    func chaptersRemainConsistentAfterMultipleLoads() async throws {
+        let initialChapters = [makeChapter(name: "Chapter 1"), makeChapter(name: "Chapter 2")]
+        let (sut, _) = makeSUT(chaptersToLoad: initialChapters)
+        
+        // Load data multiple times
+        try await sut.loadData(language: .english)
+        let firstLoadCount = sut.chapters.count
+        
+        try await sut.loadData(language: .french)
+        let secondLoadCount = sut.chapters.count
+        
+        #expect(firstLoadCount == secondLoadCount)
+        #expect(sut.chapters.count == initialChapters.count)
+    }
+    
+    @Test("Next chapter to read resets properly")
+    func nextChapterToReadResetsProperly() {
+        let (sut, _) = makeSUT()
+        let firstChapter = makeChapter(name: "First Chapter")
+        let secondChapter = makeChapter(name: "Second Chapter")
+        
+        // Set first chapter
+        sut.startNextChapter(firstChapter)
+        #expect(sut.nextChapterToRead == firstChapter)
+        
+        // Set second chapter (should replace first)
+        sut.startNextChapter(secondChapter)
+        #expect(sut.nextChapterToRead == secondChapter)
+        #expect(sut.nextChapterToRead != firstChapter)
     }
 }
 
 
 // MARK: - SUT
-extension MainFeaturesViewModelTests {
-    func makeSUT(throwError: Bool = false, chaptersToLoad: [Chapter] = [], file: StaticString = #filePath, line: UInt = #line) -> (sut: MainFeaturesViewModel, loader: MockLoader) {
+private extension MainFeaturesViewModelTests {
+    func makeSUT(
+        throwError: Bool = false,
+        chaptersToLoad: [Chapter] = [],
+        fileID: String = #fileID,
+        filePath: String = #filePath,
+        line: Int = #line,
+        column: Int = #column
+    ) -> (sut: MainFeaturesViewModel, loader: MockLoader) {
         let defaults = makeTestDefaults()
         let loader = MockLoader(throwError: throwError, chaptersToLoad: chaptersToLoad)
         let sut = MainFeaturesViewModel(loader: loader, userDefaults: defaults)
         
-        trackForMemoryLeaks(sut, file: file, line: line)
-        trackForMemoryLeaks(loader, file: file, line: line)
+        trackForMemoryLeaks(sut, fileID: fileID, filePath: filePath, line: line, column: column)
+        trackForMemoryLeaks(loader, fileID: fileID, filePath: filePath, line: line, column: column)
         
         return (sut, loader)
     }
@@ -112,12 +175,25 @@ extension MainFeaturesViewModelTests {
         defaults?.removePersistentDomain(forName: name)
         return defaults
     }
+    
+    func makeChapter(name: String = "Test Chapter", number: Int = 1, startPage: Int = 1, endPage: Int = 20) -> Chapter {
+        return .init(
+            name: name,
+            number: number,
+            startPage: startPage,
+            endPage: endPage,
+            universe: nil,
+            lastReadPage: nil,
+            coverImageURL: "",
+            didFinishReading: false
+        )
+    }
 }
 
 
 // MARK: - Helper Classes
-extension MainFeaturesViewModelTests {
-    class MockLoader: ChapterLoader {
+private extension MainFeaturesViewModelTests {
+    final class MockLoader: ChapterLoader, @unchecked Sendable {
         private let throwError: Bool
         private let chaptersToLoad: [Chapter]
         private(set) var urlPath: String?

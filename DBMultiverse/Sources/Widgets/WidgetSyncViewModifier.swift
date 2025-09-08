@@ -17,7 +17,7 @@ struct WidgetSyncViewModifier: ViewModifier {
         content
             .onChange(of: scenePhase) {
                 // to prevent widget from being reloaded too often
-                if let currentChapterData = CoverImageCache.shared.loadCurrentChapterData(), lastSavedChapterData != currentChapterData {
+                if let currentChapterData = CoverImageManager().loadCurrentChapterData(), lastSavedChapterData != currentChapterData {
                     WidgetCenter.shared.reloadAllTimelines()
                     lastSavedChapterData = currentChapterData
                 }

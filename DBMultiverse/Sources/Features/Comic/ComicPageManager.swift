@@ -6,9 +6,9 @@
 //
 
 import Foundation
-import DBMultiverseComicKit
+@preconcurrency import DBMultiverseComicKit
 
-/// Manages comic pages, handling caching, fetching, and progress updates for a specific chapter.
+@MainActor
 final class ComicPageManager {
     /// The current chapter being managed.
     private let chapter: Chapter
@@ -142,7 +142,7 @@ protocol ChapterProgressHandler {
     func updateLastReadPage(page: Int, chapter: Chapter)
 }
 
-/// Protocol defining a cache for comic images.
+@MainActor
 protocol ComicImageCache {
     /// Saves the given page image data to the cache.
     /// - Parameter pageInfo: The `PageInfo` to save.
@@ -173,7 +173,7 @@ protocol ComicImageCache {
 
 // MARK: - Extension Dependencies
 /// There are 2 instances where the comic displays  2 pages at a time. This handles those scenarios
-fileprivate extension Int {
+private extension Int {
     /// Determines if the page is a second page (e.g., page 9 or 21).
     var isSecondPage: Bool {
         return self == 9 || self == 21

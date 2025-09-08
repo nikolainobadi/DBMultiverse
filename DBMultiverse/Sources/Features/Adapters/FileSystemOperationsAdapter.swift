@@ -8,7 +8,7 @@
 import Foundation
 
 /// Default implementation of FileSystemOperations using FileManager.
-struct DefaultFileSystemOperations: FileSystemOperations {
+struct FileSystemOperationsAdapter: FileSystemOperations {
     func contents(atPath path: String) -> Data? {
         return FileManager.default.contents(atPath: path)
     }

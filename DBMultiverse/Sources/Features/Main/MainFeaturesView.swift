@@ -87,7 +87,7 @@ private extension SwiftDataChapterListEventHandler {
 private extension ComicPageViewModel {
     static func customInit(route: ChapterRoute, store: MainFeaturesViewModel, chapterList: SwiftDataChapterList, language: ComicLanguage) -> ComicPageViewModel {
         let currentPageNumber = store.getCurrentPageNumber(for: route.comicType)
-        let fileSystemOperations = DefaultFileSystemOperations()
+        let fileSystemOperations = FileSystemOperationsAdapter()
         let coverImageDelegate = CoverImageDelegateAdapter()
         let imageCache = ComicImageCacheManager(comicType: route.comicType, store: store, fileSystemOperations: fileSystemOperations, coverImageDelegate: coverImageDelegate)
         let networkService = ComicPageNetworkServiceAdapter()

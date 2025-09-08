@@ -16,6 +16,7 @@
 		D47D010D2D2F60310064FEB2 /* DBMultiverseComicKit in Frameworks */ = {isa = PBXBuildFile; productRef = D47D010C2D2F60310064FEB2 /* DBMultiverseComicKit */; };
 		D4A701972DA1C890008D3530 /* NnSwiftDataKit in Frameworks */ = {isa = PBXBuildFile; productRef = D4A701962DA1C890008D3530 /* NnSwiftDataKit */; };
 		D4E498292D31A8ED007F6E1A /* DBMultiverseParseKit in Frameworks */ = {isa = PBXBuildFile; productRef = D4E498282D31A8ED007F6E1A /* DBMultiverseParseKit */; };
+		D4F8342B2E6F69D10036D694 /* NnSwiftTestingHelpers in Frameworks */ = {isa = PBXBuildFile; productRef = D4F8342A2E6F69D10036D694 /* NnSwiftTestingHelpers */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -98,6 +99,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D46C70792D1BB4E200C217D6 /* NnTestHelpers in Frameworks */,
+				D4F8342B2E6F69D10036D694 /* NnSwiftTestingHelpers in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -179,6 +181,7 @@
 			name = DBMultiverseUnitTests;
 			packageProductDependencies = (
 				D46C70782D1BB4E200C217D6 /* NnTestHelpers */,
+				D4F8342A2E6F69D10036D694 /* NnSwiftTestingHelpers */,
 			);
 			productName = DBMultiverseUnitTests;
 			productReference = D46C706E2D1BB4C000C217D6 /* DBMultiverseUnitTests.xctest */;
@@ -734,6 +737,11 @@
 		D4E498282D31A8ED007F6E1A /* DBMultiverseParseKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = DBMultiverseParseKit;
+		};
+		D4F8342A2E6F69D10036D694 /* NnSwiftTestingHelpers */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D46C70692D1BB4A700C217D6 /* XCRemoteSwiftPackageReference "NnTestKit" */;
+			productName = NnSwiftTestingHelpers;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

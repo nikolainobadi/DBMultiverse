@@ -10,11 +10,15 @@ import SwiftData
 import DBMultiverseComicKit
 
 struct MainFeaturesView: View {
-    @State private var path: NavigationPath = .init()
-    @StateObject var viewModel: MainFeaturesViewModel
-    @Query(sort: \SwiftDataChapter.number, order: .forward) var chapterList: SwiftDataChapterList
-    
     @Binding var language: ComicLanguage
+    @State private var path: NavigationPath = .init()
+    @StateObject private var viewModel: MainFeaturesViewModel
+    @Query(sort: \SwiftDataChapter.number, order: .forward) private var chapterList: SwiftDataChapterList
+    
+    init(language: Binding<ComicLanguage>, viewModel: @autoclosure @escaping () -> MainFeaturesViewModel) {
+        self._language = language
+        self._viewModel = .init(wrappedValue: viewModel())
+    }
     
     var body: some View {
         navStack {
@@ -59,11 +63,11 @@ private extension MainFeaturesView {
 
 // MARK: - Preview
 #Preview {
-    class PreviewLoader: ChapterLoader {
+    struct PreviewLoader: ChapterLoader {
         func loadChapters(url: URL?) async throws -> [Chapter] { [] }
     }
     
-    return MainFeaturesView(viewModel: .init(loader: PreviewLoader()), language: .constant(.english))
+    return MainFeaturesView(language: .constant(.english), viewModel: .init(loader: PreviewLoader()))
         .withPreviewModifiers()
 }
 

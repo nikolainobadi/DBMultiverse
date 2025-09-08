@@ -16,12 +16,9 @@ struct ComicPageFeatureView: View {
         Text("Loading page...")
             .withFont()
             .showingViewWithOptional(viewModel.currentPage) { page in
-                ComicPageContentView(
-                    page: page,
-                    nextPage: viewModel.nextPage,
-                    previousPage: viewModel.previousPage,
-                    finishChapter: { dismiss() } 
-                )
+                pageContent(page) {
+                    dismiss()
+                }
             }
             .throwingTask {
                 try await viewModel.loadData()
@@ -31,16 +28,12 @@ struct ComicPageFeatureView: View {
 }
 
 // MARK: - Content
-fileprivate struct ComicPageContentView: View {
-    let page: ComicPage
-    let nextPage: () -> Void
-    let previousPage: () -> Void
-    let finishChapter: () -> Void
-    
-    var body: some View {
-        iPhoneComicPageView(page: page, nextPage: nextPage, previousPage: previousPage, finishChapter: finishChapter)
+private extension ComicPageFeatureView {
+    @ViewBuilder
+    func pageContent(_ page: ComicPage, finishChapter: @escaping () -> Void) -> some View {
+        iPhoneComicPageView(page: page, nextPage: viewModel.nextPage, previousPage: viewModel.previousPage, finishChapter: finishChapter)
             .showingConditionalView(when: isPad) {
-                iPadComicPageView(page: page, nextPage: nextPage, previousPage: previousPage, finishChapter: finishChapter)
+                iPadComicPageView(page: page, nextPage: viewModel.nextPage, previousPage: viewModel.previousPage, finishChapter: finishChapter)
             }
     }
 }

@@ -1,5 +1,5 @@
 //
-//  CoverImageCacheTests.swift
+//  CoverImageManagerTests.swift
 //  DBMultiverseComicKit
 //
 //  Created by Nikolai Nobadi on 9/7/25.
@@ -10,9 +10,8 @@ import Foundation
 import NnSwiftTestingHelpers
 @testable import DBMultiverseComicKit
 
-final class CoverImageCacheTests: TrackingMemoryLeaks {
+struct CoverImageManagerTests {
     // MARK: - Load Data Tests
-    
     @Test("Load current chapter data returns nil when file doesn't exist")
     func loadCurrentChapterDataReturnsNilWhenFileDoesntExist() {
         let (sut, mockFileSystem, _) = makeSUT(throwError: true)
@@ -149,22 +148,11 @@ final class CoverImageCacheTests: TrackingMemoryLeaks {
 
 
 // MARK: - SUT
-private extension CoverImageCacheTests {
-    func makeSUT(
-        containerURL: URL = .init(fileURLWithPath: "/test/container"),
-        mockReadData: Data = Data(),
-        mockCompressedData: Data? = Data("compressed".utf8),
-        throwError: Bool = false,
-        fileID: String = #fileID,
-        filePath: String = #filePath,
-        line: Int = #line,
-        column: Int = #column
-    ) -> (sut: CoverImageCache, fileSystem: MockFileSystemManager, compressor: MockImageCompressor) {
+private extension CoverImageManagerTests {
+    func makeSUT(containerURL: URL = .init(fileURLWithPath: "/test/container"), mockReadData: Data = Data(), mockCompressedData: Data? = Data("compressed".utf8), throwError: Bool = false) -> (sut: CoverImageManager, fileSystem: MockFileSystemManager, compressor: MockImageCompressor) {
         let mockCompressor = MockImageCompressor(mockCompressedData: mockCompressedData)
         let mockFileSystem = MockFileSystemManager(mockContainerURL: containerURL, mockReadData: mockReadData, shouldThrowError: throwError)
-        let sut = CoverImageCache(appGroupIdentifier: "test.group.identifier", fileSystemManager: mockFileSystem, imageCompressor: mockCompressor)
-        
-        trackForMemoryLeaks(sut, fileID: fileID, filePath: filePath, line: line, column: column)
+        let sut = CoverImageManager(appGroupIdentifier: "test.group.identifier", fileSystemManager: mockFileSystem, imageCompressor: mockCompressor)
         
         return (sut, mockFileSystem, mockCompressor)
     }
@@ -180,8 +168,8 @@ private extension CoverImageCacheTests {
 
 
 // MARK: - Mocks
-private extension CoverImageCacheTests {
-    final class MockFileSystemManager: FileSystemManaging {
+private extension CoverImageManagerTests {
+    final class MockFileSystemManager: FileSystemManaging, @unchecked Sendable {
         private let shouldThrowError: Bool
         private(set) var mockContainerURL: URL
         private(set) var mockReadData: Data
@@ -220,7 +208,7 @@ private extension CoverImageCacheTests {
         }
     }
     
-    final class MockImageCompressor: ImageCompressing {
+    final class MockImageCompressor: ImageCompressing, @unchecked Sendable {
         private(set) var mockCompressedData: Data?
         private(set) var compressCallCount = 0
         private(set) var lastCompressedData: Data?

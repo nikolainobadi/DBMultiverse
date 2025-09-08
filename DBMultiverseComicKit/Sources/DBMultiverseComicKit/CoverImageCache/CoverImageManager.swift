@@ -1,14 +1,13 @@
 //
-//  CoverImageCache.swift
+//  CoverImageManager.swift
 //
 //
 //  Created by Nikolai Nobadi on 1/8/25.
 //
 
-import UIKit
 import Foundation
 
-public struct CoverImageCache: Sendable {
+public struct CoverImageManager: Sendable {
     private let sharedContainerDirectory: URL
     private let fileSystemManager: FileSystemManaging
     private let imageCompressor: ImageCompressing
@@ -28,7 +27,7 @@ public struct CoverImageCache: Sendable {
 
 
 // MARK: - Init
-public extension CoverImageCache {
+public extension CoverImageManager {
     init() {
         self.init(appGroupIdentifier: "group.com.nobadi.dbm", fileSystemManager: DefaultFileSystemManager(), imageCompressor: DefaultImageCompressor())
     }
@@ -36,7 +35,7 @@ public extension CoverImageCache {
 
 
 // MARK: - Load
-public extension CoverImageCache {
+public extension CoverImageManager {
     func loadCurrentChapterData() -> CurrentChapterData? {
         let jsonFileURL = sharedContainerDirectory.appendingPathComponent(jsonFileName)
         
@@ -53,7 +52,7 @@ public extension CoverImageCache {
 
 
 // MARK: - Save
-public extension CoverImageCache {
+public extension CoverImageManager {
     func saveCurrentChapterData(imageData: Data, metadata: CoverImageMetaData) {
         let imageFileURL = sharedContainerDirectory.appendingPathComponent(imageFileName)
         
@@ -132,7 +131,7 @@ public extension CoverImageCache {
 
 
 // MARK: - Private Methods
-private extension CoverImageCache {
+private extension CoverImageManager {
     func saveChapterDataToFile(_ chapterData: CurrentChapterData) {
         let jsonFileURL = sharedContainerDirectory.appendingPathComponent(jsonFileName)
 

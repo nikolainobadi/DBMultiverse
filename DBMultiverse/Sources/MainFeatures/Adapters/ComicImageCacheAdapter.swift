@@ -20,7 +20,7 @@ final class ComicImageCacheAdapter {
     private let store: ComicPageStore
     
     /// A shared cache for storing cover images and progress metadata.
-    private let coverImageCache: CoverImageCache
+    private let coverImageCache: CoverImageManager
     
     /// Initializes the `ComicImageCacheAdapter` with its dependencies.
     /// - Parameters:
@@ -28,7 +28,7 @@ final class ComicImageCacheAdapter {
     ///   - store: The store for managing chapter progress.
     ///   - fileManager: The file manager instance for file operations. Defaults to `.default`.
     ///   - coverImageCache: The shared cache for cover images.
-    init(comicType: ComicType, store: ComicPageStore, fileManager: FileManager = .default, coverImageCache: CoverImageCache = .init()) {
+    init(comicType: ComicType, store: ComicPageStore, fileManager: FileManager = .default, coverImageCache: CoverImageManager = .init()) {
         self.comicType = comicType
         self.store = store
         self.fileManager = fileManager

@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct Chapter: Hashable {
+public struct Chapter: Hashable, Sendable {
     public let name: String
     public let number: Int
     public let startPage: Int

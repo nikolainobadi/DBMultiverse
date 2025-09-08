@@ -8,6 +8,7 @@
 import Foundation
 import DBMultiverseComicKit
 
+@MainActor
 struct SwiftDataChapterListEventHandler {
     let lastReadSpecialPage: Int
     let lastReadMainStoryPage: Int

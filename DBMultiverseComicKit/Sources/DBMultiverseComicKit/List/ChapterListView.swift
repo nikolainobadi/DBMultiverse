@@ -89,6 +89,7 @@ private extension ChapterListView {
 
 
 // MARK: - Dependencies
+@MainActor
 public protocol ChapterListEventHandler {
     func toggleReadStatus(for chapter: Chapter)
     func startNextChapter(currentChapter: Chapter)

@@ -50,7 +50,7 @@ public extension ComicType {
         }
     }
     
-//    /// The color associated with the comic type.
+    /// The color associated with the comic type.
     var color: Color {
         switch self {
         case .story:

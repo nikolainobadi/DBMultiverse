@@ -28,7 +28,7 @@ public struct ChapterListView<ComicPicker: View>: View {
             List(eventHandler.makeSections(type: selection), id: \.title) { section in
                 DynamicSection(section.title, gradient: section.gradient) {
                     ForEach(section.chapters, id: \.name) { chapter in
-                        ChapterRow(chapter, url: eventHandler.makeImageURL(for: chapter), imageSize: imageSize)
+                        chapterRow(chapter)
                             .asNavLink(ChapterRoute(chapter: chapter, comicType: selection))
                             .withToggleReadSwipeAction(isRead: chapter.didFinishReading) {
                                 eventHandler.toggleReadStatus(for: chapter)
@@ -57,20 +57,10 @@ public struct ChapterListView<ComicPicker: View>: View {
 
 
 // MARK: - Row
-fileprivate struct ChapterRow: View {
-    let url: URL?
-    let chapter: Chapter
-    let imageSize: CGSize?
-    
-    init(_ chapter: Chapter, url: URL?, imageSize: CGSize?) {
-        self.url = url
-        self.chapter = chapter
-        self.imageSize = imageSize
-    }
-    
-    var body: some View {
+private extension ChapterListView {
+    func chapterRow(_ chapter: Chapter) -> some View {
         HStack {
-            CustomAsyncImage(url: url, size: imageSize)
+            CustomAsyncImage(url: eventHandler.makeImageURL(for: chapter), size: imageSize)
             
             VStack(alignment: .leading, spacing: 0) {
                 Text(chapter.rowTitle)

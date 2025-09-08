@@ -7,6 +7,7 @@
 
 import Foundation
 
+@MainActor
 public final class ComicPageViewModel: ObservableObject {
     @Published var pages: [PageInfo]
     @Published var currentPageNumber: Int
@@ -56,7 +57,7 @@ public extension ComicPageViewModel {
             let initialPages = Array(currentPageNumber...(min(currentPageNumber + 4, chapter.endPage)))
             let fetchedPages = try await delegate.loadPages(initialPages)
             
-            await setPages(fetchedPages)
+            setPages(fetchedPages)
             await loadRemainingPages()
         }
     }
@@ -85,25 +86,6 @@ public extension ComicPageViewModel {
 }
 
 
-// MARK: - MainActor
-@MainActor
-private extension ComicPageViewModel {
-    func setPages(_ pages: [PageInfo]) {
-        self.pages = pages
-        self.didFetchInitialPages = true
-    }
-    
-    func addRemainingPages(_ remaining: [PageInfo]) {
-        let uniquePages = remaining.filter { newPage in
-            !pages.contains { $0.pageNumber == newPage.pageNumber }
-        }
-
-        pages.append(contentsOf: uniquePages)
-        pages.sort { $0.pageNumber < $1.pageNumber }
-    }
-}
-
-
 // MARK: - Private Methods
 private extension ComicPageViewModel {
     func updatePageNumber(_ newPageNumber: Int) {
@@ -117,6 +99,20 @@ private extension ComicPageViewModel {
         }
     }
     
+    func setPages(_ pages: [PageInfo]) {
+        self.pages = pages
+        self.didFetchInitialPages = true
+    }
+    
+    func addRemainingPages(_ remaining: [PageInfo]) {
+        let uniquePages = remaining.filter { newPage in
+            !pages.contains { $0.pageNumber == newPage.pageNumber }
+        }
+
+        pages.append(contentsOf: uniquePages)
+        pages.sort { $0.pageNumber < $1.pageNumber }
+    }
+    
     func loadRemainingPages() async {
         let allPages = Array(chapter.startPage...chapter.endPage)
         let fetchedPages = pages.map({ $0.pageNumber })
@@ -125,7 +121,7 @@ private extension ComicPageViewModel {
         do {
             let remainingList = try await delegate.loadPages(remainingPagesNumbers)
             
-            await addRemainingPages(remainingList)
+            addRemainingPages(remainingList)
             cacheChapterCoverImage()
         } catch {
             // TODO: - need to handle this error
@@ -136,7 +132,7 @@ private extension ComicPageViewModel {
 
 
 // MARK: - Dependencies
-public protocol ComicPageDelegate {
+public protocol ComicPageDelegate: Sendable {
     func saveChapterCoverPage(_ info: PageInfo)
     func updateCurrentPageNumber(_ pageNumber: Int)
     func loadPages(_ pages: [Int]) async throws -> [PageInfo]

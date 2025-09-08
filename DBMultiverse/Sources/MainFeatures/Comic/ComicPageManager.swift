@@ -6,10 +6,11 @@
 //
 
 import Foundation
-import DBMultiverseComicKit
+@preconcurrency import DBMultiverseComicKit
 
+// TODO: - address the unchecked Sendable
 /// Manages comic pages, handling caching, fetching, and progress updates for a specific chapter.
-final class ComicPageManager {
+final class ComicPageManager: @unchecked Sendable {
     /// The current chapter being managed.
     private let chapter: Chapter
     

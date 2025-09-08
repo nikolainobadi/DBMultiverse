@@ -17,11 +17,11 @@ struct iPadComicPageView: View {
     var body: some View {
         VStack {
             HStack {
-                iPadComicButton(.previous, disabled: page.isFirstPage, action: previousPage)
+                comicButton(.previous, disabled: page.isFirstPage, action: previousPage)
                 Spacer()
                 ComicPageImageView(page: page)
                 Spacer()
-                iPadComicButton(.next, disabled: page.isLastPage, action: nextPage)
+                comicButton(.next, disabled: page.isLastPage, action: nextPage)
             }
             
             Button("Finish Chapter", action: finishChapter)
@@ -34,18 +34,8 @@ struct iPadComicPageView: View {
 
 
 // MARK: - Button
-fileprivate struct iPadComicButton: View {
-    let type: iPadComicButtonType
-    let disabled: Bool
-    let action: () -> Void
-    
-    init(_ type: iPadComicButtonType, disabled: Bool, action: @escaping () -> Void) {
-        self.type = type
-        self.action = action
-        self.disabled = disabled
-    }
-    
-    var body: some View {
+private extension iPadComicPageView {
+    func comicButton(_ type: iPadComicButtonType, disabled: Bool, action: @escaping () -> Void) -> some View {
         Button(action: action) {
             Image(systemName: type.imageName)
                 .bold()

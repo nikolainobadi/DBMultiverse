@@ -10,6 +10,7 @@ import Foundation
 import NnSwiftTestingHelpers
 @testable import DBMultiverseComicKit
 
+@MainActor
 final class ComicPageViewModelTests: TrackingMemoryLeaks {
     @Test("Starting values are initialized correctly")
     func emptyStartingValues() {
@@ -277,7 +278,7 @@ private extension ComicPageViewModelTests {
 
 // MARK: - Mocks
 private extension ComicPageViewModelTests {
-    final class MockDelegate: ComicPageDelegate {
+    final class MockDelegate: ComicPageDelegate, @unchecked Sendable {
         private let throwError: Bool
         private let pagesToLoad: [PageInfo]
         private(set) var savedPageInfo: PageInfo?

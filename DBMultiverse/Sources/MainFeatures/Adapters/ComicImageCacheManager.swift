@@ -1,5 +1,5 @@
 //
-//  ComicImageCacheAdapter.swift
+//  ComicImageCacheManager.swift
 //  DBMultiverse
 //
 //  Created by Nikolai Nobadi on 1/9/25.
@@ -8,42 +8,42 @@
 import Foundation
 import DBMultiverseComicKit
 
-/// An adapter that implements the `ComicImageCache` protocol, providing functionality for caching comic images, managing chapter progress, and interacting with the filesystem.
-final class ComicImageCacheAdapter {
-    /// The type of comic (e.g., story or specials) for which the adapter is responsible.
+/// A manager that implements the `ComicImageCache` protocol, providing functionality for caching comic images, managing chapter progress, and interacting with the filesystem.
+final class ComicImageCacheManager {
+    /// The type of comic (e.g., story or specials) for which the manager is responsible.
     private let comicType: ComicType
     
-    /// The file manager instance used for accessing and modifying the file system.
-    private let fileManager: FileManager
+    /// The file system operations abstraction for accessing and modifying the file system.
+    private let fileSystemOperations: FileSystemOperations
     
-    /// The storel used for updating page progress.
+    /// The store used for updating page progress.
     private let store: ComicPageStore
     
-    /// A shared cache for storing cover images and progress metadata.
-    private let coverImageCache: CoverImageManager
+    /// The delegate for managing cover images and progress metadata.
+    private let coverImageDelegate: CoverImageDelegate
     
-    /// Initializes the `ComicImageCacheAdapter` with its dependencies.
+    /// Initializes the `ComicImageCacheManager` with its dependencies.
     /// - Parameters:
     ///   - comicType: The type of comic (story or specials).
     ///   - store: The store for managing chapter progress.
-    ///   - fileManager: The file manager instance for file operations. Defaults to `.default`.
-    ///   - coverImageCache: The shared cache for cover images.
-    init(comicType: ComicType, store: ComicPageStore, fileManager: FileManager = .default, coverImageCache: CoverImageManager = .init()) {
+    ///   - fileSystemOperations: The file system operations abstraction.
+    ///   - coverImageDelegate: The delegate for cover image operations.
+    init(comicType: ComicType, store: ComicPageStore, fileSystemOperations: FileSystemOperations, coverImageDelegate: CoverImageDelegate) {
         self.comicType = comicType
         self.store = store
-        self.fileManager = fileManager
-        self.coverImageCache = coverImageCache
+        self.fileSystemOperations = fileSystemOperations
+        self.coverImageDelegate = coverImageDelegate
     }
 }
 
 // MARK: - Cache
-extension ComicImageCacheAdapter: ComicImageCache {
+extension ComicImageCacheManager: ComicImageCache {
     /// Updates the current page number and read progress in the cache.
     /// - Parameters:
     ///   - pageNumber: The current page number being read.
     ///   - readProgress: The read progress as a percentage.
     func updateCurrentPageNumber(_ pageNumber: Int, readProgress: Int) {
-        coverImageCache.updateProgress(to: readProgress)
+        coverImageDelegate.updateProgress(to: readProgress)
         
         DispatchQueue.main.async { [unowned self] in
             store.updateCurrentPageNumber(pageNumber, comicType: comicType)
@@ -56,7 +56,7 @@ extension ComicImageCacheAdapter: ComicImageCache {
     ///   - metadata: The metadata associated with the cover image.
     /// - Throws: An error if the image data cannot be saved.
     func saveChapterCoverImage(imageData: Data, metadata: CoverImageMetaData) throws {
-        coverImageCache.saveCurrentChapterData(imageData: imageData, metadata: metadata)
+        coverImageDelegate.saveCurrentChapterData(imageData: imageData, metadata: metadata)
     }
     
     /// Loads a cached image for a specific chapter and page.
@@ -68,14 +68,14 @@ extension ComicImageCacheAdapter: ComicImageCache {
     func loadCachedImage(chapter: Int, page: Int) throws -> PageInfo? {
         let singlePagePath = getCacheDirectory(for: chapter, page: page)
         
-        if let data = fileManager.contents(atPath: singlePagePath.path) {
+        if let data = fileSystemOperations.contents(atPath: singlePagePath.path) {
             return PageInfo(chapter: chapter, pageNumber: page, secondPageNumber: nil, imageData: data)
         }
 
         let chapterFolder = singlePagePath.deletingLastPathComponent()
         let metadataFile = chapterFolder.appendingPathComponent("metadata.json")
         
-        if let metadataData = fileManager.contents(atPath: metadataFile.path),
+        if let metadataData = fileSystemOperations.contents(atPath: metadataFile.path),
            let metadata = try? JSONSerialization.jsonObject(with: metadataData, options: []) as? [String: Any],
            let pages = metadata["pages"] as? [[String: Any]],
            let pageEntry = pages.first(where: { $0["pageNumber"] as? Int == page }),
@@ -83,7 +83,7 @@ extension ComicImageCacheAdapter: ComicImageCache {
            let secondPageNumber = pageEntry["secondPageNumber"] as? Int {
             
             let twoPagePath = chapterFolder.appendingPathComponent(fileName)
-            if let data = fileManager.contents(atPath: twoPagePath.path) {
+            if let data = fileSystemOperations.contents(atPath: twoPagePath.path) {
                 return PageInfo(chapter: chapter, pageNumber: page, secondPageNumber: secondPageNumber, imageData: data)
             }
         }
@@ -97,15 +97,15 @@ extension ComicImageCacheAdapter: ComicImageCache {
     func savePageImage(pageInfo: PageInfo) throws {
         let filePath = getCacheDirectory(for: pageInfo.chapter, page: pageInfo.pageNumber, secondPageNumber: pageInfo.secondPageNumber)
         let chapterFolder = filePath.deletingLastPathComponent()
-        try fileManager.createDirectory(at: chapterFolder, withIntermediateDirectories: true)
+        try fileSystemOperations.createDirectory(at: chapterFolder, withIntermediateDirectories: true)
         
-        try pageInfo.imageData.write(to: filePath)
+        try fileSystemOperations.write(data: pageInfo.imageData, to: filePath)
         
         if let secondPageNumber = pageInfo.secondPageNumber {
             let metadataFile = chapterFolder.appendingPathComponent("metadata.json")
             var metadata: [String: Any] = [:]
             
-            if let existingData = fileManager.contents(atPath: metadataFile.path),
+            if let existingData = fileSystemOperations.contents(atPath: metadataFile.path),
                let existingMetadata = try? JSONSerialization.jsonObject(with: existingData, options: []) as? [String: Any] {
                 metadata = existingMetadata
             }
@@ -121,13 +121,13 @@ extension ComicImageCacheAdapter: ComicImageCache {
             metadata["pages"] = pages
             
             let updatedData = try JSONSerialization.data(withJSONObject: metadata, options: [.prettyPrinted])
-            try updatedData.write(to: metadataFile)
+            try fileSystemOperations.write(data: updatedData, to: metadataFile)
         }
     }
 }
 
 // MARK: - Private Methods
-private extension ComicImageCacheAdapter {
+private extension ComicImageCacheManager {
     /// Constructs the file path for caching a page image.
     /// - Parameters:
     ///   - chapter: The chapter number.
@@ -135,7 +135,7 @@ private extension ComicImageCacheAdapter {
     ///   - secondPageNumber: The second page number if applicable.
     /// - Returns: A `URL` representing the file path in the cache directory.
     func getCacheDirectory(for chapter: Int, page: Int, secondPageNumber: Int? = nil) -> URL {
-        let cacheDirectory = fileManager.urls(for: .cachesDirectory, in: .userDomainMask).first!
+        let cacheDirectory = fileSystemOperations.urls(for: .cachesDirectory, in: .userDomainMask).first!
         let fileName = secondPageNumber != nil ? "Page_\(page)-\(secondPageNumber!).jpg" : "Page_\(page).jpg"
         
         return cacheDirectory.appendingPathComponent("Chapters/Chapter_\(chapter)/\(fileName)")

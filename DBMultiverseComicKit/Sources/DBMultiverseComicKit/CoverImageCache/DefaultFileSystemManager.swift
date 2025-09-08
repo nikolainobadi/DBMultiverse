@@ -7,7 +7,7 @@
 
 import Foundation
 
-public class DefaultFileSystemManager: FileSystemManaging {
+public final class DefaultFileSystemManager: FileSystemManaging, @unchecked Sendable {
     private let fileManager = FileManager.default
     
     public init() {}

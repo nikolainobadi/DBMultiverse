@@ -8,7 +8,7 @@
 import UIKit
 import Foundation
 
-public class CoverImageCache {
+public struct CoverImageCache: Sendable {
     private let sharedContainerDirectory: URL
     private let fileSystemManager: FileSystemManaging
     private let imageCompressor: ImageCompressing
@@ -29,7 +29,7 @@ public class CoverImageCache {
 
 // MARK: - Init
 public extension CoverImageCache {
-    convenience init() {
+    init() {
         self.init(appGroupIdentifier: "group.com.nobadi.dbm", fileSystemManager: DefaultFileSystemManager(), imageCompressor: DefaultImageCompressor())
     }
 }
@@ -148,11 +148,11 @@ private extension CoverImageCache {
 
 
 // MARK: - Dependencies
-public protocol ImageCompressing {
+public protocol ImageCompressing: Sendable {
     func compressImageData(_ data: Data) -> Data?
 }
 
-public protocol FileSystemManaging {
+public protocol FileSystemManaging: Sendable {
     func write(data: Data, to url: URL) throws
     func readData(from url: URL) throws -> Data
     func containerURL(forSecurityApplicationGroupIdentifier: String) -> URL?

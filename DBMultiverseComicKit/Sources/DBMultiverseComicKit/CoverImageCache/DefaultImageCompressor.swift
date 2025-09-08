@@ -7,7 +7,7 @@
 
 import UIKit
 
-public class DefaultImageCompressor: ImageCompressing {
+public final class DefaultImageCompressor: ImageCompressing {
     public init() {}
     
     public func compressImageData(_ data: Data) -> Data? {

@@ -9,12 +9,12 @@ import Foundation
 
 public struct CoverImageManager: Sendable {
     private let sharedContainerDirectory: URL
-    private let fileSystemManager: FileSystemManaging
+    private let fileSystemManager: FileSystem
     private let imageCompressor: ImageCompressing
     private let imageFileName = "chapterCoverImage.jpg"
     private let jsonFileName = "currentChapterData.json"
     
-    init(appGroupIdentifier: String, fileSystemManager: FileSystemManaging, imageCompressor: ImageCompressing) {
+    init(appGroupIdentifier: String, fileSystemManager: FileSystem, imageCompressor: ImageCompressing) {
         guard let appGroupDirectory = fileSystemManager.containerURL(forSecurityApplicationGroupIdentifier: appGroupIdentifier) else {
             fatalError("Failed to get App Group directory")
         }
@@ -151,7 +151,7 @@ public protocol ImageCompressing: Sendable {
     func compressImageData(_ data: Data) -> Data?
 }
 
-public protocol FileSystemManaging: Sendable {
+public protocol FileSystem: Sendable {
     func write(data: Data, to url: URL) throws
     func readData(from url: URL) throws -> Data
     func containerURL(forSecurityApplicationGroupIdentifier: String) -> URL?

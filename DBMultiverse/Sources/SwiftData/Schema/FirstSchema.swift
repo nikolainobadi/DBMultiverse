@@ -20,31 +20,16 @@ public enum FirstSchema: VersionedSchema {
 
 // MARK: - IntakeEvent
 extension FirstSchema {
-    /// Represents a comic chapter stored in the database.
     @Model
     final class SwiftDataChapter {
-        /// The unique name of the chapter.
         @Attribute(.unique) var name: String
-        
-        /// The unique number of the chapter.
         @Attribute(.unique) var number: Int
         
-        /// The starting page of the chapter.
         var startPage: Int
-        
-        /// The ending page of the chapter.
         var endPage: Int
-        
-        /// The universe number associated with the chapter, if applicable.
         var universe: Int?
-        
-        /// The last page the user read in this chapter, if applicable.
         var lastReadPage: Int?
-        
-        /// The URL for the chapter's cover image.
         var coverImageURL: String
-        
-        /// Indicates whether the chapter has been completely read by the user.
         var didFinishReading: Bool = false
         
         /// Initializes a new `SwiftDataChapter` instance.

@@ -26,6 +26,6 @@ struct CacheChapterListView: View {
 #if DEBUG
 // MARK: - Preview
 #Preview {
-    CacheChapterListView(chapters: [])
+    CacheChapterListView(chapters: CachedChapter.sampleList)
 }
 #endif

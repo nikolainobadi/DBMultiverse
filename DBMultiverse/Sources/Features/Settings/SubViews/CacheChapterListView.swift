@@ -23,7 +23,9 @@ struct CacheChapterListView: View {
 }
 
 
+#if DEBUG
 // MARK: - Preview
 #Preview {
     CacheChapterListView(chapters: [])
 }
+#endif

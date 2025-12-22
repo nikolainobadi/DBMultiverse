@@ -56,7 +56,9 @@ struct LanguageSelectionView: View {
 }
 
 
+#if DEBUG
 // MARK: - Preview
 #Preview {
     LanguageSelectionView(selection: .english, updateLanguage: { _ in })
 }
+#endif

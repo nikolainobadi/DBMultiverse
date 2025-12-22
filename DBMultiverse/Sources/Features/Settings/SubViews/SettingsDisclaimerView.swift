@@ -17,7 +17,10 @@ struct SettingsDisclaimerView: View {
     }
 }
 
+
+#if DEBUG
 // MARK: - Preview
 #Preview {
     SettingsDisclaimerView()
 }
+#endif

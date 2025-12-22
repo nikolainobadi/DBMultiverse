@@ -65,7 +65,9 @@ struct SettingsFormView: View {
 }
 
 
+#if DEBUG
 // MARK: - Preview
 #Preview {
     SettingsFormView(viewModel: .init(), language: .english)
 }
+#endif

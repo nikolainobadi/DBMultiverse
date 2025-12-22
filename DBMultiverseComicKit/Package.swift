@@ -15,7 +15,7 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/nikolainobadi/NnTestKit", from: "1.0.0"),
-        .package(url: "https://github.com/nikolainobadi/NnSwiftUIKit.git", branch: "swift-6")
+        .package(url: "https://github.com/nikolainobadi/NnSwiftUIKit.git", from: "3.0.0")
     ],
     targets: [
         .target(

@@ -14,9 +14,9 @@
 		D47D00F02D2F4A050064FEB2 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D47D00EF2D2F4A050064FEB2 /* SwiftUI.framework */; };
 		D47D00FB2D2F4A060064FEB2 /* DBMultiverseWidgetsExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = D47D00EC2D2F4A050064FEB2 /* DBMultiverseWidgetsExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		D47D010D2D2F60310064FEB2 /* DBMultiverseComicKit in Frameworks */ = {isa = PBXBuildFile; productRef = D47D010C2D2F60310064FEB2 /* DBMultiverseComicKit */; };
-		D4A701972DA1C890008D3530 /* NnSwiftDataKit in Frameworks */ = {isa = PBXBuildFile; productRef = D4A701962DA1C890008D3530 /* NnSwiftDataKit */; };
 		D4E498292D31A8ED007F6E1A /* DBMultiverseParseKit in Frameworks */ = {isa = PBXBuildFile; productRef = D4E498282D31A8ED007F6E1A /* DBMultiverseParseKit */; };
 		D4F8342B2E6F69D10036D694 /* NnSwiftTestingHelpers in Frameworks */ = {isa = PBXBuildFile; productRef = D4F8342A2E6F69D10036D694 /* NnSwiftTestingHelpers */; };
+		FEBF4AF22EF9054500614481 /* NnSwiftDataKit in Frameworks */ = {isa = PBXBuildFile; productRef = FEBF4AF12EF9054500614481 /* NnSwiftDataKit */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -118,8 +118,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				D4E498292D31A8ED007F6E1A /* DBMultiverseParseKit in Frameworks */,
+				FEBF4AF22EF9054500614481 /* NnSwiftDataKit in Frameworks */,
 				D45F17562D2E0519006362E8 /* DBMultiverseComicKit in Frameworks */,
-				D4A701972DA1C890008D3530 /* NnSwiftDataKit in Frameworks */,
 				D46C707B2D1BB4F000C217D6 /* NnTestVariables in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -233,7 +233,7 @@
 				D46C707A2D1BB4F000C217D6 /* NnTestVariables */,
 				D45F17552D2E0519006362E8 /* DBMultiverseComicKit */,
 				D4E498282D31A8ED007F6E1A /* DBMultiverseParseKit */,
-				D4A701962DA1C890008D3530 /* NnSwiftDataKit */,
+				FEBF4AF12EF9054500614481 /* NnSwiftDataKit */,
 			);
 			productName = DBMultiverse;
 			productReference = E8A095B92CE0941200D28E3F /* DBMultiverse.app */;
@@ -247,7 +247,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1510;
-				LastUpgradeCheck = 1620;
+				LastUpgradeCheck = 1640;
 				TargetAttributes = {
 					D46C706D2D1BB4C000C217D6 = {
 						CreatedOnToolsVersion = 15.1;
@@ -273,7 +273,7 @@
 			mainGroup = E8A095B02CE0941200D28E3F;
 			packageReferences = (
 				D46C70692D1BB4A700C217D6 /* XCRemoteSwiftPackageReference "NnTestKit" */,
-				D4A701952DA1C890008D3530 /* XCRemoteSwiftPackageReference "NnSwiftDataKit" */,
+				FEBF4AF02EF9054500614481 /* XCRemoteSwiftPackageReference "NnSwiftDataKit" */,
 			);
 			productRefGroup = E8A095BA2CE0941200D28E3F /* Products */;
 			projectDirPath = "";
@@ -355,7 +355,6 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = R8SJ24LQF3;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MARKETING_VERSION = 1.0;
@@ -379,7 +378,6 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = R8SJ24LQF3;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MARKETING_VERSION = 1.0;
@@ -403,7 +401,6 @@
 				CODE_SIGN_ENTITLEMENTS = DBMultiverseWidgets/Resources/DBMultiverseWidgetsExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = R8SJ24LQF3;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = DBMultiverseWidgets/Resources/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = DBMultiverseWidgets;
@@ -414,7 +411,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.0.1;
+				MARKETING_VERSION = 1.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.nobadi.DBMultiverse.DBMultiverseWidgets;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -435,7 +432,6 @@
 				CODE_SIGN_ENTITLEMENTS = DBMultiverseWidgets/Resources/DBMultiverseWidgetsExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = R8SJ24LQF3;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = DBMultiverseWidgets/Resources/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = DBMultiverseWidgets;
@@ -446,7 +442,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.0.1;
+				MARKETING_VERSION = 1.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.nobadi.DBMultiverse.DBMultiverseWidgets;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -494,6 +490,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = R8SJ24LQF3;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -557,6 +554,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = R8SJ24LQF3;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -587,7 +585,6 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"DBMultiverse/Preview Content\"";
-				DEVELOPMENT_TEAM = R8SJ24LQF3;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = Multiverse;
@@ -602,7 +599,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.0;
+				MARKETING_VERSION = 1.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.nobadi.DBMultiverse;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -623,7 +620,6 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"DBMultiverse/Preview Content\"";
-				DEVELOPMENT_TEAM = R8SJ24LQF3;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = Multiverse;
@@ -638,7 +634,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.0;
+				MARKETING_VERSION = 1.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.nobadi.DBMultiverse;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -700,12 +696,12 @@
 				minimumVersion = 1.3.0;
 			};
 		};
-		D4A701952DA1C890008D3530 /* XCRemoteSwiftPackageReference "NnSwiftDataKit" */ = {
+		FEBF4AF02EF9054500614481 /* XCRemoteSwiftPackageReference "NnSwiftDataKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/nikolainobadi/NnSwiftDataKit.git";
+			repositoryURL = "https://github.com/nikolainobadi/NnSwiftDataKit";
 			requirement = {
-				branch = "swift-6";
-				kind = branch;
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.9.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
@@ -729,11 +725,6 @@
 			isa = XCSwiftPackageProductDependency;
 			productName = DBMultiverseComicKit;
 		};
-		D4A701962DA1C890008D3530 /* NnSwiftDataKit */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = D4A701952DA1C890008D3530 /* XCRemoteSwiftPackageReference "NnSwiftDataKit" */;
-			productName = NnSwiftDataKit;
-		};
 		D4E498282D31A8ED007F6E1A /* DBMultiverseParseKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = DBMultiverseParseKit;
@@ -742,6 +733,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = D46C70692D1BB4A700C217D6 /* XCRemoteSwiftPackageReference "NnTestKit" */;
 			productName = NnSwiftTestingHelpers;
+		};
+		FEBF4AF12EF9054500614481 /* NnSwiftDataKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FEBF4AF02EF9054500614481 /* XCRemoteSwiftPackageReference "NnSwiftDataKit" */;
+			productName = NnSwiftDataKit;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

@@ -61,17 +61,6 @@ private extension MainFeaturesView {
 }
 
 
-// MARK: - Preview
-#Preview {
-    struct PreviewLoader: ChapterLoader {
-        func loadChapters(url: URL?) async throws -> [Chapter] { [] }
-    }
-    
-    return MainFeaturesView(language: .constant(.english), viewModel: .init(loader: PreviewLoader()))
-        .withPreviewModifiers()
-}
-
-
 // MARK: - Extension Dependencies
 private extension SwiftDataChapterListEventHandler {
     static func customInit(viewModel: MainFeaturesViewModel, chapterList: SwiftDataChapterList) -> SwiftDataChapterListEventHandler {
@@ -102,3 +91,17 @@ private extension ComicPageViewModel {
         return .init(chapter: route.chapter, currentPageNumber: currentPageNumber, delegate: manager)
     }
 }
+
+
+
+#if DEBUG
+// MARK: - Preview
+#Preview {
+    struct PreviewLoader: ChapterLoader {
+        func loadChapters(url: URL?) async throws -> [Chapter] { [] }
+    }
+    
+    return MainFeaturesView(language: .constant(.english), viewModel: .init(loader: PreviewLoader()))
+        .withPreviewModifiers()
+}
+#endif

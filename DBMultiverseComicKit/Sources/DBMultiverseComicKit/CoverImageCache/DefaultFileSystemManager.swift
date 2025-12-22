@@ -7,11 +7,17 @@
 
 import Foundation
 
-public final class DefaultFileSystemManager: FileSystemManaging, @unchecked Sendable {
-    private let fileManager = FileManager.default
+public final class DefaultFileSystemManager: @unchecked Sendable {
+    private let fileManager: FileManager
     
-    public init() {}
-    
+    public init(fileManager: FileManager = .default) {
+        self.fileManager = fileManager
+    }
+}
+
+
+// MARK: - FileSystem
+extension DefaultFileSystemManager: FileSystem {
     public func containerURL(forSecurityApplicationGroupIdentifier identifier: String) -> URL? {
         return fileManager.containerURL(forSecurityApplicationGroupIdentifier: identifier)
     }

@@ -54,8 +54,16 @@ extension View {
 
 
 // MARK: - Extension Dependencies
-fileprivate extension SwiftDataChapter {
+private extension SwiftDataChapter {
     convenience init(chapter: Chapter) {
-        self.init(name: chapter.name, number: chapter.number, startPage: chapter.startPage, endPage: chapter.endPage, universe: chapter.universe, lastReadPage: chapter.lastReadPage, coverImageURL: chapter.coverImageURL)
+        self.init(
+            name: chapter.name,
+            number: chapter.number,
+            startPage: chapter.startPage,
+            endPage: chapter.endPage,
+            universe: chapter.universe,
+            lastReadPage: chapter.lastReadPage,
+            coverImageURL: chapter.coverImageURL
+        )
     }
 }

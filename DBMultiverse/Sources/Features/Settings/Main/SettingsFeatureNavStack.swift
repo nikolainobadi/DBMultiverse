@@ -52,7 +52,9 @@ struct SettingsFeatureNavStack: View {
 }
 
 
+#if DEBUG
 // MARK: - Preview
 #Preview {
     SettingsFeatureNavStack(language: .constant(.english), viewModel: .init(), canDismiss: true)
 }
+#endif

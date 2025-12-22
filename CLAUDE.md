@@ -86,3 +86,18 @@ When creating new Swift files, use "Nikolai Nobadi" as the creator name in file 
 
 ### Language Support
 Multiple languages supported via `ComicLanguage` enum with URL generation for different language versions of the comic.
+
+## Project Guidelines
+Project-specific guidelines are located in `.guidelines/claude/`
+
+## iOS Architecture
+- SwiftUI-based views
+- No business logic inside SwiftUI views
+- Modular feature-based architecture
+
+## iOS Testing
+- Prefer behavior-driven unit tests (Swift Testing, `@Test("…")`)
+- Use `makeSUT` + `trackForMemoryLeaks` in tests
+- No inline comments in test files; use `// MARK:` only for sectioning
+- Default to type-safe assertions (`#expect`, `#require`)
+- Use `waitUntil` for `@Published`/reactive assertions instead of sleeps

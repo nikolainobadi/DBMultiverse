@@ -11,12 +11,10 @@ import NnSwiftUIKit
 
 struct PreviewModifiersViewModifier: ViewModifier {
     func body(content: Content) -> some View {
-        MainActor.assumeIsolated {
-            content
-                .withNnErrorHandling()
-                .environment(\.isPreview, true)
-                .modelContainer(PreviewSampleData.container)
-        }
+        content
+            .withNnErrorHandling()
+            .environment(\.isPreview, true)
+            .modelContainer(PreviewSampleData.container)
     }
 }
 

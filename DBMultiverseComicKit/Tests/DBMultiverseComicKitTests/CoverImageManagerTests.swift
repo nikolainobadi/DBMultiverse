@@ -169,7 +169,7 @@ private extension CoverImageManagerTests {
 
 // MARK: - Mocks
 private extension CoverImageManagerTests {
-    final class MockFileSystemManager: FileSystemManaging, @unchecked Sendable {
+    final class MockFileSystemManager: FileSystem, @unchecked Sendable {
         private let shouldThrowError: Bool
         private(set) var mockContainerURL: URL
         private(set) var mockReadData: Data

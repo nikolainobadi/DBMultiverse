@@ -17,10 +17,11 @@ struct ChapterListFeatureView: View {
     
     var body: some View {
         ChapterListView(imageSize: imageSize, eventHandler: eventHandler) { selection in
-            iPhoneComicPicker(selection: selection)
-                .showingConditionalView(when: isPad) {
-                    iPadComicPicker(selection: selection)
-                }
+            if isPad {
+                iPadComicPicker(selection: selection)
+            } else {
+                iPhoneComicPicker(selection: selection)
+            }
         }
     }
 }

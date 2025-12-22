@@ -17,6 +17,6 @@ struct DBMultiverseApp: App {
                 .withNnErrorHandling()
                 .preferredColorScheme(.dark)
         }
-        .initializeSwiftDataModelContainer(schema: .init([SwiftDataChapter.self]))
+        .initializeSwiftDataModelContainer(schema: .init(versionedSchema: CurrentSchema.self))
     }
 }

@@ -23,8 +23,10 @@ struct LaunchView: View {
 }
 
 
+#if DEBUG
 // MARK: - Preview
 #Preview {
     LaunchView()
         .withPreviewModifiers()
 }
+#endif

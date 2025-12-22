@@ -17,36 +17,17 @@ struct WelcomeView: View {
     
     var body: some View {
         VStack {
-            WelcomeHeaderView()
+            header
             
             Spacer()
             
-            DisclaimerView()
-                .showingConditionalView(when: selectingLanguage) {
-                    VStack {
-                        Text("Choose a language")
-                            .padding()
-                            .withFont()
-                        
-                        LanguagePicker(selection: $language)
-                    }
-                }
+            disclaimerSection
             
             Spacer()
             
-            VStack {
-                Button("Select Language") {
-                    selectingLanguage = true
-                }
-                .withFont()
-                .showingConditionalView(when: selectingLanguage) {
-                    Button("Get Started", action: getStarted)
-                        .padding()
-                        .withFont()
-                }
+            buttonSection
+                .padding()
                 .buttonStyle(.borderedProminent)
-            }
-            .padding()
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
     }
@@ -54,8 +35,8 @@ struct WelcomeView: View {
 
 
 // MARK: - Header
-fileprivate struct WelcomeHeaderView: View {
-    var body: some View {
+private extension WelcomeView {
+    var header: some View {
         VStack {
             Text("Welcome to")
                 .bold()
@@ -74,10 +55,41 @@ fileprivate struct WelcomeHeaderView: View {
                 .bold()
         }
     }
+    
+    @ViewBuilder
+    var disclaimerSection: some View {
+        if selectingLanguage {
+            VStack {
+                Text("Choose a language")
+                    .padding()
+                    .withFont()
+                
+                LanguagePicker(selection: $language)
+            }
+        } else {
+            DisclaimerView()
+        }
+    }
+    
+    @ViewBuilder
+    var buttonSection: some View {
+        if selectingLanguage {
+            Button("Get Started", action: getStarted)
+                .padding()
+                .withFont()
+        } else {
+            Button("Select Language") {
+                selectingLanguage = true
+            }
+            .withFont()
+        }
+    }
 }
 
 
+#if DEBUG
 // MARK: - Preview
 #Preview {
     WelcomeView(language: .constant(.english), getStarted: { })
 }
+#endif

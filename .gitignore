@@ -23,3 +23,6 @@ CIPipeKit/TestResults
 node_modules/
 serviceKey/
 otherFiles/
+
+# Claude guidelines
+.guidelines/

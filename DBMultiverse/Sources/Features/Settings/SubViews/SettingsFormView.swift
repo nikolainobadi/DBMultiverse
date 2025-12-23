@@ -16,26 +16,7 @@ struct SettingsFormView: View {
     var body: some View {
         Form {
             DynamicSection("Cached Data") {
-                VStack {
-                    Text("View Cached Chapters")
-                        .foregroundColor(.blue)
-                        .withFont()
-                        .tappable(withChevron: true) {
-                            viewModel.showView(.cacheList)
-                        }
-                    
-                    Divider()
-                    
-                    HapticButton("Clear All Cached Data", action: viewModel.clearCache)
-                        .padding()
-                        .tint(.red)
-                        .buttonStyle(.bordered)
-                        .withFont(textColor: .red)
-                        .frame(maxWidth: .infinity)
-                }
-                .showingConditionalView(when: viewModel.cachedChapters.isEmpty) {
-                    Text("No cached data")
-                }
+                cachedDataSectionContent
             }
             
             DynamicSection("Language") {
@@ -50,17 +31,51 @@ struct SettingsFormView: View {
             
             DynamicSection("Web Comic Links") {
                 ForEach(SettingsLinkItem.allCases, id: \.name) { link in
-                    if let url = viewModel.makeURL(for: link, language: language) {
-                        Link(link.name, destination: url)
-                            .padding(.vertical, 10)
-                            .textLinearGradient(.lightStarrySky)
-                            .asRowItem(withChevron: true)
-                            .withFont()
-                    }
+                    linkRow(link)
                 }
             }
         }
         .scrollContentBackground(.hidden)
+    }
+}
+
+
+// MARK: - Subviews
+private extension SettingsFormView {
+    @ViewBuilder
+    var cachedDataSectionContent: some View {
+        if viewModel.cachedChapters.isEmpty {
+            Text("No cached data")
+        } else {
+            VStack {
+                Text("View Cached Chapters")
+                    .foregroundColor(.blue)
+                    .withFont()
+                    .tappable(withChevron: true) {
+                        viewModel.showView(.cacheList)
+                    }
+                
+                Divider()
+                
+                HapticButton("Clear All Cached Data", action: viewModel.clearCache)
+                    .padding()
+                    .tint(.red)
+                    .buttonStyle(.bordered)
+                    .withFont(textColor: .red)
+                    .frame(maxWidth: .infinity)
+            }
+        }
+    }
+    
+    @ViewBuilder
+    func linkRow(_ link: SettingsLinkItem) -> some View {
+        if let url = viewModel.makeURL(for: link, language: language) {
+            Link(link.name, destination: url)
+                .padding(.vertical, 10)
+                .textLinearGradient(.lightStarrySky)
+                .asRowItem(withChevron: true)
+                .withFont()
+        }
     }
 }
 

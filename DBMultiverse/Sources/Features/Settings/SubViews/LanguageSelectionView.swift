@@ -23,6 +23,26 @@ struct LanguageSelectionView: View {
             LanguagePicker(selection: $selection)
                 .padding(.vertical)
             
+            languageUpdateView
+        }
+        .navigationBarBackButtonHidden(true)
+        .animation(.easeInOut, value: didChangeLanguage)
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+        .trackingItemChanges(item: selection, itemDidChange: $didChangeLanguage)
+        .withDiscardChangesNavBarDismissButton(
+            message: "You've selected a new language.",
+            itemToModify: selection,
+            dismissButtonInfo: .init(prompt: "Don't change language.")
+        )
+    }
+}
+
+
+// MARK: - Subviews
+private extension LanguageSelectionView {
+    @ViewBuilder
+    var languageUpdateView: some View {
+        if didChangeLanguage {
             VStack {
                 Spacer()
                 Text("If you change your language, all your cached image data will be reset.")
@@ -41,17 +61,7 @@ struct LanguageSelectionView: View {
                 
                 Spacer()
             }
-            .onlyShow(when: didChangeLanguage)
         }
-        .navigationBarBackButtonHidden(true)
-        .animation(.easeInOut, value: didChangeLanguage)
-        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
-        .trackingItemChanges(item: selection, itemDidChange: $didChangeLanguage)
-        .withDiscardChangesNavBarDismissButton(
-            message: "You've selected a new language.",
-            itemToModify: selection,
-            dismissButtonInfo: .init(prompt: "Don't change language.")
-        )
     }
 }
 

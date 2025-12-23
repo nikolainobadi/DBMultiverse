@@ -14,8 +14,12 @@ struct DBMultiverseWidgets: Widget {
 
     var body: some WidgetConfiguration {
         StaticConfiguration(kind: kind, provider: Provider()) { entry in
-            DBMultiverseWidgetContentView(entry: entry)
-                .containerBackground(LinearGradient.starrySky, for: .widget)
+            if #available(iOSApplicationExtension 17.0, *) {
+                DBMultiverseWidgetContentView(entry: entry)
+                    .containerBackground(LinearGradient.starrySky, for: .widget)
+            } else {
+                DBMultiverseWidgetContentView(entry: entry)
+            }
         }
         .configurationDisplayName("DBMultiverse Widget")
         .description("Quickly jump back into the action where you last left off.")

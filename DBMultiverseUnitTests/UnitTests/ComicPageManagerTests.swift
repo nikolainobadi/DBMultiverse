@@ -12,7 +12,8 @@ import DBMultiverseComicKit
 @testable import DBMultiverse
 
 @MainActor
-final class ComicPageManagerTests: TrackingMemoryLeaks {
+@LeakTracked
+final class ComicPageManagerTests {
     
     @Test("Starting values are empty")
     func startingValuesAreEmpty() {

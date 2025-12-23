@@ -12,10 +12,8 @@ import DBMultiverseComicKit
 @testable import DBMultiverse
 
 @MainActor
-final class ComicImageCacheManagerTests: TrackingMemoryLeaks {
-    
-    // MARK: - Initial State Tests
-    
+@LeakTracked
+final class ComicImageCacheManagerTests {
     @Test("Initialization starts with empty state")
     func initStartsWithEmptyState() {
         let (_, store, fileSystem, coverDelegate) = makeSUT()

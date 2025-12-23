@@ -12,7 +12,8 @@ import DBMultiverseComicKit
 @testable import DBMultiverse
 
 @MainActor
-final class SettingsViewModelTests: TrackingMemoryLeaks {
+@LeakTracked
+final class SettingsViewModelTests {
     @Test("Initial state has default values")
     func initialStateHasDefaultValues() {
         let (sut, _) = makeSUT()

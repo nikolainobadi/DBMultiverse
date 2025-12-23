@@ -11,7 +11,8 @@ import NnSwiftTestingHelpers
 @testable import DBMultiverseComicKit
 
 @MainActor
-final class ComicPageViewModelTests: TrackingMemoryLeaks {
+@LeakTracked
+final class ComicPageViewModelTests {
     @Test("Starting values are initialized correctly")
     func emptyStartingValues() {
         let currentPageNumber = 1

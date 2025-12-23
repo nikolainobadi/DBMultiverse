@@ -12,7 +12,8 @@ import DBMultiverseComicKit
 @testable import DBMultiverse
 
 @MainActor
-final class MainFeaturesViewModelTests: TrackingMemoryLeaks {
+@LeakTracked
+final class MainFeaturesViewModelTests {
     @Test("Starting values are empty")
     func startingValuesAreEmpty() {
         let (sut, loader) = makeSUT()

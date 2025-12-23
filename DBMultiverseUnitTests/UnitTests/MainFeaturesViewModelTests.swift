@@ -224,7 +224,7 @@ private extension MainFeaturesViewModelTests {
         }
     }
 
-    final class MockWidgetTimelineReloader: WidgetTimelineReloading {
+    final class MockWidgetTimelineReloader: WidgetTimelineReloader {
         private(set) var chapterChanges: [(chapter: Int, progress: Int)] = []
         private(set) var progressChanges: [Int] = []
 

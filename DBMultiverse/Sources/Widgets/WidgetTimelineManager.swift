@@ -5,23 +5,27 @@
 //  Created by Nikolai Nobadi on 1/11/25.
 //
 
-import Foundation
 import WidgetKit
+import Foundation
 import DBMultiverseComicKit
 
 @MainActor
-final class WidgetTimelineReloader: WidgetTimelineReloading {
+final class WidgetTimelineManager {
     private let coverImageManager: CoverImageManager
     private var cachedState: WidgetSyncState?
     private var debounceTask: Task<Void, Never>?
     private let widgetKind = "DBMultiverseWidgets"
     private let minimumProgressDelta = 5
-
+    
     init(coverImageManager: CoverImageManager = .init()) {
         self.coverImageManager = coverImageManager
         self.cachedState = coverImageManager.loadWidgetSyncState()
     }
-    
+}
+
+
+// MARK: - WidgetTimelineReloader
+extension WidgetTimelineManager: WidgetTimelineReloader {
     func notifyChapterChange(chapter: Int, progress: Int) {
         debounceTask?.cancel()
         let targetState = WidgetSyncState(chapter: chapter, progress: progress)
@@ -32,8 +36,14 @@ final class WidgetTimelineReloader: WidgetTimelineReloading {
         debounceTask?.cancel()
         debounceTask = Task { @MainActor [weak self] in
             try? await Task.sleep(nanoseconds: 2_000_000_000)
-            guard let self, !Task.isCancelled else { return }
-            guard let chapterData = self.coverImageManager.loadCurrentChapterData() else { return }
+            guard
+                let self,
+                !Task.isCancelled,
+                let chapterData = self.coverImageManager.loadCurrentChapterData()
+            else {
+                return
+            }
+            
             let targetState = WidgetSyncState(chapter: chapterData.number, progress: progress)
             self.triggerReloadIfNeeded(for: targetState)
         }
@@ -41,7 +51,7 @@ final class WidgetTimelineReloader: WidgetTimelineReloading {
 }
 
 // MARK: - Private Helpers
-private extension WidgetTimelineReloader {
+private extension WidgetTimelineManager {
     func triggerReloadIfNeeded(for targetState: WidgetSyncState, force: Bool = false) {
         let shouldReload: Bool
         
@@ -58,10 +68,10 @@ private extension WidgetTimelineReloader {
             shouldReload = true
         }
         
-        guard shouldReload else { return }
-        
-        WidgetCenter.shared.reloadTimelines(ofKind: widgetKind)
-        cachedState = targetState
-        coverImageManager.saveWidgetSyncState(targetState)
+        if shouldReload {
+            WidgetCenter.shared.reloadTimelines(ofKind: widgetKind)
+            cachedState = targetState
+            coverImageManager.saveWidgetSyncState(targetState)
+        }
     }
 }

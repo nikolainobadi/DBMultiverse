@@ -107,7 +107,7 @@ private extension ComicPageViewModel {
         .withPreviewModifiers()
 }
 
-private final class PreviewDelegate: ChapterLoader, WidgetTimelineReloading {
+private final class PreviewDelegate: ChapterLoader, WidgetTimelineReloader {
     func notifyProgressChange(progress: Int) { }
     func notifyChapterChange(chapter: Int, progress: Int) { }
     func loadChapters(url: URL?) async throws -> [Chapter] { [] }

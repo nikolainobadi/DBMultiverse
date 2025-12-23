@@ -25,7 +25,7 @@ struct LaunchView: View {
 
 private extension MainFeaturesViewModel {
     static func customInit() -> MainFeaturesViewModel {
-        return .init(loader: ChapterLoaderAdapter(), widgetTimelineReloader: WidgetTimelineReloader())
+        return .init(loader: ChapterLoaderAdapter(), widgetTimelineReloader: WidgetTimelineManager())
     }
 }
 

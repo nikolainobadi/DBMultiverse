@@ -337,7 +337,7 @@ private final class MockCoverImageDelegate: CoverImageDelegate {
 }
 
 @MainActor
-private final class MockWidgetTimelineReloader: WidgetTimelineReloading {
+private final class MockWidgetTimelineReloader: WidgetTimelineReloader {
     struct ChapterChange: Equatable {
         let chapter: Int
         let progress: Int

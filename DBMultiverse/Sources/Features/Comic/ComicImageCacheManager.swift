@@ -23,7 +23,7 @@ struct ComicImageCacheManager {
     private let coverImageDelegate: CoverImageDelegate
     
     /// Handles throttled widget timeline reloads to keep the widget in sync.
-    private let widgetTimelineReloader: WidgetTimelineReloading
+    private let widgetTimelineReloader: WidgetTimelineReloader
     
     /// Initializes the `ComicImageCacheManager` with its dependencies.
     /// - Parameters:
@@ -31,7 +31,7 @@ struct ComicImageCacheManager {
     ///   - store: The store for managing chapter progress.
     ///   - fileSystemOperations: The file system operations abstraction.
     ///   - coverImageDelegate: The delegate for cover image operations.
-    init(comicType: ComicType, store: ComicPageStore, fileSystemOperations: FileSystemOperations, coverImageDelegate: CoverImageDelegate, widgetTimelineReloader: WidgetTimelineReloading) {
+    init(comicType: ComicType, store: ComicPageStore, fileSystemOperations: FileSystemOperations, coverImageDelegate: CoverImageDelegate, widgetTimelineReloader: WidgetTimelineReloader) {
         self.comicType = comicType
         self.store = store
         self.fileSystemOperations = fileSystemOperations
@@ -159,7 +159,7 @@ protocol CoverImageDelegate {
 }
 
 @MainActor
-protocol WidgetTimelineReloading: AnyObject {
+protocol WidgetTimelineReloader: AnyObject {
     func notifyChapterChange(chapter: Int, progress: Int)
     func notifyProgressChange(progress: Int)
 }

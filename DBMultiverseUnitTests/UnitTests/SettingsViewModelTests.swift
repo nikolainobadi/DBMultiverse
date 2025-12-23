@@ -16,39 +16,45 @@ import DBMultiverseComicKit
 final class SettingsViewModelTests {
     @Test("Initial state has default values")
     func initialStateHasDefaultValues() {
-        let (sut, _) = makeSUT()
-        
+        let sut = makeSUT().sut
+
         #expect(sut.route == nil)
         #expect(sut.showingErrorAlert == false)
         #expect(sut.showingClearedCacheAlert == false)
         #expect(sut.cachedChapters.isEmpty)
     }
-    
+}
+
+// MARK: - Show View
+extension SettingsViewModelTests {
     @Test("Show view updates route correctly")
     func showViewUpdatesRouteCorrectly() {
-        let (sut, _) = makeSUT()
-        
+        let sut = makeSUT().sut
+
         sut.showView(.cacheList)
         #expect(sut.route == .cacheList)
-        
+
         sut.showView(.languageSelection)
         #expect(sut.route == .languageSelection)
-        
+
         sut.showView(.disclaimer)
         #expect(sut.route == .disclaimer)
     }
-    
+}
+
+// MARK: - Make URL
+extension SettingsViewModelTests {
     @Test("Make URL returns correct URL for all link items")
     func makeURLReturnsCorrectURLForAllLinkItems() {
-        let (sut, _) = makeSUT()
+        let sut = makeSUT().sut
         let language = ComicLanguage.english
-        
+
         for linkItem in SettingsLinkItem.allCases {
             let url = sut.makeURL(for: linkItem, language: language)
-            
+
             #expect(url != nil)
             #expect(url?.absoluteString.contains(language.rawValue) == true)
-            
+
             switch linkItem {
             case .authors:
                 #expect(url?.absoluteString.contains("the-authors.html") == true)
@@ -59,7 +65,10 @@ final class SettingsViewModelTests {
             }
         }
     }
-    
+}
+
+// MARK: - Clear Cache
+extension SettingsViewModelTests {
     @Test("Clear cache removes all files successfully")
     func clearCacheRemovesAllFilesSuccessfully() {
         let mockFiles = [
@@ -68,32 +77,49 @@ final class SettingsViewModelTests {
             URL(fileURLWithPath: "/cache/file3.jpg")
         ]
         let (sut, mockFileManager) = makeSUT(cacheContents: mockFiles)
-        
+
         sut.cachedChapters = [
             CachedChapter(number: "1", imageCount: 10),
             CachedChapter(number: "2", imageCount: 15)
         ]
-        
+
         sut.clearCache()
-        
+
         #expect(mockFileManager.removeItemCallCount == mockFiles.count)
         #expect(mockFileManager.removedURLs == mockFiles)
         #expect(sut.cachedChapters.isEmpty)
         #expect(sut.showingClearedCacheAlert == true)
         #expect(sut.showingErrorAlert == false)
     }
-    
+
     @Test("Clear cache shows error alert on failure")
     func clearCacheShowsErrorAlertOnFailure() {
         let (sut, mockFileManager) = makeSUT(shouldThrowError: true)
-        
+
         sut.clearCache()
-        
+
         #expect(sut.showingErrorAlert == true)
         #expect(sut.showingClearedCacheAlert == false)
         #expect(mockFileManager.removeItemCallCount == 0)
     }
-    
+
+    @Test("Clear cache preserves cached chapters on error")
+    func clearCachePreservesCachedChaptersOnError() {
+        let sut = makeSUT(shouldThrowError: true).sut
+        let initialChapters = [
+            CachedChapter(number: "1", imageCount: 10),
+            CachedChapter(number: "2", imageCount: 15)
+        ]
+        sut.cachedChapters = initialChapters
+
+        sut.clearCache()
+
+        #expect(sut.cachedChapters == initialChapters)
+    }
+}
+
+// MARK: - Load Cached Chapters
+extension SettingsViewModelTests {
     @Test("Load cached chapters reads chapter folders correctly")
     func loadCachedChaptersReadsChapterFoldersCorrectly() {
         let chapter1Images = [
@@ -106,62 +132,47 @@ final class SettingsViewModelTests {
             URL(fileURLWithPath: "/cache/Chapters/Chapter_2/page2.jpg"),
             URL(fileURLWithPath: "/cache/Chapters/Chapter_2/page3.jpg")
         ]
-        
+
         let chapterFolders = [
             URL(fileURLWithPath: "/cache/Chapters/Chapter_1"),
             URL(fileURLWithPath: "/cache/Chapters/Chapter_2")
         ]
-        
+
         let (sut, mockFileManager) = makeSUT()
         mockFileManager.setupChapterData(folders: chapterFolders, folderContents: [
             "/cache/Chapters/Chapter_1": chapter1Images,
             "/cache/Chapters/Chapter_2": chapter2Images
         ])
-        
+
         sut.loadCachedChapters()
-        
+
         #expect(sut.cachedChapters.count == 2)
         #expect(sut.cachedChapters[0].number == "1")
         #expect(sut.cachedChapters[0].imageCount == 2)
         #expect(sut.cachedChapters[1].number == "2")
         #expect(sut.cachedChapters[1].imageCount == 3)
     }
-    
+
     @Test("Load cached chapters handles empty cache directory")
     func loadCachedChaptersHandlesEmptyCacheDirectory() {
         let (sut, mockFileManager) = makeSUT()
         mockFileManager.setupChapterData(folders: [], folderContents: [:])
-        
+
         sut.loadCachedChapters()
-        
+
         #expect(sut.cachedChapters.isEmpty)
     }
-    
+
     @Test("Load cached chapters handles error gracefully")
     func loadCachedChaptersHandlesErrorGracefully() {
         let (sut, mockFileManager) = makeSUT()
         mockFileManager.shouldThrowOnContentsOfDirectory = true
-        
+
         sut.loadCachedChapters()
-        
+
         #expect(sut.cachedChapters.isEmpty)
     }
-    
-    @Test("Clear cache preserves cached chapters on error")
-    func clearCachePreservesCachedChaptersOnError() {
-        let sut = makeSUT(shouldThrowError: true).sut
-        let initialChapters = [
-            CachedChapter(number: "1", imageCount: 10),
-            CachedChapter(number: "2", imageCount: 15)
-        ]
-        sut.cachedChapters = initialChapters
-        
-        sut.clearCache()
-        
-        #expect(sut.cachedChapters == initialChapters)
-    }
 }
-
 
 // MARK: - SUT
 private extension SettingsViewModelTests {
@@ -178,69 +189,70 @@ private extension SettingsViewModelTests {
             cacheContents: cacheContents
         )
         let sut = SettingsViewModel(fileManager: mockFileManager)
-        
+
         trackForMemoryLeaks(sut, fileID: fileID, filePath: filePath, line: line, column: column)
         trackForMemoryLeaks(mockFileManager, fileID: fileID, filePath: filePath, line: line, column: column)
-        
+
         return (sut, mockFileManager)
     }
 }
 
-
-// MARK: - Mock File Manager
-private final class MockFileManager: FileManaging, @unchecked Sendable {
-    private let shouldThrowError: Bool
-    private let cacheContents: [URL]
-    private var chapterFolders: [URL] = []
-    private var folderContents: [String: [URL]] = [:]
-    
-    var shouldThrowOnContentsOfDirectory = false
-    private(set) var removeItemCallCount = 0
-    private(set) var removedURLs: [URL] = []
-    
-    init(shouldThrowError: Bool = false, cacheContents: [URL] = []) {
-        self.shouldThrowError = shouldThrowError
-        self.cacheContents = cacheContents
-    }
-    
-    func setupChapterData(folders: [URL], folderContents: [String: [URL]]) {
-        self.chapterFolders = folders
-        self.folderContents = folderContents
-    }
-    
-    func urls(for directory: FileManager.SearchPathDirectory, in domainMask: FileManager.SearchPathDomainMask) -> [URL] {
-        return [URL(fileURLWithPath: "/cache")]
-    }
-    
-    func contentsOfDirectory(at url: URL, includingPropertiesForKeys keys: [URLResourceKey]?) throws -> [URL] {
-        if shouldThrowError || shouldThrowOnContentsOfDirectory {
-            throw MockError.testError
+// MARK: - Mocks
+private extension SettingsViewModelTests {
+    final class MockFileManager: FileManaging, @unchecked Sendable {
+        private let shouldThrowError: Bool
+        private let cacheContents: [URL]
+        private var chapterFolders: [URL] = []
+        private var folderContents: [String: [URL]] = [:]
+        
+        var shouldThrowOnContentsOfDirectory = false
+        private(set) var removeItemCallCount = 0
+        private(set) var removedURLs: [URL] = []
+        
+        init(shouldThrowError: Bool = false, cacheContents: [URL] = []) {
+            self.shouldThrowError = shouldThrowError
+            self.cacheContents = cacheContents
         }
         
-        if url.path == "/cache" {
-            return cacheContents
+        func setupChapterData(folders: [URL], folderContents: [String: [URL]]) {
+            self.chapterFolders = folders
+            self.folderContents = folderContents
         }
         
-        if url.path == "/cache/Chapters" {
-            return chapterFolders
+        func urls(for directory: FileManager.SearchPathDirectory, in domainMask: FileManager.SearchPathDomainMask) -> [URL] {
+            return [URL(fileURLWithPath: "/cache")]
         }
         
-        if let contents = folderContents[url.path] {
-            return contents
+        func contentsOfDirectory(at url: URL, includingPropertiesForKeys keys: [URLResourceKey]?) throws -> [URL] {
+            if shouldThrowError || shouldThrowOnContentsOfDirectory {
+                throw MockError.testError
+            }
+            
+            if url.path == "/cache" {
+                return cacheContents
+            }
+            
+            if url.path == "/cache/Chapters" {
+                return chapterFolders
+            }
+            
+            if let contents = folderContents[url.path] {
+                return contents
+            }
+            
+            return []
         }
         
-        return []
+        func removeItem(at URL: URL) throws {
+            if shouldThrowError {
+                throw MockError.testError
+            }
+            removeItemCallCount += 1
+            removedURLs.append(URL)
+        }
     }
     
-    func removeItem(at URL: URL) throws {
-        if shouldThrowError {
-            throw MockError.testError
-        }
-        removeItemCallCount += 1
-        removedURLs.append(URL)
+    enum MockError: Error {
+        case testError
     }
-}
-
-private enum MockError: Error {
-    case testError
 }

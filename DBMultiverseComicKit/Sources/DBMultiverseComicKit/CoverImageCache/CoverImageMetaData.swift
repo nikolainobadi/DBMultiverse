@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct CoverImageMetaData {
+public struct CoverImageMetaData: Equatable {
     public let chapterName: String
     public let chapterNumber: Int
     public let readProgress: Int

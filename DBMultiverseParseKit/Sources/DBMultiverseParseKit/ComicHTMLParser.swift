@@ -13,8 +13,11 @@ public enum ComicHTMLParser {
         do {
             let html = try makeHTML(from: data)
             let document = try SwiftSoup.parse(html)
-            
-            guard let imgElement = try document.select("img[id=balloonsimg]").first() else {
+    
+            guard let imgElement = try document
+                .select("#balloonsimg img")
+                .first()
+            else {
                 throw ComicParseError.imageElementNotFound
             }
             

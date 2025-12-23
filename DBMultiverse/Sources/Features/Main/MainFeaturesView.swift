@@ -78,7 +78,13 @@ private extension ComicPageViewModel {
         let currentPageNumber = store.getCurrentPageNumber(for: route.comicType)
         let fileSystemOperations = FileSystemOperationsAdapter()
         let coverImageDelegate = CoverImageDelegateAdapter()
-        let imageCache = ComicImageCacheManager(comicType: route.comicType, store: store, fileSystemOperations: fileSystemOperations, coverImageDelegate: coverImageDelegate)
+        let imageCache = ComicImageCacheManager(
+            comicType: route.comicType,
+            store: store,
+            fileSystemOperations: fileSystemOperations,
+            coverImageDelegate: coverImageDelegate,
+            widgetTimelineReloader: WidgetTimelineReloader.shared
+        )
         let networkService = ComicPageNetworkServiceAdapter()
         let manager = ComicPageManager(
             chapter: route.chapter,

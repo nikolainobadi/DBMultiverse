@@ -23,7 +23,7 @@ struct Provider: TimelineProvider {
     
     func getTimeline(in context: Context, completion: @escaping (Timeline<ComicImageEntry>) -> Void) {
         let entry = loadEntry(for: context.family) ?? makePlaceholderEntry(for: context.family)
-        completion(.init(entries: [entry], policy: .never))
+        completion(.init(entries: [entry], policy: .after(Date().addingTimeInterval(3600))))
     }
 }
 

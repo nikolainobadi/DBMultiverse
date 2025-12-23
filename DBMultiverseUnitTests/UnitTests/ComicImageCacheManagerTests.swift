@@ -16,7 +16,7 @@ import DBMultiverseComicKit
 final class ComicImageCacheManagerTests {
     @Test("Initialization starts with empty state")
     func initStartsWithEmptyState() {
-        let (_, store, fileSystem, coverDelegate) = makeSUT()
+        let (_, store, fileSystem, coverDelegate, _) = makeSUT()
 
         #expect(store.lastUpdateInfo == nil)
         #expect(coverDelegate.lastProgressUpdate == nil)
@@ -32,7 +32,7 @@ extension ComicImageCacheManagerTests {
     func updatesCoverImageProgress() {
         let pageNumber = 5
         let readProgress = 50
-        let (sut, _, _, coverDelegate) = makeSUT()
+        let (sut, _, _, coverDelegate, _) = makeSUT()
 
         sut.updateCurrentPageNumber(pageNumber, readProgress: readProgress)
 
@@ -44,12 +44,22 @@ extension ComicImageCacheManagerTests {
         let pageNumber = 7
         let readProgress = 70
         let comicType = ComicType.specials
-        let (sut, store, _, _) = makeSUT(comicType: comicType)
+        let (sut, store, _, _, _) = makeSUT(comicType: comicType)
 
         sut.updateCurrentPageNumber(pageNumber, readProgress: readProgress)
 
         let expectedUpdate = MockComicPageStore.UpdateInfo(pageNumber: pageNumber, comicType: comicType)
         try await store.$lastUpdateInfo.waitUntil { $0 == expectedUpdate }
+    }
+    
+    @Test("Notifies widget reloader on progress updates")
+    func notifiesWidgetReloaderOnProgressUpdates() {
+        let readProgress = 60
+        let (sut, _, _, _, reloader) = makeSUT()
+        
+        sut.updateCurrentPageNumber(10, readProgress: readProgress)
+        
+        #expect(reloader.progressChanges == [readProgress])
     }
 }
 
@@ -59,12 +69,13 @@ extension ComicImageCacheManagerTests {
     func delegatesToCoverImageDelegate() throws {
         let imageData = Data("test-image".utf8)
         let metadata = makeCoverImageMetadata()
-        let (sut, _, _, coverDelegate) = makeSUT()
+        let (sut, _, _, coverDelegate, reloader) = makeSUT()
 
         try sut.saveChapterCoverImage(imageData: imageData, metadata: metadata)
 
         let expectedData = MockCoverImageDelegate.SavedChapterData(imageData: imageData, metadata: metadata)
         #expect(coverDelegate.lastSavedChapterData == expectedData)
+        #expect(reloader.chapterChanges == [MockWidgetTimelineReloader.ChapterChange(chapter: metadata.chapterNumber, progress: metadata.readProgress)])
     }
 }
 
@@ -75,7 +86,7 @@ extension ComicImageCacheManagerTests {
         let chapter = 3
         let page = 5
         let expectedData = Data("cached-image".utf8)
-        let (sut, _, fileSystem, _) = makeSUT()
+        let (sut, _, fileSystem, _, _) = makeSUT()
         fileSystem.fileContents["/Users/test/Library/Caches/Chapters/Chapter_3/Page_5.jpg"] = expectedData
 
         let result = try sut.loadCachedImage(chapter: chapter, page: page)
@@ -92,7 +103,7 @@ extension ComicImageCacheManagerTests {
         let page = 8
         let secondPage = 9
         let expectedData = Data("double-page-image".utf8)
-        let (sut, _, fileSystem, _) = makeSUT()
+        let (sut, _, fileSystem, _, _) = makeSUT()
 
         let metadata: [String: Any] = [
             "pages": [
@@ -124,7 +135,7 @@ extension ComicImageCacheManagerTests {
     func handlesCorruptedMetadataGracefully() throws {
         let chapter = 1
         let page = 1
-        let (sut, _, fileSystem, _) = makeSUT()
+        let (sut, _, fileSystem, _, _) = makeSUT()
 
         fileSystem.fileContents["/Users/test/Library/Caches/Chapters/Chapter_1/metadata.json"] = Data("invalid json".utf8)
 
@@ -139,7 +150,7 @@ extension ComicImageCacheManagerTests {
     @Test("Creates directory and writes single page data")
     func createsDirectoryAndWritesSinglePageData() throws {
         let pageInfo = makePageInfo(chapter: 5, pageNumber: 10)
-        let (sut, _, fileSystem, _) = makeSUT()
+        let (sut, _, fileSystem, _, _) = makeSUT()
 
         try sut.savePageImage(pageInfo: pageInfo)
 
@@ -153,7 +164,7 @@ extension ComicImageCacheManagerTests {
     @Test("Saves double page with metadata")
     func savesDoublePageWithMetadata() throws {
         let pageInfo = makePageInfo(chapter: 3, pageNumber: 20, secondPageNumber: 21)
-        let (sut, _, fileSystem, _) = makeSUT()
+        let (sut, _, fileSystem, _, _) = makeSUT()
 
         try sut.savePageImage(pageInfo: pageInfo)
 
@@ -185,7 +196,7 @@ extension ComicImageCacheManagerTests {
         let existingData = try JSONSerialization.data(withJSONObject: existingMetadata)
 
         let pageInfo = makePageInfo(chapter: 3, pageNumber: 20, secondPageNumber: 21, imageData: Data("new-double-page".utf8))
-        let (sut, _, fileSystem, _) = makeSUT()
+        let (sut, _, fileSystem, _, _) = makeSUT()
         fileSystem.fileContents["/Users/test/Library/Caches/Chapters/Chapter_3/metadata.json"] = existingData
 
         try sut.savePageImage(pageInfo: pageInfo)
@@ -210,7 +221,7 @@ extension ComicImageCacheManagerTests {
     @Test("Handles file system errors gracefully")
     func handlesFileSystemErrorsGracefully() {
         let pageInfo = makePageInfo(chapter: 1, pageNumber: 1)
-        let (sut, _, fileSystem, _) = makeSUT()
+        let (sut, _, fileSystem, _, _) = makeSUT()
         fileSystem.shouldThrowError = true
 
         #expect(throws: (any Error).self) {
@@ -228,8 +239,8 @@ extension ComicImageCacheManagerTests {
         let storyType = ComicType.story
         let specialsType = ComicType.specials
 
-        let (storySUT, storyStore, _, _) = makeSUT(comicType: storyType)
-        let (specialsSUT, specialsStore, _, _) = makeSUT(comicType: specialsType)
+        let (storySUT, storyStore, _, _, _) = makeSUT(comicType: storyType)
+        let (specialsSUT, specialsStore, _, _, _) = makeSUT(comicType: specialsType)
 
         storySUT.updateCurrentPageNumber(pageNumber, readProgress: readProgress)
         specialsSUT.updateCurrentPageNumber(pageNumber, readProgress: readProgress)
@@ -249,22 +260,25 @@ private extension ComicImageCacheManagerTests {
         filePath: String = #filePath,
         line: Int = #line,
         column: Int = #column
-    ) -> (sut: ComicImageCacheManager, store: MockComicPageStore, fileSystem: MockFileSystemOperations, coverDelegate: MockCoverImageDelegate) {
+    ) -> (sut: ComicImageCacheManager, store: MockComicPageStore, fileSystem: MockFileSystemOperations, coverDelegate: MockCoverImageDelegate, reloader: MockWidgetTimelineReloader) {
         let store = MockComicPageStore()
         let fileSystem = MockFileSystemOperations()
         let coverDelegate = MockCoverImageDelegate()
+        let reloader = MockWidgetTimelineReloader()
         let sut = ComicImageCacheManager(
             comicType: comicType,
             store: store,
             fileSystemOperations: fileSystem,
-            coverImageDelegate: coverDelegate
+            coverImageDelegate: coverDelegate,
+            widgetTimelineReloader: reloader
         )
 
         trackForMemoryLeaks(store, fileID: fileID, filePath: filePath, line: line, column: column)
         trackForMemoryLeaks(fileSystem, fileID: fileID, filePath: filePath, line: line, column: column)
         trackForMemoryLeaks(coverDelegate, fileID: fileID, filePath: filePath, line: line, column: column)
+        trackForMemoryLeaks(reloader, fileID: fileID, filePath: filePath, line: line, column: column)
 
-        return (sut, store, fileSystem, coverDelegate)
+        return (sut, store, fileSystem, coverDelegate, reloader)
     }
 }
 
@@ -319,6 +333,25 @@ private final class MockCoverImageDelegate: CoverImageDelegate {
     struct SavedChapterData: Equatable {
         let imageData: Data
         let metadata: CoverImageMetaData
+    }
+}
+
+@MainActor
+private final class MockWidgetTimelineReloader: WidgetTimelineReloading {
+    struct ChapterChange: Equatable {
+        let chapter: Int
+        let progress: Int
+    }
+    
+    private(set) var progressChanges: [Int] = []
+    private(set) var chapterChanges: [ChapterChange] = []
+    
+    func notifyChapterChange(chapter: Int, progress: Int) {
+        chapterChanges.append(.init(chapter: chapter, progress: progress))
+    }
+    
+    func notifyProgressChange(progress: Int) {
+        progressChanges.append(progress)
     }
 }
 

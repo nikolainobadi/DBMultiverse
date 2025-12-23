@@ -22,17 +22,21 @@ struct ComicImageCacheManager {
     /// The delegate for managing cover images and progress metadata.
     private let coverImageDelegate: CoverImageDelegate
     
+    /// Handles throttled widget timeline reloads to keep the widget in sync.
+    private let widgetTimelineReloader: WidgetTimelineReloading
+    
     /// Initializes the `ComicImageCacheManager` with its dependencies.
     /// - Parameters:
     ///   - comicType: The type of comic (story or specials).
     ///   - store: The store for managing chapter progress.
     ///   - fileSystemOperations: The file system operations abstraction.
     ///   - coverImageDelegate: The delegate for cover image operations.
-    init(comicType: ComicType, store: ComicPageStore, fileSystemOperations: FileSystemOperations, coverImageDelegate: CoverImageDelegate) {
+    init(comicType: ComicType, store: ComicPageStore, fileSystemOperations: FileSystemOperations, coverImageDelegate: CoverImageDelegate, widgetTimelineReloader: WidgetTimelineReloading) {
         self.comicType = comicType
         self.store = store
         self.fileSystemOperations = fileSystemOperations
         self.coverImageDelegate = coverImageDelegate
+        self.widgetTimelineReloader = widgetTimelineReloader
     }
 }
 
@@ -45,6 +49,7 @@ extension ComicImageCacheManager: ComicImageCache {
     func updateCurrentPageNumber(_ pageNumber: Int, readProgress: Int) {
         coverImageDelegate.updateProgress(to: readProgress)
         store.updateCurrentPageNumber(pageNumber, comicType: comicType)
+        widgetTimelineReloader.notifyProgressChange(progress: readProgress)
     }
     
     /// Saves a chapter cover image and its metadata to the cache.
@@ -54,6 +59,7 @@ extension ComicImageCacheManager: ComicImageCache {
     /// - Throws: An error if the image data cannot be saved.
     func saveChapterCoverImage(imageData: Data, metadata: CoverImageMetaData) throws {
         coverImageDelegate.saveCurrentChapterData(imageData: imageData, metadata: metadata)
+        widgetTimelineReloader.notifyChapterChange(chapter: metadata.chapterNumber, progress: metadata.readProgress)
     }
     
     /// Loads a cached image for a specific chapter and page.

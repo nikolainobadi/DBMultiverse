@@ -6,15 +6,19 @@
 //
 
 import SwiftUI
+import WidgetKit
 
 struct DBMultiverseWidgetContentView: View {
     let entry: ComicImageEntry
     
     var body: some View {
-        if entry.family == .systemSmall {
-            SmallWidgetView(entry: entry)
-        } else {
-            MediumWidgetView(entry: entry)
+        Group {
+            if entry.family == .systemSmall {
+                SmallWidgetView(entry: entry)
+            } else {
+                MediumWidgetView(entry: entry)
+            }
         }
+        .widgetURL(entry.deepLink)
     }
 }

@@ -10,21 +10,13 @@ import WidgetKit
 import DBMultiverseComicKit
 
 @MainActor
-protocol WidgetTimelineReloading: AnyObject {
-    func notifyChapterChange(chapter: Int, progress: Int)
-    func notifyProgressChange(progress: Int)
-}
-
-@MainActor
 final class WidgetTimelineReloader: WidgetTimelineReloading {
-    static let shared = WidgetTimelineReloader()
-    
     private let coverImageManager: CoverImageManager
     private var cachedState: WidgetSyncState?
     private var debounceTask: Task<Void, Never>?
     private let widgetKind = "DBMultiverseWidgets"
     private let minimumProgressDelta = 5
-    
+
     init(coverImageManager: CoverImageManager = .init()) {
         self.coverImageManager = coverImageManager
         self.cachedState = coverImageManager.loadWidgetSyncState()

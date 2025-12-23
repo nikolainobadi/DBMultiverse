@@ -16,9 +16,11 @@ import DBMultiverseComicKit
 final class MainFeaturesViewModelTests {
     @Test("Starting values are empty")
     func startingValuesAreEmpty() {
-        let (sut, loader) = makeSUT()
+        let (sut, loader, reloader) = makeSUT()
 
         #expect(loader.urlPath == nil)
+        #expect(reloader.chapterChanges.isEmpty)
+        #expect(reloader.progressChanges.isEmpty)
         #expect(sut.chapters.isEmpty)
         #expect(sut.nextChapterToRead == nil)
         #expect(sut.lastReadMainStoryPage == 0)
@@ -31,7 +33,7 @@ extension MainFeaturesViewModelTests {
     @Test("URL contains correct language parameter for all languages")
     func urlContainsCorrectLanguageParameter() async throws {
         for language in ComicLanguage.allCases {
-            let (sut, loader) = makeSUT()
+            let (sut, loader, _) = makeSUT()
 
             try await sut.loadData(language: language)
 
@@ -165,15 +167,17 @@ private extension MainFeaturesViewModelTests {
         filePath: String = #filePath,
         line: Int = #line,
         column: Int = #column
-    ) -> (sut: MainFeaturesViewModel, loader: MockLoader) {
+    ) -> (sut: MainFeaturesViewModel, loader: MockLoader, reloader: MockWidgetTimelineReloader) {
         let defaults = makeTestDefaults()
         let loader = MockLoader(throwError: throwError, chaptersToLoad: chaptersToLoad)
-        let sut = MainFeaturesViewModel(loader: loader, userDefaults: defaults)
+        let reloader = MockWidgetTimelineReloader()
+        let sut = MainFeaturesViewModel(loader: loader, widgetTimelineReloader: reloader, userDefaults: defaults)
 
         trackForMemoryLeaks(sut, fileID: fileID, filePath: filePath, line: line, column: column)
         trackForMemoryLeaks(loader, fileID: fileID, filePath: filePath, line: line, column: column)
+        trackForMemoryLeaks(reloader, fileID: fileID, filePath: filePath, line: line, column: column)
 
-        return (sut, loader)
+        return (sut, loader, reloader)
     }
 }
 
@@ -217,6 +221,19 @@ private extension MainFeaturesViewModelTests {
             urlPath = url?.path
 
             return chaptersToLoad
+        }
+    }
+
+    final class MockWidgetTimelineReloader: WidgetTimelineReloading {
+        private(set) var chapterChanges: [(chapter: Int, progress: Int)] = []
+        private(set) var progressChanges: [Int] = []
+
+        func notifyChapterChange(chapter: Int, progress: Int) {
+            chapterChanges.append((chapter, progress))
+        }
+
+        func notifyProgressChange(progress: Int) {
+            progressChanges.append(progress)
         }
     }
 }

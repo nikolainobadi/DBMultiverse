@@ -158,6 +158,12 @@ protocol CoverImageDelegate {
     func saveCurrentChapterData(imageData: Data, metadata: CoverImageMetaData)
 }
 
+@MainActor
+protocol WidgetTimelineReloading: AnyObject {
+    func notifyChapterChange(chapter: Int, progress: Int)
+    func notifyProgressChange(progress: Int)
+}
+
 protocol FileSystemOperations: Sendable {
     func write(data: Data, to url: URL) throws
     func contents(atPath path: String) -> Data?

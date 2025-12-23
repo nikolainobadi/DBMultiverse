@@ -24,29 +24,11 @@ struct DBMultiverseWidgets: Widget {
 }
 
 
-// MARK: - ContentView
-fileprivate struct DBMultiverseWidgetContentView: View {
-    let entry: ComicImageEntry
-    
-    var body: some View {
-        if entry.family == .systemSmall {
-            SmallWidgetView(entry: entry)
-        } else {
-            MediumWidgetView(entry: entry)
-        }
-    }
-}
-
-
-
+#if DEBUG
 // MARK: - Preview
 #Preview(as: .systemSmall) {
     DBMultiverseWidgets()
 } timeline: {
     ComicImageEntry.makeSample(family: .systemSmall)
 }
-//#Preview(as: .systemMedium) {
-//    DBMultiverseWidgets()
-//} timeline: {
-//    ComicImageEntry.makeSample(family: .systemMedium)
-//}
+#endif

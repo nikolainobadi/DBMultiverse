@@ -10,7 +10,7 @@ import WidgetKit
 import DBMultiverseComicKit
 
 struct DBMultiverseWidgets: Widget {
-    private let kind: String = "DBMultiverseWidgets"
+    private let kind: String = WIDGET_KIND
 
     var body: some WidgetConfiguration {
         StaticConfiguration(kind: kind, provider: Provider()) { entry in

@@ -13,7 +13,6 @@ struct WidgetSyncViewModifier: ViewModifier {
     @Environment(\.scenePhase) private var scenePhase
     @State private var lastSyncedState: WidgetSyncState?
     
-    private let widgetKind = "DBMultiverseWidgets"
     private let coverImageManager = CoverImageManager()
     
     func body(content: Content) -> some View {
@@ -44,9 +43,9 @@ private extension WidgetSyncViewModifier {
         let currentState = WidgetSyncState(chapter: currentChapterData.number, progress: currentChapterData.progress)
         
         if currentState != lastSyncedState {
-            WidgetCenter.shared.reloadTimelines(ofKind: widgetKind)
             lastSyncedState = currentState
             coverImageManager.saveWidgetSyncState(currentState)
+            WidgetCenter.shared.reloadTimelines(ofKind: WIDGET_KIND)
         }
     }
 }

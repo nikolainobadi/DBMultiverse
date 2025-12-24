@@ -14,7 +14,6 @@ final class WidgetTimelineManager {
     private let coverImageManager: CoverImageManager
     private var cachedState: WidgetSyncState?
     private var debounceTask: Task<Void, Never>?
-    private let widgetKind = "DBMultiverseWidgets"
     private let minimumProgressDelta = 5
     
     init(coverImageManager: CoverImageManager = .init()) {
@@ -69,9 +68,9 @@ private extension WidgetTimelineManager {
         }
         
         if shouldReload {
-            WidgetCenter.shared.reloadTimelines(ofKind: widgetKind)
             cachedState = targetState
             coverImageManager.saveWidgetSyncState(targetState)
+            WidgetCenter.shared.reloadTimelines(ofKind: WIDGET_KIND)
         }
     }
 }

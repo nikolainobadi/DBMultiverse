@@ -20,8 +20,9 @@ struct WidgetSyncViewModifier: ViewModifier {
         content
             .onAppear(perform: cacheLastSyncedStateIfNeeded)
             .onChange(of: scenePhase) { _, newValue in
-                guard newValue == .background else { return }
-                syncWidgetTimelineIfNeeded()
+                if newValue == .background {
+                    syncWidgetTimelineIfNeeded()
+                }
             }
     }
 }
@@ -30,17 +31,23 @@ struct WidgetSyncViewModifier: ViewModifier {
 // MARK: - Private Methods
 private extension WidgetSyncViewModifier {
     func cacheLastSyncedStateIfNeeded() {
-        guard lastSyncedState == nil else { return }
-        lastSyncedState = coverImageManager.loadWidgetSyncState()
+        if lastSyncedState == nil {
+            lastSyncedState = coverImageManager.loadWidgetSyncState()
+        }
     }
     
     func syncWidgetTimelineIfNeeded() {
-        guard let currentChapterData = coverImageManager.loadCurrentChapterData() else { return }
+        guard let currentChapterData = coverImageManager.loadCurrentChapterData() else {
+            return
+        }
+        
         let currentState = WidgetSyncState(chapter: currentChapterData.number, progress: currentChapterData.progress)
-        guard currentState != lastSyncedState else { return }
-        WidgetCenter.shared.reloadTimelines(ofKind: widgetKind)
-        lastSyncedState = currentState
-        coverImageManager.saveWidgetSyncState(currentState)
+        
+        if currentState != lastSyncedState {
+            WidgetCenter.shared.reloadTimelines(ofKind: widgetKind)
+            lastSyncedState = currentState
+            coverImageManager.saveWidgetSyncState(currentState)
+        }
     }
 }
 

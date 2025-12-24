@@ -13,8 +13,8 @@ struct WidgetSyncViewModifier: ViewModifier {
     @Environment(\.scenePhase) private var scenePhase
     @State private var lastSyncedState: WidgetSyncState?
     
-    private let coverImageManager = CoverImageManager()
     private let widgetKind = "DBMultiverseWidgets"
+    private let coverImageManager = CoverImageManager()
     
     func body(content: Content) -> some View {
         content

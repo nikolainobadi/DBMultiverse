@@ -10,7 +10,7 @@ import WidgetKit
 import DBMultiverseComicKit
 
 struct DBMultiverseWidgets: Widget {
-    let kind: String = "DBMultiverseWidgets"
+    private let kind: String = WIDGET_KIND
 
     var body: some WidgetConfiguration {
         StaticConfiguration(kind: kind, provider: Provider()) { entry in
@@ -24,29 +24,11 @@ struct DBMultiverseWidgets: Widget {
 }
 
 
-// MARK: - ContentView
-fileprivate struct DBMultiverseWidgetContentView: View {
-    let entry: ComicImageEntry
-    
-    var body: some View {
-        if entry.family == .systemSmall {
-            SmallWidgetView(entry: entry)
-        } else {
-            MediumWidgetView(entry: entry)
-        }
-    }
-}
-
-
-
+#if DEBUG
 // MARK: - Preview
 #Preview(as: .systemSmall) {
     DBMultiverseWidgets()
 } timeline: {
     ComicImageEntry.makeSample(family: .systemSmall)
 }
-//#Preview(as: .systemMedium) {
-//    DBMultiverseWidgets()
-//} timeline: {
-//    ComicImageEntry.makeSample(family: .systemMedium)
-//}
+#endif

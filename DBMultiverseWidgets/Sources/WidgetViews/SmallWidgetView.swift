@@ -15,21 +15,13 @@ struct SmallWidgetView: View {
     var body: some View {
         VStack(spacing: 0) {
             HStack {
-                HStack {
-                    Text("Ch")
-                        .textLinearGradient(.yellowText)
-                    Text("\(entry.chapter)")
-                        .textLinearGradient(.redText)
-                }
-                .withFont()
-                
+                ChapterHeaderView(chapter: entry.chapter)
+
                 Text("\(entry.progress)%")
                     .bold()
                     .withFont(.caption2, textColor: .white, autoSizeLineLimit: 1)
             }
-            .bold()
             .padding(.bottom, 5)
-            .font(.title2)
 
             if let image = entry.image {
                 image
@@ -38,25 +30,18 @@ struct SmallWidgetView: View {
             }
         }
         .showingConditionalView(when: entry.chapter == 0) {
-            VStack {
-                Text("Read")
-                    .padding(5)
-                    .withFont(.caption2, textColor: .white)
-                Text("Multiverse")
-                    .textLinearGradient(.yellowText)
-                Text("Reader")
-                    .textLinearGradient(.redText)
-            }
-            .withFont(autoSizeLineLimit: 1)
+            PlaceholderWidgetContentView(isSmallStyle: true)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
     }
 }
 
 
+#if DEBUG
 // MARK: - Preview
 #Preview(as: .systemSmall) {
     DBMultiverseWidgets()
 } timeline: {
     ComicImageEntry.makeSample(family: .systemSmall)
 }
+#endif

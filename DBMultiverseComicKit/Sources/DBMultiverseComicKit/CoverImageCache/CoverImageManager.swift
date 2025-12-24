@@ -13,6 +13,7 @@ public struct CoverImageManager: Sendable {
     private let imageCompressor: ImageCompressing
     private let imageFileName = "chapterCoverImage.jpg"
     private let jsonFileName = "currentChapterData.json"
+    private let widgetSyncStateFileName = "widgetSyncState.json"
     
     init(appGroupIdentifier: String, fileSystemManager: FileSystem, imageCompressor: ImageCompressing) {
         guard let appGroupDirectory = fileSystemManager.containerURL(forSecurityApplicationGroupIdentifier: appGroupIdentifier) else {
@@ -46,6 +47,28 @@ public extension CoverImageManager {
         } catch {
             print("Failed to load current chapter data JSON: \(error)")
             return nil
+        }
+    }
+    
+    func loadWidgetSyncState() -> WidgetSyncState? {
+        let fileURL = sharedContainerDirectory.appendingPathComponent(widgetSyncStateFileName)
+        
+        do {
+            let data = try fileSystemManager.readData(from: fileURL)
+            return try JSONDecoder().decode(WidgetSyncState.self, from: data)
+        } catch {
+            return nil
+        }
+    }
+    
+    func saveWidgetSyncState(_ state: WidgetSyncState) {
+        let fileURL = sharedContainerDirectory.appendingPathComponent(widgetSyncStateFileName)
+        
+        do {
+            let data = try JSONEncoder().encode(state)
+            try fileSystemManager.write(data: data, to: fileURL)
+        } catch {
+            print("Failed to save widget sync state: \(error)")
         }
     }
 }

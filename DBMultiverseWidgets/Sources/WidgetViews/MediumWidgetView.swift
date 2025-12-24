@@ -13,71 +13,43 @@ struct MediumWidgetView: View {
     let entry: ComicImageEntry
     
     var body: some View {
-        Link(destination: entry.deepLink) {
+        HStack {
+            if let image = entry.image {
+                image
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+            }
+            
+            Spacer()
+            
             HStack {
-                if let image = entry.image {
-                    image
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                }
-                
-                Spacer()
-                
-                HStack {
-                    VStack {
-                        HStack {
-                            HStack {
-                                Text("Ch")
-                                    .textLinearGradient(.yellowText)
-                                Text("\(entry.chapter)")
-                                    .textLinearGradient(.redText)
-                            }
-                            .withFont()
-                        }
-                        .bold()
+                VStack {
+                    ChapterHeaderView(chapter: entry.chapter)
                         .padding(.bottom, 5)
-                        .font(.title2)
-                        
-                        Text(entry.name)
-                            .padding(.horizontal)
-                            .multilineTextAlignment(.center)
-                            .withFont(.caption, textColor: .white,  autoSizeLineLimit: 2)
-                    }
-                    
-                    Text("\(entry.progress)%")
-                        .withFont(textColor: .white)
+
+                    Text(entry.name)
+                        .padding(.horizontal)
+                        .multilineTextAlignment(.center)
+                        .withFont(.caption, textColor: .white,  autoSizeLineLimit: 2)
                 }
+
+                Text("\(entry.progress)%")
+                    .withFont(textColor: .white)
             }
         }
         .showingConditionalView(when: entry.chapter == 0) {
-            HStack {
-                Image("sampleCoverImage")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .padding(.horizontal)
-                Spacer()
-                VStack {
-                    Text("Read")
-                        .withFont(.caption, textColor: .white, autoSizeLineLimit: 1)
-                    
-                    HStack {
-                        Text("Multiverse")
-                            .textLinearGradient(.yellowText)
-                        Text("Reader")
-                            .textLinearGradient(.redText)
-                    }
-                    .withFont(autoSizeLineLimit: 1)
-                }
-            }
+            PlaceholderWidgetContentView(isSmallStyle: false)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
     }
 }
 
 
+#if DEBUG
 // MARK: - Preview
 #Preview(as: .systemMedium) {
     DBMultiverseWidgets()
 } timeline: {
     ComicImageEntry.makeSample(family: .systemMedium)
 }
+#endif

@@ -11,17 +11,42 @@ import DBMultiverseComicKit
 
 struct WidgetSyncViewModifier: ViewModifier {
     @Environment(\.scenePhase) private var scenePhase
-    @State private var lastSavedChapterData: CurrentChapterData?
+    @State private var lastSyncedState: WidgetSyncState?
+    
+    private let coverImageManager = CoverImageManager()
     
     func body(content: Content) -> some View {
         content
-            .onChange(of: scenePhase) {
-                // to prevent widget from being reloaded too often
-                if let currentChapterData = CoverImageManager().loadCurrentChapterData(), lastSavedChapterData != currentChapterData {
-                    WidgetCenter.shared.reloadAllTimelines()
-                    lastSavedChapterData = currentChapterData
+            .onAppear(perform: cacheLastSyncedStateIfNeeded)
+            .onChange(of: scenePhase) { _, newValue in
+                if newValue == .background {
+                    syncWidgetTimelineIfNeeded()
                 }
             }
+    }
+}
+
+
+// MARK: - Private Methods
+private extension WidgetSyncViewModifier {
+    func cacheLastSyncedStateIfNeeded() {
+        if lastSyncedState == nil {
+            lastSyncedState = coverImageManager.loadWidgetSyncState()
+        }
+    }
+    
+    func syncWidgetTimelineIfNeeded() {
+        guard let currentChapterData = coverImageManager.loadCurrentChapterData() else {
+            return
+        }
+        
+        let currentState = WidgetSyncState(chapter: currentChapterData.number, progress: currentChapterData.progress)
+        
+        if currentState != lastSyncedState {
+            lastSyncedState = currentState
+            coverImageManager.saveWidgetSyncState(currentState)
+            WidgetCenter.shared.reloadTimelines(ofKind: WIDGET_KIND)
+        }
     }
 }
 

@@ -693,7 +693,7 @@
 			repositoryURL = "https://github.com/nikolainobadi/NnTestKit";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 1.3.0;
+				minimumVersion = 2.0.0;
 			};
 		};
 		FEBF4AF02EF9054500614481 /* XCRemoteSwiftPackageReference "NnSwiftDataKit" */ = {

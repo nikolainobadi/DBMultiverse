@@ -78,7 +78,13 @@ private extension ComicPageViewModel {
         let currentPageNumber = store.getCurrentPageNumber(for: route.comicType)
         let fileSystemOperations = FileSystemOperationsAdapter()
         let coverImageDelegate = CoverImageDelegateAdapter()
-        let imageCache = ComicImageCacheManager(comicType: route.comicType, store: store, fileSystemOperations: fileSystemOperations, coverImageDelegate: coverImageDelegate)
+        let imageCache = ComicImageCacheManager(
+            comicType: route.comicType,
+            store: store,
+            fileSystemOperations: fileSystemOperations,
+            coverImageDelegate: coverImageDelegate,
+            widgetTimelineReloader: store.widgetTimelineReloader
+        )
         let networkService = ComicPageNetworkServiceAdapter()
         let manager = ComicPageManager(
             chapter: route.chapter,
@@ -87,7 +93,7 @@ private extension ComicPageViewModel {
             networkService: networkService,
             chapterProgressHandler: chapterList
         )
-        
+
         return .init(chapter: route.chapter, currentPageNumber: currentPageNumber, delegate: manager)
     }
 }
@@ -97,11 +103,19 @@ private extension ComicPageViewModel {
 #if DEBUG
 // MARK: - Preview
 #Preview {
-    struct PreviewLoader: ChapterLoader {
-        func loadChapters(url: URL?) async throws -> [Chapter] { [] }
-    }
-    
-    return MainFeaturesView(language: .constant(.english), viewModel: .init(loader: PreviewLoader()))
+    MainFeaturesView(language: .constant(.english), viewModel: .previewInit(delegate: PreviewDelegate()))
         .withPreviewModifiers()
+}
+
+private final class PreviewDelegate: ChapterLoader, WidgetTimelineReloader {
+    func notifyProgressChange(progress: Int) { }
+    func notifyChapterChange(chapter: Int, progress: Int) { }
+    func loadChapters(url: URL?) async throws -> [Chapter] { [] }
+}
+
+private extension MainFeaturesViewModel {
+    static func previewInit(delegate: PreviewDelegate) -> MainFeaturesViewModel {
+        return .init(loader: delegate, widgetTimelineReloader: delegate)
+    }
 }
 #endif

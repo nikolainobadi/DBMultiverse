@@ -5,45 +5,54 @@
 //  Created by Nikolai Nobadi on 1/8/25.
 //
 
+import UIKit
 import SwiftUI
 import WidgetKit
 import DBMultiverseComicKit
 
 struct Provider: TimelineProvider {
+    private let coverImageManager = CoverImageManager()
+    
     func placeholder(in context: Context) -> ComicImageEntry {
-        return .makeSample(family: context.family)
+        .makeSample(family: context.family)
     }
     
     func getSnapshot(in context: Context, completion: @escaping (ComicImageEntry) -> Void) {
-        guard let chapterData = CoverImageManager().loadCurrentChapterData() else {
-            completion(.init(date: .now, chapter: 0, name: "", progress: 0, image: nil, family: context.family, deepLink: .sampleURL))
-            return
-        }
-        
-        let progress = chapterData.progress
-        let image = makeImage(path: chapterData.coverImagePath)
-        
-        completion(.init(date: .now, chapter: chapterData.number, name: chapterData.name, progress: progress, image: image, family: context.family, deepLink: .sampleURL))
+        completion(loadEntry(for: context.family) ?? makePlaceholderEntry(for: context.family))
     }
     
     func getTimeline(in context: Context, completion: @escaping (Timeline<ComicImageEntry>) -> Void) {
-        guard let chapterData = CoverImageManager().loadCurrentChapterData() else {
-            completion(.init(entries: [.init(date: .now, chapter: 0, name: "", progress: 0, image: nil, family: context.family, deepLink: .sampleURL)], policy: .atEnd))
-            return
-        }
+        let entry = loadEntry(for: context.family) ?? makePlaceholderEntry(for: context.family)
         
-        let progress = chapterData.progress
-        let image = makeImage(path: chapterData.coverImagePath)
-        let deepLink = URL(string: "dbmultiverse://chapter/\(chapterData.number)")!
-        let entry = ComicImageEntry(date: .now, chapter: chapterData.number, name: chapterData.name, progress: progress, image: image, family: context.family, deepLink: deepLink)
-        
-        completion(.init(entries: [entry], policy: .atEnd))
+        completion(.init(entries: [entry], policy: .after(Date().addingTimeInterval(3600))))
     }
 }
 
 
 // MARK: - private Methods
 private extension Provider {
+    func loadEntry(for family: WidgetFamily) -> ComicImageEntry? {
+        guard let chapterData = coverImageManager.loadCurrentChapterData() else {
+            return nil
+        }
+        
+        let deepLink = URL(string: "dbmultiverse://chapter/\(chapterData.number)") ?? .sampleURL
+        
+        return .init(
+            date: .now,
+            chapter: chapterData.number,
+            name: chapterData.name,
+            progress: chapterData.progress,
+            image: makeImage(path: chapterData.coverImagePath),
+            family: family,
+            deepLink: deepLink
+        )
+    }
+    
+    func makePlaceholderEntry(for family: WidgetFamily) -> ComicImageEntry {
+        return .init(date: .now, chapter: 0, name: "", progress: 0, image: nil, family: family, deepLink: .sampleURL)
+    }
+    
     func makeImage(path: String?) -> Image? {
         guard let path, let uiImage = UIImage(contentsOfFile: path) else {
             return nil

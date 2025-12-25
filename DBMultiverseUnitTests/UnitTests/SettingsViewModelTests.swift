@@ -42,31 +42,6 @@ extension SettingsViewModelTests {
     }
 }
 
-// MARK: - Make URL
-extension SettingsViewModelTests {
-    @Test("Make URL returns correct URL for all link items")
-    func makeURLReturnsCorrectURLForAllLinkItems() {
-        let sut = makeSUT().sut
-        let language = ComicLanguage.english
-
-        for linkItem in SettingsLinkItem.allCases {
-            let url = sut.makeURL(for: linkItem, language: language)
-
-            #expect(url != nil)
-            #expect(url?.absoluteString.contains(language.rawValue) == true)
-
-            switch linkItem {
-            case .authors:
-                #expect(url?.absoluteString.contains("the-authors.html") == true)
-            case .universeHelp:
-                #expect(url?.absoluteString.contains("listing.html") == true)
-            case .tournamentHelp:
-                #expect(url?.absoluteString.contains("tournament.html") == true)
-            }
-        }
-    }
-}
-
 // MARK: - Clear Cache
 extension SettingsViewModelTests {
     @Test("Clear cache removes all files successfully")
@@ -117,6 +92,7 @@ extension SettingsViewModelTests {
         #expect(sut.cachedChapters == initialChapters)
     }
 }
+
 
 // MARK: - Load Cached Chapters
 extension SettingsViewModelTests {
@@ -174,6 +150,7 @@ extension SettingsViewModelTests {
     }
 }
 
+
 // MARK: - SUT
 private extension SettingsViewModelTests {
     func makeSUT(
@@ -183,8 +160,8 @@ private extension SettingsViewModelTests {
         filePath: String = #filePath,
         line: Int = #line,
         column: Int = #column
-    ) -> (sut: SettingsViewModel, mockFileManager: MockFileManager) {
-        let mockFileManager = MockFileManager(
+    ) -> (sut: SettingsViewModel, mockFileManager: MockCacheDelegate) {
+        let mockFileManager = MockCacheDelegate(
             shouldThrowError: shouldThrowError,
             cacheContents: cacheContents
         )
@@ -197,9 +174,10 @@ private extension SettingsViewModelTests {
     }
 }
 
+
 // MARK: - Mocks
 private extension SettingsViewModelTests {
-    final class MockFileManager: CacheDelegate, @unchecked Sendable {
+    final class MockCacheDelegate: CacheDelegate, @unchecked Sendable {
         private let shouldThrowError: Bool
         private let cacheContents: [URL]
         private var chapterFolders: [URL] = []

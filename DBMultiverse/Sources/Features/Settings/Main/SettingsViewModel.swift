@@ -28,10 +28,6 @@ extension SettingsViewModel {
         self.route = route
     }
     
-    func makeURL(for link: SettingsLinkItem, language: ComicLanguage) -> URL? {
-        return URLFactory.makeURL(language: language, pathComponent: link.pathComponent)
-    }
-    
     func clearCache() {
         guard let cacheDirectory = fileManager.getCacheDirectoryURL() else {
             return

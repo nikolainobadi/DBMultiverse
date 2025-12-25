@@ -24,7 +24,12 @@ struct SettingsFeatureNavStack: View {
     var body: some View {
         NavStack(title: "Settings") {
             VStack {
-                SettingsFormView(viewModel: viewModel, language: language)
+                SettingsFormView(
+                    language: language,
+                    cachedChapters: viewModel.cachedChapters,
+                    clearCache: viewModel.clearCache,
+                    showView: viewModel.showView(_:)
+                )
                 
                 Text(NnAppVersionCache.getDeviceVersionDetails(mainBundle: .main))
                     .font(.caption)

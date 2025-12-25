@@ -16,16 +16,9 @@ final class MainFeaturesViewModel: ObservableObject {
     @AppStorage var lastReadMainStoryPage: Int
 
     private let loader: any ChapterLoader
-    let widgetTimelineReloader: any WidgetTimelineReloader
 
-    /// Initializes the `MainFeaturesViewModel`.
-    /// - Parameters:
-    ///   - loader: A dependency responsible for fetching chapter data.
-    ///   - widgetTimelineReloader: The widget timeline reloader for syncing widget state. Defaults to a new `WidgetTimelineReloader` instance.
-    ///   - userDefaults: The `UserDefaults` instance to store and retrieve page tracking data. Defaults to `.standard`.
-    init(loader: any ChapterLoader, widgetTimelineReloader: any WidgetTimelineReloader, userDefaults: UserDefaults? = .standard) {
+    init(loader: any ChapterLoader, userDefaults: UserDefaults? = .standard) {
         self.loader = loader
-        self.widgetTimelineReloader = widgetTimelineReloader
 
         // Initialize AppStorage properties with custom or standard UserDefaults.
         self._lastReadSpecialPage = .init(wrappedValue: 168, .lastReadSpecialPage, store: userDefaults)

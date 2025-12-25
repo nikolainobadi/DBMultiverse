@@ -355,7 +355,7 @@ private final class MockWidgetTimelineReloader: WidgetTimelineReloader {
     }
 }
 
-private final class MockFileSystemOperations: FileSystemOperations, @unchecked Sendable {
+private final class MockFileSystemOperations: ComicImageCacheDelegate, @unchecked Sendable {
     var fileContents: [String: Data] = [:]
     var writtenData: [URL: Data] = [:]
     var createdDirectories: [URL] = []

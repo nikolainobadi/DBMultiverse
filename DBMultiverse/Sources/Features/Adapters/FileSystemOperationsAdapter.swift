@@ -7,8 +7,7 @@
 
 import Foundation
 
-/// Default implementation of FileSystemOperations using FileManager.
-struct FileSystemOperationsAdapter: FileSystemOperations {
+struct FileSystemOperationsAdapter: ComicImageCacheDelegate {
     func contents(atPath path: String) -> Data? {
         return FileManager.default.contents(atPath: path)
     }
@@ -21,7 +20,7 @@ struct FileSystemOperationsAdapter: FileSystemOperations {
         try data.write(to: url)
     }
     
-    func urls(for directory: FileManager.SearchPathDirectory, in domainMask: FileManager.SearchPathDomainMask) -> [URL] {
-        return FileManager.default.urls(for: directory, in: domainMask)
+    func getCacheDirectoryURL() -> URL? {
+        return CacheDelegateAdapter().getCacheDirectoryURL()
     }
 }

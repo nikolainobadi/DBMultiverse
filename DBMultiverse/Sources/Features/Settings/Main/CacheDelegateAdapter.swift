@@ -1,5 +1,5 @@
 //
-//  FileManagingAdapter.swift
+//  CacheDelegateAdapter.swift
 //  DBMultiverse
 //
 //  Created by Nikolai Nobadi on 9/8/25.
@@ -7,9 +7,9 @@
 
 import Foundation
 
-final class FileManagingAdapter: FileManaging {
-    func urls(for directory: FileManager.SearchPathDirectory, in domainMask: FileManager.SearchPathDomainMask) -> [URL] {
-        return FileManager.default.urls(for: directory, in: domainMask)
+final class CacheDelegateAdapter: CacheDelegate {
+    func getCacheDirectoryURL() -> URL? {
+        return FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first
     }
     
     func contentsOfDirectory(at url: URL, includingPropertiesForKeys keys: [URLResourceKey]?) throws -> [URL] {

@@ -15,10 +15,9 @@ final class SettingsViewModel: ObservableObject {
     @Published var showingClearedCacheAlert = false
     @Published var cachedChapters: [CachedChapter] = []
 
-    private let fileManager: any FileManaging
+    private let fileManager: any CacheDelegate
 
-    /// Initializes the ViewModel with an optional file manager.
-    init(fileManager: FileManaging = FileManagingAdapter()) {
+    init(fileManager: CacheDelegate = CacheDelegateAdapter()) {
         self.fileManager = fileManager
     }
 }
@@ -29,13 +28,11 @@ extension SettingsViewModel {
         self.route = route
     }
     
-    func makeURL(for link: SettingsLinkItem, language: ComicLanguage) -> URL? {
-        return URLFactory.makeURL(language: language, pathComponent: link.pathComponent)
-    }
-    
-    /// Clears all cached data from the app's cache directory.
     func clearCache() {
-        let cacheDirectory = fileManager.urls(for: .cachesDirectory, in: .userDomainMask).first!
+        guard let cacheDirectory = fileManager.getCacheDirectoryURL() else {
+            return
+        }
+        
         do {
             let contents = try fileManager.contentsOfDirectory(at: cacheDirectory, includingPropertiesForKeys: nil)
             for file in contents {
@@ -50,9 +47,12 @@ extension SettingsViewModel {
 
     /// Loads cached chapter data from the cache directory.
     func loadCachedChapters() {
-        let cacheDirectory = fileManager.urls(for: .cachesDirectory, in: .userDomainMask).first!
-        let chaptersDirectory = cacheDirectory.appendingPathComponent("Chapters")
+        guard let chaptersDirectory = fileManager.getCacheDirectoryURL()?.appendingPathComponent("Chapters") else {
+            return
+        }
+        
         var chapters: [CachedChapter] = []
+        
         do {
             let chapterFolders = try fileManager.contentsOfDirectory(at: chaptersDirectory, includingPropertiesForKeys: nil)
             for folder in chapterFolders {
@@ -70,12 +70,8 @@ extension SettingsViewModel {
 
 
 // MARK: - Dependencies
-enum SettingsRoute {
-    case cacheList, languageSelection, disclaimer
-}
-
-protocol FileManaging {
-    func urls(for directory: FileManager.SearchPathDirectory, in domainMask: FileManager.SearchPathDomainMask) -> [URL]
+protocol CacheDelegate {
+    func getCacheDirectoryURL() -> URL?
     func contentsOfDirectory(at url: URL, includingPropertiesForKeys keys: [URLResourceKey]?) throws -> [URL]
     func removeItem(at URL: URL) throws
 }

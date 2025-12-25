@@ -59,6 +59,24 @@ private extension MainFeaturesView {
             iPhoneMainTabView(path: $path, comicContent: comicContent, settingsTab: settingsContent)
         }
     }
+    
+    struct ChapterListFeatureView: View {
+        let eventHandler: any ChapterListEventHandler
+        
+        private var imageSize: CGSize {
+            return .init(width: getWidthPercent(15), height: getHeightPercent(isPad ? 15 : 10))
+        }
+        
+        var body: some View {
+            ChapterListView(imageSize: imageSize, eventHandler: eventHandler) { selection in
+                if isPad {
+                    iPadComicPicker(selection: selection)
+                } else {
+                    iPhoneComicPicker(selection: selection)
+                }
+            }
+        }
+    }
 }
 
 
@@ -77,25 +95,16 @@ private extension SwiftDataChapterListEventHandler {
 private extension ComicPageViewModel {
     static func customInit(route: ChapterRoute, store: MainFeaturesViewModel, chapterList: any ChapterProgressHandler, language: ComicLanguage) -> ComicPageViewModel {
         let currentPageNumber = store.getCurrentPageNumber(for: route.comicType)
-        let fileSystemOperations = FileSystemOperationsAdapter()
-        let coverImageDelegate = CoverImageDelegateAdapter()
-        let imageCache = ComicImageCacheManager(
-            comicType: route.comicType,
-            store: store,
-            fileSystemOperations: fileSystemOperations,
-            coverImageDelegate: coverImageDelegate,
-            widgetTimelineReloader: store.widgetTimelineReloader
-        )
-        let networkService = ComicPageNetworkServiceAdapter()
-        let manager = ComicPageManager(
-            chapter: route.chapter,
-            language: language,
-            imageCache: imageCache,
-            networkService: networkService,
-            chapterProgressHandler: chapterList
-        )
+        let imageCache = ComicImageCacheManager.customInit(store: store, comicType: route.comicType)
+        let manager = ComicPageManager(chapter: route.chapter, language: language, imageCache: imageCache, networkService: ComicPageNetworkServiceAdapter(), chapterProgressHandler: chapterList)
 
         return .init(chapter: route.chapter, currentPageNumber: currentPageNumber, delegate: manager)
+    }
+}
+
+private extension ComicImageCacheManager {
+    static func customInit(store: any ComicPageStore, comicType: ComicType) -> ComicImageCacheManager {
+        return .init(comicType: comicType, store: store, coverImageDelegate: CoverImageDelegateAdapter(), widgetTimelineReloader: WidgetTimelineManager(), comicImageCacheDelegate: FileSystemOperationsAdapter())
     }
 }
 
@@ -104,7 +113,7 @@ private extension ComicPageViewModel {
 #if DEBUG
 // MARK: - Preview
 #Preview {
-    MainFeaturesView(language: .constant(.english), viewModel: .previewInit(delegate: PreviewDelegate()))
+    MainFeaturesView(language: .constant(.english), viewModel: .init(loader: PreviewDelegate()))
         .withPreviewModifiers()
 }
 
@@ -112,11 +121,5 @@ private final class PreviewDelegate: ChapterLoader, WidgetTimelineReloader {
     func notifyProgressChange(progress: Int) { }
     func notifyChapterChange(chapter: Int, progress: Int) { }
     func loadChapters(url: URL?) async throws -> [Chapter] { [] }
-}
-
-private extension MainFeaturesViewModel {
-    static func previewInit(delegate: PreviewDelegate) -> MainFeaturesViewModel {
-        return .init(loader: delegate, widgetTimelineReloader: delegate)
-    }
 }
 #endif

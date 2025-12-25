@@ -9,9 +9,10 @@ import SwiftUI
 import DBMultiverseComicKit
 
 struct SettingsFormView: View {
-    @ObservedObject var viewModel: SettingsViewModel
-    
     let language: ComicLanguage
+    let cachedChapters: [CachedChapter]
+    let clearCache: () -> Void
+    let showView: (SettingsRoute) -> Void
     
     var body: some View {
         Form {
@@ -24,7 +25,7 @@ struct SettingsFormView: View {
                     .padding(5)
                     .textLinearGradient(.redText)
                     .tappable(withChevron: true) {
-                        viewModel.showView(.languageSelection)
+                        showView(.languageSelection)
                     }
                     .withFont()
             }
@@ -44,7 +45,7 @@ struct SettingsFormView: View {
 private extension SettingsFormView {
     @ViewBuilder
     var cachedDataSectionContent: some View {
-        if viewModel.cachedChapters.isEmpty {
+        if cachedChapters.isEmpty {
             Text("No cached data")
         } else {
             VStack {
@@ -52,12 +53,12 @@ private extension SettingsFormView {
                     .foregroundColor(.blue)
                     .withFont()
                     .tappable(withChevron: true) {
-                        viewModel.showView(.cacheList)
+                        showView(.cacheList)
                     }
                 
                 Divider()
                 
-                HapticButton("Clear All Cached Data", action: viewModel.clearCache)
+                HapticButton("Clear All Cached Data", action: clearCache)
                     .padding()
                     .tint(.red)
                     .buttonStyle(.bordered)
@@ -69,7 +70,7 @@ private extension SettingsFormView {
     
     @ViewBuilder
     func linkRow(_ link: SettingsLinkItem) -> some View {
-        if let url = viewModel.makeURL(for: link, language: language) {
+        if let url = URLFactory.makeURL(language: language, pathComponent: link.pathComponent) {
             Link(link.name, destination: url)
                 .padding(.vertical, 10)
                 .textLinearGradient(.lightStarrySky)
@@ -83,6 +84,7 @@ private extension SettingsFormView {
 #if DEBUG
 // MARK: - Preview
 #Preview {
-    SettingsFormView(viewModel: .init(), language: .english)
+    SettingsFormView(language: .english, cachedChapters: [], clearCache: { }, showView: { _ in })
+        .withPreviewModifiers()
 }
 #endif

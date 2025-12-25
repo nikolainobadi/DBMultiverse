@@ -35,32 +35,17 @@ struct ComicImageCacheManager {
 
 // MARK: - Cache
 extension ComicImageCacheManager: ComicImageCache {
-    /// Updates the current page number and read progress in the cache.
-    /// - Parameters:
-    ///   - pageNumber: The current page number being read.
-    ///   - readProgress: The read progress as a percentage.
     func updateCurrentPageNumber(_ pageNumber: Int, readProgress: Int) {
         coverImageDelegate.updateProgress(to: readProgress)
         store.updateCurrentPageNumber(pageNumber, comicType: comicType)
         widgetTimelineReloader.notifyProgressChange(progress: readProgress)
     }
     
-    /// Saves a chapter cover image and its metadata to the cache.
-    /// - Parameters:
-    ///   - imageData: The image data of the cover.
-    ///   - metadata: The metadata associated with the cover image.
-    /// - Throws: An error if the image data cannot be saved.
     func saveChapterCoverImage(imageData: Data, metadata: CoverImageMetaData) throws {
         coverImageDelegate.saveCurrentChapterData(imageData: imageData, metadata: metadata)
         widgetTimelineReloader.notifyChapterChange(chapter: metadata.chapterNumber, progress: metadata.readProgress)
     }
     
-    /// Loads a cached image for a specific chapter and page.
-    /// - Parameters:
-    ///   - chapter: The chapter number.
-    ///   - page: The page number.
-    /// - Returns: The cached `PageInfo` object if available.
-    /// - Throws: An error if the image cannot be loaded.
     func loadCachedImage(chapter: Int, page: Int) throws -> PageInfo? {
         let singlePagePath = getCacheDirectory(for: chapter, page: page)
         
@@ -87,14 +72,10 @@ extension ComicImageCacheManager: ComicImageCache {
         return nil
     }
     
-    /// Saves a page image and its metadata to the cache.
-    /// - Parameter pageInfo: The `PageInfo` object containing image data and metadata.
-    /// - Throws: An error if the image data or metadata cannot be saved.
     func savePageImage(pageInfo: PageInfo) throws {
         let filePath = getCacheDirectory(for: pageInfo.chapter, page: pageInfo.pageNumber, secondPageNumber: pageInfo.secondPageNumber)
         let chapterFolder = filePath.deletingLastPathComponent()
         try comicImageCacheDelegate.createDirectory(at: chapterFolder, withIntermediateDirectories: true)
-        
         try comicImageCacheDelegate.write(data: pageInfo.imageData, to: filePath)
         
         if let secondPageNumber = pageInfo.secondPageNumber {
@@ -125,12 +106,6 @@ extension ComicImageCacheManager: ComicImageCache {
 
 // MARK: - Private Methods
 private extension ComicImageCacheManager {
-    /// Constructs the file path for caching a page image.
-    /// - Parameters:
-    ///   - chapter: The chapter number.
-    ///   - page: The page number.
-    ///   - secondPageNumber: The second page number if applicable.
-    /// - Returns: A `URL` representing the file path in the cache directory.
     func getCacheDirectory(for chapter: Int, page: Int, secondPageNumber: Int? = nil) -> URL {
         let cacheDirectory = comicImageCacheDelegate.getCacheDirectoryURL()!
         let fileName = secondPageNumber != nil ? "Page_\(page)-\(secondPageNumber!).jpg" : "Page_\(page).jpg"

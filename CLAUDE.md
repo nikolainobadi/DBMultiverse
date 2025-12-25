@@ -17,9 +17,10 @@ DBMultiverse is a modular iOS application for reading the DB Multiverse webcomic
 ### Key Technologies
 - **Swift 6** with strict concurrency checking
 - **SwiftUI** for all UI components
-- **SwiftData** for local persistence
+- **SwiftData** for local persistence with VersionedSchema
+- **Swift Testing** framework for unit tests
 - **Swift Package Manager** for dependency management
-- **External packages**: SwiftSoup (HTML parsing), NnSwiftUIKit, NnSwiftDataKit
+- **External packages**: SwiftSoup (HTML parsing), NnSwiftUIKit, NnSwiftDataKit, NnTestKit
 
 ## Build & Development Commands
 
@@ -61,31 +62,59 @@ When creating new Swift files, use "Nikolai Nobadi" as the creator name in file 
 - Navigation using `NavigationStack` with proper path management
 
 ### Testing
-- Unit tests use `XCTest` framework
-- Test helpers from `NnTestHelpers` package
+- Unit tests use **Swift Testing** framework (`@Test`, `#expect`, `#require`)
+- Test helpers from `NnSwiftTestingHelpers` package (part of NnTestKit)
+- Use `@LeakTracked` and `trackForMemoryLeaks` for memory leak detection
 - Mock objects follow `Mock` prefix naming convention
-- Tests follow `test_condition_expectedResult()` naming pattern
+- Tests use descriptive names: `@Test("Description of behavior being tested")`
+- Use `makeSUT` factory pattern for system under test creation
+- Use `waitUntil` for `@Published` property assertions instead of sleeps
 
 ## Project-Specific Details
 
-### URL Schemes
-- Deep linking support via `dbmultiverse://` URL scheme
-- Widget deep links route to specific comic pages
-
 ### Data Flow
-1. HTML content fetched via `ComicNetworkingManager`
+1. HTML content fetched via `SharedComicNetworkingManager`
 2. Parsed by `DBMultiverseParseKit` using SwiftSoup
 3. Chapters stored in SwiftData via `SwiftDataChapterList`
-4. UI displays data through ViewModels and adapters
-5. Widgets sync via app groups
+4. UI displays data through ViewModels and adapters (ChapterLoaderAdapter, CoverImageDelegateAdapter, ComicPageNetworkServiceAdapter, FileSystemOperationsAdapter)
+5. Images managed by `ComicPageManager` and cached via `ComicImageCacheManager`
+6. Widgets sync via app groups (`group.com.nobadi.dbm`) and `WidgetTimelineManager`
 
 ### Image Caching
-- Custom `CoverImageCache` for managing comic cover images
-- Metadata stored for tracking cached images
+- `CoverImageManager` for managing comic cover images with widget synchronization
+- `ComicImageCacheManager` for page-level image caching with metadata tracking
+- Support for double-page spreads in cache metadata
+- `CachedChapter` model for tracking cached comic pages
+- `CacheChapterListView` for cache management UI
 - Automatic cache management for optimal performance
+- Shared via app group for widget access
+
+### Widget Management
+- `WidgetTimelineManager` handles widget timeline reloading with debouncing
+- Smart reload logic with minimum delta of 5% progress to reduce unnecessary updates
+- Tracks chapter and progress state changes
+- Integrates with `ComicImageCacheManager` for timeline updates
+
+### Deep Linking
+- `DeepLinkNavigationViewModifier` implements deep link handling via `onOpenURL`
+- Support for `dbmultiverse://` URL scheme
+- Widget deep links route to specific comic pages
 
 ### Language Support
-Multiple languages supported via `ComicLanguage` enum with URL generation for different language versions of the comic.
+Multiple languages supported via `ComicLanguage` enum (46 languages) with URL generation for different language versions of the comic.
+
+### SwiftData Integration
+- Uses `VersionedSchema` with `FirstSchema` for schema versioning
+- `SwiftDataChapterList` typealias with extensions for chapter list management
+- `ChapterProgressHandler` protocol for progress tracking
+- Custom SwiftData event handlers and view modifiers
+- Models: Chapter data, CachedChapter tracking, progress state
+
+### Additional Models & Types
+- `ComicType` enum for distinguishing story vs specials
+- `PageInfo` model for comic page metadata
+- `ChapterRoute` for navigation routing
+- Multiple adapter implementations for cross-module communication
 
 ## Project Guidelines
 Project-specific guidelines are located in `.guidelines/claude/`

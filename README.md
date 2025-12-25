@@ -6,14 +6,14 @@
 ![Platform](https://img.shields.io/badge/platform-iOS%2017%2B-blue)
 ![License](https://img.shields.io/badge/license-MIT-lightgray)
 
-Multiverse Reader is an iOS application designed to enhance the experience of reading and managing the DB Multiverse webcomic. The app integrates several modules, each providing specific functionality to ensure a seamless and enjoyable user experience.
+Multiverse Reader is an iOS application focused on delivering a high‑quality reading experience for the DB Multiverse webcomic. Beyond being a fan project, this repository serves as a reference implementation of a modular, testable SwiftUI architecture applied to a real‑world app.
 
 ## TestFlight
-If you just want access to the app, it has been approved for beta testing through TestFlight (Apple's own beta testing app). 
+If you just want access to the app, it has been approved for beta testing through TestFlight (Apple's own beta testing app).
 
 [Install Multiverse Reader with TestFlight](https://testflight.apple.com/join/8B21HpTS)
 
-If you don't have TestFlight installed on your device, the link should first prompt you to install TestFlight, then you should be able to install Multiverse Reader. 
+If you don't have TestFlight installed on your device, the link should first prompt you to install TestFlight, then you should be able to install Multiverse Reader.
 
 ## Table of Contents
 
@@ -32,12 +32,19 @@ If you don't have TestFlight installed on your device, the link should first pro
 
 ## Overview
 
-Multiverse Reader is built with modularity in mind, utilizing distinct modules for:
-- Parsing webcomic data from HTML sources (ParseKit).
-- Managing and displaying comic chapters and pages (ComicKit).
-- Extending functionality via home screen widgets (Widgets).
+Multiverse Reader is built with a strong emphasis on clear boundaries, explicit data flow, and long‑term maintainability.
 
-Each module is documented in detail, and their integration is explained within the core [DBMultiverse Documentation](docs/DBMultiverse_Documentation.md).
+The project intentionally separates concerns across multiple Swift packages, allowing each domain to evolve independently while remaining easy to test and reason about. While the app itself is designed for readers, the repository is equally intended to demonstrate production‑grade architectural decisions in a SwiftUI codebase.
+
+## Technical Highlights
+
+- Modular Swift Package architecture with strict separation of concerns
+- SwiftUI‑driven navigation with minimal logic in views
+- Explicit domain models decoupled from persistence and UI layers
+- Background page loading and caching to ensure smooth reading performance
+- Delegation‑based coordination for navigation, persistence, and side effects
+- Extensive unit test coverage for core domain and view‑model logic
+- Designed to support future extensions such as widgets and additional comic sources
 
 ## Screenshots
 
@@ -101,17 +108,11 @@ The **DBMultiverse** app is architected with modularity at its core, leveraging 
 - **Documentation**: [Widgets](docs/DBMultiverseWidgets_Documentation.md)
 - **Purpose**: Extends the app’s functionality to the home screen, providing widgets that display chapter progress and enable quick navigation.
 
-### Architecture and Benefits
-The **DBMultiverse** app’s modular architecture provides numerous benefits:
-- **Reduced Coupling**: Each module operates independently, allowing easier updates and maintenance without impacting other parts of the app.
-- **Scalability**: Adding new features or expanding existing ones is simplified due to the modular structure.
-- **Ease of Testing**: Modules can be tested in isolation, ensuring robust functionality and easier debugging.
-- **Code Reuse**: Core components, such as **ComicKit**, can be reused across different projects.
+## Intended Audience
 
-The modules fit together seamlessly:
-- **ParseKit** supplies structured data to **ComicKit**, which processes and presents it.
-- The core **DBMultiverse** app integrates these features to provide the main user experience.
-- **Widgets** consume data from **ComicKit** to deliver dynamic and interactive home screen functionality.
+- Readers who want a clean, distraction‑free way to read DB Multiverse on iOS
+- iOS developers interested in real‑world SwiftUI architecture and modularization
+- Engineers looking for examples of testable domain logic in a UI‑driven application
 
 ## License
 

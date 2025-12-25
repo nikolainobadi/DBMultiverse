@@ -19,7 +19,8 @@ struct ComicImageCacheManagerTests {
 
         #expect(store.updateInfo == nil)
         #expect(coverDelegate.lastProgressUpdate == nil)
-        #expect(coverDelegate.lastSavedChapterData == nil)
+        #expect(coverDelegate.lastSavedImageData == nil)
+        #expect(coverDelegate.lastSavedMetadata == nil)
         #expect(fileSystem.writtenData.isEmpty)
         #expect(fileSystem.createdDirectories.isEmpty)
     }
@@ -71,13 +72,15 @@ extension ComicImageCacheManagerTests {
     func delegatesToCoverImageDelegate() throws {
         let imageData = Data("test-image".utf8)
         let metadata = makeCoverImageMetadata()
-        let (sut, _, _, coverDelegate, reloader) = makeSUT()
+        let container = makeSUT()
 
-        try sut.saveChapterCoverImage(imageData: imageData, metadata: metadata)
+        try container.sut.saveChapterCoverImage(imageData: imageData, metadata: metadata)
 
-        let expectedData = MockCoverImageDelegate.SavedChapterData(imageData: imageData, metadata: metadata)
-        #expect(coverDelegate.lastSavedChapterData == expectedData)
-        #expect(reloader.chapterChanges == [MockWidgetTimelineReloader.ChapterChange(chapter: metadata.chapterNumber, progress: metadata.readProgress)])
+        #expect(container.coverDelegate.lastSavedImageData == imageData)
+        #expect(container.coverDelegate.lastSavedMetadata == metadata)
+        #expect(container.reloader.chapterChanges.count == 1)
+        #expect(container.reloader.chapterChanges.first?.chapter == metadata.chapterNumber)
+        #expect(container.reloader.chapterChanges.first?.progress == metadata.readProgress)
     }
 }
 
@@ -89,10 +92,8 @@ extension ComicImageCacheManagerTests {
         let chapter = 3
         let page = 5
         let expectedData = Data("cached-image".utf8)
-        let (sut, _, fileSystem, _, _) = makeSUT()
-        fileSystem.fileContents["/Users/test/Library/Caches/Chapters/Chapter_3/Page_5.jpg"] = expectedData
-
-        let result = try sut.loadCachedImage(chapter: chapter, page: page)
+        let container = makeSUT(fileContents: ["/Users/test/Library/Caches/Chapters/Chapter_3/Page_5.jpg": expectedData])
+        let result = try container.sut.loadCachedImage(chapter: chapter, page: page)
 
         #expect(result?.chapter == chapter)
         #expect(result?.pageNumber == page)
@@ -106,30 +107,31 @@ extension ComicImageCacheManagerTests {
         let page = 8
         let secondPage = 9
         let expectedData = Data("double-page-image".utf8)
-        let (sut, _, fileSystem, _, _) = makeSUT()
-
         let metadata: [String: Any] = [
             "pages": [
                 ["pageNumber": page, "secondPageNumber": secondPage, "fileName": "Page_8-9.jpg"]
             ]
         ]
+        
         let metadataData = try JSONSerialization.data(withJSONObject: metadata)
-        fileSystem.fileContents["/Users/test/Library/Caches/Chapters/Chapter_2/metadata.json"] = metadataData
-        fileSystem.fileContents["/Users/test/Library/Caches/Chapters/Chapter_2/Page_8-9.jpg"] = expectedData
+        let container = makeSUT(fileContents: [
+            "/Users/test/Library/Caches/Chapters/Chapter_2/metadata.json": metadataData,
+            "/Users/test/Library/Caches/Chapters/Chapter_2/Page_8-9.jpg": expectedData
+        ])
 
-        let result = try sut.loadCachedImage(chapter: chapter, page: page)
+        let result = try #require(try container.sut.loadCachedImage(chapter: chapter, page: page))
 
-        #expect(result?.chapter == chapter)
-        #expect(result?.pageNumber == page)
-        #expect(result?.secondPageNumber == secondPage)
-        #expect(result?.imageData == expectedData)
+        #expect(result.chapter == chapter)
+        #expect(result.pageNumber == page)
+        #expect(result.secondPageNumber == secondPage)
+        #expect(result.imageData == expectedData)
     }
 
     @Test("Returns nil when no file or metadata exists")
     func returnsNilWhenNoFileExists() throws {
-        let sut = makeSUT().sut
+        let container = makeSUT()
 
-        let result = try sut.loadCachedImage(chapter: 1, page: 1)
+        let result = try container.sut.loadCachedImage(chapter: 1, page: 1)
 
         #expect(result == nil)
     }
@@ -138,11 +140,11 @@ extension ComicImageCacheManagerTests {
     func handlesCorruptedMetadataGracefully() throws {
         let chapter = 1
         let page = 1
-        let (sut, _, fileSystem, _, _) = makeSUT()
+        let container = makeSUT(fileContents: [
+            "/Users/test/Library/Caches/Chapters/Chapter_1/metadata.json": Data("invalid json".utf8)
+        ])
 
-        fileSystem.fileContents["/Users/test/Library/Caches/Chapters/Chapter_1/metadata.json"] = Data("invalid json".utf8)
-
-        let result = try sut.loadCachedImage(chapter: chapter, page: page)
+        let result = try container.sut.loadCachedImage(chapter: chapter, page: page)
 
         #expect(result == nil)
     }
@@ -154,30 +156,30 @@ extension ComicImageCacheManagerTests {
     @Test("Creates directory and writes single page data")
     func createsDirectoryAndWritesSinglePageData() throws {
         let pageInfo = makePageInfo(chapter: 5, pageNumber: 10)
-        let (sut, _, fileSystem, _, _) = makeSUT()
+        let container = makeSUT()
 
-        try sut.savePageImage(pageInfo: pageInfo)
+        try container.sut.savePageImage(pageInfo: pageInfo)
 
         let expectedDir = URL(fileURLWithPath: "/Users/test/Library/Caches/Chapters/Chapter_5/")
         let expectedFile = URL(fileURLWithPath: "/Users/test/Library/Caches/Chapters/Chapter_5/Page_10.jpg")
 
-        #expect(fileSystem.createdDirectories.contains(expectedDir))
-        #expect(fileSystem.writtenData[expectedFile] == pageInfo.imageData)
+        #expect(container.fileSystem.createdDirectories.contains(expectedDir))
+        #expect(container.fileSystem.writtenData[expectedFile] == pageInfo.imageData)
     }
 
     @Test("Saves double page with metadata")
     func savesDoublePageWithMetadata() throws {
         let pageInfo = makePageInfo(chapter: 3, pageNumber: 20, secondPageNumber: 21)
-        let (sut, _, fileSystem, _, _) = makeSUT()
+        let container = makeSUT()
 
-        try sut.savePageImage(pageInfo: pageInfo)
+        try container.sut.savePageImage(pageInfo: pageInfo)
 
         let expectedImageFile = URL(fileURLWithPath: "/Users/test/Library/Caches/Chapters/Chapter_3/Page_20-21.jpg")
         let expectedMetadataFile = URL(fileURLWithPath: "/Users/test/Library/Caches/Chapters/Chapter_3/metadata.json")
 
-        #expect(fileSystem.writtenData[expectedImageFile] == pageInfo.imageData)
+        #expect(container.fileSystem.writtenData[expectedImageFile] == pageInfo.imageData)
 
-        guard let metadataData = fileSystem.writtenData[expectedMetadataFile],
+        guard let metadataData = container.fileSystem.writtenData[expectedMetadataFile],
               let metadata = try? JSONSerialization.jsonObject(with: metadataData) as? [String: Any],
               let pages = metadata["pages"] as? [[String: Any]],
               let firstPage = pages.first else {
@@ -198,15 +200,15 @@ extension ComicImageCacheManagerTests {
             ]
         ]
         let existingData = try JSONSerialization.data(withJSONObject: existingMetadata)
-
         let pageInfo = makePageInfo(chapter: 3, pageNumber: 20, secondPageNumber: 21, imageData: Data("new-double-page".utf8))
-        let (sut, _, fileSystem, _, _) = makeSUT()
-        fileSystem.fileContents["/Users/test/Library/Caches/Chapters/Chapter_3/metadata.json"] = existingData
+        let container = makeSUT(fileContents: [
+            "/Users/test/Library/Caches/Chapters/Chapter_3/metadata.json": existingData
+        ])
 
-        try sut.savePageImage(pageInfo: pageInfo)
+        try container.sut.savePageImage(pageInfo: pageInfo)
 
         let metadataFile = URL(fileURLWithPath: "/Users/test/Library/Caches/Chapters/Chapter_3/metadata.json")
-        guard let updatedData = fileSystem.writtenData[metadataFile],
+        guard let updatedData = container.fileSystem.writtenData[metadataFile],
               let metadata = try? JSONSerialization.jsonObject(with: updatedData) as? [String: Any],
               let pages = metadata["pages"] as? [[String: Any]] else {
             #expect(Bool(false), "Updated metadata not properly saved")
@@ -226,11 +228,10 @@ extension ComicImageCacheManagerTests {
     @Test("Handles file system errors gracefully")
     func handlesFileSystemErrorsGracefully() {
         let pageInfo = makePageInfo(chapter: 1, pageNumber: 1)
-        let (sut, _, fileSystem, _, _) = makeSUT()
-        fileSystem.shouldThrowError = true
+        let container = makeSUT(throwError: true)
 
         #expect(throws: (any Error).self) {
-            try sut.savePageImage(pageInfo: pageInfo)
+            try container.sut.savePageImage(pageInfo: pageInfo)
         }
     }
 }
@@ -239,11 +240,11 @@ extension ComicImageCacheManagerTests {
 
 // MARK: - SUT
 private extension ComicImageCacheManagerTests {
-    func makeSUT(comicType: ComicType = .story) -> (sut: ComicImageCacheManager, store: MockComicPageStore, fileSystem: MockFileSystemOperations, coverDelegate: MockCoverImageDelegate, reloader: MockWidgetTimelineReloader) {
+    func makeSUT(comicType: ComicType = .story, fileContents: [String: Data] = [:], throwError: Bool = false) -> (sut: ComicImageCacheManager, store: MockComicPageStore, fileSystem: MockFileSystemOperations, coverDelegate: MockCoverImageDelegate, reloader: MockWidgetTimelineReloader) {
         let store = MockComicPageStore()
-        let fileSystem = MockFileSystemOperations()
         let coverDelegate = MockCoverImageDelegate()
         let reloader = MockWidgetTimelineReloader()
+        let fileSystem = MockFileSystemOperations(throwError: throwError, fileContents: fileContents)
         let sut = ComicImageCacheManager(
             comicType: comicType,
             store: store,
@@ -277,65 +278,62 @@ private extension ComicImageCacheManagerTests {
     
     @MainActor
     final class MockCoverImageDelegate: CoverImageDelegate {
-        var lastProgressUpdate: Int?
-        var lastSavedChapterData: SavedChapterData?
-        
+        private(set) var lastProgressUpdate: Int?
+        private(set) var lastSavedImageData: Data?
+        private(set) var lastSavedMetadata: CoverImageMetaData?
+
         func updateProgress(to newProgress: Int) {
             lastProgressUpdate = newProgress
         }
-        
+
         func saveCurrentChapterData(imageData: Data, metadata: CoverImageMetaData) {
-            lastSavedChapterData = SavedChapterData(imageData: imageData, metadata: metadata)
-        }
-        
-        struct SavedChapterData: Equatable {
-            let imageData: Data
-            let metadata: CoverImageMetaData
+            lastSavedImageData = imageData
+            lastSavedMetadata = metadata
         }
     }
     
     @MainActor
     final class MockWidgetTimelineReloader: WidgetTimelineReloader {
-        struct ChapterChange: Equatable {
-            let chapter: Int
-            let progress: Int
-        }
-        
         private(set) var progressChanges: [Int] = []
-        private(set) var chapterChanges: [ChapterChange] = []
-        
+        private(set) var chapterChanges: [(chapter: Int, progress: Int)] = []
+
         func notifyChapterChange(chapter: Int, progress: Int) {
-            chapterChanges.append(.init(chapter: chapter, progress: progress))
+            chapterChanges.append((chapter, progress))
         }
-        
+
         func notifyProgressChange(progress: Int) {
             progressChanges.append(progress)
         }
     }
     
     final class MockFileSystemOperations: ComicImageCacheDelegate, @unchecked Sendable {
-        var fileContents: [String: Data] = [:]
-        var writtenData: [URL: Data] = [:]
-        var createdDirectories: [URL] = []
-        var shouldThrowError = false
+        private let throwError: Bool
+        private let fileContents: [String: Data]
+        private(set) var writtenData: [URL: Data] = [:]
+        private(set) var createdDirectories: [URL] = []
         
+        init(throwError: Bool, fileContents: [String: Data]) {
+            self.throwError = throwError
+            self.fileContents = fileContents
+        }
+
         func getCacheDirectoryURL() -> URL? {
             return URL(fileURLWithPath: "/Users/test/Library/Caches")
         }
-        
+
         func contents(atPath path: String) -> Data? {
             return fileContents[path]
         }
-        
+
         func createDirectory(at url: URL, withIntermediateDirectories createIntermediates: Bool) throws {
-            if shouldThrowError {
+            if throwError {
                 throw NSError(domain: "Test", code: 0)
             }
             createdDirectories.append(url)
         }
-        
+
         func write(data: Data, to url: URL) throws {
-            if shouldThrowError {
+            if throwError {
                 throw NSError(domain: "Test", code: 0)
             }
             writtenData[url] = data

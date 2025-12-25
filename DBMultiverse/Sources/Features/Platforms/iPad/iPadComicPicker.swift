@@ -16,7 +16,7 @@ struct iPadComicPicker: View {
     var body: some View {
         HStack {
             ForEach(ComicType.allCases) { type in
-                ComitTypeButton(type, selection: $selection, namespace: namespace)
+                ComicTypeButton(type, selection: $selection, namespace: namespace)
                     .padding(.horizontal)
             }
         }
@@ -28,7 +28,7 @@ struct iPadComicPicker: View {
 
 // MARK: - Button
 private extension iPadComicPicker {
-    struct ComitTypeButton: View {
+    struct ComicTypeButton: View {
         @Binding var selection: ComicType
         @State private var offset: CGFloat = 0
         @State private var rotation: CGFloat = 0
@@ -49,11 +49,12 @@ private extension iPadComicPicker {
         var body: some View {
             Button(action: { selection = type }) {
                 ZStack {
-                    Capsule()
-                        .fill(type.color.opacity(0.2))
-                        .frame(maxWidth: getWidthPercent(20))
-                        .matchedGeometryEffect(id: "picker", in: namespace)
-                        .onlyShow(when: isSelected)
+                    if isSelected {
+                        Capsule()
+                            .fill(type.color.opacity(0.2))
+                            .frame(maxWidth: getWidthPercent(20))
+                            .matchedGeometryEffect(id: "picker", in: namespace)
+                    }
                     
                     HStack(spacing: 10) {
                         Image(systemName: type.icon)

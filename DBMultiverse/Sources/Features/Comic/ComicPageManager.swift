@@ -17,13 +17,13 @@ final class ComicPageManager {
     private let language: ComicLanguage
     
     /// Handles caching of comic images.
-    private let imageCache: ComicImageCache
+    private let imageCache: any ComicImageCache
     
     /// Handles network requests for fetching comic pages.
-    private let networkService: ComicPageNetworkService
+    private let networkService: any ComicPageNetworkService
     
     /// Handles chapter progress updates such as marking chapters as read.
-    private let chapterProgressHandler: ChapterProgressHandler
+    private let chapterProgressHandler: any ChapterProgressHandler
     
     /// Initializes the comic page manager with its dependencies.
     /// - Parameters:
@@ -32,7 +32,7 @@ final class ComicPageManager {
     ///   - imageCache: A cache for storing and retrieving comic images.
     ///   - networkService: A service for fetching comic pages from a network.
     ///   - chapterProgressHandler: A handler for updating chapter progress.
-    init(chapter: Chapter, language: ComicLanguage, imageCache: ComicImageCache, networkService: ComicPageNetworkService, chapterProgressHandler: ChapterProgressHandler) {
+    init(chapter: Chapter, language: ComicLanguage, imageCache: any ComicImageCache, networkService: any ComicPageNetworkService, chapterProgressHandler: any ChapterProgressHandler) {
         self.chapter = chapter
         self.language = language
         self.imageCache = imageCache

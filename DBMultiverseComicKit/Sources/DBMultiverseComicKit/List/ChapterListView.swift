@@ -12,10 +12,10 @@ public struct ChapterListView<ComicPicker: View>: View {
     @State private var selection: ComicType = .story
     
     let imageSize: CGSize
-    let eventHandler: ChapterListEventHandler
+    let eventHandler: any ChapterListEventHandler
     let comicPicker: (Binding<ComicType>) -> ComicPicker
     
-    public init(imageSize: CGSize, eventHandler: ChapterListEventHandler, @ViewBuilder comicPicker: @escaping (Binding<ComicType>) -> ComicPicker) {
+    public init(imageSize: CGSize, eventHandler: any ChapterListEventHandler, @ViewBuilder comicPicker: @escaping (Binding<ComicType>) -> ComicPicker) {
         self.imageSize = imageSize
         self.eventHandler = eventHandler
         self.comicPicker = comicPicker

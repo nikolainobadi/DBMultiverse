@@ -21,8 +21,8 @@ struct MainFeaturesView: View {
     }
     
     var body: some View {
-        navStack {
-            ChapterListFeatureView(eventHandler: .customInit(viewModel: viewModel, chapterList: chapterList))
+        mainContent {
+            ChapterListFeatureView(eventHandler: SwiftDataChapterListEventHandler.customInit(viewModel: viewModel, chapterList: chapterList))
                 .navigationDestination(for: ChapterRoute.self) { route in
                     ComicPageFeatureView(
                         viewModel: .customInit(route: route, store: viewModel, chapterList: chapterList, language: language)
@@ -49,14 +49,15 @@ struct MainFeaturesView: View {
 }
 
 
-// MARK: - NavStack
+// MARK: - MainContent
 private extension MainFeaturesView {
     @ViewBuilder
-    func navStack(comicContent: @escaping () -> some View, settingsContent: @escaping () -> some View) -> some View {
-        iPhoneMainTabView(path: $path, comicContent: comicContent, settingsTab: settingsContent)
-            .showingConditionalView(when: isPad) {
-                iPadMainNavStack(path: $path, comicContent: comicContent, settingsContent: settingsContent)
-            }
+    func mainContent(comicContent: @escaping () -> some View, settingsContent: @escaping () -> some View) -> some View {
+        if isPad {
+            iPadMainNavStack(path: $path, comicContent: comicContent, settingsContent: settingsContent)
+        } else {
+            iPhoneMainTabView(path: $path, comicContent: comicContent, settingsTab: settingsContent)
+        }
     }
 }
 
@@ -74,7 +75,7 @@ private extension SwiftDataChapterListEventHandler {
 }
 
 private extension ComicPageViewModel {
-    static func customInit(route: ChapterRoute, store: MainFeaturesViewModel, chapterList: SwiftDataChapterList, language: ComicLanguage) -> ComicPageViewModel {
+    static func customInit(route: ChapterRoute, store: MainFeaturesViewModel, chapterList: any ChapterProgressHandler, language: ComicLanguage) -> ComicPageViewModel {
         let currentPageNumber = store.getCurrentPageNumber(for: route.comicType)
         let fileSystemOperations = FileSystemOperationsAdapter()
         let coverImageDelegate = CoverImageDelegateAdapter()

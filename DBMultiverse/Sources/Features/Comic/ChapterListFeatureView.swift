@@ -9,7 +9,7 @@ import SwiftUI
 import DBMultiverseComicKit
 
 struct ChapterListFeatureView: View {
-    let eventHandler: SwiftDataChapterListEventHandler
+    let eventHandler: any ChapterListEventHandler
     
     private var imageSize: CGSize {
         return .init(width: getWidthPercent(15), height: getHeightPercent(isPad ? 15 : 10))

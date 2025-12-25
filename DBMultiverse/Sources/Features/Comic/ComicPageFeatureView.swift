@@ -10,20 +10,24 @@ import DBMultiverseComicKit
 
 struct ComicPageFeatureView: View {
     @Environment(\.dismiss) private var dismiss
-    @StateObject var viewModel: ComicPageViewModel
+    @StateObject private var viewModel: ComicPageViewModel
+    
+    init(viewModel: @autoclosure @escaping () -> ComicPageViewModel) {
+        self._viewModel = .init(wrappedValue: viewModel())
+    }
     
     var body: some View {
-        Text("Loading page...")
-            .withFont()
-            .showingViewWithOptional(viewModel.currentPage) { page in
-                pageContent(page) {
-                    dismiss()
+        if let currentPage = viewModel.currentPage {
+            pageContent(currentPage) {
+                dismiss()
+            }
+        } else {
+            Text("Loading page...")
+                .withFont()
+                .throwingTask {
+                    try await viewModel.loadData()
                 }
-            }
-            .throwingTask {
-                try await viewModel.loadData()
-            }
-            
+        }
     }
 }
 
@@ -31,9 +35,10 @@ struct ComicPageFeatureView: View {
 private extension ComicPageFeatureView {
     @ViewBuilder
     func pageContent(_ page: ComicPage, finishChapter: @escaping () -> Void) -> some View {
-        iPhoneComicPageView(page: page, nextPage: viewModel.nextPage, previousPage: viewModel.previousPage, finishChapter: finishChapter)
-            .showingConditionalView(when: isPad) {
-                iPadComicPageView(page: page, nextPage: viewModel.nextPage, previousPage: viewModel.previousPage, finishChapter: finishChapter)
-            }
+        if isPad {
+            iPadComicPageView(page: page, nextPage: viewModel.nextPage, previousPage: viewModel.previousPage, finishChapter: finishChapter)
+        } else {
+            iPhoneComicPageView(page: page, nextPage: viewModel.nextPage, previousPage: viewModel.previousPage, finishChapter: finishChapter)
+        }
     }
 }

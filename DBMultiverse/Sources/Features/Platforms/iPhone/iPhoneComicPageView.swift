@@ -26,12 +26,13 @@ struct iPhoneComicPageView: View {
                 
                 Spacer()
                 
-                HapticButton("Next", action: nextPage)
-                    .tint(.blue)
-                    .showingConditionalView(when: page.isLastPage) {
-                        HapticButton("Finish Chapter", action: finishChapter)
-                            .tint(.red)
-                    }
+                if page.isLastPage {
+                    HapticButton("Finish Chapter", action: finishChapter)
+                        .tint(.red)
+                } else {
+                    HapticButton("Next", action: nextPage)
+                        .tint(.blue)
+                }
             }
             .padding()
         }

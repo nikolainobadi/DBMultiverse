@@ -18,13 +18,9 @@ struct WelcomeView: View {
     var body: some View {
         VStack {
             header
-            
             Spacer()
-            
             disclaimerSection
-            
             Spacer()
-            
             buttonSection
                 .padding()
                 .buttonStyle(.borderedProminent)

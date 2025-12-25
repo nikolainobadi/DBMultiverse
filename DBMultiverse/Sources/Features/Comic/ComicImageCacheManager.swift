@@ -13,17 +13,17 @@ struct ComicImageCacheManager {
     /// The type of comic (e.g., story or specials) for which the manager is responsible.
     private let comicType: ComicType
     
-    /// The file system operations abstraction for accessing and modifying the file system.
-    private let fileSystemOperations: FileSystemOperations
-    
     /// The store used for updating page progress.
-    private let store: ComicPageStore
+    private let store: any ComicPageStore
+    
+    /// The file system operations abstraction for accessing and modifying the file system.
+    private let fileSystemOperations: any FileSystemOperations
     
     /// The delegate for managing cover images and progress metadata.
-    private let coverImageDelegate: CoverImageDelegate
+    private let coverImageDelegate: any CoverImageDelegate
     
     /// Handles throttled widget timeline reloads to keep the widget in sync.
-    private let widgetTimelineReloader: WidgetTimelineReloader
+    private let widgetTimelineReloader: any WidgetTimelineReloader
     
     /// Initializes the `ComicImageCacheManager` with its dependencies.
     /// - Parameters:
@@ -31,7 +31,7 @@ struct ComicImageCacheManager {
     ///   - store: The store for managing chapter progress.
     ///   - fileSystemOperations: The file system operations abstraction.
     ///   - coverImageDelegate: The delegate for cover image operations.
-    init(comicType: ComicType, store: ComicPageStore, fileSystemOperations: FileSystemOperations, coverImageDelegate: CoverImageDelegate, widgetTimelineReloader: WidgetTimelineReloader) {
+    init(comicType: ComicType, store: any ComicPageStore, fileSystemOperations: any FileSystemOperations, coverImageDelegate: any CoverImageDelegate, widgetTimelineReloader: any WidgetTimelineReloader) {
         self.comicType = comicType
         self.store = store
         self.fileSystemOperations = fileSystemOperations

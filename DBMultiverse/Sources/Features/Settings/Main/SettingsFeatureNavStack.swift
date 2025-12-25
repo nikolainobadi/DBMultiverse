@@ -11,9 +11,15 @@ import DBMultiverseComicKit
 
 struct SettingsFeatureNavStack: View {
     @Binding var language: ComicLanguage
-    @StateObject var viewModel: SettingsViewModel
+    @StateObject private var viewModel: SettingsViewModel
     
     let canDismiss: Bool
+    
+    init(language: Binding<ComicLanguage>, canDismiss: Bool, viewModel: @autoclosure @escaping () -> SettingsViewModel) {
+        self._language = language
+        self.canDismiss = canDismiss
+        self._viewModel = .init(wrappedValue: viewModel())
+    }
     
     var body: some View {
         NavStack(title: "Settings") {
@@ -55,6 +61,6 @@ struct SettingsFeatureNavStack: View {
 #if DEBUG
 // MARK: - Preview
 #Preview {
-    SettingsFeatureNavStack(language: .constant(.english), viewModel: .init(), canDismiss: true)
+    SettingsFeatureNavStack(language: .constant(.english), canDismiss: true, viewModel: .init())
 }
 #endif

@@ -13,16 +13,18 @@ struct LaunchView: View {
     @AppStorage("selectedLanguage") private var language: ComicLanguage = .english
     
     var body: some View {
-        MainFeaturesView(language: $language, viewModel: .customInit())
-            .showingConditionalView(when: isInitialLogin) {
-                WelcomeView(language: $language) {
-                    isInitialLogin = false
-                }
+        if isInitialLogin {
+            WelcomeView(language: $language) {
+                isInitialLogin = false
             }
+        } else {
+            MainFeaturesView(language: $language, viewModel: .customInit())
+        }
     }
 }
 
 
+// MARK: - Extension Dependencies
 private extension MainFeaturesViewModel {
     static func customInit() -> MainFeaturesViewModel {
         return .init(loader: ChapterLoaderAdapter(), widgetTimelineReloader: WidgetTimelineManager())

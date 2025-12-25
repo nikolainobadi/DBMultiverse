@@ -24,10 +24,11 @@ struct iPadComicPageView: View {
                 comicButton(.next, disabled: page.isLastPage, action: nextPage)
             }
             
-            Button("Finish Chapter", action: finishChapter)
-                .tint(.red)
-                .buttonStyle(.borderedProminent)
-                .onlyShow(when: page.isLastPage)
+            if page.isLastPage {
+                Button("Finish Chapter", action: finishChapter)
+                    .tint(.red)
+                    .buttonStyle(.borderedProminent)
+            }
         }
     }
 }

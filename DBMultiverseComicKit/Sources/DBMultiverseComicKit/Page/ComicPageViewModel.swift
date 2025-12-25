@@ -14,9 +14,9 @@ public final class ComicPageViewModel: ObservableObject {
     @Published private(set) var didFetchInitialPages = false
     
     private let chapter: Chapter
-    private let delegate: ComicPageDelegate
+    private let delegate: any ComicPageDelegate
     
-    public init(chapter: Chapter, currentPageNumber: Int, delegate: ComicPageDelegate, pages: [PageInfo] = []) {
+    public init(chapter: Chapter, currentPageNumber: Int, delegate: any ComicPageDelegate, pages: [PageInfo] = []) {
         self.pages = pages
         self.delegate = delegate
         self.chapter = chapter

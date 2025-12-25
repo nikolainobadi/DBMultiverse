@@ -29,7 +29,7 @@ struct MainFeaturesView: View {
                     )
                 }
         } settingsContent: {
-            SettingsFeatureNavStack(language: $language, viewModel: .init(), canDismiss: isPad)
+            SettingsFeatureNavStack(language: $language, canDismiss: isPad, viewModel: .init())
         }
         .throwingTask {
             try await viewModel.loadData(language: language)

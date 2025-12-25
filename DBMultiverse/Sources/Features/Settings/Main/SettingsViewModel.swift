@@ -15,7 +15,7 @@ final class SettingsViewModel: ObservableObject {
     @Published var showingClearedCacheAlert = false
     @Published var cachedChapters: [CachedChapter] = []
 
-    private let fileManager: FileManaging
+    private let fileManager: any FileManaging
 
     /// Initializes the ViewModel with an optional file manager.
     init(fileManager: FileManaging = FileManagingAdapter()) {

@@ -37,7 +37,7 @@ private extension iPadComicPicker {
         let namespace: Namespace.ID
         
         private var isSelected: Bool {
-            selection == type
+            return selection == type
         }
         
         init(_ type: ComicType, selection: Binding<ComicType>, namespace: Namespace.ID) {

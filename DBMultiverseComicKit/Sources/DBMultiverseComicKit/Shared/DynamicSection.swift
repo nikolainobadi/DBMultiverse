@@ -38,21 +38,3 @@ public extension View {
         return UIDevice.current.userInterfaceIdiom == .pad
     }
 }
-
-enum TitleFormatter {
-    static func formatTitle(_ title: String) -> (yellowText: String, redText: String)? {
-        let components = title.split(separator: " ").map({ String($0) })
-            
-            guard components.count > 1 else {
-                return nil
-            }
-            
-            let midIndex = components.count / 2
-            let isEven = components.count.isMultiple(of: 2)
-            
-            let yellowText = components[0..<(isEven ? midIndex : midIndex + 1)].joined(separator: " ")
-            let redText = components[(isEven ? midIndex : midIndex + 1)...].joined(separator: " ")
-            
-            return (yellowText, redText)
-    }
-}

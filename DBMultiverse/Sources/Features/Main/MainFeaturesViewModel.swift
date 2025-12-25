@@ -17,6 +17,10 @@ final class MainFeaturesViewModel: ObservableObject {
 
     private let loader: any ChapterLoader
 
+    /// Creates a new main features view model.
+    /// - Parameters:
+    ///   - loader: The loader for fetching chapter data.
+    ///   - userDefaults: The user defaults store for persisting last read page numbers. Defaults to `.standard`.
     init(loader: any ChapterLoader, userDefaults: UserDefaults? = .standard) {
         self.loader = loader
 

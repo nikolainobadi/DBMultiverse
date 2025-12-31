@@ -11,7 +11,7 @@ import NnSwiftTestingHelpers
 @testable import DBMultiverseComicKit
 
 struct CoverImageManagerTests {
-    @Test("Load current chapter data returns nil when file doesn't exist")
+    @Test("Returns no data when file missing")
     func loadCurrentChapterDataReturnsNilWhenFileDoesntExist() {
         let (sut, mockFileSystem, _) = makeSUT(throwError: true)
         let result = sut.loadCurrentChapterData()
@@ -23,7 +23,7 @@ struct CoverImageManagerTests {
 
 // MARK: - Load Data
 extension CoverImageManagerTests {
-    @Test("Load current chapter data returns decoded data when file exists")
+    @Test("Returns decoded data when file exists")
     func loadCurrentChapterDataReturnsDecodedData() throws {
         let expectedData = makeCurrentChapterData()
         let jsonData = try JSONEncoder().encode(expectedData)
@@ -35,7 +35,7 @@ extension CoverImageManagerTests {
         #expect(mockFileSystem.readDataCallCount == 1)
     }
 
-    @Test("Load current chapter data returns nil when JSON decoding fails")
+    @Test("Returns no data on decoding failure")
     func loadCurrentChapterDataReturnsNilWhenDecodingFails() {
         let (sut, mockFileSystem, _) = makeSUT(mockReadData: Data("invalid json".utf8))
 
@@ -48,7 +48,7 @@ extension CoverImageManagerTests {
 
 // MARK: - Save Data
 extension CoverImageManagerTests {
-    @Test("Save current chapter data with metadata compresses and saves image")
+    @Test("Saves compressed image with metadata")
     func saveCurrentChapterDataWithMetadataCompressesAndSaves() {
         let imageData = Data("test image".utf8)
         let compressedData = Data("compressed".utf8)
@@ -63,7 +63,7 @@ extension CoverImageManagerTests {
         #expect(mockFileSystem.writtenData.contains(compressedData))
     }
 
-    @Test("Save current chapter data with metadata fails when compression fails")
+    @Test("Skips save when compression fails")
     func saveCurrentChapterDataWithMetadataFailsWhenCompressionFails() {
         let imageData = Data("test image".utf8)
         let metadata = makeImageMetaData()
@@ -75,7 +75,7 @@ extension CoverImageManagerTests {
         #expect(mockFileSystem.writeCallCount == 0)
     }
 
-    @Test("Save current chapter data with parameters compresses and saves image")
+    @Test("Saves compressed image with parameters")
     func saveCurrentChapterDataWithParametersCompressesAndSaves() {
         let imageData = Data("test image".utf8)
         let compressedData = Data("compressed".utf8)
@@ -92,7 +92,7 @@ extension CoverImageManagerTests {
         #expect(mockFileSystem.writtenData.contains(compressedData))
     }
 
-    @Test("Save current chapter data handles write errors gracefully")
+    @Test("Continues on write error")
     func saveCurrentChapterDataHandlesWriteErrors() {
         let imageData = Data("test image".utf8)
         let compressedData = Data("compressed".utf8)
@@ -108,7 +108,7 @@ extension CoverImageManagerTests {
 
 // MARK: - Update Progress
 extension CoverImageManagerTests {
-    @Test("Update progress reads existing data and saves with new progress")
+    @Test("Updates existing progress data")
     func updateProgressReadsExistingDataAndSaves() throws {
         let originalData = makeCurrentChapterData(progress: 50)
         let jsonData = try JSONEncoder().encode(originalData)
@@ -128,7 +128,7 @@ extension CoverImageManagerTests {
         #expect(decodedData.coverImagePath == originalData.coverImagePath)
     }
 
-    @Test("Update progress handles read errors gracefully")
+    @Test("Skips update on read error")
     func updateProgressHandlesReadErrors() {
         let (sut, mockFileSystem, _) = makeSUT(throwError: true)
 
@@ -138,7 +138,7 @@ extension CoverImageManagerTests {
         #expect(mockFileSystem.writeCallCount == 0)
     }
 
-    @Test("Update progress handles decoding errors gracefully")
+    @Test("Skips update on decoding error")
     func updateProgressHandlesDecodingErrors() {
         let (sut, mockFileSystem, _) = makeSUT(mockReadData: Data("invalid json".utf8))
 

@@ -14,7 +14,7 @@ import DBMultiverseComicKit
 @MainActor
 @LeakTracked
 final class SettingsViewModelTests {
-    @Test("Initial state has default values")
+    @Test("Starts with expected values")
     func initialStateHasDefaultValues() {
         let sut = makeSUT().sut
 
@@ -27,7 +27,7 @@ final class SettingsViewModelTests {
 
 // MARK: - Show View
 extension SettingsViewModelTests {
-    @Test("Show view updates route correctly")
+    @Test("Updates route on show view")
     func showViewUpdatesRouteCorrectly() {
         let sut = makeSUT().sut
 
@@ -44,7 +44,7 @@ extension SettingsViewModelTests {
 
 // MARK: - Clear Cache
 extension SettingsViewModelTests {
-    @Test("Clear cache removes all files successfully")
+    @Test("Removes all cached files")
     func clearCacheRemovesAllFilesSuccessfully() {
         let mockFiles = [
             URL(fileURLWithPath: "/cache/file1.jpg"),
@@ -67,7 +67,7 @@ extension SettingsViewModelTests {
         #expect(sut.showingErrorAlert == false)
     }
 
-    @Test("Clear cache shows error alert on failure")
+    @Test("Shows error alert on failure")
     func clearCacheShowsErrorAlertOnFailure() {
         let (sut, mockFileManager) = makeSUT(shouldThrowError: true)
 
@@ -78,7 +78,7 @@ extension SettingsViewModelTests {
         #expect(mockFileManager.removeItemCallCount == 0)
     }
 
-    @Test("Clear cache preserves cached chapters on error")
+    @Test("Preserves chapters on error")
     func clearCachePreservesCachedChaptersOnError() {
         let sut = makeSUT(shouldThrowError: true).sut
         let initialChapters = [
@@ -96,7 +96,7 @@ extension SettingsViewModelTests {
 
 // MARK: - Load Cached Chapters
 extension SettingsViewModelTests {
-    @Test("Load cached chapters reads chapter folders correctly")
+    @Test("Reads chapter folders")
     func loadCachedChaptersReadsChapterFoldersCorrectly() {
         let chapter1Images = [
             URL(fileURLWithPath: "/cache/Chapters/Chapter_1/page1.jpg"),
@@ -129,7 +129,7 @@ extension SettingsViewModelTests {
         #expect(sut.cachedChapters[1].imageCount == 3)
     }
 
-    @Test("Load cached chapters handles empty cache directory")
+    @Test("Handles empty cache directory")
     func loadCachedChaptersHandlesEmptyCacheDirectory() {
         let (sut, mockFileManager) = makeSUT()
         mockFileManager.setupChapterData(folders: [], folderContents: [:])
@@ -139,7 +139,7 @@ extension SettingsViewModelTests {
         #expect(sut.cachedChapters.isEmpty)
     }
 
-    @Test("Load cached chapters handles error gracefully")
+    @Test("Continues on directory error")
     func loadCachedChaptersHandlesErrorGracefully() {
         let (sut, mockFileManager) = makeSUT()
         mockFileManager.shouldThrowOnContentsOfDirectory = true

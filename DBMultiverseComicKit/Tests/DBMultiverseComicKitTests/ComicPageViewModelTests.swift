@@ -13,7 +13,7 @@ import NnSwiftTestingHelpers
 @MainActor
 @LeakTracked
 final class ComicPageViewModelTests {
-    @Test("Starting values are initialized correctly")
+    @Test("Starts with expected values")
     func emptyStartingValues() {
         let currentPageNumber = 1
         let (sut, delegate) = makeSUT(currentPageNumber: currentPageNumber)
@@ -27,7 +27,7 @@ final class ComicPageViewModelTests {
 
 // MARK: - Display Data
 extension ComicPageViewModelTests {
-    @Test("Current page position reflects single page correctly")
+    @Test("Reflects single page position")
     func currentPagePositionSinglePage() {
         let pageInfo = makePageInfo(pageNumber: 5, secondPageNumber: nil)
         let chapter = makeChapter(startPage: 1, endPage: 10)
@@ -40,7 +40,7 @@ extension ComicPageViewModelTests {
         #expect(position.endPage == 10)
     }
 
-    @Test("Current page position reflects double page spread correctly")
+    @Test("Reflects double page spread position")
     func currentPagePositionDoublePage() {
         let pageInfo = makePageInfo(pageNumber: 4, secondPageNumber: 5)
         let chapter = makeChapter(startPage: 1, endPage: 10)
@@ -53,14 +53,14 @@ extension ComicPageViewModelTests {
         #expect(position.endPage == 10)
     }
 
-    @Test("Current page info returns nil when page not loaded")
+    @Test("Returns no page info when not loaded")
     func currentPageInfoMissing() {
         let sut = makeSUT(currentPageNumber: 5, currentPages: []).sut
 
         #expect(sut.currentPageInfo == nil)
     }
 
-    @Test("Current page info returns correct page when loaded")
+    @Test("Returns page info when loaded")
     func currentPageInfoPresent() {
         let pageInfo = makePageInfo(pageNumber: 5)
         let sut = makeSUT(currentPageNumber: 5, currentPages: [pageInfo]).sut
@@ -71,14 +71,14 @@ extension ComicPageViewModelTests {
         #expect(result?.imageData == pageInfo.imageData)
     }
 
-    @Test("Current page returns nil when page info missing")
+    @Test("Returns no page when info missing")
     func currentPageMissing() {
         let sut = makeSUT(currentPageNumber: 5, currentPages: []).sut
 
         #expect(sut.currentPage == nil)
     }
 
-    @Test("Current page returns complete page data when available")
+    @Test("Returns page data when available")
     func currentPageComplete() {
         let chapterName = "Test Chapter"
         let pageInfo = makePageInfo(pageNumber: 5, secondPageNumber: 6)
@@ -98,7 +98,7 @@ extension ComicPageViewModelTests {
 
 // MARK: - Load Data
 extension ComicPageViewModelTests {
-    @Test("Loading data fetches initial pages when not previously loaded")
+    @Test("Fetches initial pages on first load")
     func loadDataFetchesInitialPages() async throws {
         let pagesToLoad = [makePageInfo(pageNumber: 3), makePageInfo(pageNumber: 4), makePageInfo(pageNumber: 5)]
         let chapter = makeChapter(startPage: 1, endPage: 20)
@@ -111,7 +111,7 @@ extension ComicPageViewModelTests {
         #expect(sut.pages.map(\.pageNumber).sorted() == [3, 4, 5])
     }
 
-    @Test("Loading data respects chapter end page limit")
+    @Test("Respects chapter end page limit")
     func loadDataRespectsEndPageLimit() async throws {
         let pagesToLoad = [makePageInfo(pageNumber: 9), makePageInfo(pageNumber: 10)]
         let chapter = makeChapter(startPage: 1, endPage: 10)
@@ -124,7 +124,7 @@ extension ComicPageViewModelTests {
         #expect(sut.pages.map(\.pageNumber).sorted() == [9, 10])
     }
 
-    @Test("Loading data propagates delegate errors")
+    @Test("Throws error on load failure")
     func loadDataPropagatesErrors() async {
         let sut = makeSUT(throwError: true).sut
 
@@ -139,7 +139,7 @@ extension ComicPageViewModelTests {
 
 // MARK: - Page Navigation
 extension ComicPageViewModelTests {
-    @Test("Moving to next page advances to correct page number")
+    @Test("Advances to next page")
     func nextPageAdvancesCorrectly() {
         let currentPageInfo = makePageInfo(pageNumber: 5, secondPageNumber: nil)
         let chapter = makeChapter(startPage: 1, endPage: 10)
@@ -150,7 +150,7 @@ extension ComicPageViewModelTests {
         #expect(sut.currentPageNumber == 6)
     }
 
-    @Test("Moving to next page from double spread advances correctly")
+    @Test("Advances from double spread to next page")
     func nextPageFromDoubleSpread() {
         let currentPageInfo = makePageInfo(pageNumber: 4, secondPageNumber: 5)
         let chapter = makeChapter(startPage: 1, endPage: 10)
@@ -161,7 +161,7 @@ extension ComicPageViewModelTests {
         #expect(sut.currentPageNumber == 6)
     }
 
-    @Test("Moving to next page stops at chapter end")
+    @Test("Stops at chapter end")
     func nextPageStopsAtEnd() {
         let currentPageInfo = makePageInfo(pageNumber: 10, secondPageNumber: nil)
         let chapter = makeChapter(startPage: 1, endPage: 10)
@@ -172,7 +172,7 @@ extension ComicPageViewModelTests {
         #expect(sut.currentPageNumber == 10)
     }
 
-    @Test("Moving to previous page decrements correctly")
+    @Test("Moves to previous page")
     func previousPageDecrementsCorrectly() throws {
         let page4 = makePageInfo(pageNumber: 4)
         let page5 = makePageInfo(pageNumber: 5)
@@ -188,7 +188,7 @@ extension ComicPageViewModelTests {
         #expect(delegatePage == page4.pageNumber)
     }
 
-    @Test("Moving to previous page on a 'double page' skips a page number")
+    @Test("Skips page number from double page")
     func previousPageFromDoublePageSkipsNumber() throws {
         let page2 = makePageInfo(pageNumber: 2)
         let page4 = makePageInfo(pageNumber: 4)
@@ -204,7 +204,7 @@ extension ComicPageViewModelTests {
         #expect(delegatePage == page2.pageNumber)
     }
 
-    @Test("Moving to previous page stops at chapter start")
+    @Test("Stops at chapter start")
     func previousPageStopsAtStart() {
         let chapter = makeChapter(startPage: 1, endPage: 10)
         let sut = makeSUT(chapter: chapter, currentPageNumber: 1).sut
@@ -214,7 +214,7 @@ extension ComicPageViewModelTests {
         #expect(sut.currentPageNumber == 1)
     }
 
-    @Test("Moving to previous page skips missing page info")
+    @Test("Moves backward skipping missing pages")
     func previousPageSkipsMissingInfo() {
         let sut = makeSUT(currentPageNumber: 5, currentPages: []).sut
 
@@ -226,7 +226,7 @@ extension ComicPageViewModelTests {
 
 // MARK: - Background Loading
 extension ComicPageViewModelTests {
-    @Test("Loading data triggers background loading of remaining pages")
+    @Test("Loads all remaining pages")
     func loadDataTriggersBackgroundLoading() async throws {
         let initialPages = [makePageInfo(pageNumber: 3), makePageInfo(pageNumber: 4), makePageInfo(pageNumber: 5)]
         let remainingPages = [makePageInfo(pageNumber: 1), makePageInfo(pageNumber: 2)]
@@ -242,7 +242,7 @@ extension ComicPageViewModelTests {
         #expect(sut.pages.map(\.pageNumber).sorted() == [1, 2, 3, 4, 5])
     }
 
-    @Test("Loading data caches cover image when start page is loaded in background")
+    @Test("Saves cover image when loading start page")
     func loadDataCachesCoverImageInBackground() async throws {
         let initialPages = [makePageInfo(pageNumber: 2), makePageInfo(pageNumber: 3)]
         let coverPageInfo = makePageInfo(pageNumber: 1)
